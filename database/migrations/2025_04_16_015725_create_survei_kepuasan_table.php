@@ -13,6 +13,20 @@ return new class extends Migration
     {
         Schema::create('survei_kepuasan', function (Blueprint $table) {
             $table->id();
+            $table->integer('alumni_id');
+            $table->string('nama_surveyor', 100);
+            $table->string('instansi', 255);
+            $table->string('jabatan', 100);
+            $table->string('email', 100);
+            $table->integer('ketjasama_tim');
+            $table->integer('keahlian_u');
+            $table->integer('kemampuan_bahasa_asing');
+            $table->integer('kemampuan_komunikasi');
+            $table->integer('pengembangan_diri');
+            $table->integer('kepemimpinan');
+            $table->integer('etos_kerja');
+            $table->text('kompetensi_belum_terpenuhi');
+            $table->text('saran_kurikulum');
             $table->timestamps();
         });
     }
