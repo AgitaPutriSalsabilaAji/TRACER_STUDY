@@ -28,6 +28,11 @@ return new class extends Migration
             $table->text('kompetensi_belum_terpenuhi');
             $table->text('saran_kurikulum');
             $table->timestamps();
+
+
+            $table->foreign('alumni_id')
+                  ->references('id')->on('alumni')
+                  ->onDelete('cascade');
         });
     }
 
