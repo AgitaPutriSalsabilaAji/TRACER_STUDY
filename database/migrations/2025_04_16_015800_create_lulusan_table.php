@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('lulusan', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('alumni_id');
-            $table->unsignedBigInteger('profesi_id');
-            $table->unsignedBigInteger('jenis_instansi_id');
+            $table->unsignedBigInteger('profesi_id')->nullable(); // nullable
+            $table->unsignedBigInteger('jenis_instansi_id')->nullable(); // nullable
 
             $table->year('tahun_lulus');
             $table->string('no_hp', 15);
@@ -34,10 +34,18 @@ return new class extends Migration
 
             $table->timestamps();
 
-            // Tambahkan foreign keys
-            $table->foreign('alumni_id')->references('id')->on('alumni')->onDelete('cascade');
-            $table->foreign('profesi_id')->references('id')->on('profesi')->onDelete('cascade');
-            $table->foreign('jenis_instansi_id')->references('id')->on('jenis_instansi')->onDelete('cascade');
+            // Foreign keys
+            $table->foreign('alumni_id')
+                  ->references('id')->on('alumni')
+                  ->onDelete('cascade');
+
+            $table->foreign('profesi_id')
+                  ->references('id')->on('profesi')
+                  ->nullOnDelete();
+
+            $table->foreign('jenis_instansi_id')
+                  ->references('id')->on('jenis_instansi')
+                  ->nullOnDelete();
         });
     }
 
