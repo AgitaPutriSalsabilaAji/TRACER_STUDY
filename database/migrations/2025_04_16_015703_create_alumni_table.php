@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('alumni', function (Blueprint $table) {
             $table->id();
-            $table->integer('program_study_id')->nullable();
+            $table->unsignedBigInteger('program_studi_id')->nullable();
             $table->string('nama', 100);
             $table->string('nim', 20);
             $table->date('tanggal_lulus');
             $table->timestamps();
 
-            $table->foreign('program_study_id')
+            $table->foreign('program_studi_id')
                   ->references('id')->on('program_studi')
                   ->nullOnDelete();
         });

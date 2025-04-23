@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('survei_kepuasan', function (Blueprint $table) {
             $table->id();
-            $table->integer('alumni_id');
+            $table->unsignedBigInteger('alumni_id');
             $table->string('nama_surveyor', 100);
             $table->string('instansi', 255);
             $table->string('jabatan', 100);
@@ -33,6 +33,7 @@ return new class extends Migration
             $table->foreign('alumni_id')
                   ->references('id')->on('alumni')
                   ->onDelete('cascade');
+                  
         });
     }
 
