@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('program_study_id')
-                  ->references('id')->on('program_study')
+                  ->references('id')->on('program_studi')
                   ->nullOnDelete();
         });
     }
