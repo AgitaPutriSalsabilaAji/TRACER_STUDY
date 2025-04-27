@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('jenis_instansi_id')->nullable(); // nullable
 
             $table->year('tahun_lulus');
-            $table->string('no_hp', 15);
+            $table->string('no_hp', 20);
             $table->string('email', 100);
 
             $table->date('tgl_pertama_kerja');
@@ -29,7 +29,7 @@ return new class extends Migration
         
             $table->string('nama_atasan_langsung', 100);
             $table->string('jabatan_atasan_langsung', 100);
-            $table->string('no_hp_atasan_langsung', 15);
+            $table->string('no_hp_atasan_langsung', 20);
             $table->string('email_atasan_langsung', 100);
 
             $table->timestamps();

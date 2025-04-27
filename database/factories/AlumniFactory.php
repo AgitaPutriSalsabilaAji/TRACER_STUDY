@@ -18,7 +18,7 @@ class AlumniFactory extends Factory
             'program_studi_id' => $programStudi->id,
             'nama' => $this->faker->name(),
             'nim' => $this->faker->unique()->numerify('NIM-######'),
-            'tanggal_lulus' => $this->faker->date(),
+            'tanggal_lulus' => $this->faker->dateTimeBetween('2026-01-01', '2030-12-31')->format('Y-m-d'), 
         ];
     }
 }
