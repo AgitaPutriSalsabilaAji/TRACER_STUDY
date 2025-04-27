@@ -7,9 +7,14 @@ use Illuminate\Support\Facades\DB;
 
 class ProfesiSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
     public function run()
     {
-        // Ambil id dari kategori_profesi
+
         $infokom = DB::table('kategori_profesi')->where('kategori_profesi', 'Infokom')->first()->id;
         $nonInfokom = DB::table('kategori_profesi')->where('kategori_profesi', 'Non-Infokom')->first()->id;
         $belumBekerja = DB::table('kategori_profesi')->where('kategori_profesi', 'Belum Bekerja')->first()->id;
@@ -31,7 +36,7 @@ class ProfesiSeeder extends Seeder
             ['kategori_profesi_id' => $nonInfokom, 'nama_profesi' => 'Trainer/Guru/Dosen (Non IT)'],
             ['kategori_profesi_id' => $nonInfokom, 'nama_profesi' => 'Mahasiswa'],
             ['kategori_profesi_id' => $nonInfokom, 'nama_profesi' => 'Lainnya'],
-            ['kategori_profesi_id' => $belumBekerja, 'nama_profesi' => '-'],
+            ['kategori_profesi_id' => $belumBekerja, 'nama_profesi' => 'Belum Bekerja'],
         ]);
     }
 }
