@@ -14,12 +14,11 @@ class ProfesiSeeder extends Seeder
      */
     public function run()
     {
-        // Ambil kategori profesi
+
         $infokom = DB::table('kategori_profesi')->where('kategori_profesi', 'Infokom')->first()->id;
         $nonInfokom = DB::table('kategori_profesi')->where('kategori_profesi', 'Non-Infokom')->first()->id;
         $belumBekerja = DB::table('kategori_profesi')->where('kategori_profesi', 'Belum Bekerja')->first()->id;
 
-        // Insert data profesi
         DB::table('profesi')->insert([
             ['kategori_profesi_id' => $infokom, 'nama_profesi' => 'Software Developer/Programmer/Developer'],
             ['kategori_profesi_id' => $infokom, 'nama_profesi' => 'IT Support/IT Administrator'],

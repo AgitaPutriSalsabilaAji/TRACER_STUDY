@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call([
+
             KategoriProfesiSeeder::class,
             ProfesiSeeder::class,
             JenisInstansiSeeder::class,
