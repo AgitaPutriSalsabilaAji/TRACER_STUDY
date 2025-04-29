@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "content-hash": "a2257f507ca6d7d7c7ce4c2688aa9a6a",
+
     "packages": [
         {
             "name": "almasaeed2010/adminlte",

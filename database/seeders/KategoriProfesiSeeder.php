@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class KategoriProfesiSeeder extends Seeder
 {
+
     /**
      * Run the database seeds.
      *
