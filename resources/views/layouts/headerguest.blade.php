@@ -9,12 +9,13 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header>
-        <a href="#" class="">
-            {{-- <img src="" alt="Tracer Study" class=""> --}}
+        <a href="#" class="logo-wrapper" style="text-decoration: none;">
             <div class="logo-text">
-                <strong>TRACER <span>STUDY</span></strong><br>
+                TRACER STUDY
             </div>
         </a>
+        
+        
         
         <ul class="navbar">
             <li><a href="#home" class="home-active">Beranda</a></li>

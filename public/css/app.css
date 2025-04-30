@@ -8,6 +8,7 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            justify-content: space-around;
         }
 
         header {
@@ -16,10 +17,11 @@
             top: 0;
             z-index: 1000;
             background: var(--bg-color);
-            padding: 20px 100px;
+            padding: 20px 10px;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-around;
             align-items: center;
+            font-size: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
