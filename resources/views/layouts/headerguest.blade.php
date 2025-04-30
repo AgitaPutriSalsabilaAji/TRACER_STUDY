@@ -1,38 +1,67 @@
-<header class="main-header bg-white shadow-sm py-2">
-    <div class="container d-flex justify-content-between align-items-center">
+<!DOCTYPE html>
+<html lang="{{ app()->getLocale() }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracer Study</title>
+    <!-- Bootstrap / AdminLTE CSS -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <header>
+        <a href="#" class="">
+            {{-- <img src="" alt="Tracer Study" class=""> --}}
+            <div class="logo-text">
+                <strong>TRACER <span>STUDY</span></strong><br>
+            </div>
+        </a>
         
-        <!-- Logo dan Judul -->
-        <div class="d-flex align-items-center">
-            <img src="{{ asset('images/logo_kemdikbud.png') }}" alt="Logo Kemdikbud" width="60" class="mr-3">
-            <div>
-                <h4 class="mb-0 font-weight-bold">TRACER <span class="text-primary">STUDY</span></h4>
-                <small>Politeknik Negeri Malang</small>
-            </div>
-        </div>
+        <ul class="navbar">
+            <li><a href="#home" class="home-active">Beranda</a></li>
+            <li><a href="#data-alumni">Data Alumni</a></li>
+            <li><a href="#isi-survei">Isi Survei</a></li>
+        </ul>
+        <a href="/admin/login" class="btn login-btn">LOGIN SEBAGAI ADMIN</a>
+        
+    </header>
 
-        <!-- Menu Navigasi -->
-        <nav class="d-none d-md-block">
-            <ul class="nav">
-                <li class="nav-item"><a class="nav-link {{ request()->is('/') ? 'text-primary font-weight-bold' : '' }}" href="{{ url('/') }}">Homepage</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Data Alumni</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Isi Survei</a></li>
-            </ul>
-        </nav>
-
-        <!-- Dropdown Bahasa + Tombol Login -->
-        <div class="d-flex align-items-center">
-            <!-- Dropdown Bahasa -->
-            <div class="dropdown mr-2">
-                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Bahasa
-                </button>
-                <div class="dropdown-menu" aria-labelledby="languageDropdown">
-                    <a class="dropdown-item" href="?lang=id">Bahasa Indonesia</a>
-                    <a class="dropdown-item" href="?lang=en">Bahasa Inggris</a>
-                </div>
-            </div>
-            <!-- Tombol Login -->
-            <a href="{{ url('/login') }}" class="btn btn-primary btn-sm">Login Atasan</a>
+    <!-- Home Section -->
+    <section class="home" id="home">
+        <div class="home-image">
+            <img src="image/image.png" alt="Ilustrasi Tracer Study">
         </div>
+        <div class="home-text">
+            <h1>Selamat Datang di Website Tracer Study <br>Politeknik Negeri Malang</h1>
+            <h2>Langkah Kecil, Dampak Besar!</h2>
+            <a href="#" class="btn">Isi Survei</a>
+            <a href="#" class="play"><i class="bx bx-play"></i></a>
+            
+        </ul>
+        </div>
+    </section>
+
+    <main>
+        <!-- About Section -->
+<section class="about" id="tentang">
+    <div class="about-container">
+        <h2>Apa itu Tracer Study ?</h2>
+        <p>
+            Tracer Study adalah salah satu metode yang digunakan oleh perguruan tinggi untuk mengumpulkan data dan umpan balik dari alumni mengenai pengalaman mereka setelah lulus.
+            Informasi yang diperoleh digunakan sebagai bahan evaluasi untuk meningkatkan kualitas pendidikan, kurikulum, serta relevansi program studi dengan dunia kerja. 
+        </p>
+        <p>
+            Tracer Study  juga bermanfaat dalam menyediakan informasi penting mengenai hubungan antara pendidikan tinggi dan dunia kerja professional, menilai relevansi pendidikan tinggi, informasi bagi pemangku kepentingan (stakeholders), 
+            dan kelengkapan persyaratan bagi akreditasi pendidikan tinggi.
+        </p>
+        <p>
+            Dalam proses Tracer Study, alumni diwajibkan untuk mengisi data pribadi terlebih dahulu sebelum atasan mereka diminta untuk mengisi survei mengenai kinerja dan kompetensi yang dimiliki alumni di tempat kerja. Hal ini bertujuan untuk mendapatkan gambaran yang lebih objektif mengenai kesiapan lulusan dalam menghadapi dunia kerja serta untuk meningkatkan mutu pendidikan di perguruan tinggi.
+        </p>
     </div>
-</header>
+</section>
+
+    </main>
+
+    {{-- @include('layouts.footer') --}}
+    <script src="{{ asset('js/app.js') }}"></script>
+</body>
+</html>
