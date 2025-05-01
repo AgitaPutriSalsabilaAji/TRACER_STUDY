@@ -1,0 +1,91 @@
+/* Sidebar dan Brand */
+.main-sidebar.sidebar-light-olive {
+  background: linear-gradient(to right, #4e73df, #5a8dee);
+}
+
+.brand-link {
+  background: linear-gradient(to right, #4e73df, #5a8dee);
+}
+
+.main-sidebar,
+.main-sidebar .nav-link,
+.main-sidebar .nav-icon,
+.main-sidebar .brand-link,
+.main-sidebar .user-panel a {
+  color: #ffffff !important;
+}
+
+.main-sidebar .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.sidebar-divider {
+  border-top: 1px solid #ffffff;
+}
+
+.main-sidebar .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+/* Navbar: Biru di atas, Putih saat discroll */
+.navbar-blue {
+  background: #5a8dee !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar-blue .nav-link,
+.navbar-blue .fas,
+.navbar-blue .dropdown-toggle,
+.navbar-blue .navbar-nav .nav-item .nav-link,
+.navbar-blue .navbar-nav .nav-item i {
+  color: rgb(255, 255, 255) !important;
+}
+.breadcrumb-item {
+  color: rgb(255, 255, 255) !important;
+}
+
+.breadcrumb-item.active {
+  color: #ffffff !important; 
+  font-weight: bold;
+}
+.white{
+  color: #ffffff !important; 
+
+}
+
+.navbar-scrolled {
+  background-color: white !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-scrolled .nav-link,
+.navbar-scrolled .fas,
+.navbar-scrolled .dropdown-toggle,
+.navbar-scrolled .navbar-nav .nav-item .nav-link,
+.navbar-scrolled .navbar-nav .nav-item i {
+  color: 	#4e73df !important;
+}
+
+/* Mengatur tampilan user panel */
+body:not(.sidebar-collapse) #userName {
+  display: block;
+}
+
+body:not(.sidebar-collapse) #userIcon {
+  display: none;
+}
+
+body.sidebar-collapse #userName {
+  display: none;
+}
+
+body.sidebar-collapse #userIcon {
+  display: inline-block;
+}
+
+/* Content Wrapper */
+.content-wrapper {
+  background: linear-gradient(to bottom, #5a8dee 40%, transparent 30%);
+}

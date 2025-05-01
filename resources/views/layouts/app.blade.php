@@ -1,74 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ $title ?? 'Dashboard' }}</title>
+@extends('adminlte::page')
+{{-- Extend and customize the browser title --}}
+@section('title')
+    {{ config('adminlte.title') }} @hasSection('subtitle')
+        | @yield('subtitle')
+    @endif
+@stop
 
-  <!-- AdminLTE CSS -->
-  <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
-  
-  <!-- DataTables CSS -->
-  <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-</head>
-<body class="hold-transition sidebar-mini">
-<div class="wrapper">
+{{-- Extend and customize the page content header --}}
 
-  <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <span class="navbar-brand">My App</span>
-  </nav>
+@section('content_header') @hasSection('content_header_title')
+    <h1 class="text-muted"> @yield('content_header_title')
 
-  <!-- Sidebar -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="#" class="brand-link">
-      <span class="brand-text font-weight-light">AdminLTE</span>
-    </a>
-    <div class="sidebar">
-      <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column">
-          <li class="nav-item">
-            <a href="{{ route('home') }}" class="nav-link">
-              <i class="nav-icon fas fa-home"></i>
-              <p>Home</p>
-            </a>
-          </li>
-          <!-- Tambahkan menu lain -->
-        </ul>
-      </nav>
+        @hasSection('content_header_subtitle')
+            <small class="text-dark">
+                <i class="fas fa-xs fa-angle-right text-muted"></i> @yield('content_header_subtitle')
+            </small>
+        @endif
+    </h1>
+@endif
+@stop
+
+{{-- Rename section content to content_body --}}
+
+@section('content')
+@yield('content_body')
+@stop
+{{-- Create a common footer --}} @section('footer')
+@section('footer')
+    <div class="float-right">
+        Version: {{ config('app.version', '1.0.0') }}
     </div>
-  </aside>
 
-  <!-- Content -->
-  <div class="content-wrapper">
-    <section class="content">
-      <div class="container-fluid pt-3">
-        @yield('content')
-      </div>
-    </section>
-  </div>
+    <strong>
+        <a href="{{ config('app.company_url', '#') }}">
+            {{ config('app.company_name', 'My company') }}
+        </a>
+</strong> @stop
 
-  <!-- Footer -->
-  <footer class="main-footer">
-    <strong>Copyright © 2025.</strong> All rights reserved.
-  </footer>
-
-</div>
-
-<!-- jQuery -->
-<script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
-
-<!-- DataTables JS -->
-<script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-
+{{-- Add common Javascript/Jquery code --}}
+@push('js')
+    <script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
+@endpush
 @stack('scripts')
-</body>
-</html>
+
+{{-- Add common CSS customizations --}}
+
+@push('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.2/css/dataTables.dataTables.css" />
+
+    <style type="text/css">
+        {{-- You can add AdminLTE customizations here --}}
+        /*
+                .card-header {
+                border-bottom: none;
+                }
+                .card-title {
+                font-weight: 600;
+                }
+                */
+    </style>
+@endpush
