@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuestController;
 
@@ -18,6 +19,13 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+
+Route::get('/dashboard',[AdminController::class, 'index'])->name('dashboard')->name('welcome');
+
+
+Route::get('/logout', function () {
+    return view('welcome');
+})->name('logout');
 
 
 
