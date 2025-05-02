@@ -29,12 +29,35 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-book"></i>
-                        <p>Manajemen Data</p>
+                        <p>
+                            Manajemen Data
+                            <i class="right fas fa-angle-down"></i>
+                        </p>
                     </a>
-                </li>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#import-lulusan" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Import Data Lulusan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#kelola-profesi" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Pengelolaan Profesi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#tambah-admin" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tambah Admin</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>                
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
