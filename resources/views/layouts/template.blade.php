@@ -17,13 +17,23 @@
     <link rel="stylesheet" href={{ asset('adminlte/dist/css/adminlte.css') }}>
     <link rel="stylesheet" href="{{ asset('css/sidebar-custom.css') }}">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    {{-- data tables  --}}
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
 
 </head>
 
 <body class="hold-transition sidebar-mini layout-navbar-fixed">
     <!-- Preloader -->
     <div class="preloader dark flex-column justify-content-center align-items-center">
-        <img class="animation__wobble" src="{{ asset('adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo" height="60" width="60">
+        <img class="animation__wobble" src="{{ asset('adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo"
+            height="60" width="60">
     </div>
     <div class="wrapper">
 
@@ -56,12 +66,14 @@
     <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE -->
     <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
-    
+
     <!-- OPTIONAL SCRIPTS -->
     <script src="{{ asset('adminlte\plugins\chart.js\Chart.min.js') }}"></script>
 
     <script src="{{ asset('js/navbar-custom.js') }}"></script>
-
+    {{-- datatables --}}
+    <script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+ 
 </body>
 
 </html>

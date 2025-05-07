@@ -22,7 +22,7 @@
             <li><a href="#data-alumni">Data Alumni</a></li>
             <li><a href="#isi-survei">Isi Survei</a></li>
         </ul>
-        <a href="/admin/login" class="btn login-btn">LOGIN SEBAGAI ADMIN</a>
+        <a href="/login" class="btn login-btn">LOGIN SEBAGAI ADMIN</a>
         
     </header>
 
