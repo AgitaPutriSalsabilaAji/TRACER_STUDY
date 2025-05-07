@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\User;
+use App\Models\Admin;
 use App\Models\Alumni;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         $faker = \Faker\Factory::create('id_ID');
 
 
-        User::create([
+        Admin::create([
             'name' => 'Purnama',
             'username' => 'Purnama',
             'email' => 'purnamaA@gmail.com',

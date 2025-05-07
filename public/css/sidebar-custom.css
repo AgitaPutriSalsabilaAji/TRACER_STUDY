@@ -1,10 +1,19 @@
 /* Sidebar dan Brand */
-.main-sidebar.sidebar-light-olive {
-  background: linear-gradient(to right, #4e73df, #5a8dee);
+/* .main-sidebar.sidebar-dark-primary {
+  background: linear-gradient(to right, #ffffff, #d0d7e4);
 }
 
 .brand-link {
   background: linear-gradient(to right, #4e73df, #5a8dee);
+} */
+/* .nav-link.active{
+  color: #ffffff !important;
+
+} */
+.brand-text {
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .main-sidebar,
@@ -12,21 +21,30 @@
 .main-sidebar .nav-icon,
 .main-sidebar .brand-link,
 .main-sidebar .user-panel a {
-  color: #ffffff !important;
+  color: #5a8dee !important;
+  text-decoration: none;
+
 }
 
 .main-sidebar .nav-link.active {
-  background-color: rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
 }
+.nav-link.active .nav-icon {
+  color: white !important;
+}
+.nav-link.active {
+  pointer-events: none;       
+  background-color: #343a40;  
+  color: white;               
+}
+
 
 .sidebar-divider {
-  border-top: 1px solid #ffffff;
+  border-top: 1px solid #000000;
 }
 
 .main-sidebar .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  color: #ffffff !important;
+  color: #3d6bc0 !important;
 }
 
 /* Navbar: Biru di atas, Putih saat discroll */
@@ -87,5 +105,12 @@ body.sidebar-collapse #userIcon {
 
 /* Content Wrapper */
 .content-wrapper {
-  background: linear-gradient(to bottom, #5a8dee 40%, transparent 30%);
+  background: linear-gradient(to bottom, #5a8dee 300px, transparent 200px) ; 
+}
+.breadcrumb-item + .breadcrumb-item::before {
+  content: "/";
+  color: white !important;
+}
+.breadcrumb-item a {
+  text-decoration: none;
 }
