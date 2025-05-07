@@ -3,189 +3,125 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-
-    <!-- Google Fonts: Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
-
-    <!-- AdminLTE -->
-    <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login Card</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
+        .login-card {
+            max-width: 900px;
+            margin: auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .login-image {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .login-image {
+                height: 250px;
+            }
+        }
+
+        html,
         body {
-            font-family: 'Poppins', sans-serif;
-            background: url("{{ asset('image/polinema.jpg') }}") no-repeat center center fixed;
-            background-size: cover;
-            height: 100vh;
-            margin: 0;
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-        }
-
-        .overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 0;
-        }
-
-        .login-box {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
-            overflow: hidden;
-            background-color: #fff;
-        }
-
-        .card {
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .card-body {
-            padding: 2rem;
-        }
-
-        .login-logo a {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #4e73df;
-            text-decoration: none;
-            letter-spacing: 1px;
-        }
-
-        .login-box-msg {
-            font-size: 16px;
-            margin-bottom: 20px;
-            text-align: center;
-            color: #555;
-        }
-
-        .form-control {
-            font-size: 15px;
-        }
-
-        .password-wrapper {
-            position: relative;
-        }
-
-        .password-wrapper .toggle-password {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #888;
-        }
-
-        .password-wrapper .toggle-password:hover {
-            color: #4e73df;
-        }
-
-        .btn-primary {
-            background-color: #4e73df;
-            border-color: #4e73df;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background-color: #3b5fc3;
-            border-color: #3b5fc3;
-        }
-
-        .btn-primary:active {
-            background-color: #2c4bb6;
-        }
-
-        .form-control:focus {
-            border-color: #4e73df;
-            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-        }
-
-        .forgot-password {
-            text-align: center;
-            margin-top: 15px;
-        }
-
-        .forgot-password a {
-            color: #4e73df;
-            font-weight: 600;
-            text-decoration: none;
-        }
-
-        .forgot-password a:hover {
-            text-decoration: underline;
+            padding-top: 60px;
+            /* Atur sesuai kebutuhan */
+            padding-bottom: 60px;
         }
     </style>
 </head>
 
-<body>
-
-    <div class="overlay"></div>
-
-    <div class="login-box">
-        <div class="card">
-            <div class="card-body login-card-body">
-                <div class="login-logo mb-3 text-center">
-                    <a href="#"><b>Tracer</b>Study</a>
-                </div>
-
-                <p class="login-box-msg">Login to start your session</p>
-
-                <form action="{{ route('login') }}" method="POST">
-                    @csrf
-                    <div class="mb-3">
-                        <input type="text" name="username" class="form-control" placeholder="Username or Email"
-                            required>
+<body class="bg-light">
+    <main>
+        <div class="container py-5">
+            <div class="card login-card">
+                <div class="row g-0">
+                    <!-- Gambar: Di atas saat mobile, di kiri saat desktop -->
+                    <div class="col-md-6 order-0 order-md-0">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                            alt="login image" class="login-image">
                     </div>
-                    <div class="mb-3 position-relative">
-                        <input type="password" name="password" class="form-control" placeholder="Password"
-                            id="password" required>
-                        <span class="fas fa-eye position-absolute" id="togglePassword"
-                            style="top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div class="form-check">
-                            <input type="checkbox" name="remember" class="form-check-input" id="remember">
-                            <label class="form-check-label" for="remember">Remember Me</label>
+
+                    <!-- Form: Di bawah saat mobile, di kanan saat desktop -->
+                    <div class="col-md-6 order-1 order-md-1">
+                        <div class="card-body p-4">
+                            <h4 class="card-title text-center mb-4">Login</h4>
+                            <form action="{{ route('login') }}" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                  <label class="form-label" for="username">Username address</label>
+                                  <input type="text" id="username" name="username" class="form-control" placeholder="Enter a valid username" />
+                                </div>
+                              
+                                <div class="form-outline mb-3 position-relative">
+                                  <label class="form-label" for="password">Password</label>
+                                  <div class="input-group">
+                                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" />
+                                    <span class="input-group-text">
+                                      <i class="fa-solid fa-eye" id="togglePassword" style="cursor: pointer;"></i>
+                                    </span>
+                                  </div>
+                                </div>
+                              
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="remember" name="remember" />
+                                    <label class="form-check-label" for="remember">Remember me</label>
+                                  </div>
+                                  <a href="#" class="text-decoration-none">Forgot password?</a>
+                                </div>
+                              
+                                <div class="d-grid">
+                                  <button type="submit" class="btn btn-primary">Login</button>
+                                </div>
+                              </form>
+                              
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Login</button>
-                </form>
+                </div>
 
-
-                <p class="forgot-password">
-                    <a href="#">I forgot my password</a>
-                </p>
             </div>
         </div>
-    </div>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-primary text-white text-center py-3 mt-5">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div>Copyright © 2020. All rights reserved.</div>
+        </div>
+    </footer>
 
-    <!-- Scripts -->
-    <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
-
-    <script>
-        // Toggle password visibility
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.getElementById('password');
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            this.classList.toggle('fa-eye-slash');
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordInput = document.querySelector('#password');
+
+    togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+
+        this.classList.toggle('fa-eye');
+        this.classList.toggle('fa-eye-slash');
+    });
+</script>
 
 </html>

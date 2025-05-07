@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         Admin::create([
             'name' => 'Purnama',
             'username' => 'Purnama',
-            'email' => 'purnamaA@gmail.com',
+            'email' => 'himadatsuki@gmail.com',
             'password' => Hash::make('purnama'),
         ]);
         $this->call([
@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call([
-
             KategoriProfesiSeeder::class,
             ProfesiSeeder::class,
             JenisInstansiSeeder::class,
