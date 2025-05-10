@@ -30,6 +30,16 @@ Route::fallback(function () {
     return response()->view('errors.404_guest', [], 404);
 });
 
+// //route form
+// Route::get('/inform', [GuestController::class, 'showForm'])->name('form.show');
+// Route::post('/inform', [GuestController::class, 'submitForm'])->name('form.submit');
+
+Route::get('iniform', function () {
+    return view('guest.form');
+});
+
+
+
 
 Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth');
 
