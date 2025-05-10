@@ -22,5 +22,5 @@ am4core.ready(function () {
     chart.legend.position = "right";
     chart.legend.valign = "middle";
 
-    chart.data = window.instansiChartData || [];
+    chart.data =instansiChartData ;
 });

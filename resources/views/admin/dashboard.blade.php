@@ -205,523 +205,488 @@
                     <div id="chart_etos_kerja" style="height: 300px;"></div>
                 </div>
             </div>
-            
+
         </div>
-        
-
-    {{-- ini 1 bos --}}
 
 
-    <!-- Resources -->
-    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
-
-    <script src="{{ asset('js/dashboard/profesi_chart.js') }}"></script>
-    <script src="{{ asset('js/dashboard/intansi_chart.js') }}"></script>
-
-    <script>
-        window.profesiChartData = [
-            @foreach ($topProfesi as $profesi)
-                {
-                    profesi: "{{ $profesi->nama_profesi }}",
-                    amount: {{ $profesi->jumlah }}
-                },
-            @endforeach
-        ];
-
-        window.instansiChartData = [
-            @foreach ($jenisInstansi as $item)
-                {
-                    instansi: "{{ $item->jenis_instansi }}",
-                    amount: {{ $item->jumlah }}
-                },
-            @endforeach
-        ];
-    </script>
+        {{-- ini 1 bos --}}
 
 
+        <!-- Resources -->
+        <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+        <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+        <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
-    {{-- ini 4 bos --}}
-    <style>
-        #chartdiv4 {
-            width: 100%;
-            height: 500px;
-        }
-    </style>
+        <script src="{{ asset('js/dashboard/profesi_chart.js') }}"></script>
+        <script src="{{ asset('js/dashboard/intansi_chart.js') }}"></script>
+        <script src="{{ asset('js/dashboard/performa_chart.js') }}"></script>
+        <script>
+            const profesiChartData = [
+                @foreach ($topProfesi as $profesi)
+                    {
+                        profesi: "{{ $profesi->nama_profesi }}",
+                        amount: {{ $profesi->jumlah }}
+                    },
+                @endforeach
+            ];
+
+            const instansiChartData = [
+                @foreach ($jenisInstansi as $item)
+                    {
+                        instansi: "{{ $item->jenis_instansi }}",
+                        amount: {{ $item->jumlah }}
+                    },
+                @endforeach
+            ];
+            const performaChartData = @json($chartData);
+        </script>
+
+
+        {{-- ini 5 bos --}}
+        <!-- Styles -->
+        <style>
+            #chartdiv5 {
+                width: 100%;
+                height: 500px;
+            }
+        </style>
 
 
 
-    <!-- Chart code -->
-    <script>
-        am4core.ready(function () {
-            am4core.useTheme(am4themes_animated);
-    
-            function buatPieChart(idDiv, dataChart) {
-                var chart = am4core.create(idDiv, am4charts.PieChart);
-                chart.innerRadius = am4core.percent(30);
+        <!-- Chart code -->
+        <script>
+            am4core.ready(function() {
+
+                // Themes begin
+                am4core.useTheme(am4themes_animated);
+                // Themes end
+
+                var container = am4core.create("chartdiv5", am4core.Container);
+                container.width = am4core.percent(100);
+                container.height = am4core.percent(100);
+                container.layout = "horizontal";
+
+
+                var chart = container.createChild(am4charts.PieChart);
+
+                // Add data
+                chart.data = [{
+                    "country": "Lithuania",
+                    "litres": 500,
+                    "subData": [{
+                        name: "A",
+                        value: 200
+                    }, {
+                        name: "B",
+                        value: 150
+                    }, {
+                        name: "C",
+                        value: 100
+                    }, {
+                        name: "D",
+                        value: 50
+                    }]
+                }, {
+                    "country": "Czech Republic",
+                    "litres": 300,
+                    "subData": [{
+                        name: "A",
+                        value: 150
+                    }, {
+                        name: "B",
+                        value: 100
+                    }, {
+                        name: "C",
+                        value: 50
+                    }]
+                }, {
+                    "country": "Ireland",
+                    "litres": 200,
+                    "subData": [{
+                        name: "A",
+                        value: 110
+                    }, {
+                        name: "B",
+                        value: 60
+                    }, {
+                        name: "C",
+                        value: 30
+                    }]
+                }, {
+                    "country": "Austria",
+                    "litres": 120,
+                    "subData": [{
+                        name: "A",
+                        value: 60
+                    }, {
+                        name: "B",
+                        value: 30
+                    }, {
+                        name: "C",
+                        value: 30
+                    }]
+                }];
+
+                // Add and configure Series
                 var pieSeries = chart.series.push(new am4charts.PieSeries());
                 pieSeries.dataFields.value = "litres";
                 pieSeries.dataFields.category = "country";
-                chart.legend = new am4charts.Legend();
-                chart.data = dataChart;
+                pieSeries.slices.template.states.getKey("active").properties.shiftRadius = 0;
+                //pieSeries.labels.template.text = "{category}\n{value.percent.formatNumber('#.#')}%";
+
+                pieSeries.slices.template.events.on("hit", function(event) {
+                    selectSlice(event.target.dataItem);
+                })
+
+                var chart2 = container.createChild(am4charts.PieChart);
+                chart2.width = am4core.percent(30);
+                chart2.radius = am4core.percent(80);
+
+                // Add and configure Series
+                var pieSeries2 = chart2.series.push(new am4charts.PieSeries());
+                pieSeries2.dataFields.value = "value";
+                pieSeries2.dataFields.category = "name";
+                pieSeries2.slices.template.states.getKey("active").properties.shiftRadius = 0;
+                //pieSeries2.labels.template.radius = am4core.percent(50);
+                //pieSeries2.labels.template.inside = true;
+                //pieSeries2.labels.template.fill = am4core.color("#ffffff");
+                pieSeries2.labels.template.disabled = true;
+                pieSeries2.ticks.template.disabled = true;
+                pieSeries2.alignLabels = false;
+                pieSeries2.events.on("positionchanged", updateLines);
+
+                var interfaceColors = new am4core.InterfaceColorSet();
+
+                var line1 = container.createChild(am4core.Line);
+                line1.strokeDasharray = "2,2";
+                line1.strokeOpacity = 0.5;
+                line1.stroke = interfaceColors.getFor("alternativeBackground");
+                line1.isMeasured = false;
+
+                var line2 = container.createChild(am4core.Line);
+                line2.strokeDasharray = "2,2";
+                line2.strokeOpacity = 0.5;
+                line2.stroke = interfaceColors.getFor("alternativeBackground");
+                line2.isMeasured = false;
+
+                var selectedSlice;
+
+                function selectSlice(dataItem) {
+
+                    selectedSlice = dataItem.slice;
+
+                    var fill = selectedSlice.fill;
+
+                    var count = dataItem.dataContext.subData.length;
+                    pieSeries2.colors.list = [];
+                    for (var i = 0; i < count; i++) {
+                        pieSeries2.colors.list.push(fill.brighten(i * 2 / count));
+                    }
+
+                    chart2.data = dataItem.dataContext.subData;
+                    pieSeries2.appear();
+
+                    var middleAngle = selectedSlice.middleAngle;
+                    var firstAngle = pieSeries.slices.getIndex(0).startAngle;
+                    var animation = pieSeries.animate([{
+                        property: "startAngle",
+                        to: firstAngle - middleAngle
+                    }, {
+                        property: "endAngle",
+                        to: firstAngle - middleAngle + 360
+                    }], 600, am4core.ease.sinOut);
+                    animation.events.on("animationprogress", updateLines);
+
+                    selectedSlice.events.on("transformed", updateLines);
+
+                    //  var animation = chart2.animate({property:"dx", from:-container.pixelWidth / 2, to:0}, 2000, am4core.ease.elasticOut)
+                    //  animation.events.on("animationprogress", updateLines)
+                }
+
+
+                function updateLines() {
+                    if (selectedSlice) {
+                        var p11 = {
+                            x: selectedSlice.radius * am4core.math.cos(selectedSlice.startAngle),
+                            y: selectedSlice.radius * am4core.math.sin(selectedSlice.startAngle)
+                        };
+                        var p12 = {
+                            x: selectedSlice.radius * am4core.math.cos(selectedSlice.startAngle + selectedSlice
+                                .arc),
+                            y: selectedSlice.radius * am4core.math.sin(selectedSlice.startAngle + selectedSlice.arc)
+                        };
+
+                        p11 = am4core.utils.spritePointToSvg(p11, selectedSlice);
+                        p12 = am4core.utils.spritePointToSvg(p12, selectedSlice);
+
+                        var p21 = {
+                            x: 0,
+                            y: -pieSeries2.pixelRadius
+                        };
+                        var p22 = {
+                            x: 0,
+                            y: pieSeries2.pixelRadius
+                        };
+
+                        p21 = am4core.utils.spritePointToSvg(p21, pieSeries2);
+                        p22 = am4core.utils.spritePointToSvg(p22, pieSeries2);
+
+                        line1.x1 = p11.x;
+                        line1.x2 = p21.x;
+                        line1.y1 = p11.y;
+                        line1.y2 = p21.y;
+
+                        line2.x1 = p12.x;
+                        line2.x2 = p22.x;
+                        line2.y1 = p12.y;
+                        line2.y2 = p22.y;
+                    }
+                }
+
+                chart.events.on("datavalidated", function() {
+                    setTimeout(function() {
+                        selectSlice(pieSeries.dataItems.getIndex(0));
+                    }, 1000);
+                });
+
+
+            }); // end am4core.ready()
+        </script>
+        <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#tabel-lulusan').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    scrollX: true,
+                    ordering: false,
+                    ajax: {
+                        "url": "{{ url('dashboard/lulusan/table') }}",
+                        "dataType": "json",
+                        "type": "POST",
+                        "data": function(d) {
+                            d._token = '{{ csrf_token() }}';
+                        }
+                    },
+                    dom: '<"table-responsive"t>',
+                    columns: [{
+                            data: 'tahun_lulus',
+                            name: 'tahun_lulus'
+                        },
+                        {
+                            data: 'total_lulusan',
+                            name: 'total_lulusan'
+                        },
+                        {
+                            data: 'lulusan_terlacak',
+                            name: 'lulusan_terlacak'
+                        },
+                        {
+                            data: 'kerja_bidang_infokom',
+                            name: 'kerja_bidang_infokom'
+                        },
+                        {
+                            data: 'kerja_bidang_non_infokom',
+                            name: 'kerja_bidang_non_infokom'
+                        },
+                        {
+                            data: 'internasional',
+                            name: 'internasional'
+                        },
+                        {
+                            data: 'nasional',
+                            name: 'nasional'
+                        },
+                        {
+                            data: 'regional',
+                            name: 'regional'
+                        }
+                    ],
+                    footerCallback: function(row, data, start, end, display) {
+                        var api = this.api();
+
+                        // Fungsi untuk menghitung total untuk kolom tertentu
+                        var total = function(colIndex) {
+                            return api
+                                .column(colIndex)
+                                .data()
+                                .reduce(function(a, b) {
+                                    // Pastikan data yang digunakan adalah angka
+                                    return parseFloat(a) + parseFloat(b) || 0;
+                                }, 0);
+                        };
+
+                        // Update footer dengan total untuk kolom yang sesuai
+                        $(api.column(0).footer()).html(
+                            '<b>Jumlah</b>'); // Menampilkan 'Jumlah' di kolom Tahun Lulus
+                        for (var i = 1; i <= 7; i++) {
+                            $(api.column(i).footer()).html('<b>' + total(i) + '</b>');
+                        }
+                    }
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#tabel-rata-rata-masa-tunggu').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    scrollX: true,
+                    ordering: false,
+                    ajax: {
+                        "url": "{{ url('dashboard/masa_tunggu/table') }}",
+                        "dataType": "json",
+                        "type": "POST",
+                        "data": function(d) {
+                            d._token = '{{ csrf_token() }}';
+                        }
+                    },
+                    dom: '<"table-responsive"t>',
+                    columns: [{
+                            data: 'tahun_lulusan',
+                            name: 'tahun_lulusan'
+                        },
+                        {
+                            data: 'jumlah_lulusan',
+                            name: 'jumlah_lulusan'
+                        },
+                        {
+                            data: 'jumlah_terlacak',
+                            name: 'jumlah_terlacak'
+                        },
+                        {
+                            data: 'rata_rata_waktu_tunggu_bulan',
+                            name: 'rata_rata_waktu_tunggu_bulan'
+                        },
+                    ],
+                    footerCallback: function(row, data, start, end, display) {
+                        var api = this.api();
+
+                        var totalJumlahLulusan = api.column(1).data().reduce(function(a, b) {
+                            return a + b;
+                        }, 0);
+                        var totalJumlahTerlacak = api.column(2).data().reduce(function(a, b) {
+                            return a + b;
+                        }, 0);
+                        var totalRataWaktuTunggu = api.column(3).data().reduce(function(a, b) {
+                            return a + (isNaN(b) ? 0 : b);
+                        }, 0);
+
+                        $(api.column(1).footer()).html(totalJumlahLulusan);
+                        $(api.column(2).footer()).html(totalJumlahTerlacak);
+
+                        $(api.column(3).footer()).html(totalRataWaktuTunggu > 0 ? (totalRataWaktuTunggu /
+                            data.length).toFixed(2) : 0);
+                    }
+                });
+            });
+        </script>
+        <style>
+            table.dataTable tfoot th {
+                background-color: #5a8dee !important;
+                color: #fafafa !important;
             }
-    
-            let allCharts = @json($chartData);
-    
-            Object.entries(allCharts).forEach(([judul, data]) => {
-                let idDiv = "chart_" + judul.toLowerCase().replace(/\s+/g, '_');
-                buatPieChart(idDiv, data);
-            });
-        });
-    </script>
-    
 
-    {{-- ini 5 bos --}}
-    <!-- Styles -->
-    <style>
-        #chartdiv5 {
-            width: 100%;
-            height: 500px;
-        }
-    </style>
-
-
-
-    <!-- Chart code -->
-    <script>
-        am4core.ready(function() {
-
-            // Themes begin
-            am4core.useTheme(am4themes_animated);
-            // Themes end
-
-            var container = am4core.create("chartdiv5", am4core.Container);
-            container.width = am4core.percent(100);
-            container.height = am4core.percent(100);
-            container.layout = "horizontal";
-
-
-            var chart = container.createChild(am4charts.PieChart);
-
-            // Add data
-            chart.data = [{
-                "country": "Lithuania",
-                "litres": 500,
-                "subData": [{
-                    name: "A",
-                    value: 200
-                }, {
-                    name: "B",
-                    value: 150
-                }, {
-                    name: "C",
-                    value: 100
-                }, {
-                    name: "D",
-                    value: 50
-                }]
-            }, {
-                "country": "Czech Republic",
-                "litres": 300,
-                "subData": [{
-                    name: "A",
-                    value: 150
-                }, {
-                    name: "B",
-                    value: 100
-                }, {
-                    name: "C",
-                    value: 50
-                }]
-            }, {
-                "country": "Ireland",
-                "litres": 200,
-                "subData": [{
-                    name: "A",
-                    value: 110
-                }, {
-                    name: "B",
-                    value: 60
-                }, {
-                    name: "C",
-                    value: 30
-                }]
-            }, {
-                "country": "Austria",
-                "litres": 120,
-                "subData": [{
-                    name: "A",
-                    value: 60
-                }, {
-                    name: "B",
-                    value: 30
-                }, {
-                    name: "C",
-                    value: 30
-                }]
-            }];
-
-            // Add and configure Series
-            var pieSeries = chart.series.push(new am4charts.PieSeries());
-            pieSeries.dataFields.value = "litres";
-            pieSeries.dataFields.category = "country";
-            pieSeries.slices.template.states.getKey("active").properties.shiftRadius = 0;
-            //pieSeries.labels.template.text = "{category}\n{value.percent.formatNumber('#.#')}%";
-
-            pieSeries.slices.template.events.on("hit", function(event) {
-                selectSlice(event.target.dataItem);
-            })
-
-            var chart2 = container.createChild(am4charts.PieChart);
-            chart2.width = am4core.percent(30);
-            chart2.radius = am4core.percent(80);
-
-            // Add and configure Series
-            var pieSeries2 = chart2.series.push(new am4charts.PieSeries());
-            pieSeries2.dataFields.value = "value";
-            pieSeries2.dataFields.category = "name";
-            pieSeries2.slices.template.states.getKey("active").properties.shiftRadius = 0;
-            //pieSeries2.labels.template.radius = am4core.percent(50);
-            //pieSeries2.labels.template.inside = true;
-            //pieSeries2.labels.template.fill = am4core.color("#ffffff");
-            pieSeries2.labels.template.disabled = true;
-            pieSeries2.ticks.template.disabled = true;
-            pieSeries2.alignLabels = false;
-            pieSeries2.events.on("positionchanged", updateLines);
-
-            var interfaceColors = new am4core.InterfaceColorSet();
-
-            var line1 = container.createChild(am4core.Line);
-            line1.strokeDasharray = "2,2";
-            line1.strokeOpacity = 0.5;
-            line1.stroke = interfaceColors.getFor("alternativeBackground");
-            line1.isMeasured = false;
-
-            var line2 = container.createChild(am4core.Line);
-            line2.strokeDasharray = "2,2";
-            line2.strokeOpacity = 0.5;
-            line2.stroke = interfaceColors.getFor("alternativeBackground");
-            line2.isMeasured = false;
-
-            var selectedSlice;
-
-            function selectSlice(dataItem) {
-
-                selectedSlice = dataItem.slice;
-
-                var fill = selectedSlice.fill;
-
-                var count = dataItem.dataContext.subData.length;
-                pieSeries2.colors.list = [];
-                for (var i = 0; i < count; i++) {
-                    pieSeries2.colors.list.push(fill.brighten(i * 2 / count));
-                }
-
-                chart2.data = dataItem.dataContext.subData;
-                pieSeries2.appear();
-
-                var middleAngle = selectedSlice.middleAngle;
-                var firstAngle = pieSeries.slices.getIndex(0).startAngle;
-                var animation = pieSeries.animate([{
-                    property: "startAngle",
-                    to: firstAngle - middleAngle
-                }, {
-                    property: "endAngle",
-                    to: firstAngle - middleAngle + 360
-                }], 600, am4core.ease.sinOut);
-                animation.events.on("animationprogress", updateLines);
-
-                selectedSlice.events.on("transformed", updateLines);
-
-                //  var animation = chart2.animate({property:"dx", from:-container.pixelWidth / 2, to:0}, 2000, am4core.ease.elasticOut)
-                //  animation.events.on("animationprogress", updateLines)
+            table.dataTable thead th {
+                background-color: #5a8dee !important;
+                color: #fafafa !important;
             }
-
-
-            function updateLines() {
-                if (selectedSlice) {
-                    var p11 = {
-                        x: selectedSlice.radius * am4core.math.cos(selectedSlice.startAngle),
-                        y: selectedSlice.radius * am4core.math.sin(selectedSlice.startAngle)
-                    };
-                    var p12 = {
-                        x: selectedSlice.radius * am4core.math.cos(selectedSlice.startAngle + selectedSlice
-                            .arc),
-                        y: selectedSlice.radius * am4core.math.sin(selectedSlice.startAngle + selectedSlice.arc)
-                    };
-
-                    p11 = am4core.utils.spritePointToSvg(p11, selectedSlice);
-                    p12 = am4core.utils.spritePointToSvg(p12, selectedSlice);
-
-                    var p21 = {
-                        x: 0,
-                        y: -pieSeries2.pixelRadius
-                    };
-                    var p22 = {
-                        x: 0,
-                        y: pieSeries2.pixelRadius
-                    };
-
-                    p21 = am4core.utils.spritePointToSvg(p21, pieSeries2);
-                    p22 = am4core.utils.spritePointToSvg(p22, pieSeries2);
-
-                    line1.x1 = p11.x;
-                    line1.x2 = p21.x;
-                    line1.y1 = p11.y;
-                    line1.y2 = p21.y;
-
-                    line2.x1 = p12.x;
-                    line2.x2 = p22.x;
-                    line2.y1 = p12.y;
-                    line2.y2 = p22.y;
-                }
-            }
-
-            chart.events.on("datavalidated", function() {
-                setTimeout(function() {
-                    selectSlice(pieSeries.dataItems.getIndex(0));
-                }, 1000);
-            });
-
-
-        }); // end am4core.ready()
-    </script>
-    <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('#tabel-lulusan').DataTable({
-                processing: true,
-                serverSide: true,
-                scrollX: true,
-                ordering: false,
-                ajax: {
-                    "url": "{{ url('dashboard/lulusan/table') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": function(d) {
-                        d._token = '{{ csrf_token() }}';
-                    }
-                },
-                dom: '<"table-responsive"t>',
-                columns: [{
-                        data: 'tahun_lulus',
-                        name: 'tahun_lulus'
-                    },
-                    {
-                        data: 'total_lulusan',
-                        name: 'total_lulusan'
-                    },
-                    {
-                        data: 'lulusan_terlacak',
-                        name: 'lulusan_terlacak'
-                    },
-                    {
-                        data: 'kerja_bidang_infokom',
-                        name: 'kerja_bidang_infokom'
-                    },
-                    {
-                        data: 'kerja_bidang_non_infokom',
-                        name: 'kerja_bidang_non_infokom'
-                    },
-                    {
-                        data: 'internasional',
-                        name: 'internasional'
-                    },
-                    {
-                        data: 'nasional',
-                        name: 'nasional'
-                    },
-                    {
-                        data: 'regional',
-                        name: 'regional'
-                    }
-                ],
-                footerCallback: function(row, data, start, end, display) {
-                    var api = this.api();
-
-                    // Fungsi untuk menghitung total untuk kolom tertentu
-                    var total = function(colIndex) {
-                        return api
-                            .column(colIndex)
-                            .data()
-                            .reduce(function(a, b) {
-                                // Pastikan data yang digunakan adalah angka
-                                return parseFloat(a) + parseFloat(b) || 0;
-                            }, 0);
-                    };
-
-                    // Update footer dengan total untuk kolom yang sesuai
-                    $(api.column(0).footer()).html(
-                        '<b>Jumlah</b>'); // Menampilkan 'Jumlah' di kolom Tahun Lulus
-                    for (var i = 1; i <= 7; i++) {
-                        $(api.column(i).footer()).html('<b>' + total(i) + '</b>');
-                    }
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#tabel-rata-rata-masa-tunggu').DataTable({
-                processing: true,
-                serverSide: true,
-                scrollX: true,
-                ordering: false,
-                ajax: {
-                    "url": "{{ url('dashboard/masa_tunggu/table') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": function(d) {
-                        d._token = '{{ csrf_token() }}';
-                    }
-                },
-                dom: '<"table-responsive"t>',
-                columns: [{
-                        data: 'tahun_lulusan',
-                        name: 'tahun_lulusan'
-                    },
-                    {
-                        data: 'jumlah_lulusan',
-                        name: 'jumlah_lulusan'
-                    },
-                    {
-                        data: 'jumlah_terlacak',
-                        name: 'jumlah_terlacak'
-                    },
-                    {
-                        data: 'rata_rata_waktu_tunggu_bulan',
-                        name: 'rata_rata_waktu_tunggu_bulan'
-                    },
-                ],
-                footerCallback: function(row, data, start, end, display) {
-                    var api = this.api();
-
-                    var totalJumlahLulusan = api.column(1).data().reduce(function(a, b) {
-                        return a + b;
-                    }, 0);
-                    var totalJumlahTerlacak = api.column(2).data().reduce(function(a, b) {
-                        return a + b;
-                    }, 0);
-                    var totalRataWaktuTunggu = api.column(3).data().reduce(function(a, b) {
-                        return a + (isNaN(b) ? 0 : b);
-                    }, 0);
-
-                    $(api.column(1).footer()).html(totalJumlahLulusan);
-                    $(api.column(2).footer()).html(totalJumlahTerlacak);
-
-                    $(api.column(3).footer()).html(totalRataWaktuTunggu > 0 ? (totalRataWaktuTunggu /
-                        data.length).toFixed(2) : 0);
-                }
-            });
-        });
-    </script>
-    <style>
-        table.dataTable tfoot th {
-            background-color: #5a8dee !important;
-            color: #fafafa !important;
-        }
-
-        table.dataTable thead th {
-            background-color: #5a8dee !important;
-            color: #fafafa !important;
-        }
-    </style>
-    <script>
-        $(document).ready(function() {
-            $('#tabel-performa-lulusan').DataTable({
-                processing: true,
-                serverSide: true,
-                scrollX: true,
-                ordering: false,
-                ajax: {
-                    "url": "{{ url('dashboard/performa_lulusan/table') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": function(d) {
-                        d._token = '{{ csrf_token() }}';
-                    }
-                },
-                dom: '<"table-responsive"t>',
-                columns: [{
-                        data: 'jenis_kemampuan',
-                        name: 'jenis_kemampuan'
-                    },
-                    {
-                        data: 'sangat_baik',
-                        name: 'sangat_baik',
-                        render: function(data, type, row) {
-                            return data + '%';
+        </style>
+        <script>
+            $(document).ready(function() {
+                $('#tabel-performa-lulusan').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    scrollX: true,
+                    ordering: false,
+                    ajax: {
+                        "url": "{{ url('dashboard/performa_lulusan/table') }}",
+                        "dataType": "json",
+                        "type": "POST",
+                        "data": function(d) {
+                            d._token = '{{ csrf_token() }}';
                         }
                     },
-                    {
-                        data: 'baik',
-                        name: 'baik',
-                        render: function(data, type, row) {
-                            return data + '%';
+                    dom: '<"table-responsive"t>',
+                    columns: [{
+                            data: 'jenis_kemampuan',
+                            name: 'jenis_kemampuan'
+                        },
+                        {
+                            data: 'sangat_baik',
+                            name: 'sangat_baik',
+                            render: function(data, type, row) {
+                                return data + '%';
+                            }
+                        },
+                        {
+                            data: 'baik',
+                            name: 'baik',
+                            render: function(data, type, row) {
+                                return data + '%';
+                            }
+                        },
+                        {
+                            data: 'cukup',
+                            name: 'cukup',
+                            render: function(data, type, row) {
+                                return data + '%';
+                            }
+                        },
+                        {
+                            data: 'kurang',
+                            name: 'kurang',
+                            render: function(data, type, row) {
+                                return data + '%';
+                            }
                         }
-                    },
-                    {
-                        data: 'cukup',
-                        name: 'cukup',
-                        render: function(data, type, row) {
-                            return data + '%';
-                        }
-                    },
-                    {
-                        data: 'kurang',
-                        name: 'kurang',
-                        render: function(data, type, row) {
-                            return data + '%';
-                        }
+                    ],
+
+                    footerCallback: function(row, data, start, end, display) {
+                        var api = this.api();
+
+                        // Menghitung total untuk setiap kolom
+                        var totalSangatBaik = api.column(1, {
+                            page: 'current'
+                        }).data().reduce(function(a, b) {
+                            return a + parseFloat(b.replace('%', '')) || 0;
+                        }, 0);
+
+                        var totalBaik = api.column(2, {
+                            page: 'current'
+                        }).data().reduce(function(a, b) {
+                            return a + parseFloat(b.replace('%', '')) || 0;
+                        }, 0);
+
+                        var totalCukup = api.column(3, {
+                            page: 'current'
+                        }).data().reduce(function(a, b) {
+                            return a + parseFloat(b.replace('%', '')) || 0;
+                        }, 0);
+
+                        var totalKurang = api.column(4, {
+                            page: 'current'
+                        }).data().reduce(function(a, b) {
+                            return a + parseFloat(b.replace('%', '')) || 0;
+                        }, 0);
+
+                        // Total keseluruhan yang seharusnya 100%
+                        var totalSum = totalSangatBaik + totalBaik + totalCukup + totalKurang;
+
+                        // Menghitung persentase berdasarkan total yang dihitung
+                        var percentSangatBaik = (totalSangatBaik / totalSum) * 100;
+                        var percentBaik = (totalBaik / totalSum) * 100;
+                        var percentCukup = (totalCukup / totalSum) * 100;
+                        var percentKurang = (totalKurang / totalSum) * 100;
+
+                        // Menampilkan hasil total di footer
+                        $('#total-sangat-baik').text(percentSangatBaik.toFixed(2) + '%');
+                        $('#total-baik').text(percentBaik.toFixed(2) + '%');
+                        $('#total-cukup').text(percentCukup.toFixed(2) + '%');
+                        $('#total-kurang').text(percentKurang.toFixed(2) + '%');
                     }
-                ],
-
-                footerCallback: function(row, data, start, end, display) {
-                    var api = this.api();
-
-                    // Menghitung total untuk setiap kolom
-                    var totalSangatBaik = api.column(1, {
-                        page: 'current'
-                    }).data().reduce(function(a, b) {
-                        return a + parseFloat(b.replace('%', '')) || 0;
-                    }, 0);
-
-                    var totalBaik = api.column(2, {
-                        page: 'current'
-                    }).data().reduce(function(a, b) {
-                        return a + parseFloat(b.replace('%', '')) || 0;
-                    }, 0);
-
-                    var totalCukup = api.column(3, {
-                        page: 'current'
-                    }).data().reduce(function(a, b) {
-                        return a + parseFloat(b.replace('%', '')) || 0;
-                    }, 0);
-
-                    var totalKurang = api.column(4, {
-                        page: 'current'
-                    }).data().reduce(function(a, b) {
-                        return a + parseFloat(b.replace('%', '')) || 0;
-                    }, 0);
-
-                    // Total keseluruhan yang seharusnya 100%
-                    var totalSum = totalSangatBaik + totalBaik + totalCukup + totalKurang;
-
-                    // Menghitung persentase berdasarkan total yang dihitung
-                    var percentSangatBaik = (totalSangatBaik / totalSum) * 100;
-                    var percentBaik = (totalBaik / totalSum) * 100;
-                    var percentCukup = (totalCukup / totalSum) * 100;
-                    var percentKurang = (totalKurang / totalSum) * 100;
-
-                    // Menampilkan hasil total di footer
-                    $('#total-sangat-baik').text(percentSangatBaik.toFixed(2) + '%');
-                    $('#total-baik').text(percentBaik.toFixed(2) + '%');
-                    $('#total-cukup').text(percentCukup.toFixed(2) + '%');
-                    $('#total-kurang').text(percentKurang.toFixed(2) + '%');
-                }
+                });
             });
-        });
-    </script>
-@endsection
+        </script>
+    @endsection
