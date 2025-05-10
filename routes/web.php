@@ -28,6 +28,16 @@ Route::get('/logout', function () {
 })->name('logout');
 
 
+// //route form
+// Route::get('/inform', [GuestController::class, 'showForm'])->name('form.show');
+// Route::post('/inform', [GuestController::class, 'submitForm'])->name('form.submit');
+
+Route::get('iniform', function () {
+    return view('guest.form');
+});
+
+
+
 
 
 

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Data Alumni</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container my-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">Form Data Alumni</div>
+    <div class="card-body">
+      <div class="row g-4">
+        <!-- Bagian 1: Informasi Pribadi -->
+        <div class="col-md-6">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Nama/Nim</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+                <div class="mb-3">
+                    <label class="form-label">Program Studi</label>
+                    <select class="form-select">
+                      <option value="Sistem Informasi Bisnis">D-IV Sistem Informasi Bisnis</option>
+                      <option value="Teknik Informatika">D-IV Teknik Informatika</option>
+                    </select>
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label class="form-label">Tahun Lulus</label>
+                    <input type="text" class="form-control" id="year-picker">
+                  </div>
+                  
+                  <!-- Tambahkan Flatpickr -->
+                  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+                  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+                  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css">
+                  
+                  <script>
+                    flatpickr("#year-picker", {
+                      plugins: [
+                        new monthSelectPlugin({
+                          shorthand: true, // hanya nama bulan singkat
+                          dateFormat: "Y", // hanya tahun
+                          altFormat: "Y",  // tampilan alternatif juga hanya tahun
+                          theme: "light"
+                        })
+                      ],
+                      minDate: "1990-01",
+                      maxDate: "2100-12"
+                    });
+                  </script>
+                  
+                  
+              
+            </div>
+            <div class="mb-3">
+              <label class="form-label">No. HP</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tanggal Pertama Kerja</label>
+              <input type="date" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tanggal Mulai Kerja pada Instansi Saat Ini</label>
+              <input type="date" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jenis Instansi</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nama Instansi</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Skala Instansi</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Lokasi Instansi</label>
+              <input type="text" class="form-control">
+            </div>
+          </form>
+        </div>
+
+        <!-- Bagian 2: Kompetensi & Saran -->
+        <div class="col-md-6">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Kategori Profesi</label>
+              <select class="form-select">
+                
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Profesi</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nama Atasan Langsung</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Jabatan Atasan Langsung</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">No HP Atasan Langsung</label>
+              <input type="text" class="form-control">
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email Atasan Langsung</label>
+              <input type="email" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary float-end">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
