@@ -16,9 +16,9 @@ class AlumniFactory extends Factory
         $programStudi = ProgramStudi::inRandomOrder()->first();
         return [
             'program_studi_id' => $programStudi->id,
-            'nama' => $this->faker->name(),
-            'nim' => $this->faker->unique()->numerify('NIM-######'),
-            'tanggal_lulus' => $this->faker->dateTimeBetween('2026-01-01', '2030-12-31')->format('Y-m-d'), 
+            'nama' => $this->faker->firstName() . ' ' . $this->faker->lastName(),
+            'nim' => $this->faker->unique()->numerify('NIM-23########'),
+            'tanggal_lulus' => $this->faker->dateTimeBetween('2026-01-01', '2029-12-31')->format('Y-m-d'), 
         ];
     }
 }

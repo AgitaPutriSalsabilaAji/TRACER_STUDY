@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('instansi', 255);
             $table->string('jabatan', 100);
             $table->string('email', 100);
-            $table->integer('ketjasama_tim');
-            $table->integer('keahlian_u');
+            $table->integer('kerjasama_tim');
+            $table->integer('keahlian_di_bidang_ti');
             $table->integer('kemampuan_bahasa_asing');
             $table->integer('kemampuan_komunikasi');
             $table->integer('pengembangan_diri');
