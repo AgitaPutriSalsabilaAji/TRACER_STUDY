@@ -44,14 +44,18 @@
         <div class="row mb-3">
             <div class="col-md-6 mb-3 mb-md-0">
                 <div class="p-4 bg-white shadow rounded">
-                    <div class="container pt-0"> Sebaran Profesi
+                    <div class="container pt-0">
+                        <h2 class="mb-4 fs-4">Sebaran Profesi</h2>
+
                         <div id="profesi_chart" style="width: 100%; height: 400px;"></div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 mb-3 mb-md-0">
                 <div class="p-4 bg-white shadow rounded">
-                    <div class="container pt-0"> Sebaran Jenis Instansi
+                    <div class="container pt-0">
+                        <h2 class="mb-4 fs-4">Sebaran Jenis Instansi</h2>
+
                         <div id="intansi_chart" style="width: 100%; height: 400px;"></div>
                     </div>
                 </div>
@@ -63,9 +67,7 @@
             <div class="col-12">
                 <div class="p-4 bg-white shadow rounded">
                     <div class="container mt-5">
-                        <div class="card-header">
-                            <strong>Data Lulusan (2025 - 2030)</strong>
-                        </div>
+                        <h2 class="mb-4 fs-4">Data Lulusan (2026 - 2029)</h2>
                         <div class="card-body ">
                             <table id="tabel-lulusan" class="table table-bordered table-striped table w-100">
                                 <thead>
@@ -75,12 +77,12 @@
                                         <th rowspan="2">Lulusan Terlacak</th>
                                         <th rowspan="2">Kerja Bidang Infokom</th>
                                         <th rowspan="2">Kerja Bidang Non-Infokom</th>
-                                        <th colspan="3" class="text-center">Tempat Kerja</th> <!-- Kolom gabungan -->
+                                        <th colspan="3" class="text-center">Tempat Kerja</th>
                                     </tr>
                                     <tr>
-                                        <th>Internasional</th> <!-- Tempat Kerja -->
-                                        <th>Nasional</th> <!-- Tempat Kerja -->
-                                        <th>Regional</th> <!-- Tempat Kerja -->
+                                        <th>Internasional</th>
+                                        <th>Nasional</th>
+                                        <th>Regional</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -106,81 +108,54 @@
         <!-- Row 3: 2 columns -->
         <div class="row mb-3">
             <div class="col-md-6 mb-3 mb-md-0">
-                <div class="p-4 bg-white shadow rounded">Box 4
+                <div class="p-4 bg-white shadow rounded">
                     <div class="container mt-5">
-                        <h2 class="mb-4">Contoh Tabel Bootstrap 5</h2>
-
-                        <!-- Tabel -->
-                        <table class="table table-striped table-bordered table-hover">
+                        <h2 class="mb-4 fs-4">Tabel rata rata masa tunggu</h2>
+                        <table id="tabel-rata-rata-masa-tunggu" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Nama</th>
-                                    <th>Email</th>
-                                    <th>Aksi</th>
+                                    <th>Tahun Lulusan</th>
+                                    <th>Jumlah Lulusan</th>
+                                    <th>Jumlah Terlacak</th>
+                                    <th>Rata-rata Waktu Tunggu (Bulan)</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tfoot>
                                 <tr>
-                                    <td>1</td>
-                                    <td>John Doe</td>
-                                    <td>johndoe@example.com</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm">Edit</button>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </td>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Jane Smith</td>
-                                    <td>janesmith@example.com</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm">Edit</button>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </td>
-                                </tr>
-                                <!-- Baris lainnya -->
-                            </tbody>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="p-4 bg-white shadow rounded">Box 5
+                <div class="p-4 bg-white shadow rounded">
                     <div class="container mt-5">
-                        <h2 class="mb-4">Contoh Tabel Bootstrap 5</h2>
-
-                        <!-- Tabel -->
-                        <table class="table table-striped table-bordered table-hover">
+                        <h2 class="mb-4 fs-4">Tabel performa lulusan</h2>
+                        <table id="tabel-performa-lulusan" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Nama</th>
-                                    <th>Email</th>
-                                    <th>Aksi</th>
+                                    <th>Jenis Kemampuan</th>
+                                    <th>Sangat Baik (%)</th>
+                                    <th>Baik (%)</th>
+                                    <th>Cukup (%)</th>
+                                    <th>Kurang (%)</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tfoot>
                                 <tr>
-                                    <td>1</td>
-                                    <td>John Doe</td>
-                                    <td>johndoe@example.com</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm">Edit</button>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </td>
+                                    <th>Total</th>
+                                    <th id="total-sangat-baik"></th>
+                                    <th id="total-baik"></th>
+                                    <th id="total-cukup"></th>
+                                    <th id="total-kurang"></th>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Jane Smith</td>
-                                    <td>janesmith@example.com</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm">Edit</button>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </td>
-                                </tr>
-                                <!-- Baris lainnya -->
-                            </tbody>
+                            </tfoot>
+
                         </table>
                     </div>
                 </div>
@@ -189,457 +164,529 @@
 
         <div class="row mb-3">
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 6
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Kerjasama Tim</strong>
+                    <div id="chart_kerjasama_tim" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 7
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Keahlian di Bidang TI</strong>
+                    <div id="chart_keahlian_di_bidang_ti" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 8
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Kemampuan Bahasa Asing</strong>
+                    <div id="chart_kemampuan_bahasa_asing" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 9
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Kemampuan Komunikasi</strong>
+                    <div id="chart_kemampuan_komunikasi" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 10
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Pengembangan Diri</strong>
+                    <div id="chart_pengembangan_diri" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 11
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Kepemimpinan</strong>
+                    <div id="chart_kepemimpinan" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 12
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Etos Kerja</strong>
+                    <div id="chart_etos_kerja" style="height: 300px;"></div>
                 </div>
             </div>
+
         </div>
-        <div class="row mb-3">
-            <div class="col-12">
-                <div class="p-4 bg-white shadow rounded">Box 3 (full)
-                    <div id="chartdiv5"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- ini 1 bos --}}
-   
-
-    <!-- Resources -->
-    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
-
-    <script src="{{ asset('js/dashboard/profesi_chart.js') }}"></script>
-    <script src="{{ asset('js/dashboard/intansi_chart.js') }}"></script> 
-
-    <script>
-        window.profesiChartData = [
-            @foreach ($topProfesi as $profesi)
-                {
-                    profesi: "{{ $profesi->nama_profesi }}",
-                    amount: {{ $profesi->jumlah }}
-                },
-            @endforeach
-        ];
-        
-        window.instansiChartData = [
-            @foreach ($jenisInstansi as $item)
-                {
-                    instansi: "{{ $item->jenis_instansi }}",
-                    amount: {{ $item->jumlah }}
-                },
-            @endforeach
-        ];
-    </script>
-    
 
 
-    {{-- ini 4 bos --}}
-    <style>
-        #chartdiv4 {
-            width: 100%;
-            height: 500px;
-        }
-    </style>
+        {{-- ini 1 bos --}}
+
+
+        <!-- Resources -->
+        <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+        <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+        <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+        <script src="{{ asset('js/dashboard/profesi_chart.js') }}"></script>
+        <script src="{{ asset('js/dashboard/intansi_chart.js') }}"></script>
+        <script src="{{ asset('js/dashboard/performa_chart.js') }}"></script>
+        <script>
+            const profesiChartData = [
+                @foreach ($topProfesi as $profesi)
+                    {
+                        profesi: "{{ $profesi->nama_profesi }}",
+                        amount: {{ $profesi->jumlah }}
+                    },
+                @endforeach
+            ];
+
+            const instansiChartData = [
+                @foreach ($jenisInstansi as $item)
+                    {
+                        instansi: "{{ $item->jenis_instansi }}",
+                        amount: {{ $item->jumlah }}
+                    },
+                @endforeach
+            ];
+            const performaChartData = @json($chartData);
+        </script>
+
+
+        {{-- ini 5 bos --}}
+        <!-- Styles -->
+        <style>
+            #chartdiv5 {
+                width: 100%;
+                height: 500px;
+            }
+        </style>
 
 
 
-    <!-- Chart code -->
-    <script>
-        am4core.ready(function() {
+        <!-- Chart code -->
+        <script>
+            am4core.ready(function() {
 
-            // Themes begin
-            am4core.useTheme(am4themes_animated);
-            // Themes end
+                // Themes begin
+                am4core.useTheme(am4themes_animated);
+                // Themes end
 
-            // Create chart instance
-            var chart = am4core.create("chartdiv4", am4charts.PieChart);
+                var container = am4core.create("chartdiv5", am4core.Container);
+                container.width = am4core.percent(100);
+                container.height = am4core.percent(100);
+                container.layout = "horizontal";
 
-            // Add and configure Series
-            var pieSeries = chart.series.push(new am4charts.PieSeries());
-            pieSeries.dataFields.value = "litres";
-            pieSeries.dataFields.category = "country";
 
-            // Let's cut a hole in our Pie chart the size of 30% the radius
-            chart.innerRadius = am4core.percent(30);
+                var chart = container.createChild(am4charts.PieChart);
 
-            // Put a thick white border around each Slice
-            pieSeries.slices.template.stroke = am4core.color("#fff");
-            pieSeries.slices.template.strokeWidth = 2;
-            pieSeries.slices.template.strokeOpacity = 1;
-            pieSeries.slices.template
-                // change the cursor on hover to make it apparent the object can be interacted with
-                .cursorOverStyle = [{
-                    "property": "cursor",
-                    "value": "pointer"
+                // Add data
+                chart.data = [{
+                    "country": "Lithuania",
+                    "litres": 500,
+                    "subData": [{
+                        name: "A",
+                        value: 200
+                    }, {
+                        name: "B",
+                        value: 150
+                    }, {
+                        name: "C",
+                        value: 100
+                    }, {
+                        name: "D",
+                        value: 50
+                    }]
+                }, {
+                    "country": "Czech Republic",
+                    "litres": 300,
+                    "subData": [{
+                        name: "A",
+                        value: 150
+                    }, {
+                        name: "B",
+                        value: 100
+                    }, {
+                        name: "C",
+                        value: 50
+                    }]
+                }, {
+                    "country": "Ireland",
+                    "litres": 200,
+                    "subData": [{
+                        name: "A",
+                        value: 110
+                    }, {
+                        name: "B",
+                        value: 60
+                    }, {
+                        name: "C",
+                        value: 30
+                    }]
+                }, {
+                    "country": "Austria",
+                    "litres": 120,
+                    "subData": [{
+                        name: "A",
+                        value: 60
+                    }, {
+                        name: "B",
+                        value: 30
+                    }, {
+                        name: "C",
+                        value: 30
+                    }]
                 }];
 
-            pieSeries.alignLabels = false;
-            pieSeries.labels.template.bent = true;
-            pieSeries.labels.template.radius = 3;
-            pieSeries.labels.template.padding(0, 0, 0, 0);
+                // Add and configure Series
+                var pieSeries = chart.series.push(new am4charts.PieSeries());
+                pieSeries.dataFields.value = "litres";
+                pieSeries.dataFields.category = "country";
+                pieSeries.slices.template.states.getKey("active").properties.shiftRadius = 0;
+                //pieSeries.labels.template.text = "{category}\n{value.percent.formatNumber('#.#')}%";
 
-            pieSeries.ticks.template.disabled = true;
+                pieSeries.slices.template.events.on("hit", function(event) {
+                    selectSlice(event.target.dataItem);
+                })
 
-            // Create a base filter effect (as if it's not there) for the hover to return to
-            var shadow = pieSeries.slices.template.filters.push(new am4core.DropShadowFilter);
-            shadow.opacity = 0;
+                var chart2 = container.createChild(am4charts.PieChart);
+                chart2.width = am4core.percent(30);
+                chart2.radius = am4core.percent(80);
 
-            // Create hover state
-            var hoverState = pieSeries.slices.template.states.getKey(
-                "hover"); // normally we have to create the hover state, in this case it already exists
+                // Add and configure Series
+                var pieSeries2 = chart2.series.push(new am4charts.PieSeries());
+                pieSeries2.dataFields.value = "value";
+                pieSeries2.dataFields.category = "name";
+                pieSeries2.slices.template.states.getKey("active").properties.shiftRadius = 0;
+                //pieSeries2.labels.template.radius = am4core.percent(50);
+                //pieSeries2.labels.template.inside = true;
+                //pieSeries2.labels.template.fill = am4core.color("#ffffff");
+                pieSeries2.labels.template.disabled = true;
+                pieSeries2.ticks.template.disabled = true;
+                pieSeries2.alignLabels = false;
+                pieSeries2.events.on("positionchanged", updateLines);
 
-            // Slightly shift the shadow and make it more prominent on hover
-            var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter);
-            hoverShadow.opacity = 0.7;
-            hoverShadow.blur = 5;
+                var interfaceColors = new am4core.InterfaceColorSet();
 
-            // Add a legend
-            chart.legend = new am4charts.Legend();
+                var line1 = container.createChild(am4core.Line);
+                line1.strokeDasharray = "2,2";
+                line1.strokeOpacity = 0.5;
+                line1.stroke = interfaceColors.getFor("alternativeBackground");
+                line1.isMeasured = false;
 
-            chart.data = [{
-                "country": "Lithuania",
-                "litres": 501.9
-            }, {
-                "country": "Germany",
-                "litres": 165.8
-            }, {
-                "country": "Australia",
-                "litres": 139.9
-            }, {
-                "country": "Belgium",
-                "litres": 60
-            }];
+                var line2 = container.createChild(am4core.Line);
+                line2.strokeDasharray = "2,2";
+                line2.strokeOpacity = 0.5;
+                line2.stroke = interfaceColors.getFor("alternativeBackground");
+                line2.isMeasured = false;
 
-        }); // end am4core.ready()
-    </script>
+                var selectedSlice;
 
-    {{-- ini 5 bos --}}
-    <!-- Styles -->
-    <style>
-        #chartdiv5 {
-            width: 100%;
-            height: 500px;
-        }
-    </style>
+                function selectSlice(dataItem) {
 
+                    selectedSlice = dataItem.slice;
 
+                    var fill = selectedSlice.fill;
 
-    <!-- Chart code -->
-    <script>
-        am4core.ready(function() {
+                    var count = dataItem.dataContext.subData.length;
+                    pieSeries2.colors.list = [];
+                    for (var i = 0; i < count; i++) {
+                        pieSeries2.colors.list.push(fill.brighten(i * 2 / count));
+                    }
 
-            // Themes begin
-            am4core.useTheme(am4themes_animated);
-            // Themes end
+                    chart2.data = dataItem.dataContext.subData;
+                    pieSeries2.appear();
 
-            var container = am4core.create("chartdiv5", am4core.Container);
-            container.width = am4core.percent(100);
-            container.height = am4core.percent(100);
-            container.layout = "horizontal";
+                    var middleAngle = selectedSlice.middleAngle;
+                    var firstAngle = pieSeries.slices.getIndex(0).startAngle;
+                    var animation = pieSeries.animate([{
+                        property: "startAngle",
+                        to: firstAngle - middleAngle
+                    }, {
+                        property: "endAngle",
+                        to: firstAngle - middleAngle + 360
+                    }], 600, am4core.ease.sinOut);
+                    animation.events.on("animationprogress", updateLines);
 
+                    selectedSlice.events.on("transformed", updateLines);
 
-            var chart = container.createChild(am4charts.PieChart);
-
-            // Add data
-            chart.data = [{
-                "country": "Lithuania",
-                "litres": 500,
-                "subData": [{
-                    name: "A",
-                    value: 200
-                }, {
-                    name: "B",
-                    value: 150
-                }, {
-                    name: "C",
-                    value: 100
-                }, {
-                    name: "D",
-                    value: 50
-                }]
-            }, {
-                "country": "Czech Republic",
-                "litres": 300,
-                "subData": [{
-                    name: "A",
-                    value: 150
-                }, {
-                    name: "B",
-                    value: 100
-                }, {
-                    name: "C",
-                    value: 50
-                }]
-            }, {
-                "country": "Ireland",
-                "litres": 200,
-                "subData": [{
-                    name: "A",
-                    value: 110
-                }, {
-                    name: "B",
-                    value: 60
-                }, {
-                    name: "C",
-                    value: 30
-                }]
-            }, {
-                "country": "Austria",
-                "litres": 120,
-                "subData": [{
-                    name: "A",
-                    value: 60
-                }, {
-                    name: "B",
-                    value: 30
-                }, {
-                    name: "C",
-                    value: 30
-                }]
-            }];
-
-            // Add and configure Series
-            var pieSeries = chart.series.push(new am4charts.PieSeries());
-            pieSeries.dataFields.value = "litres";
-            pieSeries.dataFields.category = "country";
-            pieSeries.slices.template.states.getKey("active").properties.shiftRadius = 0;
-            //pieSeries.labels.template.text = "{category}\n{value.percent.formatNumber('#.#')}%";
-
-            pieSeries.slices.template.events.on("hit", function(event) {
-                selectSlice(event.target.dataItem);
-            })
-
-            var chart2 = container.createChild(am4charts.PieChart);
-            chart2.width = am4core.percent(30);
-            chart2.radius = am4core.percent(80);
-
-            // Add and configure Series
-            var pieSeries2 = chart2.series.push(new am4charts.PieSeries());
-            pieSeries2.dataFields.value = "value";
-            pieSeries2.dataFields.category = "name";
-            pieSeries2.slices.template.states.getKey("active").properties.shiftRadius = 0;
-            //pieSeries2.labels.template.radius = am4core.percent(50);
-            //pieSeries2.labels.template.inside = true;
-            //pieSeries2.labels.template.fill = am4core.color("#ffffff");
-            pieSeries2.labels.template.disabled = true;
-            pieSeries2.ticks.template.disabled = true;
-            pieSeries2.alignLabels = false;
-            pieSeries2.events.on("positionchanged", updateLines);
-
-            var interfaceColors = new am4core.InterfaceColorSet();
-
-            var line1 = container.createChild(am4core.Line);
-            line1.strokeDasharray = "2,2";
-            line1.strokeOpacity = 0.5;
-            line1.stroke = interfaceColors.getFor("alternativeBackground");
-            line1.isMeasured = false;
-
-            var line2 = container.createChild(am4core.Line);
-            line2.strokeDasharray = "2,2";
-            line2.strokeOpacity = 0.5;
-            line2.stroke = interfaceColors.getFor("alternativeBackground");
-            line2.isMeasured = false;
-
-            var selectedSlice;
-
-            function selectSlice(dataItem) {
-
-                selectedSlice = dataItem.slice;
-
-                var fill = selectedSlice.fill;
-
-                var count = dataItem.dataContext.subData.length;
-                pieSeries2.colors.list = [];
-                for (var i = 0; i < count; i++) {
-                    pieSeries2.colors.list.push(fill.brighten(i * 2 / count));
+                    //  var animation = chart2.animate({property:"dx", from:-container.pixelWidth / 2, to:0}, 2000, am4core.ease.elasticOut)
+                    //  animation.events.on("animationprogress", updateLines)
                 }
 
-                chart2.data = dataItem.dataContext.subData;
-                pieSeries2.appear();
 
-                var middleAngle = selectedSlice.middleAngle;
-                var firstAngle = pieSeries.slices.getIndex(0).startAngle;
-                var animation = pieSeries.animate([{
-                    property: "startAngle",
-                    to: firstAngle - middleAngle
-                }, {
-                    property: "endAngle",
-                    to: firstAngle - middleAngle + 360
-                }], 600, am4core.ease.sinOut);
-                animation.events.on("animationprogress", updateLines);
+                function updateLines() {
+                    if (selectedSlice) {
+                        var p11 = {
+                            x: selectedSlice.radius * am4core.math.cos(selectedSlice.startAngle),
+                            y: selectedSlice.radius * am4core.math.sin(selectedSlice.startAngle)
+                        };
+                        var p12 = {
+                            x: selectedSlice.radius * am4core.math.cos(selectedSlice.startAngle + selectedSlice
+                                .arc),
+                            y: selectedSlice.radius * am4core.math.sin(selectedSlice.startAngle + selectedSlice.arc)
+                        };
 
-                selectedSlice.events.on("transformed", updateLines);
+                        p11 = am4core.utils.spritePointToSvg(p11, selectedSlice);
+                        p12 = am4core.utils.spritePointToSvg(p12, selectedSlice);
 
-                //  var animation = chart2.animate({property:"dx", from:-container.pixelWidth / 2, to:0}, 2000, am4core.ease.elasticOut)
-                //  animation.events.on("animationprogress", updateLines)
+                        var p21 = {
+                            x: 0,
+                            y: -pieSeries2.pixelRadius
+                        };
+                        var p22 = {
+                            x: 0,
+                            y: pieSeries2.pixelRadius
+                        };
+
+                        p21 = am4core.utils.spritePointToSvg(p21, pieSeries2);
+                        p22 = am4core.utils.spritePointToSvg(p22, pieSeries2);
+
+                        line1.x1 = p11.x;
+                        line1.x2 = p21.x;
+                        line1.y1 = p11.y;
+                        line1.y2 = p21.y;
+
+                        line2.x1 = p12.x;
+                        line2.x2 = p22.x;
+                        line2.y1 = p12.y;
+                        line2.y2 = p22.y;
+                    }
+                }
+
+                chart.events.on("datavalidated", function() {
+                    setTimeout(function() {
+                        selectSlice(pieSeries.dataItems.getIndex(0));
+                    }, 1000);
+                });
+
+
+            }); // end am4core.ready()
+        </script>
+        <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+
+        <script>
+            $(document).ready(function() {
+                $('#tabel-lulusan').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    scrollX: true,
+                    ordering: false,
+                    ajax: {
+                        "url": "{{ url('dashboard/lulusan/table') }}",
+                        "dataType": "json",
+                        "type": "POST",
+                        "data": function(d) {
+                            d._token = '{{ csrf_token() }}';
+                        }
+                    },
+                    dom: '<"table-responsive"t>',
+                    columns: [{
+                            data: 'tahun_lulus',
+                            name: 'tahun_lulus'
+                        },
+                        {
+                            data: 'total_lulusan',
+                            name: 'total_lulusan'
+                        },
+                        {
+                            data: 'lulusan_terlacak',
+                            name: 'lulusan_terlacak'
+                        },
+                        {
+                            data: 'kerja_bidang_infokom',
+                            name: 'kerja_bidang_infokom'
+                        },
+                        {
+                            data: 'kerja_bidang_non_infokom',
+                            name: 'kerja_bidang_non_infokom'
+                        },
+                        {
+                            data: 'internasional',
+                            name: 'internasional'
+                        },
+                        {
+                            data: 'nasional',
+                            name: 'nasional'
+                        },
+                        {
+                            data: 'regional',
+                            name: 'regional'
+                        }
+                    ],
+                    footerCallback: function(row, data, start, end, display) {
+                        var api = this.api();
+
+                        // Fungsi untuk menghitung total untuk kolom tertentu
+                        var total = function(colIndex) {
+                            return api
+                                .column(colIndex)
+                                .data()
+                                .reduce(function(a, b) {
+                                    // Pastikan data yang digunakan adalah angka
+                                    return parseFloat(a) + parseFloat(b) || 0;
+                                }, 0);
+                        };
+
+                        // Update footer dengan total untuk kolom yang sesuai
+                        $(api.column(0).footer()).html(
+                            '<b>Jumlah</b>'); // Menampilkan 'Jumlah' di kolom Tahun Lulus
+                        for (var i = 1; i <= 7; i++) {
+                            $(api.column(i).footer()).html('<b>' + total(i) + '</b>');
+                        }
+                    }
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#tabel-rata-rata-masa-tunggu').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    scrollX: true,
+                    ordering: false,
+                    ajax: {
+                        "url": "{{ url('dashboard/masa_tunggu/table') }}",
+                        "dataType": "json",
+                        "type": "POST",
+                        "data": function(d) {
+                            d._token = '{{ csrf_token() }}';
+                        }
+                    },
+                    dom: '<"table-responsive"t>',
+                    columns: [{
+                            data: 'tahun_lulusan',
+                            name: 'tahun_lulusan'
+                        },
+                        {
+                            data: 'jumlah_lulusan',
+                            name: 'jumlah_lulusan'
+                        },
+                        {
+                            data: 'jumlah_terlacak',
+                            name: 'jumlah_terlacak'
+                        },
+                        {
+                            data: 'rata_rata_waktu_tunggu_bulan',
+                            name: 'rata_rata_waktu_tunggu_bulan'
+                        },
+                    ],
+                    footerCallback: function(row, data, start, end, display) {
+                        var api = this.api();
+
+                        var totalJumlahLulusan = api.column(1).data().reduce(function(a, b) {
+                            return a + b;
+                        }, 0);
+                        var totalJumlahTerlacak = api.column(2).data().reduce(function(a, b) {
+                            return a + b;
+                        }, 0);
+                        var totalRataWaktuTunggu = api.column(3).data().reduce(function(a, b) {
+                            return a + (isNaN(b) ? 0 : b);
+                        }, 0);
+
+                        $(api.column(1).footer()).html(totalJumlahLulusan);
+                        $(api.column(2).footer()).html(totalJumlahTerlacak);
+
+                        $(api.column(3).footer()).html(totalRataWaktuTunggu > 0 ? (totalRataWaktuTunggu /
+                            data.length).toFixed(2) : 0);
+                    }
+                });
+            });
+        </script>
+        <style>
+            table.dataTable tfoot th {
+                background-color: #5a8dee !important;
+                color: #fafafa !important;
             }
 
-
-            function updateLines() {
-                if (selectedSlice) {
-                    var p11 = {
-                        x: selectedSlice.radius * am4core.math.cos(selectedSlice.startAngle),
-                        y: selectedSlice.radius * am4core.math.sin(selectedSlice.startAngle)
-                    };
-                    var p12 = {
-                        x: selectedSlice.radius * am4core.math.cos(selectedSlice.startAngle + selectedSlice
-                            .arc),
-                        y: selectedSlice.radius * am4core.math.sin(selectedSlice.startAngle + selectedSlice.arc)
-                    };
-
-                    p11 = am4core.utils.spritePointToSvg(p11, selectedSlice);
-                    p12 = am4core.utils.spritePointToSvg(p12, selectedSlice);
-
-                    var p21 = {
-                        x: 0,
-                        y: -pieSeries2.pixelRadius
-                    };
-                    var p22 = {
-                        x: 0,
-                        y: pieSeries2.pixelRadius
-                    };
-
-                    p21 = am4core.utils.spritePointToSvg(p21, pieSeries2);
-                    p22 = am4core.utils.spritePointToSvg(p22, pieSeries2);
-
-                    line1.x1 = p11.x;
-                    line1.x2 = p21.x;
-                    line1.y1 = p11.y;
-                    line1.y2 = p21.y;
-
-                    line2.x1 = p12.x;
-                    line2.x2 = p22.x;
-                    line2.y1 = p12.y;
-                    line2.y2 = p22.y;
-                }
+            table.dataTable thead th {
+                background-color: #5a8dee !important;
+                color: #fafafa !important;
             }
+        </style>
+        <script>
+            $(document).ready(function() {
+                $('#tabel-performa-lulusan').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    scrollX: true,
+                    ordering: false,
+                    ajax: {
+                        "url": "{{ url('dashboard/performa_lulusan/table') }}",
+                        "dataType": "json",
+                        "type": "POST",
+                        "data": function(d) {
+                            d._token = '{{ csrf_token() }}';
+                        }
+                    },
+                    dom: '<"table-responsive"t>',
+                    columns: [{
+                            data: 'jenis_kemampuan',
+                            name: 'jenis_kemampuan'
+                        },
+                        {
+                            data: 'sangat_baik',
+                            name: 'sangat_baik',
+                            render: function(data, type, row) {
+                                return data + '%';
+                            }
+                        },
+                        {
+                            data: 'baik',
+                            name: 'baik',
+                            render: function(data, type, row) {
+                                return data + '%';
+                            }
+                        },
+                        {
+                            data: 'cukup',
+                            name: 'cukup',
+                            render: function(data, type, row) {
+                                return data + '%';
+                            }
+                        },
+                        {
+                            data: 'kurang',
+                            name: 'kurang',
+                            render: function(data, type, row) {
+                                return data + '%';
+                            }
+                        }
+                    ],
 
-            chart.events.on("datavalidated", function() {
-                setTimeout(function() {
-                    selectSlice(pieSeries.dataItems.getIndex(0));
-                }, 1000);
+                    footerCallback: function(row, data, start, end, display) {
+                        var api = this.api();
+
+                        // Menghitung total untuk setiap kolom
+                        var totalSangatBaik = api.column(1, {
+                            page: 'current'
+                        }).data().reduce(function(a, b) {
+                            return a + parseFloat(b.replace('%', '')) || 0;
+                        }, 0);
+
+                        var totalBaik = api.column(2, {
+                            page: 'current'
+                        }).data().reduce(function(a, b) {
+                            return a + parseFloat(b.replace('%', '')) || 0;
+                        }, 0);
+
+                        var totalCukup = api.column(3, {
+                            page: 'current'
+                        }).data().reduce(function(a, b) {
+                            return a + parseFloat(b.replace('%', '')) || 0;
+                        }, 0);
+
+                        var totalKurang = api.column(4, {
+                            page: 'current'
+                        }).data().reduce(function(a, b) {
+                            return a + parseFloat(b.replace('%', '')) || 0;
+                        }, 0);
+
+                        // Total keseluruhan yang seharusnya 100%
+                        var totalSum = totalSangatBaik + totalBaik + totalCukup + totalKurang;
+
+                        // Menghitung persentase berdasarkan total yang dihitung
+                        var percentSangatBaik = (totalSangatBaik / totalSum) * 100;
+                        var percentBaik = (totalBaik / totalSum) * 100;
+                        var percentCukup = (totalCukup / totalSum) * 100;
+                        var percentKurang = (totalKurang / totalSum) * 100;
+
+                        // Menampilkan hasil total di footer
+                        $('#total-sangat-baik').text(percentSangatBaik.toFixed(2) + '%');
+                        $('#total-baik').text(percentBaik.toFixed(2) + '%');
+                        $('#total-cukup').text(percentCukup.toFixed(2) + '%');
+                        $('#total-kurang').text(percentKurang.toFixed(2) + '%');
+                    }
+                });
             });
-
-
-        }); // end am4core.ready()
-    </script>
-    <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('#tabel-lulusan').DataTable({
-                processing: true,
-                serverSide: true,
-                scrollX: true,
-                ordering: false,
-                ajax: {
-                    "url": "{{ url('lulusan/list') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": function(d) {
-                        d._token = '{{ csrf_token() }}';
-                    }
-                },
-                dom: '<"table-responsive"t>',
-                columns: [{
-                        data: 'tahun_lulus',
-                        name: 'tahun_lulus'
-                    },
-                    {
-                        data: 'total_lulusan',
-                        name: 'total_lulusan'
-                    },
-                    {
-                        data: 'lulusan_terlacak',
-                        name: 'lulusan_terlacak'
-                    },
-                    {
-                        data: 'kerja_bidang_infokom',
-                        name: 'kerja_bidang_infokom'
-                    },
-                    {
-                        data: 'kerja_bidang_non_infokom',
-                        name: 'kerja_bidang_non_infokom'
-                    },
-                    {
-                        data: 'internasional',
-                        name: 'internasional'
-                    },
-                    {
-                        data: 'nasional',
-                        name: 'nasional'
-                    },
-                    {
-                        data: 'regional',
-                        name: 'regional'
-                    }
-                ],
-                footerCallback: function(row, data, start, end, display) {
-                    var api = this.api();
-
-                    // Fungsi untuk menghitung total untuk kolom tertentu
-                    var total = function(colIndex) {
-                        return api
-                            .column(colIndex)
-                            .data()
-                            .reduce(function(a, b) {
-                                // Pastikan data yang digunakan adalah angka
-                                return parseFloat(a) + parseFloat(b) || 0;
-                            }, 0);
-                    };
-
-                    // Update footer dengan total untuk kolom yang sesuai
-                    $(api.column(0).footer()).html(
-                        '<b>Jumlah</b>'); // Menampilkan 'Jumlah' di kolom Tahun Lulus
-                    for (var i = 1; i <= 7; i++) {
-                        $(api.column(i).footer()).html('<b>' + total(i) + '</b>');
-                    }
-                }
-            });
-        });
-    </script>
-    <style>
-        table.dataTable tfoot th {
-            background-color: #5a8dee !important;
-            color: #fafafa !important;
-        }
-
-        table.dataTable thead th {
-            background-color: #5a8dee !important;
-            color: #fafafa !important;
-        }
-    </style>
-@endsection
+        </script>
+    @endsection
