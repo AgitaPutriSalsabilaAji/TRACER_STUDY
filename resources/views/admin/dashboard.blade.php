@@ -44,14 +44,18 @@
         <div class="row mb-3">
             <div class="col-md-6 mb-3 mb-md-0">
                 <div class="p-4 bg-white shadow rounded">
-                    <div class="container pt-0"> Sebaran Profesi
+                    <div class="container pt-0">
+                        <h2 class="mb-4 fs-4">Sebaran Profesi</h2>
+
                         <div id="profesi_chart" style="width: 100%; height: 400px;"></div>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 mb-3 mb-md-0">
                 <div class="p-4 bg-white shadow rounded">
-                    <div class="container pt-0"> Sebaran Jenis Instansi
+                    <div class="container pt-0">
+                        <h2 class="mb-4 fs-4">Sebaran Jenis Instansi</h2>
+
                         <div id="intansi_chart" style="width: 100%; height: 400px;"></div>
                     </div>
                 </div>
@@ -63,9 +67,7 @@
             <div class="col-12">
                 <div class="p-4 bg-white shadow rounded">
                     <div class="container mt-5">
-                        <div class="card-header">
-                            <strong>Data Lulusan (2025 - 2030)</strong>
-                        </div>
+                        <h2 class="mb-4 fs-4">Data Lulusan (2026 - 2029)</h2>
                         <div class="card-body ">
                             <table id="tabel-lulusan" class="table table-bordered table-striped table w-100">
                                 <thead>
@@ -75,12 +77,12 @@
                                         <th rowspan="2">Lulusan Terlacak</th>
                                         <th rowspan="2">Kerja Bidang Infokom</th>
                                         <th rowspan="2">Kerja Bidang Non-Infokom</th>
-                                        <th colspan="3" class="text-center">Tempat Kerja</th> <!-- Kolom gabungan -->
+                                        <th colspan="3" class="text-center">Tempat Kerja</th>
                                     </tr>
                                     <tr>
-                                        <th>Internasional</th> <!-- Tempat Kerja -->
-                                        <th>Nasional</th> <!-- Tempat Kerja -->
-                                        <th>Regional</th> <!-- Tempat Kerja -->
+                                        <th>Internasional</th>
+                                        <th>Nasional</th>
+                                        <th>Regional</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -106,81 +108,54 @@
         <!-- Row 3: 2 columns -->
         <div class="row mb-3">
             <div class="col-md-6 mb-3 mb-md-0">
-                <div class="p-4 bg-white shadow rounded">Box 4
+                <div class="p-4 bg-white shadow rounded">
                     <div class="container mt-5">
-                        <h2 class="mb-4">Contoh Tabel Bootstrap 5</h2>
-
-                        <!-- Tabel -->
-                        <table class="table table-striped table-bordered table-hover">
+                        <h2 class="mb-4 fs-4">Tabel rata rata masa tunggu</h2>
+                        <table id="tabel-rata-rata-masa-tunggu" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Nama</th>
-                                    <th>Email</th>
-                                    <th>Aksi</th>
+                                    <th>Tahun Lulusan</th>
+                                    <th>Jumlah Lulusan</th>
+                                    <th>Jumlah Terlacak</th>
+                                    <th>Rata-rata Waktu Tunggu (Bulan)</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tfoot>
                                 <tr>
-                                    <td>1</td>
-                                    <td>John Doe</td>
-                                    <td>johndoe@example.com</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm">Edit</button>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </td>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Jane Smith</td>
-                                    <td>janesmith@example.com</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm">Edit</button>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </td>
-                                </tr>
-                                <!-- Baris lainnya -->
-                            </tbody>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="p-4 bg-white shadow rounded">Box 5
+                <div class="p-4 bg-white shadow rounded">
                     <div class="container mt-5">
-                        <h2 class="mb-4">Contoh Tabel Bootstrap 5</h2>
-
-                        <!-- Tabel -->
-                        <table class="table table-striped table-bordered table-hover">
+                        <h2 class="mb-4 fs-4">Tabel performa lulusan</h2>
+                        <table id="tabel-performa-lulusan" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Nama</th>
-                                    <th>Email</th>
-                                    <th>Aksi</th>
+                                    <th>Jenis Kemampuan</th>
+                                    <th>Sangat Baik (%)</th>
+                                    <th>Baik (%)</th>
+                                    <th>Cukup (%)</th>
+                                    <th>Kurang (%)</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tfoot>
                                 <tr>
-                                    <td>1</td>
-                                    <td>John Doe</td>
-                                    <td>johndoe@example.com</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm">Edit</button>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </td>
+                                    <th>Total</th>
+                                    <th id="total-sangat-baik"></th>
+                                    <th id="total-baik"></th>
+                                    <th id="total-cukup"></th>
+                                    <th id="total-kurang"></th>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Jane Smith</td>
-                                    <td>janesmith@example.com</td>
-                                    <td>
-                                        <button class="btn btn-primary btn-sm">Edit</button>
-                                        <button class="btn btn-danger btn-sm">Delete</button>
-                                    </td>
-                                </tr>
-                                <!-- Baris lainnya -->
-                            </tbody>
+                            </tfoot>
+
                         </table>
                     </div>
                 </div>
@@ -189,52 +164,53 @@
 
         <div class="row mb-3">
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 6
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Kerjasama Tim</strong>
+                    <div id="chart_kerjasama_tim" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 7
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Keahlian di Bidang TI</strong>
+                    <div id="chart_keahlian_di_bidang_ti" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 8
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Kemampuan Bahasa Asing</strong>
+                    <div id="chart_kemampuan_bahasa_asing" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 9
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Kemampuan Komunikasi</strong>
+                    <div id="chart_kemampuan_komunikasi" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 10
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Pengembangan Diri</strong>
+                    <div id="chart_pengembangan_diri" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 11
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Kepemimpinan</strong>
+                    <div id="chart_kepemimpinan" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded">Box 12
-                    <div id="chartdiv4"></div>
+                <div class="p-4 bg-white shadow rounded">
+                    <strong>Etos Kerja</strong>
+                    <div id="chart_etos_kerja" style="height: 300px;"></div>
                 </div>
             </div>
+            
         </div>
-        <div class="row mb-3">
-            <div class="col-12">
-                <div class="p-4 bg-white shadow rounded">Box 3 (full)
-                    <div id="chartdiv5"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+        
 
     {{-- ini 1 bos --}}
-   
+
 
     <!-- Resources -->
     <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
@@ -242,7 +218,7 @@
     <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
     <script src="{{ asset('js/dashboard/profesi_chart.js') }}"></script>
-    <script src="{{ asset('js/dashboard/intansi_chart.js') }}"></script> 
+    <script src="{{ asset('js/dashboard/intansi_chart.js') }}"></script>
 
     <script>
         window.profesiChartData = [
@@ -253,7 +229,7 @@
                 },
             @endforeach
         ];
-        
+
         window.instansiChartData = [
             @foreach ($jenisInstansi as $item)
                 {
@@ -263,7 +239,7 @@
             @endforeach
         ];
     </script>
-    
+
 
 
     {{-- ini 4 bos --}}
@@ -278,73 +254,28 @@
 
     <!-- Chart code -->
     <script>
-        am4core.ready(function() {
-
-            // Themes begin
+        am4core.ready(function () {
             am4core.useTheme(am4themes_animated);
-            // Themes end
-
-            // Create chart instance
-            var chart = am4core.create("chartdiv4", am4charts.PieChart);
-
-            // Add and configure Series
-            var pieSeries = chart.series.push(new am4charts.PieSeries());
-            pieSeries.dataFields.value = "litres";
-            pieSeries.dataFields.category = "country";
-
-            // Let's cut a hole in our Pie chart the size of 30% the radius
-            chart.innerRadius = am4core.percent(30);
-
-            // Put a thick white border around each Slice
-            pieSeries.slices.template.stroke = am4core.color("#fff");
-            pieSeries.slices.template.strokeWidth = 2;
-            pieSeries.slices.template.strokeOpacity = 1;
-            pieSeries.slices.template
-                // change the cursor on hover to make it apparent the object can be interacted with
-                .cursorOverStyle = [{
-                    "property": "cursor",
-                    "value": "pointer"
-                }];
-
-            pieSeries.alignLabels = false;
-            pieSeries.labels.template.bent = true;
-            pieSeries.labels.template.radius = 3;
-            pieSeries.labels.template.padding(0, 0, 0, 0);
-
-            pieSeries.ticks.template.disabled = true;
-
-            // Create a base filter effect (as if it's not there) for the hover to return to
-            var shadow = pieSeries.slices.template.filters.push(new am4core.DropShadowFilter);
-            shadow.opacity = 0;
-
-            // Create hover state
-            var hoverState = pieSeries.slices.template.states.getKey(
-                "hover"); // normally we have to create the hover state, in this case it already exists
-
-            // Slightly shift the shadow and make it more prominent on hover
-            var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter);
-            hoverShadow.opacity = 0.7;
-            hoverShadow.blur = 5;
-
-            // Add a legend
-            chart.legend = new am4charts.Legend();
-
-            chart.data = [{
-                "country": "Lithuania",
-                "litres": 501.9
-            }, {
-                "country": "Germany",
-                "litres": 165.8
-            }, {
-                "country": "Australia",
-                "litres": 139.9
-            }, {
-                "country": "Belgium",
-                "litres": 60
-            }];
-
-        }); // end am4core.ready()
+    
+            function buatPieChart(idDiv, dataChart) {
+                var chart = am4core.create(idDiv, am4charts.PieChart);
+                chart.innerRadius = am4core.percent(30);
+                var pieSeries = chart.series.push(new am4charts.PieSeries());
+                pieSeries.dataFields.value = "litres";
+                pieSeries.dataFields.category = "country";
+                chart.legend = new am4charts.Legend();
+                chart.data = dataChart;
+            }
+    
+            let allCharts = @json($chartData);
+    
+            Object.entries(allCharts).forEach(([judul, data]) => {
+                let idDiv = "chart_" + judul.toLowerCase().replace(/\s+/g, '_');
+                buatPieChart(idDiv, data);
+            });
+        });
     </script>
+    
 
     {{-- ini 5 bos --}}
     <!-- Styles -->
@@ -566,7 +497,7 @@
                 scrollX: true,
                 ordering: false,
                 ajax: {
-                    "url": "{{ url('lulusan/list') }}",
+                    "url": "{{ url('dashboard/lulusan/table') }}",
                     "dataType": "json",
                     "type": "POST",
                     "data": function(d) {
@@ -631,6 +562,61 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('#tabel-rata-rata-masa-tunggu').DataTable({
+                processing: true,
+                serverSide: true,
+                scrollX: true,
+                ordering: false,
+                ajax: {
+                    "url": "{{ url('dashboard/masa_tunggu/table') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data": function(d) {
+                        d._token = '{{ csrf_token() }}';
+                    }
+                },
+                dom: '<"table-responsive"t>',
+                columns: [{
+                        data: 'tahun_lulusan',
+                        name: 'tahun_lulusan'
+                    },
+                    {
+                        data: 'jumlah_lulusan',
+                        name: 'jumlah_lulusan'
+                    },
+                    {
+                        data: 'jumlah_terlacak',
+                        name: 'jumlah_terlacak'
+                    },
+                    {
+                        data: 'rata_rata_waktu_tunggu_bulan',
+                        name: 'rata_rata_waktu_tunggu_bulan'
+                    },
+                ],
+                footerCallback: function(row, data, start, end, display) {
+                    var api = this.api();
+
+                    var totalJumlahLulusan = api.column(1).data().reduce(function(a, b) {
+                        return a + b;
+                    }, 0);
+                    var totalJumlahTerlacak = api.column(2).data().reduce(function(a, b) {
+                        return a + b;
+                    }, 0);
+                    var totalRataWaktuTunggu = api.column(3).data().reduce(function(a, b) {
+                        return a + (isNaN(b) ? 0 : b);
+                    }, 0);
+
+                    $(api.column(1).footer()).html(totalJumlahLulusan);
+                    $(api.column(2).footer()).html(totalJumlahTerlacak);
+
+                    $(api.column(3).footer()).html(totalRataWaktuTunggu > 0 ? (totalRataWaktuTunggu /
+                        data.length).toFixed(2) : 0);
+                }
+            });
+        });
+    </script>
     <style>
         table.dataTable tfoot th {
             background-color: #5a8dee !important;
@@ -642,4 +628,100 @@
             color: #fafafa !important;
         }
     </style>
+    <script>
+        $(document).ready(function() {
+            $('#tabel-performa-lulusan').DataTable({
+                processing: true,
+                serverSide: true,
+                scrollX: true,
+                ordering: false,
+                ajax: {
+                    "url": "{{ url('dashboard/performa_lulusan/table') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data": function(d) {
+                        d._token = '{{ csrf_token() }}';
+                    }
+                },
+                dom: '<"table-responsive"t>',
+                columns: [{
+                        data: 'jenis_kemampuan',
+                        name: 'jenis_kemampuan'
+                    },
+                    {
+                        data: 'sangat_baik',
+                        name: 'sangat_baik',
+                        render: function(data, type, row) {
+                            return data + '%';
+                        }
+                    },
+                    {
+                        data: 'baik',
+                        name: 'baik',
+                        render: function(data, type, row) {
+                            return data + '%';
+                        }
+                    },
+                    {
+                        data: 'cukup',
+                        name: 'cukup',
+                        render: function(data, type, row) {
+                            return data + '%';
+                        }
+                    },
+                    {
+                        data: 'kurang',
+                        name: 'kurang',
+                        render: function(data, type, row) {
+                            return data + '%';
+                        }
+                    }
+                ],
+
+                footerCallback: function(row, data, start, end, display) {
+                    var api = this.api();
+
+                    // Menghitung total untuk setiap kolom
+                    var totalSangatBaik = api.column(1, {
+                        page: 'current'
+                    }).data().reduce(function(a, b) {
+                        return a + parseFloat(b.replace('%', '')) || 0;
+                    }, 0);
+
+                    var totalBaik = api.column(2, {
+                        page: 'current'
+                    }).data().reduce(function(a, b) {
+                        return a + parseFloat(b.replace('%', '')) || 0;
+                    }, 0);
+
+                    var totalCukup = api.column(3, {
+                        page: 'current'
+                    }).data().reduce(function(a, b) {
+                        return a + parseFloat(b.replace('%', '')) || 0;
+                    }, 0);
+
+                    var totalKurang = api.column(4, {
+                        page: 'current'
+                    }).data().reduce(function(a, b) {
+                        return a + parseFloat(b.replace('%', '')) || 0;
+                    }, 0);
+
+                    // Total keseluruhan yang seharusnya 100%
+                    var totalSum = totalSangatBaik + totalBaik + totalCukup + totalKurang;
+
+                    // Menghitung persentase berdasarkan total yang dihitung
+                    var percentSangatBaik = (totalSangatBaik / totalSum) * 100;
+                    var percentBaik = (totalBaik / totalSum) * 100;
+                    var percentCukup = (totalCukup / totalSum) * 100;
+                    var percentKurang = (totalKurang / totalSum) * 100;
+
+                    // Menampilkan hasil total di footer
+                    $('#total-sangat-baik').text(percentSangatBaik.toFixed(2) + '%');
+                    $('#total-baik').text(percentBaik.toFixed(2) + '%');
+                    $('#total-cukup').text(percentCukup.toFixed(2) + '%');
+                    $('#total-kurang').text(percentKurang.toFixed(2) + '%');
+                }
+            });
+        });
+    </script>
 @endsection
