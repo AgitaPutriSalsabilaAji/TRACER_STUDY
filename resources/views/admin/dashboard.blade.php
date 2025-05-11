@@ -69,14 +69,14 @@
                     <div class="container mt-5">
                         <h2 class="mb-4 fs-4">Data Lulusan (2026 - 2029)</h2>
                         <div class="card-body ">
-                            <table id="tabel-lulusan" class="table table-bordered table-striped table w-100">
+                            <table id="tabel-lulusan" class="table table-bordered table-striped table-responsive">
                                 <thead>
                                     <tr>
                                         <th rowspan="2">Tahun Lulus</th>
                                         <th rowspan="2">Total Lulusan</th>
                                         <th rowspan="2">Lulusan Terlacak</th>
-                                        <th rowspan="2">Kerja Bidang Infokom</th>
-                                        <th rowspan="2">Kerja Bidang Non-Infokom</th>
+                                        <th rowspan="2"><span>Kerja di Bidang<br>Infokom</span></th>
+                                        <th rowspan="2"><span>Kerja di Bidang<br>Non-Infokom</span></th>
                                         <th colspan="3" class="text-center">Tempat Kerja</th>
                                     </tr>
                                     <tr>
@@ -97,8 +97,8 @@
                                         <th><b></b></th>
                                     </tr>
                                 </tfoot>
-
                             </table>
+
                         </div>
                     </div>
                 </div>
@@ -582,17 +582,6 @@
                 });
             });
         </script>
-        <style>
-            table.dataTable tfoot th {
-                background-color: #5a8dee !important;
-                color: #fafafa !important;
-            }
-
-            table.dataTable thead th {
-                background-color: #5a8dee !important;
-                color: #fafafa !important;
-            }
-        </style>
         <script>
             $(document).ready(function() {
                 $('#tabel-performa-lulusan').DataTable({
@@ -689,4 +678,23 @@
                 });
             });
         </script>
+        <style>
+            table.dataTable tfoot th {
+                background-color: #5a8dee !important;
+                color: #fafafa !important;
+            }
+
+            table.dataTable thead th {
+                background-color: #5a8dee !important;
+                color: #fafafa !important;
+            }
+
+            /* Mengatur kolom agar teks menjadi vertikal */
+            th,
+            td {
+                text-align: center;
+                /* Menyelaraskan teks ke tengah secara horizontal */
+                vertical-align: middle;
+            }
+        </style>
     @endsection
