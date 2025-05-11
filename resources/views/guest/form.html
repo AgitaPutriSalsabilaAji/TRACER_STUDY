@@ -9,6 +9,10 @@
     .is-invalid {
       border-color: #dc3545;
     }
+    .invalid-feedback {
+      display: none;
+      color: #dc3545;
+    }
   </style>
 </head>
 <body>
@@ -128,26 +132,33 @@
   form.addEventListener('submit', function (e) {
     let valid = true;
     const elements = form.querySelectorAll('input, select');
+    
     elements.forEach(function (el) {
       const value = el.value.trim();
       const name = el.name;
 
+      // Hapus class invalid untuk setiap kolom
+      el.classList.remove("is-invalid");
+      const feedback = el.parentElement.querySelector(".invalid-feedback");
+      if (feedback) feedback.style.display = 'none'; // Hide all feedback by default
+
       // Validasi email
       if (name === "email" && !value.includes("@")) {
         el.classList.add("is-invalid");
+        feedback.style.display = 'block';
         valid = false;
       }
       // Validasi no HP
       else if (name === "no_hp" && !/^\d+$/.test(value)) {
         el.classList.add("is-invalid");
+        feedback.style.display = 'block';
         valid = false;
       }
       // Validasi kosong
       else if (!value) {
         el.classList.add("is-invalid");
+        feedback.style.display = 'block';
         valid = false;
-      } else {
-        el.classList.remove("is-invalid");
       }
     });
 
