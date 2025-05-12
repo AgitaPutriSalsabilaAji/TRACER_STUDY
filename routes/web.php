@@ -27,6 +27,10 @@ Route::get('/', function () {
 });
 
 
+Route::get('/iniform', function () {
+    return view('form.Alumni');
+});
+
 
 Route::fallback(function () {
     if (Auth::check()) {
