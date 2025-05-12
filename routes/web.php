@@ -18,9 +18,18 @@ use App\Http\Controllers\GuestController;
 |
 */
 
+// Route::get('/', function () {
+//     return view('home');
+// })->name('home');
+
 Route::get('/', function () {
-    return view('home');
-})->name('home');
+    return view('guest.home'); // <== Pastikan ini sesuai
+});
+
+
+Route::get('/iniform', function () {
+    return view('form.Alumni');
+});
 
 
 Route::fallback(function () {
