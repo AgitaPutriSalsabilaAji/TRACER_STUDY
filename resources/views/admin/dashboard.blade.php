@@ -1,5 +1,30 @@
 @extends('layouts.template')
 @section('content')
+    {{-- modal filter --}}
+    <div id="yearAlert" class="alert alert-warning alert-dismissible fade show d-none" role="alert">
+        <strong>Peringatan!</strong> Silakan pilih rentang tahun terlebih dahulu.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div class="modal fade" id="yearModal" tabindex="-1" aria-labelledby="yearModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-light text-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="yearModalLabel">Pilih Tahun Angkatan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="yearPicker" class="d-grid gap-2" style="grid-template-columns: repeat(5, 1fr); display: grid;">
+                        <!-- Konten Tahun Angkatan -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        id="saveYearSelection">Selesai</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- content --}}
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -18,23 +43,24 @@
 
     <div class="container-fluid py-3">
         <div class="row justify-content-between">
-
             <div class="col-md-5">
                 <label class="form-label text-white">Program Studi</label>
-                <select class="form-select form-select-sm">
-                    <option selected>Pilih Program Studi</option>
-                    <option value="1">Teknik Informatika</option>
-                    <option value="2">Teknik Elektro</option>
+                <select id="prodiSelect" class="form-select form-select-sm">
+                    @foreach ($prodi as $item)
+                        <!-- Menggunakan id item untuk value -->
+                        <option value="{{ $item->id }}" {{ $item->id == $prodi_id ? 'selected' : '' }}>
+                            {{ $item->program_studi }}</option>
+                    @endforeach
                 </select>
             </div>
 
             <div class="col-md-5 text-end">
-                <label class="form-label text-white">Tahun Angkatan</label>
-                <select class="form-select form-select-sm">
-                    <option value="2021-2024">2021 - 2024</option>
-                    <option value="2022-2025">2022 - 2025</option>
-                    <option value="2023-2026">2023 - 2026</option>
-                </select>
+                <div class="mb-3">
+                    <label class="form-label text-white">Tahun Angkatan</label>
+                    <input type="text" id="selectedYears" class="form-control" readonly data-bs-toggle="modal"
+                        data-bs-target="#yearModal" placeholder="Klik untuk pilih tahun" style="cursor: pointer;"
+                        value="{{ $startYear }} - {{ $endYear }}">
+                </div>
             </div>
 
         </div>
@@ -207,19 +233,103 @@
             </div>
 
         </div>
-
-
-        {{-- ini 1 bos --}}
-
-
-        <!-- Resources -->
         <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
         <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
         <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
-
         <script src="{{ asset('js/dashboard/profesi_chart.js') }}"></script>
         <script src="{{ asset('js/dashboard/intansi_chart.js') }}"></script>
         <script src="{{ asset('js/dashboard/performa_chart.js') }}"></script>
+        <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+        {{-- filter --}}
+        <script>
+            const yearPicker = document.getElementById("yearPicker");
+            const input = document.getElementById("selectedYears");
+            const saveBtn = document.getElementById("saveYearSelection");
+            const prodiSelect = document.getElementById("prodiSelect");
+            const yearAlert = document.getElementById("yearAlert");
+
+            let selectedStart = null;
+            let selectedEnd = null;
+
+            for (let y = 2000; y <= new Date().getFullYear(); y++) {
+                const btn = document.createElement("div");
+                btn.textContent = y;
+                btn.className = "year-option";
+                btn.dataset.year = y;
+                yearPicker.appendChild(btn);
+            }
+
+            yearPicker.addEventListener("click", (e) => {
+                if (!e.target.classList.contains("year-option")) return;
+                const year = parseInt(e.target.dataset.year);
+
+                if (selectedStart === null || (selectedStart !== null && selectedEnd !== null)) {
+                    selectedStart = year;
+                    selectedEnd = null;
+                } else if (year >= selectedStart) {
+                    selectedEnd = year;
+                } else {
+                    selectedStart = year;
+                    selectedEnd = null;
+                }
+
+                document.querySelectorAll(".year-option").forEach(btn => {
+                    btn.classList.remove("selected");
+                });
+
+                if (selectedStart !== null) {
+                    document.querySelector(`.year-option[data-year='${selectedStart}']`).classList.add("selected");
+                }
+                if (selectedEnd !== null) {
+                    for (let y = selectedStart; y <= selectedEnd; y++) {
+                        document.querySelector(`.year-option[data-year='${y}']`)?.classList.add("selected");
+                    }
+                    input.value = `${selectedStart} - ${selectedEnd}`;
+                }
+            });
+
+            prodiSelect.addEventListener("change", () => {
+                const selectedProdi = prodiSelect.value;
+                const start_year = <?php echo json_encode($startYear); ?>;
+                const end_year = <?php echo json_encode($endYear); ?>;
+                $.get("{{ route('dashboard.filter') }}", {
+                    _token: '{{ csrf_token() }}',
+                    start_year: start_year,
+                    end_year: end_year,
+                    prodi_id: selectedProdi
+                }).done(function(response) {
+                    window.location.href = '{{ route('dashboard') }}' +
+                        `?start_year=${start_year || ''}&end_year=${end_year || ''}&prodi_id=${selectedProdi || ''}`;
+                });
+
+            });
+
+            saveBtn.addEventListener("click", () => {
+                if (selectedStart === null && selectedEnd === null) {
+                    yearAlert.classList.remove("d-none");
+                    return;
+                } else if (selectedEnd === null) {
+                    selectedEnd = selectedStart;
+                }
+
+                yearAlert.classList.add("d-none");
+
+                const selectedProdi = prodiSelect.value;
+
+                $.get("{{ route('dashboard.filter') }}", {
+                    _token: '{{ csrf_token() }}',
+                    start_year: selectedStart,
+                    end_year: selectedEnd,
+                    prodi_id: selectedProdi
+                }).done(function(response) {
+                    window.location.href = '{{ route('dashboard') }}' +
+                        `?start_year=${selectedStart}&end_year=${selectedEnd}&prodi_id=${selectedProdi}`;
+                });
+            });
+        </script>
+
+
+        {{-- Chart --}}
         <script>
             const profesiChartData = [
                 @foreach ($topProfesi as $profesi)
@@ -240,220 +350,7 @@
             ];
             const performaChartData = @json($chartData);
         </script>
-
-
-        {{-- ini 5 bos --}}
-        <!-- Styles -->
-        <style>
-            #chartdiv5 {
-                width: 100%;
-                height: 500px;
-            }
-        </style>
-
-
-
-        <!-- Chart code -->
-        <script>
-            am4core.ready(function() {
-
-                // Themes begin
-                am4core.useTheme(am4themes_animated);
-                // Themes end
-
-                var container = am4core.create("chartdiv5", am4core.Container);
-                container.width = am4core.percent(100);
-                container.height = am4core.percent(100);
-                container.layout = "horizontal";
-
-
-                var chart = container.createChild(am4charts.PieChart);
-
-                // Add data
-                chart.data = [{
-                    "country": "Lithuania",
-                    "litres": 500,
-                    "subData": [{
-                        name: "A",
-                        value: 200
-                    }, {
-                        name: "B",
-                        value: 150
-                    }, {
-                        name: "C",
-                        value: 100
-                    }, {
-                        name: "D",
-                        value: 50
-                    }]
-                }, {
-                    "country": "Czech Republic",
-                    "litres": 300,
-                    "subData": [{
-                        name: "A",
-                        value: 150
-                    }, {
-                        name: "B",
-                        value: 100
-                    }, {
-                        name: "C",
-                        value: 50
-                    }]
-                }, {
-                    "country": "Ireland",
-                    "litres": 200,
-                    "subData": [{
-                        name: "A",
-                        value: 110
-                    }, {
-                        name: "B",
-                        value: 60
-                    }, {
-                        name: "C",
-                        value: 30
-                    }]
-                }, {
-                    "country": "Austria",
-                    "litres": 120,
-                    "subData": [{
-                        name: "A",
-                        value: 60
-                    }, {
-                        name: "B",
-                        value: 30
-                    }, {
-                        name: "C",
-                        value: 30
-                    }]
-                }];
-
-                // Add and configure Series
-                var pieSeries = chart.series.push(new am4charts.PieSeries());
-                pieSeries.dataFields.value = "litres";
-                pieSeries.dataFields.category = "country";
-                pieSeries.slices.template.states.getKey("active").properties.shiftRadius = 0;
-                //pieSeries.labels.template.text = "{category}\n{value.percent.formatNumber('#.#')}%";
-
-                pieSeries.slices.template.events.on("hit", function(event) {
-                    selectSlice(event.target.dataItem);
-                })
-
-                var chart2 = container.createChild(am4charts.PieChart);
-                chart2.width = am4core.percent(30);
-                chart2.radius = am4core.percent(80);
-
-                // Add and configure Series
-                var pieSeries2 = chart2.series.push(new am4charts.PieSeries());
-                pieSeries2.dataFields.value = "value";
-                pieSeries2.dataFields.category = "name";
-                pieSeries2.slices.template.states.getKey("active").properties.shiftRadius = 0;
-                //pieSeries2.labels.template.radius = am4core.percent(50);
-                //pieSeries2.labels.template.inside = true;
-                //pieSeries2.labels.template.fill = am4core.color("#ffffff");
-                pieSeries2.labels.template.disabled = true;
-                pieSeries2.ticks.template.disabled = true;
-                pieSeries2.alignLabels = false;
-                pieSeries2.events.on("positionchanged", updateLines);
-
-                var interfaceColors = new am4core.InterfaceColorSet();
-
-                var line1 = container.createChild(am4core.Line);
-                line1.strokeDasharray = "2,2";
-                line1.strokeOpacity = 0.5;
-                line1.stroke = interfaceColors.getFor("alternativeBackground");
-                line1.isMeasured = false;
-
-                var line2 = container.createChild(am4core.Line);
-                line2.strokeDasharray = "2,2";
-                line2.strokeOpacity = 0.5;
-                line2.stroke = interfaceColors.getFor("alternativeBackground");
-                line2.isMeasured = false;
-
-                var selectedSlice;
-
-                function selectSlice(dataItem) {
-
-                    selectedSlice = dataItem.slice;
-
-                    var fill = selectedSlice.fill;
-
-                    var count = dataItem.dataContext.subData.length;
-                    pieSeries2.colors.list = [];
-                    for (var i = 0; i < count; i++) {
-                        pieSeries2.colors.list.push(fill.brighten(i * 2 / count));
-                    }
-
-                    chart2.data = dataItem.dataContext.subData;
-                    pieSeries2.appear();
-
-                    var middleAngle = selectedSlice.middleAngle;
-                    var firstAngle = pieSeries.slices.getIndex(0).startAngle;
-                    var animation = pieSeries.animate([{
-                        property: "startAngle",
-                        to: firstAngle - middleAngle
-                    }, {
-                        property: "endAngle",
-                        to: firstAngle - middleAngle + 360
-                    }], 600, am4core.ease.sinOut);
-                    animation.events.on("animationprogress", updateLines);
-
-                    selectedSlice.events.on("transformed", updateLines);
-
-                    //  var animation = chart2.animate({property:"dx", from:-container.pixelWidth / 2, to:0}, 2000, am4core.ease.elasticOut)
-                    //  animation.events.on("animationprogress", updateLines)
-                }
-
-
-                function updateLines() {
-                    if (selectedSlice) {
-                        var p11 = {
-                            x: selectedSlice.radius * am4core.math.cos(selectedSlice.startAngle),
-                            y: selectedSlice.radius * am4core.math.sin(selectedSlice.startAngle)
-                        };
-                        var p12 = {
-                            x: selectedSlice.radius * am4core.math.cos(selectedSlice.startAngle + selectedSlice
-                                .arc),
-                            y: selectedSlice.radius * am4core.math.sin(selectedSlice.startAngle + selectedSlice.arc)
-                        };
-
-                        p11 = am4core.utils.spritePointToSvg(p11, selectedSlice);
-                        p12 = am4core.utils.spritePointToSvg(p12, selectedSlice);
-
-                        var p21 = {
-                            x: 0,
-                            y: -pieSeries2.pixelRadius
-                        };
-                        var p22 = {
-                            x: 0,
-                            y: pieSeries2.pixelRadius
-                        };
-
-                        p21 = am4core.utils.spritePointToSvg(p21, pieSeries2);
-                        p22 = am4core.utils.spritePointToSvg(p22, pieSeries2);
-
-                        line1.x1 = p11.x;
-                        line1.x2 = p21.x;
-                        line1.y1 = p11.y;
-                        line1.y2 = p21.y;
-
-                        line2.x1 = p12.x;
-                        line2.x2 = p22.x;
-                        line2.y1 = p12.y;
-                        line2.y2 = p22.y;
-                    }
-                }
-
-                chart.events.on("datavalidated", function() {
-                    setTimeout(function() {
-                        selectSlice(pieSeries.dataItems.getIndex(0));
-                    }, 1000);
-                });
-
-
-            }); // end am4core.ready()
-        </script>
-        <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
-
+        {{-- table --}}
         <script>
             $(document).ready(function() {
                 $('#tabel-lulusan').DataTable({
@@ -467,6 +364,13 @@
                         "type": "POST",
                         "data": function(d) {
                             d._token = '{{ csrf_token() }}';
+                            const prodi_id = <?php echo json_encode($prodi_id); ?>;
+                            const start_year = <?php echo json_encode($startYear); ?>;
+                            const end_year = <?php echo json_encode($endYear); ?>;
+                            d.filter_prodi = prodi_id;
+                            d.start_year = start_year;
+                            d.end_year = end_year;
+
                         }
                     },
                     dom: '<"table-responsive"t>',
@@ -506,20 +410,17 @@
                     footerCallback: function(row, data, start, end, display) {
                         var api = this.api();
 
-                        // Fungsi untuk menghitung total untuk kolom tertentu
                         var total = function(colIndex) {
                             return api
                                 .column(colIndex)
                                 .data()
                                 .reduce(function(a, b) {
-                                    // Pastikan data yang digunakan adalah angka
                                     return parseFloat(a) + parseFloat(b) || 0;
                                 }, 0);
                         };
 
-                        // Update footer dengan total untuk kolom yang sesuai
                         $(api.column(0).footer()).html(
-                            '<b>Jumlah</b>'); // Menampilkan 'Jumlah' di kolom Tahun Lulus
+                            '<b>Jumlah</b>');
                         for (var i = 1; i <= 7; i++) {
                             $(api.column(i).footer()).html('<b>' + total(i) + '</b>');
                         }
@@ -529,7 +430,7 @@
         </script>
         <script>
             $(document).ready(function() {
-                $('#tabel-rata-rata-masa-tunggu').DataTable({
+                tabel_rata_rata_masa_tunggu = $('#tabel-rata-rata-masa-tunggu').DataTable({
                     processing: true,
                     serverSide: true,
                     scrollX: true,
@@ -540,6 +441,12 @@
                         "type": "POST",
                         "data": function(d) {
                             d._token = '{{ csrf_token() }}';
+                            const prodi_id = <?php echo json_encode($prodi_id); ?>;
+                            const start_year = <?php echo json_encode($startYear); ?>;
+                            const end_year = <?php echo json_encode($endYear); ?>;
+                            d.filter_prodi = prodi_id;
+                            d.start_year = start_year;
+                            d.end_year = end_year;
                         }
                     },
                     dom: '<"table-responsive"t>',
@@ -580,6 +487,9 @@
                             data.length).toFixed(2) : 0);
                     }
                 });
+                $('.filter_prodi').change(function() {
+                    tabel_rata_rata_masa_tunggu.draw();
+                });
             });
         </script>
         <script>
@@ -595,6 +505,12 @@
                         "type": "POST",
                         "data": function(d) {
                             d._token = '{{ csrf_token() }}';
+                            const prodi_id = <?php echo json_encode($prodi_id); ?>;
+                            const start_year = <?php echo json_encode($startYear); ?>;
+                            const end_year = <?php echo json_encode($endYear); ?>;
+                            d.filter_prodi = prodi_id;
+                            d.start_year = start_year;
+                            d.end_year = end_year;
                         }
                     },
                     dom: '<"table-responsive"t>',
@@ -634,8 +550,6 @@
 
                     footerCallback: function(row, data, start, end, display) {
                         var api = this.api();
-
-                        // Menghitung total untuk setiap kolom
                         var totalSangatBaik = api.column(1, {
                             page: 'current'
                         }).data().reduce(function(a, b) {
@@ -660,16 +574,12 @@
                             return a + parseFloat(b.replace('%', '')) || 0;
                         }, 0);
 
-                        // Total keseluruhan yang seharusnya 100%
                         var totalSum = totalSangatBaik + totalBaik + totalCukup + totalKurang;
-
-                        // Menghitung persentase berdasarkan total yang dihitung
                         var percentSangatBaik = (totalSangatBaik / totalSum) * 100;
                         var percentBaik = (totalBaik / totalSum) * 100;
                         var percentCukup = (totalCukup / totalSum) * 100;
                         var percentKurang = (totalKurang / totalSum) * 100;
 
-                        // Menampilkan hasil total di footer
                         $('#total-sangat-baik').text(percentSangatBaik.toFixed(2) + '%');
                         $('#total-baik').text(percentBaik.toFixed(2) + '%');
                         $('#total-cukup').text(percentCukup.toFixed(2) + '%');
@@ -689,12 +599,43 @@
                 color: #fafafa !important;
             }
 
-            /* Mengatur kolom agar teks menjadi vertikal */
             th,
             td {
                 text-align: center;
-                /* Menyelaraskan teks ke tengah secara horizontal */
                 vertical-align: middle;
+            }
+
+            .year-option {
+                padding: 8px;
+                background: #f1f1f1;
+                text-align: center;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: 0.2s;
+                user-select: none;
+            }
+
+            .year-option:hover {
+                background: #e0e0e0;
+            }
+
+            .selected {
+                background: #5a8dee !important;
+                color: white;
+            }
+
+            .modal-content {
+                border-radius: 8px;
+            }
+
+            .btn-outline-secondary {
+                color: #5a8dee;
+                border-color: #5a8dee;
+            }
+
+            .btn-outline-secondary:hover {
+                background-color: #5a8dee;
+                color: white;
             }
         </style>
     @endsection
