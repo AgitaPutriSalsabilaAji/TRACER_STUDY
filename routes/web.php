@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfesiController;
 use App\Http\Controllers\GuestController;
+use App\Models\Admin;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,7 @@ Route::get('iniform', function () {
 
 
 Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth');
+Route::get('/dashboard/filter', [AdminController::class, 'filter'])->name('dashboard.filter')->middleware('auth');
 
 Route::post('/dashboard/lulusan/table', [AdminController::class, 'lulusan_table'])->name('lulusan.table');
 Route::post('/dashboard/masa_tunggu/table', [AdminController::class, 'masa_tunggu_table'])->name('masa_tunggu.table');
