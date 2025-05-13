@@ -17,13 +17,26 @@ class DatabaseSeeder extends Seeder
     {
         $faker = \Faker\Factory::create('id_ID');
 
-
+        if (!Admin::where('username', 'Purnama')->exists()) {
         Admin::create([
             'name' => 'Purnama',
             'username' => 'Purnama',
             'email' => 'himadatsuki@gmail.com',
             'password' => Hash::make('purnama'),
         ]);
+    }
+
+        // Menambahkan Admin lainnya
+        if (!Admin::where('username', 'Desi')->exists()) {
+            Admin::create([
+                'name' => 'Desi',
+                'username' => 'Desi',
+                'email' => 'desikarmila211@gmail.com',
+                'password' => Hash::make('desi123'),
+            ]);
+        }
+        
+
         $this->call([
             ProgramStudiSeeder::class
         ]);

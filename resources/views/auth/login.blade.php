@@ -100,7 +100,7 @@
                                             name="remember" />
                                         <label class="form-check-label" for="remember">Remember me</label>
                                     </div>
-                                    <a href="#" class="text-decoration-none">Forgot password?</a>
+                                    <a href="{{ route('password.request') }}">Forgot password?</a>
                                 </div>
 
                                 <div class="d-grid">
