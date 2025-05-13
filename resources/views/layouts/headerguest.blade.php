@@ -1,28 +1,57 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tracer Study</title>
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
-    @yield('head')  <!-- For additional head content injected by individual pages -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    @yield('head') <!-- For additional head content injected by individual pages -->
 </head>
+
 <body class="d-flex flex-column min-vh-100">
 
     <header>
         <a href="/" class="logo-wrapper" style="text-decoration: none;">
             <div class="logo-text">TRACER STUDY</div>
         </a>
-        <ul class="navbar">
-            <li><a href="#home" class="home-active">Beranda</a></li>
-            <li><a href="#data-alumni">Data Alumni</a></li>
-            <li><a href="#isi-survei">Isi Survei</a></li> <!-- Adding a link to the survey section -->
-        </ul>
-        <a href="/login" class="btn login-btn">LOGIN SEBAGAI ADMIN</a>
+
+        <!-- Hamburger icon for mobile -->
+        <button class="menu-toggle d-md-none" id="menu-toggle">
+            ☰
+        </button>
+
+        <nav class="navbar d-none d-md-flex">
+            <li><a href="{{ url('/') }}" class="{{ Request::is('/') ? 'active' : '' }}">Beranda</a></li>
+            <li><a href="{{ url('/form-alumni') }}" class="{{ Request::is('form-alumni') ? 'active' : '' }}">Data
+                    Alumni</a></li>
+            <li><a href="#isi-survei" class="{{ Request::is('isi-survei') ? 'active' : '' }}">Isi Survei</a></li>
+            <a href="/login" class="btn login-btn d-none d-md-inline">Login Admin</a>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div class="mobile-menu d-md-none" id="mobile-menu">
+            <ul>
+                <li><a href="{{ url('/') }}">Beranda</a></li>
+                <li><a href="{{ url('/form-alumni') }}">Data Alumni</a></li>
+                <li><a href="#isi-survei">Isi Survei</a></li>
+                <li><a href="/login" class="btn login-btn">Login Admin</a></li>
+            </ul>
+        </div>
     </header>
 
-    @yield('content')  <!-- Main content area to render the content from pages extending this layout -->
+
+    @yield('content')
 
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
+
 </html>
+<script>
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('show');
+    });
+</script>

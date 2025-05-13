@@ -21,16 +21,16 @@ return new class extends Migration
             $table->string('no_hp', 20);
             $table->string('email', 100);
 
-            $table->date('tgl_pertama_kerja');
-            $table->date('tgl_mulai_kerja_instansi');
-            $table->string('nama_instansi', 255);
-            $table->string('skala', 100);
-            $table->string('lokasi_instansi', 255);
+            $table->date('tgl_pertama_kerja')->nullable();
+            $table->date('tgl_mulai_kerja_instansi')->nullable();
+            $table->string('nama_instansi', 255)->nullable();
+            $table->string('skala', 100)->nullable();
+            $table->string('lokasi_instansi', 255)->nullable();
         
-            $table->string('nama_atasan_langsung', 100);
-            $table->string('jabatan_atasan_langsung', 100);
-            $table->string('no_hp_atasan_langsung', 20);
-            $table->string('email_atasan_langsung', 100);
+            $table->string('nama_atasan_langsung', 100)->nullable();
+            $table->string('jabatan_atasan_langsung', 100)->nullable();
+            $table->string('no_hp_atasan_langsung', 20)->nullable();
+            $table->string('email_atasan_langsung', 100)->nullable();
 
             $table->timestamps();
 

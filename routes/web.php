@@ -46,9 +46,7 @@ Route::fallback(function () {
 //guest
 Route::get('/form-alumni', [GuestController::class, 'create'])->name('form.alumni');
 Route::post('/form-alumni', [GuestController::class, 'store'])->name('submit.alumni');
-
-
-
+Route::get('/autocomplete-alumni', [GuestController::class, 'getNama'])->name('autocomplete.alumni');
 
 Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth');
 Route::get('/dashboard/filter', [AdminController::class, 'filter'])->name('dashboard.filter')->middleware('auth');
