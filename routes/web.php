@@ -2,9 +2,12 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfesiController;
+
 use App\Http\Controllers\GuestController;
 use App\Models\Admin;
 
@@ -56,11 +59,17 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// routes/web.php
-Route::prefix('manajemen-data')->group(function () {
-    Route::get('profesi', [ProfesiController::class, 'index'])->name('profesi.index');
-    Route::post('profesi', [ProfesiController::class, 'store'])->name('profesi.store');
-    Route::get('profesi/{id}/edit', [ProfesiController::class, 'edit'])->name('profesi.edit');
-    Route::put('profesi/{id}', [ProfesiController::class, 'update'])->name('profesi.update');
-    Route::delete('profesi/{id}', [ProfesiController::class, 'destroy'])->name('profesi.destroy');
+Route::middleware(['web'])->group(function () {
+    Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+});
+
+Route::prefix('manajemen_data')->group(function () {
+    Route::get('/profesi', [ProfesiController::class, 'index'])->name('profesi.index');
+    Route::get('/profesi/create_ajax', [ProfesiController::class, 'create_ajax'])->name('profesi.create_ajax');
+    Route::post('/profesi/store_ajax', [ProfesiController::class, 'store_ajax'])->name('profesi.store_ajax');
+    Route::get('/profesi/{id}/edit_ajax', [ProfesiController::class, 'edit_ajax'])->name('profesi.edit_ajax');
+    Route::put('/profesi/{id}/update_ajax', [ProfesiController::class, 'update_ajax'])->name('profesi.update_ajax');
+    Route::get('/profesi/{id}/confirm_delete', [ProfesiController::class, 'confirm_ajax'])->name('profesi.confirm_ajax');
+    Route::delete('/profesi/{id}/delete', [ProfesiController::class, 'delete_ajax'])->name('profesi.delete_ajax');
 });
