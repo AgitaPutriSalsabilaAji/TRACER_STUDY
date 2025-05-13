@@ -27,9 +27,9 @@ Route::get('/', function () {
 });
 
 
-Route::get('/iniform', function () {
-    return view('form.Alumni');
-});
+// Route::get('/iniform', function () {
+//     return view('form.Alumni');
+// });
 
 
 Route::fallback(function () {
@@ -39,13 +39,9 @@ Route::fallback(function () {
     return response()->view('errors.404_guest', [], 404);
 });
 
-// //route form
-// Route::get('/inform', [GuestController::class, 'showForm'])->name('form.show');
-// Route::post('/inform', [GuestController::class, 'submitForm'])->name('form.submit');
-
-Route::get('iniform', function () {
-    return view('guest.form');
-});
+//guest
+Route::get('/form-alumni', [GuestController::class, 'create'])->name('form.alumni');
+Route::post('/form-alumni', [GuestController::class, 'store'])->name('submit.alumni');
 
 
 
