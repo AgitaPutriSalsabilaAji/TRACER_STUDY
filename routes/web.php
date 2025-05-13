@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfesiController;
 use App\Http\Controllers\GuestController;
+use App\Models\Admin;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +19,18 @@ use App\Http\Controllers\GuestController;
 |
 */
 
+// Route::get('/', function () {
+//     return view('home');
+// })->name('home');
+
 Route::get('/', function () {
-    return view('home');
-})->name('home');
+    return view('guest.home'); // <== Pastikan ini sesuai
+});
+
+
+// Route::get('/iniform', function () {
+//     return view('form.Alumni');
+// });
 
 
 Route::fallback(function () {
@@ -30,10 +40,20 @@ Route::fallback(function () {
     return response()->view('errors.404_guest', [], 404);
 });
 
+//guest
+Route::get('/form-alumni', [GuestController::class, 'create'])->name('form.alumni');
+Route::post('/form-alumni', [GuestController::class, 'store'])->name('submit.alumni');
+
+
+
 
 Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth');
+Route::get('/dashboard/filter', [AdminController::class, 'filter'])->name('dashboard.filter')->middleware('auth');
 
-Route::post('/lulusan/list', [AdminController::class, 'lulusanList'])->name('lulusan.list');
+Route::post('/dashboard/lulusan/table', [AdminController::class, 'lulusan_table'])->name('lulusan.table');
+Route::post('/dashboard/masa_tunggu/table', [AdminController::class, 'masa_tunggu_table'])->name('masa_tunggu.table');
+Route::post('/dashboard/performa_lulusan/table', [AdminController::class, 'performa_lulusan_table'])->name('performa_lulusan.table');
+
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

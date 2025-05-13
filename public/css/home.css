@@ -1,0 +1,56 @@
+/* HOME */
+.home {
+    padding-top: 130px;
+    padding-left: 100px;
+    padding-right: 100px;
+    display: flex;
+    justify-content: center; /* Pusatkan isi secara horizontal */
+    align-items: center;      /* Pusatkan isi secara vertikal */
+    flex-wrap: wrap;
+    background: linear-gradient(90deg, #f8f9fa, #ffffff);
+    gap: 40px; /* Tambahkan jarak antar elemen jika diperlukan */
+}
+.home-image {
+    flex: 1;
+    margin-right: 50px;
+}
+
+.home-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.home-text {
+    flex: 1;
+    max-width: 600px;
+}
+
+.home-text h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.home-text h2 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: #555;
+}
+
+.play {
+    margin-left: 20px;
+    font-size: 1.5rem;
+    color: var(--main-color);
+    text-decoration: none;
+}
+
+main {
+    padding: 2rem 100px;
+}
+
+/* About Section */
+.about-container {
+    text-align: justify;
+    margin-top: 30px;
+}

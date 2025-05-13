@@ -4,7 +4,7 @@ am4core.ready(function() {
     var chart = am4core.create("profesi_chart", am4charts.PieChart3D);
     chart.hiddenState.properties.opacity = 0;
 
-    var data = window.profesiChartData || [];
+    var data = profesiChartData;
 
     chart.data = data;
 

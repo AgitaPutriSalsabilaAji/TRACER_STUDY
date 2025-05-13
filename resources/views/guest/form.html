@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Data Alumni</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    .is-invalid {
+      border-color: #dc3545;
+    }
+    .invalid-feedback {
+      display: none;
+      color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+<div class="container my-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">Form Data Alumni</div>
+    <div class="card-body">
+      <form id="alumni-form">
+        <div class="row g-4">
+          <!-- Kolom Kiri -->
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Nama/NIM</label>
+              <input type="text" class="form-control" name="nama" required />
+              <div class="invalid-feedback">Wajib diisi</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Program Studi</label>
+              <select class="form-select" name="prodi" required>
+                <option value="">-- Pilih Program Studi --</option>
+                <option value="Sistem Informasi Bisnis">D-IV Sistem Informasi Bisnis</option>
+                <option value="Teknik Informatika">D-IV Teknik Informatika</option>
+              </select>
+              <div class="invalid-feedback">Wajib dipilih</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tahun Lulus</label>
+              <select class="form-select" id="tahun-lulus" name="tahun" required></select>
+              <div class="invalid-feedback">Wajib dipilih</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">No. HP</label>
+              <input type="text" class="form-control" name="no_hp" pattern="^[0-9]+$" required />
+              <div class="invalid-feedback">Harus berupa angka</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" name="email" required />
+              <div class="invalid-feedback">Harus mengandung "@"</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tanggal Pertama Kerja</label>
+              <input type="date" class="form-control" name="tgl_pertama_kerja" required />
+              <div class="invalid-feedback">Wajib diisi</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Tanggal Mulai Kerja pada Instansi Saat Ini</label>
+              <input type="date" class="form-control" name="tgl_instansi" required />
+              <div class="invalid-feedback">Wajib diisi</div>
+            </div>
+          </div>
+
+          <!-- Kolom Kanan -->
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Jenis Instansi</label>
+              <input type="text" class="form-control" name="jenis_instansi" required />
+              <div class="invalid-feedback">Wajib diisi</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Nama Instansi</label>
+              <input type="text" class="form-control" name="nama_instansi" required />
+              <div class="invalid-feedback">Wajib diisi</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Skala Instansi</label>
+              <select class="form-select" name="skala_instansi" required>
+                <option value disabled="">-- Pilih Skala Instansi --</option>
+                <option value="Multinasional/Internasional">Multinasional/Internasional</option>
+                <option value="Nasional">Nasional</option>
+                <option value="Wirausaha">Wirausaha</option>
+              </select>
+              <div class="invalid-feedback">Wajib dipilih</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Lokasi Instansi</label>
+              <input type="text" class="form-control" name="lokasi_instansi" required />
+              <div class="invalid-feedback">Wajib diisi</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Kategori Profesi</label>
+              <select class="form-select" name="kategori" required>
+                <option value disabled >-- Pilih Kategori Profesi--</option>
+                <option value disabled >Bidang Infokom</option>
+                <option value="Developer/Programmer/Software Engineer">Developer/Programmer/Software Engineer</option>
+              </select>
+              <div class="invalid-feedback">Wajib dipilih</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Profesi</label>
+              <input type="text" class="form-control" name="profesi" required />
+              <div class="invalid-feedback">Wajib diisi</div>
+            </div>
+            <div class="text-end">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Generate Tahun Lulus
+  const select = document.getElementById('tahun-lulus');
+  const currentYear = new Date().getFullYear();
+  for (let year = currentYear; year >= 2020; year--) {
+    const option = document.createElement('option');
+    option.value = year;
+    option.text = year;
+    select.add(option);
+  }
+
+  // Validasi Form
+  const form = document.getElementById('alumni-form');
+  form.addEventListener('submit', function (e) {
+    let valid = true;
+    const elements = form.querySelectorAll('input, select');
+    
+    elements.forEach(function (el) {
+      const value = el.value.trim();
+      const name = el.name;
+
+      // Hapus class invalid untuk setiap kolom
+      el.classList.remove("is-invalid");
+      const feedback = el.parentElement.querySelector(".invalid-feedback");
+      if (feedback) feedback.style.display = 'none'; // Hide all feedback by default
+
+      // Validasi email
+      if (name === "email" && !value.includes("@")) {
+        el.classList.add("is-invalid");
+        feedback.style.display = 'block';
+        valid = false;
+      }
+      // Validasi no HP
+      else if (name === "no_hp" && !/^\d+$/.test(value)) {
+        el.classList.add("is-invalid");
+        feedback.style.display = 'block';
+        valid = false;
+      }
+      // Validasi kosong
+      else if (!value) {
+        el.classList.add("is-invalid");
+        feedback.style.display = 'block';
+        valid = false;
+      }
+    });
+
+    if (!valid) {
+      e.preventDefault();
+    }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

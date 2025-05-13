@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Lulusan;
 use App\Models\Alumni;
+use App\Models\Lulusan;
+use Illuminate\Support\Carbon;
+use Illuminate\Database\Seeder;
 
 class LulusanSeeder extends Seeder
 {
@@ -12,18 +13,19 @@ class LulusanSeeder extends Seeder
     {
         $faker = \Faker\Factory::create('id_ID');
 
-        $alumniIds = Alumni::take(40)->pluck('id')->toArray();
+        $alumniData = Alumni::take(40)->select('id', 'tanggal_lulus')->get();
 
-        foreach ($alumniIds as $alumniId) {
+        foreach ($alumniData as $alumni) {
+            $tahunLulus = Carbon::parse($alumni->tanggal_lulus)->year;
             Lulusan::create([
-                'alumni_id' => $alumniId, 
+                'alumni_id' => $alumni->id,
                 'profesi_id' => rand(1, 17),
                 'jenis_instansi_id' => rand(1, 4),
-                'tahun_lulus' => $faker->year,
+                'tahun_lulus' => $tahunLulus,
                 'no_hp' => $faker->phoneNumber,
                 'email' => $faker->unique()->safeEmail,
-                'tgl_pertama_kerja' => $faker->date(),
-                'tgl_mulai_kerja_instansi' => $faker->date(),
+                'tgl_pertama_kerja' => $faker->dateTimeBetween('2020-01-01', '2025-12-31')->format('Y-m-d'),
+                'tgl_mulai_kerja_instansi' => $faker->dateTimeBetween('2020-01-01', '2025-12-31')->format('Y-m-d'),
                 'nama_instansi' => $faker->company,
                 'skala' => $faker->randomElement(['Nasional', 'Internasional', 'Regional']),
                 'lokasi_instansi' => $faker->city,
