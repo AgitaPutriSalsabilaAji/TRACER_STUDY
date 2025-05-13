@@ -15,7 +15,8 @@
     <link rel="stylesheet" href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
     <!-- Theme style -->
     <link rel="stylesheet" href={{ asset('adminlte/dist/css/adminlte.css') }}>
-    <link rel="stylesheet" href="{{ asset('css/sidebar-custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard/sidebar-custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/dashboard/navbar-custom.css') }}">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     {{-- data tables  --}}
@@ -73,7 +74,8 @@
     <script src="{{ asset('js/navbar-custom.js') }}"></script>
     {{-- datatables --}}
     <script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
- 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

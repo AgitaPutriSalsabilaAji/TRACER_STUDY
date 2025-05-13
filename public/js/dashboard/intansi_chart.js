@@ -15,6 +15,7 @@ am4core.ready(function () {
     series.colors.step = 3;
     series.labels.template.disabled = true;
     series.ticks.template.disabled = true;
+    
 
     chart.legend = new am4charts.Legend();
     chart.legend.labels.template.fontSize = 10;

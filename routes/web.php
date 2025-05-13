@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfesiController;
 
 use App\Http\Controllers\GuestController;
+use App\Models\Admin;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +22,18 @@ use App\Http\Controllers\GuestController;
 |
 */
 
+// Route::get('/', function () {
+//     return view('home');
+// })->name('home');
+
 Route::get('/', function () {
-    return view('home');
-})->name('home');
+    return view('guest.home'); // <== Pastikan ini sesuai
+});
+
+
+// Route::get('/iniform', function () {
+//     return view('form.Alumni');
+// });
 
 
 Route::fallback(function () {
@@ -33,18 +43,15 @@ Route::fallback(function () {
     return response()->view('errors.404_guest', [], 404);
 });
 
-// //route form
-// Route::get('/inform', [GuestController::class, 'showForm'])->name('form.show');
-// Route::post('/inform', [GuestController::class, 'submitForm'])->name('form.submit');
-
-Route::get('iniform', function () {
-    return view('guest.form');
-});
+//guest
+Route::get('/form-alumni', [GuestController::class, 'create'])->name('form.alumni');
+Route::post('/form-alumni', [GuestController::class, 'store'])->name('submit.alumni');
 
 
 
 
 Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth');
+Route::get('/dashboard/filter', [AdminController::class, 'filter'])->name('dashboard.filter')->middleware('auth');
 
 Route::post('/dashboard/lulusan/table', [AdminController::class, 'lulusan_table'])->name('lulusan.table');
 Route::post('/dashboard/masa_tunggu/table', [AdminController::class, 'masa_tunggu_table'])->name('masa_tunggu.table');
@@ -54,36 +61,13 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot.password');
 
-Route::get('/forgot-password', function () {
-    logger('Halaman forgot password terbuka');
-    return view('auth.forgot-password');
-})->name('password.request');
-
-Route::post('/forgot-password', function (Request $request) {
-    $request->validate(['email' => 'required|email']);
-
-    $status = Password::broker()->sendResetLink([
-        'email' => $request->email,
-        'username' => 'isi_username_disini', // misal ambil dari DB
-    ]);
-    
-    return $status === Password::RESET_LINK_SENT
-        ? redirect()->route('login')->with('status', __($status))
-        : back()->withErrors(['email' => __($status)]);
-    })->name('password.email');
-
-    Route::middleware(['auth'])->group(function () {
-        Route::get('/ganti-password', [AuthController::class, 'editPassword'])->name('password.edit');
-        Route::post('/ganti-password', [AuthController::class, 'updatePassword'])->name('password.update');
-    });
-
-// routes/web.php
-Route::prefix('manajemen-data')->group(function () {
-    Route::get('profesi', [ProfesiController::class, 'index'])->name('profesi.index');
-    Route::post('profesi', [ProfesiController::class, 'store'])->name('profesi.store');
-    Route::get('profesi/{id}/edit', [ProfesiController::class, 'edit'])->name('profesi.edit');
-    Route::put('profesi/{id}', [ProfesiController::class, 'update'])->name('profesi.update');
-    Route::delete('profesi/{id}', [ProfesiController::class, 'destroy'])->name('profesi.destroy');
+Route::prefix('manajemen_data')->group(function () {
+    Route::get('/profesi', [ProfesiController::class, 'index'])->name('profesi.index');
+    Route::get('/profesi/create_ajax', [ProfesiController::class, 'create_ajax'])->name('profesi.create_ajax');
+    Route::post('/profesi/store_ajax', [ProfesiController::class, 'store_ajax'])->name('profesi.store_ajax');
+    Route::get('/profesi/{id}/edit_ajax', [ProfesiController::class, 'edit_ajax'])->name('profesi.edit_ajax');
+    Route::put('/profesi/{id}/update_ajax', [ProfesiController::class, 'update_ajax'])->name('profesi.update_ajax');
+    Route::get('/profesi/{id}/confirm_delete', [ProfesiController::class, 'confirm_ajax'])->name('profesi.confirm_ajax');
+    Route::delete('/profesi/{id}/delete', [ProfesiController::class, 'delete_ajax'])->name('profesi.delete_ajax');
 });

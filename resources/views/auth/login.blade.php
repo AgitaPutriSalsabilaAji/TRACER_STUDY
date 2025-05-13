@@ -65,36 +65,49 @@
                     <div class="col-md-6 order-1 order-md-1">
                         <div class="card-body p-4">
                             <h4 class="card-title text-center mb-4">Login</h4>
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <form action="{{ route('login') }}" method="POST">
                                 @csrf
                                 <div class="mb-3">
-                                  <label class="form-label" for="username">Username address</label>
-                                  <input type="text" id="username" name="username" class="form-control" placeholder="Enter a valid username" />
+                                    <label class="form-label" for="username">Username address</label>
+                                    <input type="text" id="username" name="username" class="form-control"
+                                        placeholder="Enter a valid username" />
                                 </div>
-                              
+
                                 <div class="form-outline mb-3 position-relative">
-                                  <label class="form-label" for="password">Password</label>
-                                  <div class="input-group">
-                                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" />
-                                    <span class="input-group-text">
-                                      <i class="fa-solid fa-eye" id="togglePassword" style="cursor: pointer;"></i>
-                                    </span>
-                                  </div>
+                                    <label class="form-label" for="password">Password</label>
+                                    <div class="input-group">
+                                        <input type="password" id="password" name="password" class="form-control"
+                                            placeholder="Enter password" />
+                                        <span class="input-group-text">
+                                            <i class="fa-solid fa-eye" id="togglePassword" style="cursor: pointer;"></i>
+                                        </span>
+                                    </div>
                                 </div>
-                              
+
                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                  <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="remember" name="remember" />
-                                    <label class="form-check-label" for="remember">Remember me</label>
-                                  </div>
-                                  <a href="{{ route('password.request') }}" class="text-decoration-none">Forgot password?</a>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="remember"
+                                            name="remember" />
+                                        <label class="form-check-label" for="remember">Remember me</label>
+                                    </div>
+                                    <a href="#" class="text-decoration-none">Forgot password?</a>
                                 </div>
-                              
+
                                 <div class="d-grid">
-                                  <button type="submit" class="btn btn-primary">Login</button>
+                                    <button type="submit" class="btn btn-primary">Login</button>
                                 </div>
-                              </form>
-                              
+                            </form>
+
                         </div>
                     </div>
                 </div>

@@ -48,10 +48,10 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/kelola-profesi" class="nav-link">
+                            <a href="/manajemen_data/profesi" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Pengelolaan Profesi</p>
-                            </a>
+                            </a>                            
                         </li>
                         <li class="nav-item">
                             <a href="/tambah-admin" class="nav-link">
