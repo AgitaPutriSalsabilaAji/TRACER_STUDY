@@ -2,9 +2,12 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfesiController;
+
 use App\Http\Controllers\GuestController;
 
 /*
@@ -50,6 +53,31 @@ Route::post('/dashboard/performa_lulusan/table', [AdminController::class, 'perfo
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('forgot.password');
+
+Route::get('/forgot-password', function () {
+    logger('Halaman forgot password terbuka');
+    return view('auth.forgot-password');
+})->name('password.request');
+
+Route::post('/forgot-password', function (Request $request) {
+    $request->validate(['email' => 'required|email']);
+
+    $status = Password::broker()->sendResetLink([
+        'email' => $request->email,
+        'username' => 'isi_username_disini', // misal ambil dari DB
+    ]);
+    
+    return $status === Password::RESET_LINK_SENT
+        ? redirect()->route('login')->with('status', __($status))
+        : back()->withErrors(['email' => __($status)]);
+    })->name('password.email');
+
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/ganti-password', [AuthController::class, 'editPassword'])->name('password.edit');
+        Route::post('/ganti-password', [AuthController::class, 'updatePassword'])->name('password.update');
+    });
 
 // routes/web.php
 Route::prefix('manajemen-data')->group(function () {

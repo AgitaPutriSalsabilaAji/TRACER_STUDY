@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -46,4 +47,34 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/login');
     }
+
+    public function showForgotPassword()
+{
+    return view('auth.forgot-password'); // Pastikan view-nya ada
+}
+
+public function editPassword()
+{
+    return view('auth.change-password');
+}
+
+public function updatePassword(Request $request)
+{
+    $request->validate([
+        'old_password' => ['required'],
+        'new_password' => ['required', 'min:8'],
+        'confirm_password' => ['same:new_password'],
+    ]);
+
+    if (!Hash::check($request->old_password, auth()->user()->password)) {
+        return back()->with('error', 'Password lama salah.');
+    }
+
+    auth()->user()->update([
+        'password' => Hash::make($request->new_password),
+    ]);
+
+    return back()->with('success', 'Password berhasil diperbarui.');
+}
+
 }
