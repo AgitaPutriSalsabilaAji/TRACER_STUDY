@@ -75,15 +75,15 @@
                             @csrf
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email Address</label>
-                                <input type="email" name="email" class="form-control" placeholder="Masukkan email" required autofocus>
+                                <input type="email" name="email" class="form-control" placeholder="Enter email" required autofocus>
                             </div>
 
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Kirim Password Baru</button>
+                                <button type="submit" class="btn btn-primary">Send New Password</button>
                             </div>
 
                             <div class="text-center mt-3">
-                                <a href="{{ route('login') }}">Kembali ke Login</a>
+                                <a href="{{ route('login') }}">Back to Login</a>
                             </div>
                         </form>
                     </div>

@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -48,33 +51,71 @@ class AuthController extends Controller
         return redirect('/login');
     }
 
-    public function showForgotPassword()
-{
-    return view('auth.forgot-password'); // Pastikan view-nya ada
-}
-
-public function editPassword()
-{
-    return view('auth.change-password');
-}
-
-public function updatePassword(Request $request)
-{
-    $request->validate([
-        'old_password' => ['required'],
-        'new_password' => ['required', 'min:8'],
-        'confirm_password' => ['same:new_password'],
-    ]);
-
-    if (!Hash::check($request->old_password, auth()->user()->password)) {
-        return back()->with('error', 'Password lama salah.');
+        public function showForgotPassword()
+    {
+        return view('auth.forgot-password'); // Pastikan view-nya ada
     }
 
-    auth()->user()->update([
-        'password' => Hash::make($request->new_password),
-    ]);
+    public function editPassword()
+    {
+        return view('auth.change-password');
+    }
 
-    return back()->with('success', 'Password berhasil diperbarui.');
-}
+
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'old_password' => ['required'],
+            'new_password' => ['required', 'min:8'],
+            'confirm_password' => ['same:new_password'],
+        ]);
+
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
+            return back()->with('error', 'Password lama salah.');
+        }
+
+        auth()->user()->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+
+        return back()->with('success', 'Password berhasil diperbarui.');
+    }
+
+    public function sendResetLinkEmail(Request $request)
+    {
+        // Debugging untuk melihat input yang diterima
+            // Validasi input: email dan phone harus diisi
+            $request->validate([
+                'email' => ['required', 'email'], // Wajib email yang valid
+            ]);
+
+            // Cek apakah email sudah ada di database
+            $admins = Admin::where('email', $request->email)->first(); // Cari pengguna berdasarkan email
+            if (!$admins) {
+                return redirect()->back()->withErrors(['email' => 'Pengguna dengan email tersebut tidak ditemukan.']);
+            }
+            
+            $newPassword = Str::random(8);
+            $admins->password = Hash::make($newPassword);  // Pastikan password di-hash
+            $admins->save();
+            $data = [
+                'subject' => 'Password Baru Anda',
+                'title' => 'Password Baru Untuk Akun Anda',
+                'body' => 'Hai, Anda baru saja mengklik "Lupa Kata Sandi". Berikut adalah password baru Anda: ' . $newPassword . "\n\n" .
+                    'Harap segera login dan ubah password Anda di bagian profil agar lebih aman.' . "\n\n" .
+                    'Terima kasih, ' . "\n" .
+                    'Tracer Study'
+            ];
+
+            $adminsEmail = $admins->email;
+            Mail::raw($data['body'], function ($message) use ($adminsEmail, $data) {
+                $message->to($adminsEmail)
+                    ->subject($data['subject']);
+            });
+
+
+            return redirect()->route('login')->with('success', 'Password baru berhasil dikirim!');
+    }
 
 }
