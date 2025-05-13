@@ -3,6 +3,12 @@
 @section('active-home', 'active')
 
 @section('content')
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+    </script>
+
+
     <style>
         .list-group-item {
             cursor: pointer;
@@ -14,24 +20,6 @@
         }
     </style>
 
-    @if (session('alert'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('alert') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
-
-    @if ($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong>Terjadi kesalahan pada input Anda:</strong>
-            <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
 
     <div class="container my-4">
         <div class="card">
@@ -39,6 +27,24 @@
                 Form Tracer Alumni
             </div>
             <div class="card-body">
+                @if (session('alert'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        {{ session('alert') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Terjadi kesalahan pada input Anda:</strong>
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 <form action="{{ route('submit.alumni') }}" method="POST">
                     @csrf
                     <div class="row g-4">
@@ -48,13 +54,13 @@
                                 <label for="nama" class="form-label">Nama atau NIM</label>
                                 <input type="text" class="form-control" id="nama" autocomplete="off" required>
                                 <input type="hidden" name="alumni_id" id="alumni_id">
-                                <div class="invalid-feedback d-none" id="nama-error">Nama atau NIM tidak ditemukan.</div>
+                                <div class="invalid-feedback" id="nama-error">Nama atau NIM tidak ditemukan.</div>
                             </div>
 
 
                             <div class="mb-3">
                                 <label class="form-label">Program Studi</label>
-                                <select class="form-select" name="prodi">
+                                <select class="form-select" name="prodi" required>
                                     @foreach ($prodi as $p)
                                         <option value="{{ $p->id }}">{{ $p->program_studi }}</option>
                                     @endforeach
@@ -62,7 +68,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Tahun Lulus</label>
-                                <select class="form-select" name="tahun_lulus">
+                                <select class="form-select" name="tahun_lulus" required>
                                     @foreach ($tahunLulus as $p)
                                         <option value="{{ $p }}">{{ $p }}</option>
                                     @endforeach
@@ -78,7 +84,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email">
+                                <input type="email" class="form-control" name="email" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Tanggal Pertama Kerja</label>
@@ -90,7 +96,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="jenis_instansi" class="form-label">Jenis Instansi</label>
-                                <select class="form-select" name="jenis_instansi_id" id="jenis_instansi" required>
+                                <select class="form-select" name="jenis_instansi_id" id="jenis_instansi">
                                     @foreach ($jenisInstansi as $instansi)
                                         <option value="{{ $instansi->id }}">{{ $instansi->jenis_instansi }}</option>
                                     @endforeach
@@ -106,9 +112,9 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label">Skala Instansi</label>
-                                <select class="form-select" name="skala" id="skala_instansi" required>
+                                <select class="form-select" name="skala" id="skala_instansi">
                                     <option value="" disabled selected>-- Pilih Skala Instansi --</option>
-                                    <option value="Multinasional/Internasional">Multinasional/Internasional</option>
+                                    <option value="Internasional">Multinasional/Internasional</option>
                                     <option value="Nasional">Nasional</option>
                                     <option value="Wirausaha">Wirausaha</option>
                                 </select>
@@ -119,7 +125,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="kategori" class="form-label">Kategori profesi</label>
-                                <select class="form-select" name="kategori" id="kategori" required
+                                <select class="form-select" name="kategori" required id="kategori"
                                     onchange="handleKategoriChange(this)">
                                     <option value="" disabled selected>-- Pilih Kategori --</option>
                                     @foreach ($kategoriProfesi as $kategori)
@@ -130,26 +136,26 @@
 
                             <div class="mb-3">
                                 <label for="profesi" class="form-label">Profesi</label>
-                                <select class="form-select" name="profesi_id" id="profesi" required>
+                                <select class="form-select" name="profesi_id" id="profesi">
                                     <option value="" disabled selected>-- Pilih Profesi --</option>
                                     <!-- Opsi profesi akan muncul berdasarkan kategori -->
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Nama Atasan Langsung</label>
-                                <input type="text" class="form-control" name="nama_atasan_langsung" required
+                                <input type="text" class="form-control" name="nama_atasan_langsung"
                                     placeholder="Nama lengkap atasan langsung">
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Jabatan Atasan Langsung</label>
-                                <input type="text" class="form-control" name="jabatan_atasan_langsung" required
+                                <input type="text" class="form-control" name="jabatan_atasan_langsung"
                                     placeholder="Contoh: Manajer HRD">
                             </div>
 
                             <div class="mb-3">
                                 <label class="form-label">No. HP Atasan Langsung</label>
-                                <input type="text" class="form-control" name="no_hp_atasan_langsung" required
+                                <input type="text" class="form-control" name="no_hp_atasan_langsung"
                                     pattern="^[0-9]+$" placeholder="Hanya angka">
                                 <div class="invalid-feedback">
                                     Harus diisi dengan angka saja.
@@ -173,7 +179,6 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script>
         $(document).ready(function() {
             let validName = false;
@@ -181,8 +186,9 @@
             $('#nama').on('input', function() {
                 const query = $(this).val();
                 validName = false;
-                $('#alumni_id').val(''); // Reset ID
-                $('#nama-error').addClass('d-none');
+                $('#alumni_id').val('');
+                $('#nama-error').hide();
+                $('#nama').removeClass('is-invalid');
                 $('.list-group').remove();
 
                 if (query.length >= 3) {
@@ -211,11 +217,18 @@
                                     $('#alumni_id').val(selectedId);
                                     validName = true;
                                     $('.list-group').remove();
-                                    $('#nama-error').addClass('d-none');
+                                    $('#nama').removeClass('is-invalid');
+                                    $('#nama-error').hide();
                                 });
                             } else {
-                                $('#nama-error').removeClass('d-none');
+                                // Tidak ditemukan di autocomplete
+                                $('#nama').addClass('is-invalid');
+                                $('#nama-error').show();
                             }
+                        },
+                        error: function() {
+                            $('#nama').addClass('is-invalid');
+                            $('#nama-error').text('Terjadi kesalahan server.').show();
                         }
                     });
                 }
@@ -225,7 +238,8 @@
             $('form').submit(function(e) {
                 if (!validName || !$('#alumni_id').val()) {
                     e.preventDefault();
-                    $('#nama-error').removeClass('d-none');
+                    $('#nama').addClass('is-invalid');
+                    $('#nama-error').show();
                 }
             });
 
@@ -237,6 +251,7 @@
             });
         });
     </script>
+
 
     <script>
         // Data profesi dari server, dikirim sebagai JSON
@@ -261,4 +276,45 @@
             });
         }
     </script>
+    <script>
+        function toggleAtasanFields(required) {
+            const fields = [
+                'tgl_pertama_kerja',
+                'tgl_mulai_kerja_instansi',
+                'jenis_instansi_id',
+                'skala',
+                'nama_instansi',
+                'lokasi_instansi',
+                'nama_atasan_langsung',
+                'jabatan_atasan_langsung',
+                'no_hp_atasan_langsung',
+                'email_atasan_langsung'
+            ];
+            const shouldHide = true;
+            fields.forEach(id => {
+                const el = document.querySelector(`[name="${id}"]`);
+                if (el) {
+                    el.closest('.mb-3').style.display = shouldHide ? 'none' : '';
+                }
+            });
+
+            document.getElementById('kategori').addEventListener('change', function() {
+                const selectedValue = this.value;
+
+                if (selectedValue === '3') {
+                    toggleAtasanFields(false);
+                } else {
+                    toggleAtasanFields(true);
+                }
+            });
+            window.addEventListener('DOMContentLoaded', function() {
+                const selectedValue = document.getElementById('kategori').value;
+                if (selectedValue === '3') {
+                    toggleAtasanFields(false);
+                } else {
+                    toggleAtasanFields(true);
+                }
+            });
+    </script>
+
 @endsection
