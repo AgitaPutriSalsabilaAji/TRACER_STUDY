@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DataImportController;
 use App\Http\Controllers\ProfesiController;
 use App\Http\Controllers\GuestController;
 use App\Models\Admin;
@@ -59,13 +60,17 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::prefix('manajemen_data')->group(function () {
-    Route::get('/profesi', [ProfesiController::class, 'index'])->name('profesi.index');
-    Route::get('/profesi/create_ajax', [ProfesiController::class, 'create_ajax'])->name('profesi.create_ajax');
-    Route::post('/profesi/store_ajax', [ProfesiController::class, 'store_ajax'])->name('profesi.store_ajax');
-    Route::get('/profesi/{id}/edit_ajax', [ProfesiController::class, 'edit_ajax'])->name('profesi.edit_ajax');
-    Route::put('/profesi/{id}/update_ajax', [ProfesiController::class, 'update_ajax'])->name('profesi.update_ajax');
-    Route::get('/profesi/{id}/confirm_delete', [ProfesiController::class, 'confirm_ajax'])->name('profesi.confirm_ajax');
-    Route::delete('/profesi/{id}/delete', [ProfesiController::class, 'delete_ajax'])->name('profesi.delete_ajax');
+Route::prefix('profesi')->group(function () {
+    Route::get('/', [ProfesiController::class, 'index'])->name('profesi.index');
+    Route::get('/list', [ProfesiController::class, 'list'])->name('profesi.list');
+    Route::get('/create_ajax', [ProfesiController::class, 'create_ajax'])->name('profesi.create_ajax');
+    Route::post('/store_ajax', [ProfesiController::class, 'store_ajax'])->name('profesi.store_ajax');
+    Route::get('/{id}/edit_ajax', [ProfesiController::class, 'edit_ajax'])->name('profesi.edit_ajax');
+    Route::put('/{id}/update_ajax', [ProfesiController::class, 'update_ajax'])->name('profesi.update_ajax');
+    Route::get('/{id}/confirm_ajax', [ProfesiController::class, 'confirm_ajax'])->name('profesi.confirm_ajax');
+    Route::delete('/{id}/delete_ajax', [ProfesiController::class, 'delete_ajax'])->name('profesi.delete_ajax');
 });
+
+Route::get('/import', [DataImportController::class, 'index']);
+Route::post('/import', [DataImportController::class, 'upload'])->name('import.upload');
 
