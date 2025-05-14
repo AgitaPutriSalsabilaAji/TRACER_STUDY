@@ -63,23 +63,23 @@ class AuthController extends Controller
 
 
 
-    public function updatePassword(Request $request)
+        public function updatePassword(Request $request)
     {
         $request->validate([
             'old_password' => ['required'],
-            'new_password' => ['required', 'min:8'],
-            'confirm_password' => ['same:new_password'],
+            'new_password' => ['required', 'min:8', 'confirmed'],
         ]);
 
-        if (!Hash::check($request->old_password, auth()->user()->password)) {
-            return back()->with('error', 'Password lama salah.');
+        $admin = Auth::user(); // ✅ Ambil user yang sedang login (model Admin)
+
+        if (!Hash::check($request->old_password, $admin->password)) {
+            return back()->with('error', 'Old password is incorrect.');
         }
 
-        auth()->user()->update([
-            'password' => Hash::make($request->new_password),
-        ]);
+        $admin->password = Hash::make($request->new_password);
+        $admin->save();
 
-        return back()->with('success', 'Password berhasil diperbarui.');
+        return back()->with('success', 'Password successfully updated.');
     }
 
     public function sendResetLinkEmail(Request $request)
@@ -100,11 +100,13 @@ class AuthController extends Controller
             $admins->password = Hash::make($newPassword);  // Pastikan password di-hash
             $admins->save();
             $data = [
-                'subject' => 'Password Baru Anda',
+                'subject' => 'Pemulihan Kata Sandi Akun Anda',
                 'title' => 'Password Baru Untuk Akun Anda',
-                'body' => 'Hai, Anda baru saja mengklik "Lupa Kata Sandi". Berikut adalah password baru Anda: ' . $newPassword . "\n\n" .
-                    'Harap segera login dan ubah password Anda di bagian profil agar lebih aman.' . "\n\n" .
-                    'Terima kasih, ' . "\n" .
+                'body' => 'Anda baru saja melakukan permintaan untuk mereset kata sandi akun Anda. ' .  "\n" .
+                    'Berikut adalah kata sandi sementara yang telah kami buat untuk Anda: ' . "\n\n" .
+                    'Kata Sandi Baru: ' . $newPassword . "\n\n" .
+                    'Silakan gunakan kata sandi ini untuk login ke akun Anda. Demi keamanan, kami sangat menyarankan agar Anda segera mengganti kata sandi tersebut melalui menu Profil setelah berhasil masuk.' . "\n\n" .
+                    'Terima kasih' . "\n" .
                     'Tracer Study'
             ];
 
@@ -118,4 +120,32 @@ class AuthController extends Controller
             return redirect()->route('login')->with('success', 'Password baru berhasil dikirim!');
     }
 
+    public function changePassword(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'currentPassword' => 'required',
+            'newPassword' => 'required|min:8',
+            'confirmNewPassword' => 'required|same:newPassword',
+        ], [
+            'currentPassword.required' => 'Password lama harus diisi.',
+            'newPassword.required' => 'Password baru harus diisi.',
+            'newPassword.min' => 'Password baru minimal 8 karakter.',
+            'confirmNewPassword.required' => 'Konfirmasi password baru harus diisi.',
+            'confirmNewPassword.same' => 'Password baru dan konfirmasi password tidak cocok.',
+        ]);
+
+        // Periksa apakah password lama benar
+        if (!Hash::check($request->currentPassword, Auth::admins()->password)) {
+            return back()->withErrors(['currentPassword' => 'Password lama salah.']);
+        }
+
+        // Update password user
+        $admins = Auth::admins();
+        $admins->password = Hash::make($request->newPassword);  // Pastikan password di-hash
+        $admins->save();  // Menyimpan perubahan
+
+        // Redirect dengan pesan sukses
+        return redirect()->route('indexProfils', ['username' => $admins->username])->with('success', 'Password berhasil diubah!');
+    }
 }

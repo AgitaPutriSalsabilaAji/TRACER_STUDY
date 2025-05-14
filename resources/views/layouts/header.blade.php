@@ -54,7 +54,7 @@
         <i class="fas fa-user"></i> User
       </a>
       <div class="dropdown-menu" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="#" id="changePassword">Change Password</a>
+        <a class="dropdown-item" href="{{ route('password.form') }}">Change Password</a>
         <a class="dropdown-item" href="#" id="logout">Logout</a>
       </div>
     </li>

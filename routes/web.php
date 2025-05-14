@@ -66,6 +66,9 @@ Route::middleware(['web'])->group(function () {
     Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
 });
 
+Route::get('/change-password', [AuthController::class, 'editPassword'])->name('password.form');
+Route::post('/change-password', [AuthController::class, 'updatePassword'])->name('password.update');
+
 Route::prefix('manajemen_data')->group(function () {
     Route::get('/profesi', [ProfesiController::class, 'index'])->name('profesi.index');
     Route::get('/profesi/create_ajax', [ProfesiController::class, 'create_ajax'])->name('profesi.create_ajax');
