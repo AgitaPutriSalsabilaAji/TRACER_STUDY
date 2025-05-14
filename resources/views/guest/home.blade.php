@@ -20,7 +20,7 @@
                             <h2 class="card-title text-primary mb-3">Selamat Datang di Website Tracer Study <br>Politeknik
                                 Negeri Malang</h2>
                             <h3 class="card-subtitle text-muted mb-4">Langkah Kecil, Dampak Besar!</h3>
-                            <a href="#" class="btn btn-primary btn-lg mb-3">Isi Survei</a>
+                            <a href="/form-alumni" class="btn btn-primary btn-lg mb-3">Isi Survei</a>
                         </div>
                     </div>
                 </div>
@@ -35,17 +35,16 @@
                 <h2 class="text-center mb-4">Apa itu Tracer Study?</h2>
                 <p class="lead text-justify">
                     Tracer Study adalah salah satu metode yang digunakan oleh perguruan tinggi untuk mengumpulkan data dan
-                    umpan balik dari alumni mengenai pengalaman mereka setelah lulus.
-                    Informasi yang diperoleh digunakan sebagai bahan evaluasi untuk meningkatkan kualitas pendidikan,
+                    umpan balik dari alumni mengenai pengalaman mereka setelah lulus. Informasi yang diperoleh digunakan sebagai bahan evaluasi untuk meningkatkan kualitas pendidikan,
                     kurikulum, serta relevansi program studi dengan dunia kerja.
                 </p>
-                <p class="text-justify">
+                <p class="lead text-justify">
                     Tracer Study juga bermanfaat dalam menyediakan informasi penting mengenai hubungan antara pendidikan
                     tinggi dan dunia kerja profesional, menilai relevansi pendidikan tinggi, informasi bagi pemangku
                     kepentingan (stakeholders),
                     dan kelengkapan persyaratan bagi akreditasi pendidikan tinggi.
                 </p>
-                <p class="text-justify">
+                <p class="lead text-justify">
                     Dalam proses Tracer Study, alumni diwajibkan untuk mengisi data pribadi terlebih dahulu sebelum atasan
                     mereka diminta untuk mengisi survei mengenai kinerja dan kompetensi yang dimiliki alumni di tempat
                     kerja. Hal ini bertujuan untuk mendapatkan gambaran yang lebih objektif mengenai kesiapan lulusan dalam
