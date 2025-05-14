@@ -49,7 +49,7 @@
                     @foreach ($prodi as $item)
                         <!-- Menggunakan id item untuk value -->
                         <option value="{{ $item->id }}" {{ $item->id == $prodi_id ? 'selected' : '' }}>
-                            {{ $item->program_studi }}</option>
+                            {{ $item->funcito }}</option>
                     @endforeach
                 </select>
             </div>
@@ -106,9 +106,9 @@
                                         <th colspan="3" class="text-center">Tempat Kerja</th>
                                     </tr>
                                     <tr>
-                                        <th>Internasional</th>
+                                        <th>Multinasional/Internasional</th>
                                         <th>Nasional</th>
-                                        <th>Regional</th>
+                                        <th>Wirausaha</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -403,8 +403,8 @@
                             name: 'nasional'
                         },
                         {
-                            data: 'regional',
-                            name: 'regional'
+                            data: 'wirausaha',
+                            name: 'wirausaha'
                         }
                     ],
                     footerCallback: function(row, data, start, end, display) {
