@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DataImportController;
 use App\Http\Controllers\ProfesiController;
+use App\Http\Controllers\RekapDataController;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\GuestController;
 use App\Models\Admin;
@@ -85,3 +85,7 @@ Route::prefix('profesi')->group(function () {
     Route::get('/{id}/confirm_ajax', [ProfesiController::class, 'confirm_ajax'])->name('profesi.confirm_ajax');
     Route::delete('/{id}/delete_ajax', [ProfesiController::class, 'delete_ajax'])->name('profesi.delete_ajax');
 });
+
+
+Route::get('/laporan', [RekapDataController::class, 'index'])->name('laporan')->middleware('auth');
+Route::get('/laporan/filter', [RekapDataController::class, 'filter'])->name('laporan.filter')->middleware('auth');
