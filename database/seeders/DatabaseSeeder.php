@@ -17,26 +17,45 @@ class DatabaseSeeder extends Seeder
     {
         $faker = \Faker\Factory::create('id_ID');
 
+        if (!Admin::where('username', 'Purnama')->exists()) {
+            Admin::create([
+                'name' => 'Purnama',
+                'username' => 'Purnama',
+                'email' => 'himadatsuki@gmail.com',
+                'password' => Hash::make('purnama'),
+            ]);
+        }
 
-        Admin::create([
-            'name' => 'Purnama',
-            'username' => 'Purnama',
-            'email' => 'himadatsuki@gmail.com',
-            'password' => Hash::make('purnama'),
-        ]);
+        // Menambahkan Admin lainnya
+        if (!Admin::where('username', 'Desi')->exists()) {
+            Admin::create([
+                'name' => 'Desi',
+                'username' => 'Desi',
+                'email' => 'desikarmila211@gmail.com',
+                'password' => Hash::make('desi123'),
+            ]);
+        }
+
+
         $this->call([
             ProgramStudiSeeder::class
         ]);
-        Alumni::factory(50)->create();
 
+        // Alumni::factory(50)->create();
+        Alumni::create([
+            'program_studi_id' => 2,
+            'nama' => 'Purnama Ridzky Nugraha',
+            'nim' => '2341760037',
+            'tanggal_lulus' => '2025-08-15',
+        ]);
 
 
         $this->call([
             KategoriProfesiSeeder::class,
             ProfesiSeeder::class,
             JenisInstansiSeeder::class,
-            LulusanSeeder::class,
-            SurveiKepuasanSeeder::class,
+            // LulusanSeeder::class,
+            // SurveiKepuasanSeeder::class,
         ]);
     }
 }

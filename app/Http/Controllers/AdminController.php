@@ -133,7 +133,7 @@ class AdminController extends Controller
                 DB::raw('SUM(CASE WHEN kp.kategori_profesi = "non-Infokom" THEN 1 ELSE 0 END) as kerja_bidang_non_infokom'),
                 DB::raw('SUM(CASE WHEN l.skala = "Internasional" THEN 1 ELSE 0 END) as internasional'),
                 DB::raw('SUM(CASE WHEN l.skala = "Nasional" THEN 1 ELSE 0 END) as nasional'),
-                DB::raw('SUM(CASE WHEN l.skala = "Regional" THEN 1 ELSE 0 END) as regional')
+                DB::raw('SUM(CASE WHEN l.skala = "Wirausaha" THEN 1 ELSE 0 END) as wirausaha')
             )
             ->whereBetween(DB::raw('YEAR(a.tanggal_lulus)'), [$startYear, $endYear])
             ->where('a.program_studi_id', $prodiId)

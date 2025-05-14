@@ -26,13 +26,13 @@
     max-width: 600px;
 }
 
-.home-text h1 {
+.home-text h2 {
     font-size: 2rem;
     margin-bottom: 1rem;
     color: #333;
 }
 
-.home-text h2 {
+.home-text h3 {
     font-size: 1.2rem;
     margin-bottom: 1.5rem;
     color: #555;

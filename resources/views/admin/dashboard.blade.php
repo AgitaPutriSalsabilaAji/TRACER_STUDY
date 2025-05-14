@@ -106,9 +106,9 @@
                                         <th colspan="3" class="text-center">Tempat Kerja</th>
                                     </tr>
                                     <tr>
-                                        <th>Internasional</th>
+                                        <th>Multinasional/Internasional</th>
                                         <th>Nasional</th>
-                                        <th>Regional</th>
+                                        <th>Wirausaha</th>
                                     </tr>
                                 </thead>
                                 <tfoot>
@@ -403,8 +403,8 @@
                             name: 'nasional'
                         },
                         {
-                            data: 'regional',
-                            name: 'regional'
+                            data: 'wirausaha',
+                            name: 'wirausaha'
                         }
                     ],
                     footerCallback: function(row, data, start, end, display) {

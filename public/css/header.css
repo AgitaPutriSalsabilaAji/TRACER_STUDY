@@ -1,14 +1,49 @@
 :root {
     --main-color: #007bff;
     --bg-color: #ffffff;
-    --text-color: #000000;
+    --text-color: #5e5959;
 }
 
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     justify-content: space-around;
+    padding-top: 80px; 
 }
+
+/* Tombol Umum */
+.btn {
+    padding: 10px 20px;
+    background-color: var(--main-color);
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Tombol Login Khusus */
+.login-btn {
+    background: linear-gradient(to right, #007bff, #5a8dee);
+    font-weight: 600;
+    border-radius: 20px;
+    padding: 10px 24px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    color: white !important; 
+    text-decoration: none;
+    border: none;
+    display: inline-block;
+}
+
+.login-btn:hover {
+    background: linear-gradient(to right, #0056b3, #5a8dee);
+    color: white !important;
+}
+
 
 /* HEADER */
 header {
@@ -19,16 +54,14 @@ header {
     background: var(--bg-color);
     padding: 20px 10px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     font-size: 20px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.logo {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--text-color);
+/* Logo */
+.logo-wrapper {
     display: flex;
     align-items: center;
 }
@@ -39,15 +72,14 @@ header {
     color: var(--text-color);
 }
 
-.logo-text .highlight {
-    color: var(--main-color);
-    font-weight: 700;
-}
-
+/* NAVBAR - DESKTOP */
 .navbar {
     display: flex;
     gap: 2rem;
     list-style: none;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .navbar a {
@@ -57,7 +89,8 @@ header {
     position: relative;
 }
 
-.navbar a::after {
+.navbar a::after,
+.navbar a.active::after {
     content: "";
     position: absolute;
     width: 0;
@@ -69,31 +102,79 @@ header {
 }
 
 .navbar a:hover::after,
-.navbar .home-active::after {
+.navbar a.active::after {
     width: 100%;
 }
 
-.btn {
-    padding: 10px 20px;
-    background-color: var(--main-color);
-    color: white;
-    border-radius: 5px;
+/* HAMBURGER MENU BUTTON */
+.menu-toggle {
+    display: none;
+    font-size: 28px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+/* MOBILE DROPDOWN MENU */
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    background-color: var(--bg-color);
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    z-index: 999;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-menu li {
+    margin-bottom: 1rem;
+}
+
+.mobile-menu a {
     text-decoration: none;
     font-weight: 500;
+    color: var(--text-color);
+    position: relative;
 }
 
-.btn:hover {
-    background-color: #0056b3;
+.mobile-menu a::after,
+.mobile-menu a.active::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: var(--main-color);
+    bottom: -4px;
+    left: 0;
+    transition: 0.3s;
 }
 
-.login-btn {
-    background-color: #007bff;
-    font-weight: 600;
-    border-radius: 8px;
-    padding: 10px 20px;
-    transition: background-color 0.3s ease;
+.mobile-menu a:hover::after,
+.mobile-menu a.active::after {
+    width: 100%;
 }
 
-.login-btn:hover {
-    background-color: #0056b3;
+/* RESPONSIVE BEHAVIOR */
+@media (max-width: 768px) {
+    .navbar {
+        display: none !important;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .mobile-menu.show {
+        display: flex;
+    }
 }

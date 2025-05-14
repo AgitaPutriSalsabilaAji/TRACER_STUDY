@@ -2,10 +2,13 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DataImportController;
 use App\Http\Controllers\ProfesiController;
+
 use App\Http\Controllers\GuestController;
 use App\Models\Admin;
 
@@ -44,9 +47,7 @@ Route::fallback(function () {
 //guest
 Route::get('/form-alumni', [GuestController::class, 'create'])->name('form.alumni');
 Route::post('/form-alumni', [GuestController::class, 'store'])->name('submit.alumni');
-
-
-
+Route::get('/autocomplete-alumni', [GuestController::class, 'getNama'])->name('autocomplete.alumni');
 
 Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth');
 Route::get('/dashboard/filter', [AdminController::class, 'filter'])->name('dashboard.filter')->middleware('auth');
@@ -59,6 +60,10 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+Route::middleware(['web'])->group(function () {
+    Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+});
 
 Route::prefix('profesi')->group(function () {
     Route::get('/', [ProfesiController::class, 'index'])->name('profesi.index');
@@ -70,7 +75,10 @@ Route::prefix('profesi')->group(function () {
     Route::get('/{id}/confirm_ajax', [ProfesiController::class, 'confirm_ajax'])->name('profesi.confirm_ajax');
     Route::delete('/{id}/delete_ajax', [ProfesiController::class, 'delete_ajax'])->name('profesi.delete_ajax');
 });
+<<<<<<< HEAD
 
 Route::get('/import', [DataImportController::class, 'index']);
 Route::post('/import', [DataImportController::class, 'upload'])->name('import.upload');
 
+=======
+>>>>>>> b6ddb286d34c086c899ef7c3d4758cbfb8053ee6
