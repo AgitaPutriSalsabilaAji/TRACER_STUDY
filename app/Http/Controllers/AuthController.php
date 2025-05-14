@@ -68,6 +68,11 @@ class AuthController extends Controller
         $request->validate([
             'old_password' => ['required'],
             'new_password' => ['required', 'min:8', 'confirmed'],
+        ], [
+            'new_password.required' => 'Password baru harus diisi.',
+            'new_password.min' => 'Password baru harus minimal 8 karakter.',
+            'new_password.confirmed' => 'Konfirmasi password tidak cocok dengan password baru.',
+            'old_password.required' => 'Password lama harus diisi.',
         ]);
 
         $admin = Auth::user(); // ✅ Ambil user yang sedang login (model Admin)
@@ -124,25 +129,25 @@ class AuthController extends Controller
     {
         // Validasi input
         $request->validate([
-            'currentPassword' => 'required',
-            'newPassword' => 'required|min:8',
-            'confirmNewPassword' => 'required|same:newPassword',
+            'old_password' => 'required',
+            'new_password' => 'required|min:8',
+            'confirm_password' => 'required|same:newPassword',
         ], [
-            'currentPassword.required' => 'Password lama harus diisi.',
-            'newPassword.required' => 'Password baru harus diisi.',
-            'newPassword.min' => 'Password baru minimal 8 karakter.',
-            'confirmNewPassword.required' => 'Konfirmasi password baru harus diisi.',
-            'confirmNewPassword.same' => 'Password baru dan konfirmasi password tidak cocok.',
+            'old_password.required' => 'Password lama harus diisi.',
+            'new_password.required' => 'Password baru harus diisi.',
+            'new_password.min' => 'Password baru minimal 8 karakter.',
+            'confirm_password.required' => 'Konfirmasi password baru harus diisi.',
+            'confirm_password.same' => 'Password baru dan konfirmasi password tidak cocok.',
         ]);
 
         // Periksa apakah password lama benar
-        if (!Hash::check($request->currentPassword, Auth::admins()->password)) {
-            return back()->withErrors(['currentPassword' => 'Password lama salah.']);
+        if (!Hash::check($request->old_password, Auth::admins()->password)) {
+            return back()->withErrors(['old_password' => 'Password lama salah.']);
         }
 
         // Update password user
         $admins = Auth::admins();
-        $admins->password = Hash::make($request->newPassword);  // Pastikan password di-hash
+        $admins->password = Hash::make($request->new_password);  // Pastikan password di-hash
         $admins->save();  // Menyimpan perubahan
 
         // Redirect dengan pesan sukses

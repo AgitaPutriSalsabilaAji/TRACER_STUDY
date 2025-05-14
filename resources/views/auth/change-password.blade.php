@@ -25,9 +25,13 @@
 
                         <div class="mb-3">
                             <label for="new_password" class="form-label">New Password</label>
-                            <input type="password" name="new_password" class="form-control" id="new_password" placeholder="Enter your new password" required>
+                            <input type="password" name="new_password" class="form-control @error('new_password') is-invalid @enderror" id="new_password" placeholder="Enter your new password" required>
+                            <small class="text-muted">Password minimal 8 karakter.</small>
+                            @error('new_password')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
-
+                        
                         <div class="mb-3">
                             <label for="confirm_password" class="form-label">Confirm New Password</label>
                             <input type="password" name="new_password_confirmation" class="form-control" id="new_password_confirmation" placeholder="Confirm your new password" required>
