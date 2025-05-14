@@ -20,7 +20,7 @@
                             <h2 class="card-title text-primary mb-3">Selamat Datang di Website Tracer Study <br>Politeknik
                                 Negeri Malang</h2>
                             <h3 class="card-subtitle text-muted mb-4">Langkah Kecil, Dampak Besar!</h3>
-                            <a href="#" class="btn btn-primary btn-lg mb-3">Isi Survei</a>
+                            <a href="/form-alumni" class="btn btn-primary btn-lg mb-3">Isi Survei</a>
                         </div>
                     </div>
                 </div>

@@ -61,6 +61,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Program Studi</label>
                                 <select class="form-select" name="prodi" required>
+                                <option value="" disabled selected>-- Pilih Program Studi --</option>
                                     @foreach ($prodi as $p)
                                         <option value="{{ $p->id }}">{{ $p->program_studi }}</option>
                                     @endforeach
