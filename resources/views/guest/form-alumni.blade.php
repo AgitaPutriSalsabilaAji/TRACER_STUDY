@@ -70,7 +70,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Tahun Lulus</label>
                                 <select class="form-select" name="tahun_lulus" required>
-                                <option value="" disabled selected>-- Pilih Tahun Lulusform  --</option>
+                                <option value="" disabled selected>-- Pilih Tahun Lulus --</option>
                                     @foreach ($tahunLulus as $p)
                                         <option value="{{ $p }}">{{ $p }}</option>
                                     @endforeach

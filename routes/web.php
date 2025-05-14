@@ -49,11 +49,14 @@ Route::post('/form-alumni', [GuestController::class, 'store'])->name('submit.alu
 Route::get('/autocomplete-alumni', [GuestController::class, 'getNama'])->name('autocomplete.alumni');
 
 //atasan
-use App\Http\Controllers\TracerAlumniController;
 
-Route::get('/tracer-alumni', [AlumniController::class, 'create'])->name('tracer-alumni.create');
+
+Route::get('/form-atasan', [AlumniController::class, 'create'])->name('form.atasan');
 Route::post('/tracer-alumni', [AlumniController::class, 'store'])->name('tracer-alumni.store');
 
+
+// Route::get('/form-atasan', [AlumniController::class, 'create'])->name('form.atasan');
+// Route::post('/tracer-alumni', [AlumniController::class, 'store'])->name('tracer-alumni.store');
 
 Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth');
 Route::get('/dashboard/filter', [AdminController::class, 'filter'])->name('dashboard.filter')->middleware('auth');

@@ -1,6 +1,6 @@
-@extends('layouts.app') {{-- Pastikan layout utama ada di layouts/app.blade.php --}}
+@extends('layouts.app')
 
-@section('title', 'Form Alumni')
+@section('title', 'Form Atasan untuk Alumni')
 
 @section('content')
 <style>
@@ -32,6 +32,7 @@
 
     .form-group {
         flex: 1 1 45%;
+        margin-bottom: 15px;
     }
 
     label {
@@ -40,89 +41,106 @@
         font-weight: 500;
     }
 
-    input, select {
+    input, select, textarea {
         width: 100%;
         padding: 8px 10px;
         border: 1px solid #ccc;
         border-radius: 6px;
     }
+
+    .rating-group label {
+        display: inline-block;
+        margin-right: 10px;
+        text-align: center;
+    }
+
+    .emoji {
+        font-size: 20px;
+        display: block;
+    }
 </style>
 
-<div class="card" id="form-data">
-    <div class="card-header">Data</div>
-    <div class="form-group"><br>
-        <label>Nama Alumni:</label>
-        <input type="text" name="nama">
+@if(session('success'))
+    <div style="background: #d4edda; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+        {{ session('success') }}
     </div>
-    <div class="form-group">
-        <label>Jabatan Alumni:</label>
-        <input type="text" name="jabatan">
-    </div>
-    <div class="form-group">
-        <label>No Telp:</label>
-        <input type="text" name="telepon">
-    </div>
-    <div class="form-group">
-        <label>Email:</label>
-        <input type="email" name="email">
-    </div>
-    <div class="form-group">
-        <label>Nama Alumni:</label>
-        <input type="text" name="nama_ulang">
-    </div>
-    <button onclick="showSurvey()">Next</button>
-</div>
+@endif
 
-<div class="card" id="form-survey" style="display: none;">
-    <div class="card-header" style="background-color: #4CAF50;">Survey Kepuasan Atasan</div>
+<form action="{{ route('tracer-alumni.store') }}" method="POST">
+    @csrf
 
-    @php
-        $aspek = [
-            'kerjasama' => 'Kerjasama Tim',
-            'kualitas' => 'Kualitas',
-            'pengembangan' => 'Pengembangan Diri',
-            'kepemimpinan' => 'Kepemimpinan',
-            'bahasa' => 'Kemampuan Berbahasa Asing',
-            'komunikasi' => 'Kemampuan Berkomunikasi',
-            'etos' => 'Etos Kerja'
-        ];
-        $nilai = [
-            1 => ['icon' => '😟', 'text' => 'Kurang'],
-            2 => ['icon' => '😐', 'text' => 'Cukup'],
-            3 => ['icon' => '🙂', 'text' => 'Baik'],
-            4 => ['icon' => '😄', 'text' => 'Sangat Baik']
-        ];
-    @endphp
-
-    <div style="display: flex; flex-wrap: wrap; gap: 30px;">
-        @foreach ($aspek as $name => $label)
-        <div>
-            <label>{{ $label }}</label>
-            <div class="rating-group">
-                @foreach ($nilai as $val => $data)
-                    <label>
-                        <input type="radio" name="{{ $name }}" value="{{ $val }}">
-                        <span class="emoji">{{ $data['icon'] }}</span>
-                        <div>{{ $data['text'] }}</div>
-                    </label>
-                @endforeach
-            </div>
+    <div class="card" id="form-data">
+        <div class="card-header">Data Alumni</div>
+        <div class="form-group"><br>
+            <label>Nama Alumni:</label>
+            <input type="text" name="nama" required>
         </div>
-        @endforeach
+        <div class="form-group">
+            <label>Jabatan Alumni:</label>
+            <input type="text" name="jabatan" required>
+        </div>
+        <div class="form-group">
+            <label>No Telp:</label>
+            <input type="text" name="telepon" required>
+        </div>
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" name="email" required>
+        </div>
+        <button type="button" onclick="showSurvey()" style="margin-top: 20px;">Next</button>
     </div>
 
-    <div class="form-group mt-3">
-        <label>Kompetensi yang dibutuhkan tapi belum dapat dipenuhi</label>
-        <textarea name="kompetensi" rows="3" placeholder="Kompetensi yang dibutuhkan tapi belum dapat dipenuhi"></textarea>
-    </div>
+    <div class="card" id="form-survey" style="display: none;">
+        <div class="card-header" style="background-color: #4CAF50;">Survey Kepuasan Atasan</div>
 
-    <div class="form-group">
-        <label>Saran untuk kurikulum program studi</label>
-        <textarea name="saran" rows="3" placeholder="Saran untuk kurikulum program studi"></textarea>
-    </div>
+        @php
+            $aspek = [
+                'kerjasama' => 'Kerjasama Tim',
+                'kualitas' => 'Kualitas',
+                'pengembangan' => 'Pengembangan Diri',
+                'kepemimpinan' => 'Kepemimpinan',
+                'bahasa' => 'Kemampuan Berbahasa Asing',
+                'komunikasi' => 'Kemampuan Berkomunikasi',
+                'etos' => 'Etos Kerja'
+            ];
+            $nilai = [
+                1 => ['icon' => '😟', 'text' => 'Kurang'],
+                2 => ['icon' => '😐', 'text' => 'Cukup'],
+                3 => ['icon' => '🙂', 'text' => 'Baik'],
+                4 => ['icon' => '😄', 'text' => 'Sangat Baik']
+            ];
+        @endphp
 
-    <button type="submit">Save</button>
-</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 30px;">
+            @foreach ($aspek as $name => $label)
+            <div>
+                <label>{{ $label }}</label>
+                <div class="rating-group">
+                    @foreach ($nilai as $val => $data)
+                        <label>
+                            <input type="radio" name="{{ $name }}" value="{{ $val }}" required>
+                            <span class="emoji">{{ $data['icon'] }}</span>
+                            <div>{{ $data['text'] }}</div>
+                        </label>
+                    @endforeach
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        <div class="form-group mt-3">
+            <label>Kompetensi yang dibutuhkan tapi belum dapat dipenuhi</label>
+            <textarea name="kompetensi" rows="3" placeholder="Kompetensi yang dibutuhkan tapi belum dapat dipenuhi"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Saran untuk kurikulum program studi</label>
+            <textarea name="saran" rows="3" placeholder="Saran untuk kurikulum program studi"></textarea>
+        </div>
+
+        <button type="submit" style="margin-top: 20px;">Save</button>
+    </div>
+</form>
 
 <script>
     function showSurvey() {
