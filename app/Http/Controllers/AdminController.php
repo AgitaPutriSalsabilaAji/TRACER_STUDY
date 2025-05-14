@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Alumni;
 use App\Models\ProgramStudi;
+use App\Models\Admin;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -174,4 +176,71 @@ class AdminController extends Controller
 
         return DataTables::of($data)->make(true);
     }
+
+    public function index_admin()
+{
+    $breadcrumb = (object)[
+        'title' => 'Kelola Admin',
+        'list' => ['Home', 'Admin']
+    ];
+    $activeMenu = 'admin';
+
+    return view('data.tambah_admin.tambah_admin', compact('breadcrumb', 'activeMenu'));
+}
+
+public function list()
+{
+    $data = Admin::select(['id', 'username', 'email']);
+
+    return DataTables::of($data)
+        ->addIndexColumn()
+        ->addColumn('aksi', function ($row) {
+            $editUrl = route('admin.update', $row->id);
+            $deleteUrl = route('admin.destroy', $row->id);
+            return '
+                <button onclick="editAdmin(\'' . $editUrl . '\', \'' . e($row->username) . '\', \'' . e($row->email) . '\')" class="btn btn-warning btn-sm">Edit</button>
+                <button onclick="deleteAdmin(\'' . $deleteUrl . '\')" class="btn btn-danger btn-sm">Hapus</button>
+            ';
+        })
+        ->rawColumns(['aksi'])
+        ->make(true);
+}
+
+public function store(Request $request)
+{
+    $request->validate([
+        'username' => 'required|unique:admins,username',
+        'email' => 'required|email|unique:admins,email',
+        'password' => 'required|min:8'
+    ]);
+
+    Admin::create([
+        'username' => $request->username,
+        'email' => $request->email,
+        'password' => Hash::make($request->password) 
+    ]);
+
+    return response()->json(['success' => true]);
+}
+
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'username' => 'required|unique:admins,username,' . $id,
+        'email' => 'required|email|unique:admins,email,' . $id
+    ]);
+
+    Admin::where('id', $id)->update([
+        'username' => $request->username,
+        'email' => $request->email
+    ]);
+
+    return response()->json(['success' => true]);
+}
+
+public function destroy($id)
+{
+    Admin::destroy($id);
+    return response()->json(['success' => true]);
+}
 }
