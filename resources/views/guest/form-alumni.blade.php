@@ -61,6 +61,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Program Studi</label>
                                 <select class="form-select" name="prodi" required>
+                                <option value="" disabled selected>-- Pilih Program Studi --</option>
                                     @foreach ($prodi as $p)
                                         <option value="{{ $p->id }}">{{ $p->program_studi }}</option>
                                     @endforeach
@@ -69,6 +70,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Tahun Lulus</label>
                                 <select class="form-select" name="tahun_lulus" required>
+                                <option value="" disabled selected>-- Pilih Tahun Lulus --</option>
                                     @foreach ($tahunLulus as $p)
                                         <option value="{{ $p }}">{{ $p }}</option>
                                     @endforeach
@@ -95,13 +97,14 @@
                                 <input type="date" class="form-control" name="tgl_mulai_kerja_instansi">
                             </div>
                             <div class="mb-3">
-                                <label for="jenis_instansi" class="form-label">Jenis Instansi</label>
-                                <select class="form-select" name="jenis_instansi_id" id="jenis_instansi">
-                                    @foreach ($jenisInstansi as $instansi)
-                                        <option value="{{ $instansi->id }}">{{ $instansi->jenis_instansi }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                                      <label class="form-label">Jenis Instansi</label>
+                                      <select class="form-select" name="jenis_instansi_id" required>
+                                          <option value="" disabled selected>-- Pilih Jenis Instansi --</option>
+                                          @foreach ($jenisInstansi as $instansi)
+                                              <option value="{{ $instansi->id }}">{{ $instansi->jenis_instansi }}</option>
+                                          @endforeach
+                                      </select>
+                                  </div>
                             <div class="mb-3">
                                 <label class="form-label">Nama Instansi</label>
                                 <input type="text" class="form-control" name="nama_instansi">
