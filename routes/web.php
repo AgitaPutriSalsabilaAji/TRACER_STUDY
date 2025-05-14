@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfesiController;
-
+use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\GuestController;
 use App\Models\Admin;
 
@@ -47,6 +47,13 @@ Route::fallback(function () {
 Route::get('/form-alumni', [GuestController::class, 'create'])->name('form.alumni');
 Route::post('/form-alumni', [GuestController::class, 'store'])->name('submit.alumni');
 Route::get('/autocomplete-alumni', [GuestController::class, 'getNama'])->name('autocomplete.alumni');
+
+//atasan
+use App\Http\Controllers\TracerAlumniController;
+
+Route::get('/tracer-alumni', [AlumniController::class, 'create'])->name('tracer-alumni.create');
+Route::post('/tracer-alumni', [AlumniController::class, 'store'])->name('tracer-alumni.store');
+
 
 Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth');
 Route::get('/dashboard/filter', [AdminController::class, 'filter'])->name('dashboard.filter')->middleware('auth');
