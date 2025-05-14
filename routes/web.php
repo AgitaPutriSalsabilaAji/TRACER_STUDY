@@ -85,10 +85,3 @@ Route::prefix('profesi')->group(function () {
     Route::get('/{id}/confirm_ajax', [ProfesiController::class, 'confirm_ajax'])->name('profesi.confirm_ajax');
     Route::delete('/{id}/delete_ajax', [ProfesiController::class, 'delete_ajax'])->name('profesi.delete_ajax');
 });
-<<<<<<< HEAD
-
-Route::get('/import', [DataImportController::class, 'index']);
-Route::post('/import', [DataImportController::class, 'upload'])->name('import.upload');
-
-=======
->>>>>>> b6ddb286d34c086c899ef7c3d4758cbfb8053ee6
