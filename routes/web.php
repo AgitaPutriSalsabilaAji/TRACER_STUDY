@@ -69,6 +69,14 @@ Route::middleware(['web'])->group(function () {
 Route::get('/change-password', [AuthController::class, 'editPassword'])->name('password.form');
 Route::post('/change-password', [AuthController::class, 'updatePassword'])->name('password.update');
 
+// Tambah untuk CRUD admin
+Route::get('/admin/list', [AdminController::class, 'list'])->name('admin.list');
+Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
+Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+Route::delete('/admin/destroy/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+Route::get('/tambah-admin', [AdminController::class, 'index_admin'])->name('admin.index');
+
+
 Route::prefix('manajemen_data')->group(function () {
     Route::get('/profesi', [ProfesiController::class, 'index'])->name('profesi.index');
     Route::get('/profesi/create_ajax', [ProfesiController::class, 'create_ajax'])->name('profesi.create_ajax');
