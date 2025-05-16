@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\DataImportController;
 use App\Http\Controllers\ProfesiController;
+use App\Http\Controllers\RekapDataController;
 use App\Http\Controllers\AlumniController;
 use App\Http\Controllers\GuestController;
 use App\Models\Admin;
@@ -80,6 +80,17 @@ Route::middleware(['web'])->group(function () {
     Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
 });
 
+
+Route::get('/change-password', [AuthController::class, 'editPassword'])->name('password.form');
+Route::post('/change-password', [AuthController::class, 'updatePassword'])->name('password.update');
+
+// Tambah untuk CRUD admin
+Route::get('/admin/list', [AdminController::class, 'list'])->name('admin.list');
+Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
+Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+Route::delete('/admin/destroy/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+Route::get('/tambah-admin', [AdminController::class, 'index_admin'])->name('admin.index');
+
 Route::prefix('profesi')->group(function () {
     Route::get('/', [ProfesiController::class, 'index'])->name('profesi.index');
     Route::get('/list', [ProfesiController::class, 'list'])->name('profesi.list');
@@ -90,3 +101,10 @@ Route::prefix('profesi')->group(function () {
     Route::get('/{id}/confirm_ajax', [ProfesiController::class, 'confirm_ajax'])->name('profesi.confirm_ajax');
     Route::delete('/{id}/delete_ajax', [ProfesiController::class, 'delete_ajax'])->name('profesi.delete_ajax');
 });
+
+<<<<<<< HEAD
+
+Route::get('/laporan', [RekapDataController::class, 'index'])->name('laporan')->middleware('auth');
+Route::get('/laporan/filter', [RekapDataController::class, 'filter'])->name('laporan.filter')->middleware('auth');
+=======
+>>>>>>> 0203aa937271885c20606b8a05e544fc62a387ad
