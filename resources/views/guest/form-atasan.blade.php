@@ -1,151 +1,174 @@
-@extends('layouts.app')
-
-@section('title', 'Form Atasan untuk Alumni')
+@extends('layouts.headerguest')
 
 @section('content')
-<style>
-    .form-container {
-        background-color: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        max-width: 1000px;
-        margin: auto;
-    }
-
-    .form-header {
-        background-color: #0d6efd;
-        color: white;
-        padding: 15px 20px;
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px;
-        font-size: 18px;
-        font-weight: bold;
-    }
-
-    .form-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        margin-top: 20px;
-    }
-
-    .form-group {
-        flex: 1 1 45%;
-        margin-bottom: 15px;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 6px;
-        font-weight: 500;
-    }
-
-    input, select, textarea {
-        width: 100%;
-        padding: 8px 10px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-    }
-
-    .rating-group label {
-        display: inline-block;
-        margin-right: 10px;
-        text-align: center;
-    }
-
-    .emoji {
-        font-size: 20px;
-        display: block;
-    }
-</style>
-
-@if(session('success'))
-    <div style="background: #d4edda; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-        {{ session('success') }}
-    </div>
-@endif
-
-<form action="{{ route('tracer-alumni.store') }}" method="POST">
-    @csrf
-
-    <div class="card" id="form-data">
-        <div class="card-header">Data Alumni</div>
-        <div class="form-group"><br>
-            <label>Nama Alumni:</label>
-            <input type="text" name="nama" required>
+<div class="container my-4">
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+    @if(session('alert'))
+        <div class="alert alert-danger">{{ session('alert') }}</div>
+    @endif
+    @if($errors->any())
+        <div class="alert alert-warning">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
-        <div class="form-group">
-            <label>Jabatan Alumni:</label>
-            <input type="text" name="jabatan" required>
-        </div>
-        <div class="form-group">
-            <label>No Telp:</label>
-            <input type="text" name="telepon" required>
-        </div>
-        <div class="form-group">
-            <label>Email:</label>
-            <input type="email" name="email" required>
-        </div>
-        <button type="button" onclick="showSurvey()" style="margin-top: 20px;">Next</button>
-    </div>
+    @endif
 
-    <div class="card" id="form-survey" style="display: none;">
-        <div class="card-header" style="background-color: #4CAF50;">Survey Kepuasan Atasan</div>
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            Form Survei Kepuasan Pengguna Alumni
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ route('submit.atasan') }}">
+                @csrf
 
-        @php
-            $aspek = [
-                'kerjasama' => 'Kerjasama Tim',
-                'kualitas' => 'Kualitas',
-                'pengembangan' => 'Pengembangan Diri',
-                'kepemimpinan' => 'Kepemimpinan',
-                'bahasa' => 'Kemampuan Berbahasa Asing',
-                'komunikasi' => 'Kemampuan Berkomunikasi',
-                'etos' => 'Etos Kerja'
-            ];
-            $nilai = [
-                1 => ['icon' => '😟', 'text' => 'Kurang'],
-                2 => ['icon' => '😐', 'text' => 'Cukup'],
-                3 => ['icon' => '🙂', 'text' => 'Baik'],
-                4 => ['icon' => '😄', 'text' => 'Sangat Baik']
-            ];
-        @endphp
-
-        <div style="display: flex; flex-wrap: wrap; gap: 30px;">
-            @foreach ($aspek as $name => $label)
-            <div>
-                <label>{{ $label }}</label>
-                <div class="rating-group">
-                    @foreach ($nilai as $val => $data)
-                        <label>
-                            <input type="radio" name="{{ $name }}" value="{{ $val }}" required>
-                            <span class="emoji">{{ $data['icon'] }}</span>
-                            <div>{{ $data['text'] }}</div>
-                        </label>
-                    @endforeach
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="nama_surveyor" class="form-label">Nama Suerveyor</label>
+                        <input type="text" class="form-control" id="nama_surveyor" name="nama_surveyor" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="instansi" class="form-label">Instansi</label>
+                        <input type="text" class="form-control" id="instansi" name="instansi" required>
+                    </div>
                 </div>
-            </div>
-            @endforeach
-        </div>
 
-        <div class="form-group mt-3">
-            <label>Kompetensi yang dibutuhkan tapi belum dapat dipenuhi</label>
-            <textarea name="kompetensi" rows="3" placeholder="Kompetensi yang dibutuhkan tapi belum dapat dipenuhi"></textarea>
-        </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="jabatan" class="form-label">Jabatan</label>
+                        <input type="text" class="form-control" id="jabatan" name="jabatan" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                </div>
 
-        <div class="form-group">
-            <label>Saran untuk kurikulum program studi</label>
-            <textarea name="saran" rows="3" placeholder="Saran untuk kurikulum program studi"></textarea>
-        </div>
+                <div class="mb-3 position-relative">
+                    <label for="nama_alumni" class="form-label">Data Alumni</label>
+                    <input type="text" class="form-control" id="nama_alumni" name="nama_alumni" autocomplete="off" required>
+                    <input type="hidden" id="alumni_id" name="alumni_id">
+                    <div id="nama-error" class="text-danger mt-1" style="display: none;">Nama alumni tidak valid.</div>
+                </div>
 
-        <button type="submit" style="margin-top: 20px;">Save</button>
+                <div id="form-survey" style="display: none;">
+                    <hr>
+                    <h5 class="mb-3">Penilaian Kompetensi Alumni<br><small>(1 = Sangat Kurang 😞, 4 = Sangat Baik 😃)</small></h5>
+
+                    @php
+                        $pertanyaan = [
+                            'kerjasama_tim' => 'Kemampuan kerja sama dalam tim',
+                            'keahlian_di_bidang_it' => 'Keahlian di bidang IT',
+                            'pengembangan_diri' => 'Kemampuan mengembangkan diri',
+                            'kepemimpinan' => 'Kemampuan kepemimpinan',
+                            'kemampuan_bahasa_asing' => 'Kemampuan bahasa asing',
+                            'kemampuan_komunikasi' => 'Kemampuan komunikasi',
+                            'etos_kerja' => 'Etos kerja'
+                        ];
+
+                        $emojis = [
+                            '1' => '😞 Sangat Kurang',
+                            '2' => '😐 Kurang',
+                            '3' => '🙂 Baik',
+                            '4' => '😃 Sangat Baik'
+                        ];
+                    @endphp
+
+                    @foreach($pertanyaan as $key => $label)
+                        <div class="mb-3">
+                            <label class="form-label">{{ $label }}</label>
+                            <select class="form-select" name="{{ $key }}" required>
+                                <option value="">Pilih nilai</option>
+                                @foreach($emojis as $value => $text)
+                                    <option value="{{ $value }}">{{ $value }} - {{ $text }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endforeach
+
+                    <div class="mb-3">
+                        <label class="form-label">Kompetensi yang Belum Terpenuhi</label>
+                        <textarea name="kompetensi_belum_terpenuhi" class="form-control" rows="3" placeholder="Opsional"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Saran untuk Kurikulum Kami</label>
+                        <textarea name="saran_kurikulum" class="form-control" rows="3" placeholder="Opsional"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Kirim Survei</button>
+                </div>
+            </form>
+        </div>
     </div>
-</form>
+</div>
 
+{{-- Script tetap --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function showSurvey() {
-        document.getElementById('form-data').style.display = 'none';
-        document.getElementById('form-survey').style.display = 'block';
-    }
+    $(function () {
+        let validName = false;
+
+        $('#nama_alumni').on('keyup', function () {
+            const query = $(this).val();
+            $('#alumni_id').val('');
+            $('#form-survey').hide();
+            validName = false;
+            $('.list-group').remove();
+            $('#nama-error').hide();
+
+            if (query.length >= 3) {
+                $.ajax({
+                    url: "{{ route('autocomplete.alumni') }}",
+                    type: "GET",
+                    data: { q: query },
+                    success: function(data) {
+                        if (data.length > 0) {
+                            let dropdown = '<ul class="list-group position-absolute w-100" style="z-index:1000;">';
+                            data.forEach(item => {
+                                dropdown += `<li class="list-group-item" data-id="${item.id}">${item.text}</li>`;
+                            });
+                            dropdown += '</ul>';
+                            $('#nama_alumni').after(dropdown);
+
+                            $('.list-group-item').on('click', function () {
+                                const selectedText = $(this).text();
+                                const selectedId = $(this).data('id');
+                                $('#nama_alumni').val(selectedText);
+                                $('#alumni_id').val(selectedId);
+                                validName = true;
+                                $('.list-group').remove();
+                                $('#nama-error').hide();
+                                $('#form-survey').slideDown();
+                            });
+                        } else {
+                            $('#nama-error').text('Alumni tidak ditemukan.').show();
+                        }
+                    },
+                    error: function () {
+                        $('#nama-error').text('Terjadi kesalahan server.').show();
+                    }
+                });
+            }
+        });
+
+        $('form').submit(function (e) {
+            if (!validName || !$('#alumni_id').val()) {
+                e.preventDefault();
+                $('#nama-error').text('Silakan pilih alumni dari daftar.').show();
+                $('#nama_alumni').addClass('is-invalid');
+            }
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('#nama_alumni').length) {
+                $('.list-group').remove();
+            }
+        });
+    });
 </script>
 @endsection
