@@ -50,14 +50,19 @@ Route::post('/form-alumni', [GuestController::class, 'store'])->name('submit.alu
 Route::get('/autocomplete-alumni', [GuestController::class, 'getNama'])->name('autocomplete.alumni');
 
 //atasan
-
-
 Route::get('/form-atasan', [AlumniController::class, 'create'])->name('form.atasan');
-Route::post('/tracer-alumni', [AlumniController::class, 'store'])->name('tracer-alumni.store');
+Route::post('/form-atasan', [AlumniController::class, 'store'])->name('submit.atasan');
+
+// Tambahkan ini agar route 'guest.home' valid
+Route::get('/terima-kasih', function () {
+    return view('guest.terima-kasih'); // Buat file view ini
+})->name('guest.home');
+
+// Autocomplete (opsional, implementasi belum diberikan)
+Route::get('/autocomplete-alumni', [AlumniController::class, 'getNama'])->name('autocomplete.alumni');
 
 
-// Route::get('/form-atasan', [AlumniController::class, 'create'])->name('form.atasan');
-// Route::post('/tracer-alumni', [AlumniController::class, 'store'])->name('tracer-alumni.store');
+
 
 Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard')->middleware('auth');
 Route::get('/dashboard/filter', [AdminController::class, 'filter'])->name('dashboard.filter')->middleware('auth');
