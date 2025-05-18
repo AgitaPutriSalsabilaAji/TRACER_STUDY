@@ -22,7 +22,7 @@ class ProfesiController extends Controller
         ];
     
         $activeMenu = 'profesi';
-    
+
         return view('data.pengelolaan_profesi.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
@@ -30,22 +30,30 @@ class ProfesiController extends Controller
         ]);
     }
     
-    public function list()
-    {
-        $profesis = Profesi::select('id', 'kategori', 'nama_profesi');
-        
-        return DataTables::of($profesis)
-            ->addIndexColumn()
-            ->addColumn('aksi', function ($profesi) {
-                $btn  = '<button onclick="modalAction(\''.url('/profesi/' . $profesi->id . '/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/profesi/' . $profesi->id . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/profesi/' . $profesi->id . '/delete_ajax').'\')" class="btn btn-danger btn-sm">Hapus</button> ';
-                return $btn;
-            })
-            ->rawColumns(['aksi'])
-            ->make(true);
-        }
-    
+public function list(Request $request)
+{
+    // if ($request->ajax()) {
+    //     $data = DB::table('profesi as p')
+    //         ->join('kategori_profesi as kp', 'p.kategori_profesi_id', '=', 'kp.id')
+    //         ->select('p.id', 'p.nama_profesi', 'kp.kategori_profesi as kategori_profesi', 'p.created_at', 'p.updated_at');
+
+    //     return DataTables::of($data)
+    //         ->addColumn('aksi', function ($row) {
+    //             $editBtn = '<button onclick="editForm('.$row->id.')" class="btn btn-sm btn-warning me-1">Edit</button>';
+    //             $deleteBtn = '<button onclick="deleteForm('.$row->id.')" class="btn btn-sm btn-danger">Hapus</button>';
+    //             return $editBtn . $deleteBtn;
+    //         })
+    //         ->rawColumns(['aksi'])
+    //         ->make(true);
+    // }
+   
+            $data = DB::table('profesi as p')
+            ->join('kategori_profesi as kp', 'p.kategori_profesi_id', '=', 'kp.id')
+            ->select('p.id', 'p.nama_profesi', 'kp.kategori_profesi as kategori_profesi', 'p.created_at', 'p.updated_at');
+
+        return DataTables::of($data)->make(true);
+}
+
     public function create_ajax()
     {
         return view('data.pengelolaan_profesi.create_ajax');
@@ -141,29 +149,5 @@ class ProfesiController extends Controller
             ]);
         }
         return redirect('/');
-    }
-    
-    // Additional method for grouped view
-    public function index_grouped()
-    {
-        $breadcrumb = (object) [
-            'title' => 'Kelola Profesi',
-            'list' => ['Home', 'Profesi']
-        ];
-    
-        $page = (object) [
-            'title' => 'Daftar profesi dikelompokkan berdasarkan kategori'
-        ];
-    
-        $activeMenu = 'profesi';
-        
-        $profesiByCategory = Profesi::all()->groupBy('kategori');
-    
-        return view('data.pengelolaan_profesi.index_grouped', [
-            'breadcrumb' => $breadcrumb,
-            'page' => $page,
-            'activeMenu' => $activeMenu,
-            'profesiByCategory' => $profesiByCategory
-        ]);
     }
 }

@@ -48,7 +48,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/manajemen_data/profesi" class="nav-link">
+                            <a href="/profesi" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Pengelolaan Profesi</p>
                             </a>                            
@@ -62,7 +62,7 @@
                     </ul>
                 </li>                
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/laporan" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>Laporan</p>
                     </a>
