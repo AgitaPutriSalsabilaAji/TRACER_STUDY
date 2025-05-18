@@ -25,7 +25,7 @@ class AdminController extends Controller
             $currentYear = date("Y");
             $startYear = $currentYear - 3;
             $endYear = $currentYear;
-            $prodi_id = 4;
+            $prodi_id = 1;
         } else {
             $startYear = request()->start_year;
             $endYear = request()->end_year;

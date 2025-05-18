@@ -20,16 +20,7 @@
             <div class="alert alert-danger">{{ session('error') }}</div>
         @endif
 
-        <table class="table table-bordered table-striped table-hover table-sm" id="table-profesi">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Kategori</th>
-                    <th>Nama Profesi</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-        </table>
+        z
     </div>
 </div> 
 @endsection

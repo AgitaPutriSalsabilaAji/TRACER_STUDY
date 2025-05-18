@@ -55,7 +55,7 @@
       </a>
       <div class="dropdown-menu" aria-labelledby="userDropdown">
         <a class="dropdown-item" href="#" id="changePassword">Change Password</a>
-        <a class="dropdown-item" href="#" id="logout">Logout</a>
+        <a class="dropdown-item" href="{{ route('logout') }}" id="logout">Logout</a>
       </div>
     </li>
 
