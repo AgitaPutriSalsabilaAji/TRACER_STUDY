@@ -27,9 +27,14 @@ use App\Models\Admin;
 //     return view('home');
 // })->name('home');
 
+// Route::get('/', function () {
+//     return view('guest.home'); // <== Pastikan ini sesuai
+// });
+
 Route::get('/', function () {
-    return view('guest.home'); // <== Pastikan ini sesuai
-});
+    return view('guest.home');
+})->name('guest.home');
+
 
 
 // Route::get('/iniform', function () {
@@ -52,13 +57,6 @@ Route::get('/autocomplete-alumni', [GuestController::class, 'getNama'])->name('a
 //atasan
 Route::get('/form-atasan', [AlumniController::class, 'create'])->name('form.atasan');
 Route::post('/form-atasan', [AlumniController::class, 'store'])->name('submit.atasan');
-
-// Tambahkan ini agar route 'guest.home' valid
-Route::get('/terima-kasih', function () {
-    return view('guest.terima-kasih'); // Buat file view ini
-})->name('guest.home');
-
-// Autocomplete (opsional, implementasi belum diberikan)
 Route::get('/autocomplete-alumni', [AlumniController::class, 'getNama'])->name('autocomplete.alumni');
 
 
@@ -101,6 +99,3 @@ Route::prefix('profesi')->group(function () {
     Route::get('/{id}/confirm_ajax', [ProfesiController::class, 'confirm_ajax'])->name('profesi.confirm_ajax');
     Route::delete('/{id}/delete_ajax', [ProfesiController::class, 'delete_ajax'])->name('profesi.delete_ajax');
 });
-
-Route::get('/laporan', [RekapDataController::class, 'index'])->name('laporan')->middleware('auth');
-Route::get('/laporan/filter', [RekapDataController::class, 'filter'])->name('laporan.filter')->middleware('auth');
