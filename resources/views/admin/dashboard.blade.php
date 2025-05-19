@@ -49,7 +49,7 @@
                     @foreach ($prodi as $item)
                         <!-- Menggunakan id item untuk value -->
                         <option value="{{ $item->id }}" {{ $item->id == $prodi_id ? 'selected' : '' }}>
-                            {{ $item->funcito }}</option>
+                            {{ $item->program_studi }}</option>
                     @endforeach
                 </select>
             </div>

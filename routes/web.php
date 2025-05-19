@@ -27,9 +27,14 @@ use App\Models\Admin;
 //     return view('home');
 // })->name('home');
 
+// Route::get('/', function () {
+//     return view('guest.home'); // <== Pastikan ini sesuai
+// });
+
 Route::get('/', function () {
-    return view('guest.home'); // <== Pastikan ini sesuai
-});
+    return view('guest.home');
+})->name('guest.home');
+
 
 
 // Route::get('/iniform', function () {
@@ -52,13 +57,6 @@ Route::get('/autocomplete-alumni', [GuestController::class, 'getNama'])->name('a
 //atasan
 Route::get('/form-atasan', [AlumniController::class, 'create'])->name('form.atasan');
 Route::post('/form-atasan', [AlumniController::class, 'store'])->name('submit.atasan');
-
-// Tambahkan ini agar route 'guest.home' valid
-Route::get('/terima-kasih', function () {
-    return view('guest.terima-kasih'); // Buat file view ini
-})->name('guest.home');
-
-// Autocomplete (opsional, implementasi belum diberikan)
 Route::get('/autocomplete-alumni', [AlumniController::class, 'getNama'])->name('autocomplete.alumni');
 
 
@@ -73,7 +71,7 @@ Route::post('/dashboard/performa_lulusan/table', [AdminController::class, 'perfo
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['web'])->group(function () {
     Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('password.request');

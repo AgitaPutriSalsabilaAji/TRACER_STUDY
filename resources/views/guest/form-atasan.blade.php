@@ -61,8 +61,8 @@
 
                     @php
                         $pertanyaan = [
-                            'kerjasama_tim' => 'Kemampuan kerja sama dalam tim',
-                            'keahlian_di_bidang_it' => 'Keahlian di bidang IT',
+                            'kerjasama_tim' => 'Kerjasama Tim',
+                            'keahlian_di_bidang_ti' => 'Keahlian di bidang IT',
                             'pengembangan_diri' => 'Kemampuan mengembangkan diri',
                             'kepemimpinan' => 'Kemampuan kepemimpinan',
                             'kemampuan_bahasa_asing' => 'Kemampuan bahasa asing',
@@ -126,36 +126,36 @@
                     url: "{{ route('autocomplete.alumni') }}",
                     type: "GET",
                     data: { q: query },
-                    success: function(data) {
-                        if (data.length > 0) {
-                            let dropdown = '<ul class="list-group position-absolute w-100" style="z-index:1000;">';
-                            data.forEach(item => {
-                                dropdown += `<li class="list-group-item" data-id="${item.id}">${item.text}</li>`;
-                            });
-                            dropdown += '</ul>';
-                            $('#nama_alumni').after(dropdown);
+                    // Bagian success ajax diubah menjadi seperti ini:
+            success: function(data) {
+                if (data.length > 0) {
+                    let dropdown = '<ul class="list-group position-absolute w-100" style="z-index:1000;">';
+                    data.forEach(item => {
+                        dropdown += `<li class="list-group-item" data-id="${item.id}">${item.text}</li>`;
+                        
+                    });
+                    dropdown += '</ul>';
+                    $('#nama_alumni').after(dropdown);
 
-                            $('.list-group-item').on('click', function () {
-                                const selectedText = $(this).text();
-                                const selectedId = $(this).data('id');
-                                $('#nama_alumni').val(selectedText);
-                                $('#alumni_id').val(selectedId);
-                                validName = true;
-                                $('.list-group').remove();
-                                $('#nama-error').hide();
-                                $('#form-survey').slideDown();
-                            });
-                        } else {
-                            $('#nama-error').text('Alumni tidak ditemukan.').show();
-                        }
-                    },
-                    error: function () {
-                        $('#nama-error').text('Terjadi kesalahan server.').show();
-                    }
+                    $('.list-group-item').on('click', function () {
+                        const selectedText = $(this).text();
+                        const selectedId = $(this).data('id');
+                        $('#nama_alumni').val(selectedText);
+                        $('#alumni_id').val(selectedId);
+                        validName = true;
+                        $('.list-group').remove();
+                        $('#nama-error').hide();
+                        $('#form-survey').slideDown();
+                    });
+                } else {
+                    $('#nama-error').text('Alumni tidak ditemukan.').show();
+                }
+            },
+
+            
                 });
             }
         });
-
         $('form').submit(function (e) {
             if (!validName || !$('#alumni_id').val()) {
                 e.preventDefault();
