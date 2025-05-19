@@ -10,7 +10,7 @@ class LaporanBelumSurvei implements FromCollection
 {
     protected $data;
 
-    public function __construct(Collection $data)
+    public function __construct($data)
     {
         $this->data = $data;
     }
