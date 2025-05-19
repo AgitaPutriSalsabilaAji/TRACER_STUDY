@@ -123,7 +123,7 @@
 
             if (query.length >= 3) {
                 $.ajax({
-                    url: "{{ route('autocomplete.alumni') }}",
+                    url: "{{ route('autocomplete.atasan') }}",
                     type: "GET",
                     data: { q: query },
                     // Bagian success ajax diubah menjadi seperti ini:
