@@ -122,20 +122,19 @@ class RekapDataController extends Controller
         return Excel::download(new LaporanSurveiExport($request->start_year,$request->end_year,$request->prodi_id), 'Laporan Rekap Hasil Tracer Study Lulusan.xlsx');
     }
 
-    public function exportSurveiKepuasan()
+    public function exportSurveiKepuasan(Request $request)
     {
-        return Excel::download(new LaporanSurveiKepuasan, 'Laporan Rekap Hasil Survei Kepuasan Pengguna Lulusan.xlsx');
+        return Excel::download(new LaporanSurveiKepuasan($request->start_year,$request->end_year,$request->prodi_id), 'Laporan Rekap Hasil Survei Kepuasan Pengguna Lulusan.xlsx');
     }
 
-    public function exportBelumTS()
+    public function exportBelumTS(Request $request)
     {
-        return Excel::download(new LaporanBelumTS, 'Laporan Rekap Lulusan Yang Belum Mengisi Tracer Study.xlsx');
+        return Excel::download(new LaporanBelumTS($request->start_year,$request->end_year,$request->prodi_id), 'Laporan Rekap Lulusan Yang Belum Mengisi Tracer Study.xlsx');
     }
 
     public function exportBelumSurvei(Request $request)
     {
-        dd($request->all());
 
-        return Excel::download(new LaporanBelumSurvei(), 'Laporan Rekap Atasan Yang Belum Mengisi Survei Kepuasan.xlsx');
+        return Excel::download(new LaporanBelumSurvei($request->start_year,$request->end_year,$request->prodi_id), 'Laporan Rekap Atasan Yang Belum Mengisi Survei Kepuasan.xlsx');
     }
 }
