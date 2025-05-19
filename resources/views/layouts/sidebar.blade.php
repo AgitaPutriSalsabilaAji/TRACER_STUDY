@@ -19,17 +19,17 @@
             </div>
         </div>
 
-
         <hr class="sidebar-divider" style="border-color: white; margin: 0;">
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-                <li class="nav-item menu-open">
-                    <a href="/dashboard" class="nav-link active  ">
+                <li class="nav-item">
+                    <a href="/dashboard" class="nav-link ">
                         <i class="nav-icon fas fa-tachometer-alt "></i>
                         <p>Dashboard</p>
+                        <i class="right fas fa-angle-right"></i>
                     </a>
                 </li>
                 <li class="nav-item ">
@@ -37,7 +37,7 @@
                         <i class="nav-icon fas fa-book"></i>
                         <p>
                             Manajemen Data
-                            <i class="right fas fa-angle-down"></i>
+                            <i class="right fas fa-angle-right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -65,6 +65,7 @@
                     <a href="/laporan" class="nav-link">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>Laporan</p>
+                        <i class="right fas fa-angle-right"></i>
                     </a>
                 </li>
             </ul>

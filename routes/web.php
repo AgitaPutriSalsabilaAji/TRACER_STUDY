@@ -97,9 +97,10 @@ Route::prefix('profesi')->group(function () {
     Route::delete('/{id}/delete_ajax', [ProfesiController::class, 'delete_ajax'])->name('profesi.delete_ajax');
 });
 
-<<<<<<< HEAD
-
 Route::get('/laporan', [RekapDataController::class, 'index'])->name('laporan')->middleware('auth');
 Route::get('/laporan/filter', [RekapDataController::class, 'filter'])->name('laporan.filter')->middleware('auth');
-=======
->>>>>>> 0203aa937271885c20606b8a05e544fc62a387ad
+Route::get('/export-tracer', [RekapDataController::class, 'exportExcel'])->name('laporan.export.tracer');
+Route::get('/export-kepuasan', [RekapDataController::class, 'exportSurveiKepuasan'])->name('laporan.export.kepuasan');
+Route::get('/export-belum-tracer', [RekapDataController::class, 'exportBelumTS'])->name('laporan.export.belumTracer');
+Route::get('/export-belum-survei', [RekapDataController::class, 'exportBelumSurvei'])->name('laporan.export.belumSurvei');
+
