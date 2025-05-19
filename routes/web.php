@@ -73,7 +73,7 @@ Route::post('/dashboard/performa_lulusan/table', [AdminController::class, 'perfo
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['web'])->group(function () {
     Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('password.request');
@@ -102,9 +102,5 @@ Route::prefix('profesi')->group(function () {
     Route::delete('/{id}/delete_ajax', [ProfesiController::class, 'delete_ajax'])->name('profesi.delete_ajax');
 });
 
-<<<<<<< HEAD
-
 Route::get('/laporan', [RekapDataController::class, 'index'])->name('laporan')->middleware('auth');
 Route::get('/laporan/filter', [RekapDataController::class, 'filter'])->name('laporan.filter')->middleware('auth');
-=======
->>>>>>> 0203aa937271885c20606b8a05e544fc62a387ad
