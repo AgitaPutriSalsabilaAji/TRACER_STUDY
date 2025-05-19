@@ -41,21 +41,7 @@
             </div>
         @endif
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover align-middle table-sm" id="tabel-profesi">
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Kategori</th>
-                        <th scope="col">Nama Profesi</th>
-                        <th scope="col">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data akan diisi oleh AJAX atau server -->
-                </tbody>
-            </table>
-        </div>
+        
     </div>
 </div>
 

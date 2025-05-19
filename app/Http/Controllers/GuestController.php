@@ -44,11 +44,11 @@ class GuestController extends Controller
             $validated = [];
             if (!($request->tahun_lulus == Carbon::parse($alumni->tanggal_lulus)->year)) {
                 return redirect()->back()
-                    ->withInput() 
+                    ->withInput()
                     ->with('alert', 'Tahunnya beda tuan');
             } else if (!($request->prodi == $alumni->program_studi_id)) {
                 return redirect()->back()
-                    ->withInput() 
+                    ->withInput()
                     ->with('alert', 'Produnya beda sama yang di database');
             }
             if ($request->kategori == 3) {
@@ -61,7 +61,7 @@ class GuestController extends Controller
                 ]);
                 Lulusan::create($validated);
             } else {
-                $request->validate([
+                $validated = $request->validate([
                     'alumni_id'              => 'required|exists:alumni,id',
                     'profesi_id'             => 'required|exists:profesi,id',
                     'jenis_instansi_id'      => 'nullable|exists:jenis_instansi,id',
@@ -101,7 +101,7 @@ class GuestController extends Controller
                         ->subject($data['subject']);
                 });
 
-                return redirect()->route('guest.home')->with('success', 'Data alumni berhasil disimpan!');
+                return redirect('/')->with('success', 'Data alumni berhasil disimpan!');
             }
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Jika validasi gagal

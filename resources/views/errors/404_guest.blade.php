@@ -1,112 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <title>404 Not Found</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .center-404-wrapper {
-            min-height: calc(100vh - 4.5rem);
-            /* kurangi header/footer kalau ada */
+        .error-wrapper {
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
         }
 
         .error-card {
-            max-width: 700px;
+            max-width: 600px;
             width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
         }
 
         .error-header {
             background-color: #5a8dee;
-            /* Warna biru template */
-            border-radius: 15px 15px 0 0;
-            padding: 1rem;
-            color: #fff;
-            font-weight: bold;
+            color: white;
+            padding: 1rem 1.5rem;
         }
 
-        .error-message {
-            text-align: center;
-            margin: 2rem 0;
-        }
-
-        .error-message h1 {
-            font-size: 5rem;
-            font-weight: 700;
+        .error-code {
+            font-size: 6rem;
+            font-weight: 800;
             color: #ff6347;
-            /* Oranye untuk aksen */
-        }
-
-        .error-message h4 {
-            font-size: 1.5rem;
-            color: #333;
         }
 
         .error-message p {
-            font-size: 1.2rem;
-            color: #555;
+            color: #6c757d;
         }
 
-        .error-message a {
-            color: #5a8dee;
-            /* Sesuaikan warna dengan template */
-            font-weight: 500;
-            text-decoration: none;
-        }
-
-        .error-message a:hover {
-            text-decoration: underline;
-        }
-
-        .btn-light {
+        .btn-home {
             background-color: #fff;
             color: #5a8dee;
             border: 1px solid #5a8dee;
         }
 
-        .btn-light:hover {
+        .btn-home:hover {
             background-color: #e2e8f0;
-            color: #5a8dee;
-            border-color: #5a8dee;
         }
     </style>
-    {{-- <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6 white">
-              <h1>Tidak ada apa apa</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="/dashboard" class="breadcrumb-item">Dashboard</a></li>
-                        <li class="breadcrumb-item active">Tidak ditemukan</li>
-                    </ol>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section> --}}
-    <div class="center-404-wrapper">
+</head>
+
+<body>
+
+    <div class="error-wrapper">
         <div class="card error-card">
-            <div class="card-header error-header">
-                <div class="d-flex justify-content-between">
-                    <h3 class="card-title">404 Error</h3>
-                    <a href="{{ url('/') }}" class="btn btn-light">Return Home</a>
-                </div>
+            <div class="card-header error-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">404 Error</h5>
+                <a href="{{ url('/') }}" class="btn btn-sm btn-home">Return Home</a>
             </div>
-
-            <div class="card-body">
-                <div class="error-message">
-                    <h1>404</h1>
-                    <h4><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h4>
-                    <p>
-                        We couldn't find the page you were looking for. Maybe it was moved or never existed.
-                        Meanwhile, you may <a href="{{ url('/dashboard') }}">return to the dashboard</a>.
-                    </p>
-                </div>
-
-                <div class="d-flex justify-content-center">
-                    <span class="text-muted">Error code: 404</span>
-                </div>
+            <div class="card-body text-center error-message">
+                <div class="error-code">404</div>
+                <h4 class="mb-3"><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h4>
+                <p class="mb-4">The page you are looking for might have been removed, had its name changed, or is
+                    temporarily unavailable.</p>
+                <a href="{{ url('/dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+            </div>
+            <div class="card-footer text-center text-muted">
+                Error code: 404
             </div>
         </div>
     </div>
 
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+
+</html>
