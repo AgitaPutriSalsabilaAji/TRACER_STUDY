@@ -101,9 +101,9 @@ Route::prefix('profesi')->group(function () {
 });
 
 Route::get('/laporan', [RekapDataController::class, 'index'])->name('laporan')->middleware('auth');
-Route::get('/laporan/filter', [RekapDataController::class, 'filter'])->name('laporan.filter')->middleware('auth');
-Route::get('/export-tracer', [RekapDataController::class, 'exportExcel'])->name('laporan.export.tracer');
-Route::get('/export-kepuasan', [RekapDataController::class, 'exportSurveiKepuasan'])->name('laporan.export.kepuasan');
-Route::get('/export-belum-tracer', [RekapDataController::class, 'exportBelumTS'])->name('laporan.export.belumTracer');
-Route::get('/export-belum-survei', [RekapDataController::class, 'exportBelumSurvei'])->name('laporan.export.belumSurvei');
+Route::get('/laporan/filter', [RekapDataController::class, 'filter'])->name('laporan.filter');
+Route::post('/export-tracer', [RekapDataController::class, 'exportExcel'])->name('laporan.export.tracer');
+Route::post('/export-kepuasan', [RekapDataController::class, 'exportSurveiKepuasan'])->name('laporan.export.kepuasan');
+Route::post('/export-belum-tracer', [RekapDataController::class, 'exportBelumTS'])->name('laporan.export.belumTracer');
+Route::post('/export-belum-survei', [RekapDataController::class, 'exportBelumSurvei'])->name('laporan.export.belumSurvei');
 

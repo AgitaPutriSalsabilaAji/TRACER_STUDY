@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Exports\LaporanBelumSurvei;
@@ -33,7 +34,7 @@ class RekapDataController extends Controller
             $prodi_id = request()->prodi_id;
         }
 
-        
+
         $topProfesi = DB::table('lulusan as l')
             ->join('profesi as p', 'l.profesi_id', '=', 'p.id')
             ->join('alumni as a', 'l.alumni_id', '=', 'a.id')
@@ -106,25 +107,19 @@ class RekapDataController extends Controller
             'prodi_id' => $prodi_id,
             'startYear' => $startYear,
             'endYear' => $endYear,
-        ]);    
-    }
-
-    public function filter(Request $request)
-    {
-        $start_year = $request->input('start_year');
-        $end_year = $request->input('end_year');
-        $prodi_id = $request->input('prodi_id');
-
-        return redirect()->route('laporan', [
-            'start_year' => $start_year,
-            'end_year' => $end_year,
-            'prodi_id' => $prodi_id
         ]);
     }
-
-    public function exportExcel()
+    public function filter(Request $request)
     {
-        return Excel::download(new LaporanSurveiExport, 'Laporan Rekap Hasil Tracer Study Lulusan.xlsx');
+        $startYear = $request->input('start_year');
+        $endYear = $request->input('end_year');
+        $prodi = $request->input('prodi_id');
+        return redirect()->route('laporan', compact('startYear', 'endYear', 'prodi'));
+    }
+
+    public function exportExcel(Request $request)
+    {
+        return Excel::download(new LaporanSurveiExport($request->start_year,$request->end_year,$request->prodi_id), 'Laporan Rekap Hasil Tracer Study Lulusan.xlsx');
     }
 
     public function exportSurveiKepuasan()
@@ -137,10 +132,10 @@ class RekapDataController extends Controller
         return Excel::download(new LaporanBelumTS, 'Laporan Rekap Lulusan Yang Belum Mengisi Tracer Study.xlsx');
     }
 
-    public function exportBelumSurvei()
+    public function exportBelumSurvei(Request $request)
     {
-        return Excel::download(new LaporanBelumSurvei, 'Laporan Rekap Atasan Yang Belum Mengisi Survei Kepuasan
-.xlsx');
-    }
+        dd($request->all());
 
+        return Excel::download(new LaporanBelumSurvei(), 'Laporan Rekap Atasan Yang Belum Mengisi Survei Kepuasan.xlsx');
+    }
 }

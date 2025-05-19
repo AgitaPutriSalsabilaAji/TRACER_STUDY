@@ -10,37 +10,51 @@ use Illuminate\Support\Facades\DB;
 
 class LaporanSurveiExport implements FromCollection, WithHeadings
 {
+    protected $startYear;
+    protected $endYear;
+    protected $prodi_id;
+
+    public function __construct($startYear, $endYear, $prodi_id)
+    {
+        $this->startYear = $startYear;
+        $this->endYear = $endYear;
+        $this->prodi_id = $prodi_id;
+    }
     public function collection()
     {
-    $data = DB::table('alumni as a')
-    ->join('program_studi as ps', 'a.program_studi_id', '=', 'ps.id')
-    ->join('lulusan as l', 'a.id', '=', 'l.alumni_id')
-    ->leftJoin('jenis_instansi as ji', 'l.jenis_instansi_id', '=', 'ji.id')
-    ->leftJoin('profesi as p', 'l.profesi_id', '=', 'p.id')
-    ->leftJoin('kategori_profesi as kp', 'p.kategori_profesi_id', '=', 'kp.id')
-    ->select([
-        'ps.program_studi as Program_Studi',
-        'a.nim as NIM',
-        'a.nama as Nama',
-        'l.no_hp as No_HP',
-        'l.email as Email',
-        'a.tanggal_lulus as Tanggal_Lulus',
-        'l.tahun_lulus as Tahun_Lulus',
-        'l.tgl_pertama_kerja as Tanggal_Pertama_Kerja',
-        DB::raw('DATEDIFF(l.tgl_pertama_kerja, a.tanggal_lulus) as Masa_Tunggu_hari'),
-        'l.tgl_mulai_kerja_instansi as Tgl_Mulai_Kerja_Instansi',
-        'ji.jenis_instansi as Jenis_Instansi',
-        'l.nama_instansi as Nama_Instansi',
-        'l.skala as Skala',
-        'l.lokasi_instansi as Lokasi_Instansi',
-        'kp.kategori_profesi as Kategori_Profesi',
-        'p.nama_profesi as Profesi',
-        'l.nama_atasan_langsung as Nama_Atasan_Langsung',
-        'l.jabatan_atasan_langsung as Jabatan_Atasan_Langsung',
-        'l.no_hp_atasan_langsung as No_HP_Atasan_Langsung',
-        'l.email_atasan_langsung as Email_Atasan_Langsung',
-    ])
-    ->get();
+        $data =  DB::table('alumni as a')
+            ->join('program_studi as ps', 'a.program_studi_id', '=', 'ps.id')
+            ->join('lulusan as l', 'a.id', '=', 'l.alumni_id')
+            ->leftJoin('jenis_instansi as ji', 'l.jenis_instansi_id', '=', 'ji.id')
+            ->leftJoin('profesi as p', 'l.profesi_id', '=', 'p.id')
+            ->leftJoin('kategori_profesi as kp', 'p.kategori_profesi_id', '=', 'kp.id')
+            ->select([
+                'ps.program_studi as Program_Studi',
+                'a.nim as NIM',
+                'a.nama as Nama',
+                'l.no_hp as No_HP',
+                'l.email as Email',
+                'a.tanggal_lulus as Tanggal_Lulus',
+                'l.tahun_lulus as Tahun_Lulus',
+                'l.tgl_pertama_kerja as Tanggal_Pertama_Kerja',
+                DB::raw('DATEDIFF(l.tgl_pertama_kerja, a.tanggal_lulus) as Masa_Tunggu_hari'),
+                'l.tgl_mulai_kerja_instansi as Tgl_Mulai_Kerja_Instansi',
+                'ji.jenis_instansi as Jenis_Instansi',
+                'l.nama_instansi as Nama_Instansi',
+                'l.skala as Skala',
+                'l.lokasi_instansi as Lokasi_Instansi',
+                'kp.kategori_profesi as Kategori_Profesi',
+                'p.nama_profesi as Profesi',
+                'l.nama_atasan_langsung as Nama_Atasan_Langsung',
+                'l.jabatan_atasan_langsung as Jabatan_Atasan_Langsung',
+                'l.no_hp_atasan_langsung as No_HP_Atasan_Langsung',
+                'l.email_atasan_langsung as Email_Atasan_Langsung',
+            ])
+            ->when($this->startYear, fn($query) => $query->where('l.tahun_lulus', '>=', $this->startYear))
+            ->when($this->endYear, fn($query) => $query->where('l.tahun_lulus', '<=', $this->endYear))
+            ->when($this->prodi_id, fn($query) => $query->where('a.program_studi_id', $this->prodi_id))
+            ->get();
+
 
         return $data;
     }
@@ -70,7 +84,6 @@ class LaporanSurveiExport implements FromCollection, WithHeadings
             'Email Atasan Langsung',
         ];
     }
-
 }
 
 // QUERY REKAP 1
@@ -160,4 +173,3 @@ JOIN program_studi ps ON a.program_studi_id = ps.id
 WHERE l.tgl_pertama_kerja IS NULL
 ORDER BY a.nama;
 */
-
