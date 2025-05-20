@@ -202,6 +202,7 @@
                             query: query
                         },
                         success: function(data) {
+                            console.log(data);
                             if (data.length > 0) {
                                 let dropdown =
                                     '<ul class="list-group position-absolute w-100" style="z-index:1000;">';
