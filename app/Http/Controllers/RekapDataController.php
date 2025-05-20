@@ -62,15 +62,17 @@ class RekapDataController extends Controller
 
         $chart_survei = DB::table('view_rekap_kemampuan')
             ->select(
-                'tahun_lulus as year',
+                'program_studi_id',
                 'jenis_kemampuan',
-                DB::raw('ROUND(AVG(sangat_baik), 2) as nilai')
+                DB::raw('ROUND(AVG(sangat_baik), 2) as sangat_baik'),
+                DB::raw('ROUND(AVG(baik), 2) as baik'),
+                DB::raw('ROUND(AVG(cukup), 2) as cukup'),
+                DB::raw('ROUND(AVG(kurang), 2) as kurang')
             )
             ->where('program_studi_id', $prodi_id)
             ->whereBetween('tahun_lulus', [$startYear, $endYear])
-            ->groupBy('tahun_lulus', 'jenis_kemampuan')
+            ->groupBy('program_studi_id', 'jenis_kemampuan')
             ->get();
-        dd($chart_survei);
 
         $prodi = ProgramStudi::all();
         return view('data.laporan.laporan', [
