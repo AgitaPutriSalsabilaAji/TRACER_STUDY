@@ -197,29 +197,15 @@
             chart1.legend = new am4charts.Legend();
 
             // Chart 2: Bar Chart
-            var chart2 = am4core.create("performa_chart", am4charts.XYChart);
-            chart2.data = performaChartData;
-            let categoryAxis = chart2.xAxes.push(new am4charts.CategoryAxis());
-            categoryAxis.dataFields.category = "kategori";
-            categoryAxis.renderer.grid.template.location = 0;
-            let valueAxis = chart2.yAxes.push(new am4charts.ValueAxis());
-
-            let seriesColors = ["#5B8FF9", "#61DDAA", "#F6BD16", "#E8684A"];
-            ["sangat_baik", "baik", "cukup", "kurang"].forEach((key, idx) => {
-                let series = chart2.series.push(new am4charts.ColumnSeries());
-                series.name = key.replace('_', ' ').toUpperCase();
-                series.dataFields.valueY = key;
-                series.dataFields.categoryX = "kategori";
-                series.columns.template.tooltipText = "{name}: [bold]{valueY}[/]";
-                series.columns.template.fill = am4core.color(seriesColors[idx]);
-            });
-            chart2.legend = new am4charts.Legend();
 
             var label = chart4.seriesContainer.createChild(am4core.Label);
             label.text = "731"; // Totalnya bisa kamu hitung otomatis kalau mau
             label.horizontalCenter = "middle";
             label.verticalCenter = "middle";
             label.fontSize = 24;
+
+            // Chart 3: Bar Chart Lulusan Belum Mengisi
+            
         });
     </script>
 
