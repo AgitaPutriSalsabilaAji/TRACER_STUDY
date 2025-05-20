@@ -15,11 +15,7 @@ class RekapDataController extends Controller
 {
     public function index(Request $request)
     {
-        $breadcrumb = (object)[
-            'title' => 'Selamat Datang',
-            'list' => ['Home', 'Welcome']
-        ];
-        $activeMenu = 'laporan';
+
         $prodi_id = null;
         $startYear = null;
         $endYear = null;
@@ -64,45 +60,22 @@ class RekapDataController extends Controller
             ]);
         }
 
-        $fields = [
-            'kerjasama_tim' => 'Kerjasama Tim',
-            'keahlian_di_bidang_ti' => 'Keahlian di Bidang TI',
-            'kemampuan_bahasa_asing' => 'Kemampuan Bahasa Asing',
-            'kemampuan_komunikasi' => 'Kemampuan Komunikasi',
-            'pengembangan_diri' => 'Pengembangan Diri',
-            'kepemimpinan' => 'Kepemimpinan',
-            'etos_kerja' => 'Etos Kerja'
-        ];
-
-        foreach ($fields as $field => $label) {
-            $data = DB::table('survei_kepuasan')
-                ->select(
-                    DB::raw("COUNT(CASE WHEN $field = 4 THEN 1 END) AS sangat_baik"),
-                    DB::raw("COUNT(CASE WHEN $field = 3 THEN 1 END) AS baik"),
-                    DB::raw("COUNT(CASE WHEN $field = 2 THEN 1 END) AS cukup"),
-                    DB::raw("COUNT(CASE WHEN $field = 1 THEN 1 END) AS kurang")
-                )
-                ->join('alumni as a', 'survei_kepuasan.alumni_id', '=', 'a.id')
-                ->join('lulusan as l', 'l.alumni_id', '=', 'a.id')
-                ->whereBetween('l.tahun_lulus', [$startYear, $endYear])
-                ->where('a.program_studi_id', $prodi_id)
-                ->first();
-
-            $chartData[$label] = [
-                ['country' => 'Sangat Baik', 'litres' => $data->sangat_baik],
-                ['country' => 'Baik',        'litres' => $data->baik],
-                ['country' => 'Cukup',       'litres' => $data->cukup],
-                ['country' => 'Kurang',      'litres' => $data->kurang]
-            ];
-        }
+        $chart_survei = DB::table('view_rekap_kemampuan')
+            ->select(
+                'tahun_lulus as year',
+                'jenis_kemampuan',
+                DB::raw('ROUND(AVG(sangat_baik), 2) as nilai')
+            )
+            ->where('program_studi_id', $prodi_id)
+            ->whereBetween('tahun_lulus', [$startYear, $endYear])
+            ->groupBy('tahun_lulus', 'jenis_kemampuan')
+            ->get();
 
 
         $prodi = ProgramStudi::all();
         return view('data.laporan.laporan', [
-            'breadcrumb' => $breadcrumb,
-            'activeMenu' => $activeMenu,
+            'chart_survei' => $chart_survei,
             'topProfesi' => $topProfesi,
-            'chartData' => $chartData,
             'prodi' => $prodi,
             'prodi_id' => $prodi_id,
             'startYear' => $startYear,
@@ -117,9 +90,11 @@ class RekapDataController extends Controller
         return redirect()->route('laporan', compact('startYear', 'endYear', 'prodi'));
     }
 
+
+
     public function exportExcel(Request $request)
     {
-        return Excel::download(new LaporanSurveiExport($request->start_year,$request->end_year,$request->prodi_id), 'Laporan Rekap Hasil Tracer Study Lulusan.xlsx');
+        return Excel::download(new LaporanSurveiExport($request->start_year, $request->end_year, $request->prodi_id), 'Laporan Rekap Hasil Tracer Study Lulusan.xlsx');
     }
 
     public function exportSurveiKepuasan()
