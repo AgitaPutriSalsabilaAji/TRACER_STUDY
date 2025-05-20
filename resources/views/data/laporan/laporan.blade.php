@@ -180,7 +180,6 @@
         ];
 
         // Data 2: Rekap hasil survei kepuasan pengguna lulusan (Bar Chart)
-        const performaChartData = @json($chartData);
 
         am4core.ready(function() {
             am4core.useTheme(am4themes_animated);
@@ -197,29 +196,7 @@
             chart1.legend = new am4charts.Legend();
 
             // Chart 2: Bar Chart
-            var chart2 = am4core.create("performa_chart", am4charts.XYChart);
-            chart2.data = performaChartData;
-            let categoryAxis = chart2.xAxes.push(new am4charts.CategoryAxis());
-            categoryAxis.dataFields.category = "kategori";
-            categoryAxis.renderer.grid.template.location = 0;
-            let valueAxis = chart2.yAxes.push(new am4charts.ValueAxis());
 
-            let seriesColors = ["#5B8FF9", "#61DDAA", "#F6BD16", "#E8684A"];
-            ["sangat_baik", "baik", "cukup", "kurang"].forEach((key, idx) => {
-                let series = chart2.series.push(new am4charts.ColumnSeries());
-                series.name = key.replace('_', ' ').toUpperCase();
-                series.dataFields.valueY = key;
-                series.dataFields.categoryX = "kategori";
-                series.columns.template.tooltipText = "{name}: [bold]{valueY}[/]";
-                series.columns.template.fill = am4core.color(seriesColors[idx]);
-            });
-            chart2.legend = new am4charts.Legend();
-
-            var label = chart4.seriesContainer.createChild(am4core.Label);
-            label.text = "731"; // Totalnya bisa kamu hitung otomatis kalau mau
-            label.horizontalCenter = "middle";
-            label.verticalCenter = "middle";
-            label.fontSize = 24;
         });
     </script>
 
@@ -311,6 +288,120 @@
             });
         });
     </script>
+
+    <!-- Styles -->
+    <style>
+        #chartdiv {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+
+    <!-- Resources -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+    <!-- Chart code -->
+    <script>
+        am5.ready(function() {
+
+            var root = am5.Root.new("chartdiv");
+
+            root.setThemes([
+                am5themes_Animated.new(root)
+            ]);
+
+            var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                panX: false,
+                panY: false,
+                paddingLeft: 0,
+                wheelX: "panX",
+                wheelY: "zoomX",
+                layout: root.verticalLayout
+            }));
+
+            var legend = chart.children.push(
+                am5.Legend.new(root, {
+                    centerX: am5.p50,
+                    x: am5.p50
+                })
+            );
+
+            // Ganti data di sini sesuai hasil dari Laravel
+            var data = {!! json_encode($chart_survei, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!};
+            console.log(data);
+            var xRenderer = am5xy.AxisRendererX.new(root, {
+                cellStartLocation: 0.1,
+                cellEndLocation: 0.9,
+                minorGridEnabled: true
+            });
+
+            var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                categoryField: "jenis_kemampuan", // Ganti dari "year"
+                renderer: xRenderer,
+                tooltip: am5.Tooltip.new(root, {})
+            }));
+
+            xRenderer.grid.template.setAll({
+                location: 1
+            });
+
+            xAxis.data.setAll(data);
+
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                renderer: am5xy.AxisRendererY.new(root, {
+                    strokeOpacity: 0.1
+                })
+            }));
+
+            function makeSeries(name, fieldName) {
+                var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                    name: name,
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    valueYField: fieldName,
+                    categoryXField: "jenis_kemampuan"
+                }));
+
+                series.columns.template.setAll({
+                    tooltipText: "{name}, {categoryX}:{valueY}",
+                    width: am5.percent(90),
+                    tooltipY: 0,
+                    strokeOpacity: 0
+                });
+
+                series.data.setAll(data);
+
+                series.appear();
+
+                series.bullets.push(function() {
+                    return am5.Bullet.new(root, {
+                        locationY: 0,
+                        sprite: am5.Label.new(root, {
+                            text: "{valueY}",
+                            fill: root.interfaceColors.get("alternativeText"),
+                            centerY: 0,
+                            centerX: am5.p50,
+                            populateText: true
+                        })
+                    });
+                });
+
+                legend.data.push(series);
+            }
+
+            // Ganti nama kategori sesuai field
+            makeSeries("Sangat Baik", "Sangat Baik");
+            makeSeries("Baik", "Baik");
+            makeSeries("Cukup", "Cukup");
+            makeSeries("Kurang", "Kurang");
+
+            chart.appear(1000, 100);
+
+        });
+    </script>
+
     <style>
         .year-option {
             padding: 8px;
