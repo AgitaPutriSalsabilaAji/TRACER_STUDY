@@ -211,16 +211,19 @@ public function store(Request $request)
     $request->validate([
         'username' => 'required|unique:admins,username',
         'email' => 'required|email|unique:admins,email',
-        'password' => 'required|min:8'
     ]);
+
+    // Buat password otomatis sama dengan username (biasanya di-hash dulu)
+    $password = Hash::make($request->username);
 
     Admin::create([
         'username' => $request->username,
+        'name' => $request->username,
         'email' => $request->email,
-        'password' => Hash::make($request->password) 
+        'password' => $password
     ]);
 
-    return response()->json(['success' => true]);
+    return redirect()->back()->with('success', 'Admin berhasil ditambahkan. ');
 }
 
 public function update(Request $request, $id)
