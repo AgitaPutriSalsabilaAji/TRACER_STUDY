@@ -172,10 +172,10 @@ class AdminController extends Controller
             ->select(
                 'program_studi_id',
                 'jenis_kemampuan',
-                DB::raw('sangat_baik'),
-                DB::raw('baik'),
-                DB::raw('cukup'),
-                DB::raw('kurang')
+                DB::raw('ROUND(AVG(sangat_baik), 2) as sangat_baik'),
+                DB::raw('ROUND(AVG(baik), 2) as baik'),
+                DB::raw('ROUND(AVG(cukup), 2) as cukup'),
+                DB::raw('ROUND(AVG(kurang), 2) as kurang')
             )
             ->where('program_studi_id', $prodiId)
             ->whereBetween('tahun_lulus', [$startYear, $endYear])

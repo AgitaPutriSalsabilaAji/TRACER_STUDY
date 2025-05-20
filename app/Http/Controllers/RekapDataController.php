@@ -70,7 +70,7 @@ class RekapDataController extends Controller
             ->whereBetween('tahun_lulus', [$startYear, $endYear])
             ->groupBy('tahun_lulus', 'jenis_kemampuan')
             ->get();
-
+        dd($chart_survei);
 
         $prodi = ProgramStudi::all();
         return view('data.laporan.laporan', [
@@ -99,17 +99,17 @@ class RekapDataController extends Controller
 
     public function exportSurveiKepuasan(Request $request)
     {
-        return Excel::download(new LaporanSurveiKepuasan($request->start_year,$request->end_year,$request->prodi_id), 'Laporan Rekap Hasil Survei Kepuasan Pengguna Lulusan.xlsx');
+        return Excel::download(new LaporanSurveiKepuasan($request->start_year, $request->end_year, $request->prodi_id), 'Laporan Rekap Hasil Survei Kepuasan Pengguna Lulusan.xlsx');
     }
 
     public function exportBelumTS(Request $request)
     {
-        return Excel::download(new LaporanBelumTS($request->start_year,$request->end_year,$request->prodi_id), 'Laporan Rekap Lulusan Yang Belum Mengisi Tracer Study.xlsx');
+        return Excel::download(new LaporanBelumTS($request->start_year, $request->end_year, $request->prodi_id), 'Laporan Rekap Lulusan Yang Belum Mengisi Tracer Study.xlsx');
     }
 
     public function exportBelumSurvei(Request $request)
     {
 
-        return Excel::download(new LaporanBelumSurvei($request->start_year,$request->end_year,$request->prodi_id), 'Laporan Rekap Atasan Yang Belum Mengisi Survei Kepuasan.xlsx');
+        return Excel::download(new LaporanBelumSurvei($request->start_year, $request->end_year, $request->prodi_id), 'Laporan Rekap Atasan Yang Belum Mengisi Survei Kepuasan.xlsx');
     }
 }
