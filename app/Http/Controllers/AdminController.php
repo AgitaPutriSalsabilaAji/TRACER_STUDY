@@ -168,7 +168,7 @@ class AdminController extends Controller
         $startYear = $request->input('start_year');
         $endYear = $request->input('end_year');
 
-        $data = $data = DB::table('view_rekap_kemampuan')
+        $data = DB::table('view_rekap_kemampuan')
             ->select(
                 'program_studi_id',
                 'jenis_kemampuan',
