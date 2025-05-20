@@ -4,16 +4,22 @@ namespace App\Exports;
 
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Illuminate\Support\Facades\DB;
 
-class LaporanBelumSurvei implements FromCollection
+class LaporanBelumSurvei implements FromCollection, WithHeadings
 {
-    protected $data;
+    protected $startYear;
+    protected $endYear;
+    protected $prodi_id;
 
-    public function __construct($data)
+    public function __construct($startYear, $endYear, $prodi_id)
     {
-        $this->data = $data;
+        $this->startYear = $startYear;
+        $this->endYear = $endYear;
+        $this->prodi_id = $prodi_id;
     }
+
     public function collection()
     {
     $rekapLulusanBelumIsiTracer = DB::table('lulusan as l')
@@ -30,9 +36,33 @@ class LaporanBelumSurvei implements FromCollection
         'l.tahun_lulus as Tahun_Lulus'
     )
     ->whereNull('l.tgl_pertama_kerja')  // kondisi "belum isi tracer study"
+    // Tambahan filter
+        ->when($this->startYear, function ($query) {
+            return $query->where('l.tahun_lulus', '>=', $this->startYear);
+        })
+        ->when($this->endYear, function ($query) {
+            return $query->where('l.tahun_lulus', '<=', $this->endYear);
+        })
+        ->when($this->prodi_id, function ($query) {
+            return $query->where('a.program_studi_id', $this->prodi_id);
+        })
     ->orderBy('a.nama')
     ->get();
 
     return $rekapLulusanBelumIsiTracer;
+    }
+
+    public function headings(): array
+    {
+        return [
+            'Nama Atasan Langsung',
+            'Instansi',
+            'Jabatan',
+            'No HP',
+            'Email',
+            'Nama Alumni',
+            'Program Studi',
+            'Tahun Lulus',
+        ];
     }
 }

@@ -101,9 +101,16 @@
                         <div class="card bg-white text-dark shadow-sm">
                             <div class="card-body">
                                 <h5 class="mb-4 fs-4">Rekap Hasil Survei Kepuasan Pengguna Lulusan</h5>
-                                <div id="chartdiv"></div>
-                                <button class="downloadExcel btn btn-success btn-sm"
-                                    data-route="{{ route('laporan.export.kepuasan') }}">Download Laporan</button>
+                                <div id="performa_chart" style="width: 100%; height: 400px;"></div>
+                                <form action="{{ route('laporan.export.kepuasan') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="start_year" value="{{ $startYear }}">
+                                    <input type="hidden" name="end_year" value="{{ $endYear }}">
+                                    <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        Download Laporan
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -113,8 +120,15 @@
                             <div class="card-body">
                                 <h5 class="mb-4 fs-4">Rekap Lulusan Yang Belum Mengisi Tracer Study</h5>
                                 <div id="belum_tracer_chart" style="width: 100%; height: 400px;"></div>
-                                <button class="downloadExcel btn btn-success btn-sm"
-                                    data-route="{{ route('laporan.export.belumTracer') }}">Download Laporan</button>
+                                <form action="{{ route('laporan.export.belumTracer') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="start_year" value="{{ $startYear }}">
+                                    <input type="hidden" name="end_year" value="{{ $endYear }}">
+                                    <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        Download Laporan
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -124,8 +138,15 @@
                             <div class="card-body">
                                 <h5 class="mb-4 fs-4">Rekap Atasan Yang Belum Mengisi Survei Kepuasan</h5>
                                 <div id="belum_survei_chart" style="width: 100%; height: 400px;"></div>
-                                <button class="downloadExcel btn btn-success btn-sm"
-                                    data-route="{{ route('laporan.export.belumSurvei') }}">Download Laporan</button>
+                                <form action="{{ route('laporan.export.belumSurvei') }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="start_year" value="{{ $startYear }}">
+                                    <input type="hidden" name="end_year" value="{{ $endYear }}">
+                                    <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        Download Laporan
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>
