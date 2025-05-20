@@ -25,8 +25,8 @@ return new class extends Migration
             $table->integer('pengembangan_diri');
             $table->integer('kepemimpinan');
             $table->integer('etos_kerja');
-            $table->text('kompetensi_belum_terpenuhi');
-            $table->text('saran_kurikulum');
+            $table->text('kompetensi_belum_terpenuhi')->nullable();
+            $table->text('saran_kurikulum')->nullable();
             $table->timestamps();
 
 
