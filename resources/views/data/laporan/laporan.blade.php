@@ -196,7 +196,14 @@
             chart1.legend = new am4charts.Legend();
 
             // Chart 2: Bar Chart
+            var label = chart4.seriesContainer.createChild(am4core.Label);
+            label.text = "731"; // Totalnya bisa kamu hitung otomatis kalau mau
+            label.horizontalCenter = "middle";
+            label.verticalCenter = "middle";
+            label.fontSize = 24;
 
+            // Chart 3: Bar Chart Lulusan Belum Mengisi
+            
         });
     </script>
 

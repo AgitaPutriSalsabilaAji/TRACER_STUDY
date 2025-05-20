@@ -22,9 +22,10 @@ class LaporanBelumSurvei implements FromCollection, WithHeadings
 
     public function collection()
     {
-    $rekapLulusanBelumIsiTracer = DB::table('lulusan as l')
+    $data = DB::table('lulusan as l')
     ->join('alumni as a', 'l.alumni_id', '=', 'a.id')
     ->join('program_studi as ps', 'a.program_studi_id', '=', 'ps.id')
+    ->leftJoin('survei_kepuasan as sk', 'sk.alumni_id', '=', 'a.id') // join ke survei_kepuasan
     ->select(
         'l.nama_atasan_langsung as Nama',
         'l.nama_instansi as Instansi',
@@ -35,21 +36,21 @@ class LaporanBelumSurvei implements FromCollection, WithHeadings
         'ps.program_studi as Program_Studi',
         'l.tahun_lulus as Tahun_Lulus'
     )
-    ->whereNull('l.tgl_pertama_kerja')  // kondisi "belum isi tracer study"
-    // Tambahan filter
-        ->when($this->startYear, function ($query) {
-            return $query->where('l.tahun_lulus', '>=', $this->startYear);
-        })
-        ->when($this->endYear, function ($query) {
-            return $query->where('l.tahun_lulus', '<=', $this->endYear);
-        })
-        ->when($this->prodi_id, function ($query) {
-            return $query->where('a.program_studi_id', $this->prodi_id);
-        })
+    ->whereNull('sk.alumni_id') // kondisi "belum isi survei kepuasan"
+    ->when($this->startYear, function ($query) {
+        return $query->where('l.tahun_lulus', '>=', $this->startYear);
+    })
+    ->when($this->endYear, function ($query) {
+        return $query->where('l.tahun_lulus', '<=', $this->endYear);
+    })
+    ->when($this->prodi_id, function ($query) {
+        return $query->where('a.program_studi_id', $this->prodi_id);
+    })
     ->orderBy('a.nama')
     ->get();
 
-    return $rekapLulusanBelumIsiTracer;
+
+    return $data;
     }
 
     public function headings(): array
