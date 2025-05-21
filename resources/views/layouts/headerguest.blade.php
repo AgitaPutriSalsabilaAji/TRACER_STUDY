@@ -27,7 +27,7 @@
             <li><a href="{{ url('/') }}" class="{{ Request::is('/') ? 'active' : '' }}">Beranda</a></li>
             <li><a href="{{ url('/form-alumni') }}" class="{{ Request::is('form-alumni') ? 'active' : '' }}">Data
                     Alumni</a></li>
-            <li><a href="/form-atasan" class="{{ Request::is('isi-survei') ? 'active' : '' }}">Isi Survei</a></li>
+            <li><a href="/form-atasan" class="{{ Request::is('form-atasan') ? 'active' : '' }}">Isi Survei</a></li>
             <a href="/login" class="btn login-btn d-none d-md-inline">Login Admin</a>
         </nav>
 
@@ -45,7 +45,6 @@
 
     @yield('content')
 
-    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 
 </html>
