@@ -92,7 +92,7 @@ class RekapDataController extends Controller
             ];
         }
 
-            $belum_tracer = DB::table('alumni as a')
+        $belum_tracer = DB::table('alumni as a')
                 ->leftJoin('lulusan as l', 'a.nim', '=', 'l.alumni_id')
                 ->select(
                     'a.program_studi_id',
@@ -105,7 +105,7 @@ class RekapDataController extends Controller
                 ->orderBy(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'))
                 ->get();
 
-            $belum_survey = DB::table('alumni as a')
+        $belum_survey = DB::table('alumni as a')
             ->join('lulusan as l', 'a.id', '=', 'l.alumni_id')
             ->leftJoin('survei_kepuasan as sk', 'l.alumni_id', '=', 'sk.alumni_id')
             ->selectRaw("
@@ -129,6 +129,7 @@ class RekapDataController extends Controller
             ->whereBetween('tahun_lulus', [$startYear, $endYear])
             ->groupBy('program_studi_id', 'jenis_kemampuan')
             ->get();
+    
 
 
         $prodi = ProgramStudi::all();
@@ -137,7 +138,7 @@ class RekapDataController extends Controller
             'topProfesi' => $topProfesi,
             'chartData' => $chartData,
             'belum_tracer' => $belum_tracer,
-            'belum survey' => $belum_survey,
+            'belum_survey' => $belum_survey,
             'prodi' => $prodi,
             'prodi_id' => $prodi_id,
             'startYear' => $startYear,
