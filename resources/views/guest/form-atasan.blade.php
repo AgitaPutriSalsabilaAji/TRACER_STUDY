@@ -156,7 +156,7 @@
 
             if (query.length >= 3) {
                 $.ajax({
-                    url: "{{ route('autocomplete.alumni') }}",
+                    url: "{{ route('autocomplete.atasan') }}",
                     type: "GET",
                     data: { q: query },
                     success: function(data) {

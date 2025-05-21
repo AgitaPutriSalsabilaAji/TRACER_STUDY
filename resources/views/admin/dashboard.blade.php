@@ -29,12 +29,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 white">
-                    <h1>ChartJS</h1>
+                    <h1>Dasboard admin</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-item">Home</a></li>
-                        <li class="breadcrumb-item active">ChartJS</li>
+                        <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </div>
             </div>
@@ -71,7 +70,7 @@
             <div class="col-md-6 mb-3 mb-md-0">
                 <div class="p-4 bg-white shadow rounded">
                     <div class="container pt-0">
-                        <h2 class="mb-4 fs-4">Sebaran Profesi</h2>
+                        <h2 class="mb-4 fs-4">Sebaran Profesi ({{ $startYear }} - {{ $endYear }})</h2>
 
                         <div id="profesi_chart" style="width: 100%; height: 400px;"></div>
                     </div>
@@ -80,7 +79,7 @@
             <div class="col-md-6 mb-3 mb-md-0">
                 <div class="p-4 bg-white shadow rounded">
                     <div class="container pt-0">
-                        <h2 class="mb-4 fs-4">Sebaran Jenis Instansi</h2>
+                        <h2 class="mb-4 fs-4">Sebaran Jenis Instansi ({{ $startYear }} - {{ $endYear }})</h2>
 
                         <div id="intansi_chart" style="width: 100%; height: 400px;"></div>
                     </div>
@@ -93,7 +92,7 @@
             <div class="col-12">
                 <div class="p-4 bg-white shadow rounded">
                     <div class="container mt-5">
-                        <h2 class="mb-4 fs-4">Data Lulusan (2026 - 2029)</h2>
+                        <h2 class="mb-4 fs-4">Data Lulusan ({{ $startYear }} - {{ $endYear }})</h2>
                         <div class="card-body ">
                             <table id="tabel-lulusan" class="table table-bordered table-striped table-responsive">
                                 <thead>
@@ -136,7 +135,7 @@
             <div class="col-md-6 mb-3 mb-md-0">
                 <div class="p-4 bg-white shadow rounded">
                     <div class="container mt-5">
-                        <h2 class="mb-4 fs-4">Tabel rata rata masa tunggu</h2>
+                        <h2 class="mb-4 fs-4">Tabel rata rata masa tunggu ({{ $startYear }} - {{ $endYear }})</h2>
                         <table id="tabel-rata-rata-masa-tunggu" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -161,7 +160,7 @@
             <div class="col-md-6">
                 <div class="p-4 bg-white shadow rounded">
                     <div class="container mt-5">
-                        <h2 class="mb-4 fs-4">Tabel performa lulusan</h2>
+                        <h2 class="mb-4 fs-4">Tabel performa lulusan ({{ $startYear }} - {{ $endYear }})</h2>
                         <table id="tabel-performa-lulusan" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -191,43 +190,43 @@
         <div class="row mb-3">
             <div class="col-sm-6 col-md-3 mb-3">
                 <div class="p-4 bg-white shadow rounded">
-                    <strong>Kerjasama Tim</strong>
+                    <strong>Kerjasama Tim ({{ $startYear }} - {{ $endYear }}) </strong>
                     <div id="chart_kerjasama_tim" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
                 <div class="p-4 bg-white shadow rounded">
-                    <strong>Keahlian di Bidang TI</strong>
+                    <strong>Keahlian di Bidang TI ({{ $startYear }} - {{ $endYear }}) </strong>
                     <div id="chart_keahlian_di_bidang_ti" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
                 <div class="p-4 bg-white shadow rounded">
-                    <strong>Kemampuan Bahasa Asing</strong>
+                    <strong>Kemampuan Bahasa Asing ({{ $startYear }} - {{ $endYear }}) </strong>
                     <div id="chart_kemampuan_bahasa_asing" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
                 <div class="p-4 bg-white shadow rounded">
-                    <strong>Kemampuan Komunikasi</strong>
+                    <strong>Kemampuan Komunikasi ({{ $startYear }} - {{ $endYear }}) </strong>
                     <div id="chart_kemampuan_komunikasi" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
                 <div class="p-4 bg-white shadow rounded">
-                    <strong>Pengembangan Diri</strong>
+                    <strong>Pengembangan Diri ({{ $startYear }} - {{ $endYear }}) </strong>
                     <div id="chart_pengembangan_diri" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
                 <div class="p-4 bg-white shadow rounded">
-                    <strong>Kepemimpinan</strong>
+                    <strong>Kepemimpinan ({{ $startYear }} - {{ $endYear }}) </strong>
                     <div id="chart_kepemimpinan" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-sm-6 col-md-3 mb-3">
                 <div class="p-4 bg-white shadow rounded">
-                    <strong>Etos Kerja</strong>
+                    <strong>Etos Kerja ({{ $startYear }} - {{ $endYear }}) </strong>
                     <div id="chart_etos_kerja" style="height: 300px;"></div>
                 </div>
             </div>

@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
             ProgramStudiSeeder::class
         ]);
 
-        // Alumni::factory(50)->create();
+        Alumni::factory(50)->create();
         Alumni::create([
             'program_studi_id' => 2,
             'nama' => 'Purnama Ridzky Nugraha',
@@ -54,8 +54,8 @@ class DatabaseSeeder extends Seeder
             KategoriProfesiSeeder::class,
             ProfesiSeeder::class,
             JenisInstansiSeeder::class,
-            // LulusanSeeder::class,
-            // SurveiKepuasanSeeder::class,
+            LulusanSeeder::class,
+            SurveiKepuasanSeeder::class,
         ]);
     }
 }

@@ -7,7 +7,7 @@ class DataImportController extends Controller
 {
     public function index()
     {
-        return view('import');
+        return view('data.laporan.laporan');
     }
 
     public function upload(Request $request)
