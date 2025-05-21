@@ -10,6 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 
 
@@ -18,18 +20,37 @@
             cursor: pointer;
         }
 
-        .list-group-item:hover {
-            background-color: #f8f9fa;
-            /* Ganti warna hover jika perlu */
-        }
-    </style>
+           .card-header-custom {
+        background: linear-gradient(45deg, #1685fc, #3d8adc);
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        padding: 1rem;
+        border-radius: 0.5rem 0.5rem 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card-header-custom i {
+        font-size: 1.7rem;
+    }
+</style>
+
+
+     
+<div class="container my-4">
+    <div class="card shadow">
+        <div class="card-header card-header-custom">
+            <i class="fas fa-user-graduate"></i> <!-- Ikon dari Font Awesome -->
+            Form Tracer Alumni
+        </div>
+        <br>
 
     <div class="card shadow" data-aos="fade-up">
-    <div class="container my-4">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                Form Tracer Alumni
-            </div>
+   
             <div class="card-body">
                 @if (session('alert'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -208,12 +229,10 @@
         <input type="email" class="form-control" name="email_atasan_langsung" placeholder="email@domain.com">
     </div>
 
-    <div class="text-end mt-3">
-        <button type="submit" class="btn btn-primary">
+ <button type="submit" class="btn btn-primary">
             <i class="bi bi-send-fill me-1"></i>Submit
         </button>
     </div>
-</div>
 
    <style>
     .bg-siluet {
