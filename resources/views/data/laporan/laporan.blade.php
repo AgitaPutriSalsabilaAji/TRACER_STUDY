@@ -163,9 +163,6 @@
     <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
     <script src="{{ asset('js/dashboard/profesi_chart.js') }}"></script>
     <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
-    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
 
     {{-- Chart --}}
     <script>
@@ -196,13 +193,18 @@
             chart1.legend = new am4charts.Legend();
 
             // Chart 2: Bar Chart
-            var label = chart4.seriesContainer.createChild(am4core.Label);
-            label.text = "731"; // Totalnya bisa kamu hitung otomatis kalau mau
-            label.horizontalCenter = "middle";
-            label.verticalCenter = "middle";
-            label.fontSize = 24;
+            //var label = chart4.seriesContainer.createChild(am4core.Label);
+            //label.text = "731"; // Totalnya bisa kamu hitung otomatis kalau mau
+            //label.horizontalCenter = "middle";
+            //label.verticalCenter = "middle";
+            //label.fontSize = 24;
 
-            // Chart 3: Bar Chart Lulusan Belum Mengisi
+            // Chart 3: Bar Chart Lulusan Belum Tracer
+            
+            
+            // Chart 4: Bar Chart Lulusan Belum Survei
+
+        
             
         });
     </script>

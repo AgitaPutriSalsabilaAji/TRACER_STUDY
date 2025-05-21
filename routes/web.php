@@ -97,7 +97,6 @@ Route::prefix('profesi')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/laporan', [RekapDataController::class, 'index'])->name('laporan');
     Route::get('/laporan/filter', [RekapDataController::class, 'filter'])->name('laporan.filter');
-
     Route::post('/export-tracer', [RekapDataController::class, 'exportExcel'])->name('laporan.export.tracer');
     Route::post('/export-kepuasan', [RekapDataController::class, 'exportSurveiKepuasan'])->name('laporan.export.kepuasan');
     Route::post('/export-belum-tracer', [RekapDataController::class, 'exportBelumTS'])->name('laporan.export.belumTracer');
