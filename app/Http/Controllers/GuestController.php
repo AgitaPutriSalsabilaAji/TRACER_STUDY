@@ -161,19 +161,15 @@ class GuestController extends Controller
             // Jika kategori bukan 3, kirim email permohonan survei ke atasan langsung
             if ($request->kategori != 3 && !empty($request->email_atasan_langsung)) {
                 $email = $request->email_atasan_langsung;
-                $data = [
-                    'subject' => 'Permohonan Pengisian Survei Kinerja Alumni',
-                    'body' => "Yth. Bapak/Ibu,\n\n" .
-                        "Kami dari tim Tracer Study Politeknik Negeri Malang memohon kesediaan Bapak/Ibu untuk mengisi survei terkait kinerja alumni kami, saudara/i *{$alumni->nama}*, yang saat ini bekerja di perusahaan/instansi Bapak/Ibu.\n\n" .
-                        "Survei ini bertujuan untuk meningkatkan kualitas pendidikan dan menyesuaikan kurikulum dengan kebutuhan dunia kerja.\n\n" .
-                        "Mohon luangkan waktu sejenak untuk mengisi survei tersebut melalui tautan berikut:\n[tautan survei di sini]\n\n" .
-                        "Atas perhatian dan kerja sama Bapak/Ibu, kami ucapkan terima kasih.\n\n" .
-                        "Hormat kami,\nTim Tracer Study\nPoliteknik Negeri Malang"
-                ];
-
-                Mail::raw($data['body'], function ($message) use ($email, $data) {
+                $keyRecord = Key::where('alumni_id', $request->alumni_id)->first();
+                $token = $keyRecord->key_value;
+                Mail::send('emails.permohonan_survei', [
+                    'alumni' => $alumni,
+                    'token' => $token,
+                    'survey_link' => 'https://link-survey.example.com',
+                ], function ($message) use ($email) {
                     $message->to($email)
-                        ->subject($data['subject']);
+                        ->subject('Permohonan Pengisian Survei Kinerja Alumni');
                 });
             }
             return redirect('/')
