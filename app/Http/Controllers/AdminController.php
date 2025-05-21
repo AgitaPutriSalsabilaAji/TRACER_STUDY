@@ -169,8 +169,17 @@ class AdminController extends Controller
         $endYear = $request->input('end_year');
 
         $data = DB::table('view_rekap_kemampuan')
-            ->where('program_studi_id', $prodiId )  
+            ->select(
+                'program_studi_id',
+                'jenis_kemampuan',
+                DB::raw('ROUND(AVG(sangat_baik), 2) as sangat_baik'),
+                DB::raw('ROUND(AVG(baik), 2) as baik'),
+                DB::raw('ROUND(AVG(cukup), 2) as cukup'),
+                DB::raw('ROUND(AVG(kurang), 2) as kurang')
+            )
+            ->where('program_studi_id', $prodiId)
             ->whereBetween('tahun_lulus', [$startYear, $endYear])
+            ->groupBy('program_studi_id', 'jenis_kemampuan')
             ->get();
 
 
@@ -178,33 +187,34 @@ class AdminController extends Controller
     }
 
     public function index_admin()
-{
-    $breadcrumb = (object)[
-        'title' => 'Kelola Admin',
-        'list' => ['Home', 'Admin']
-    ];
-    $activeMenu = 'admin';
+    {
+        $breadcrumb = (object)[
+            'title' => 'Kelola Admin',
+            'list' => ['Home', 'Admin']
+        ];
+        $activeMenu = 'admin';
 
-    return view('data.tambah_admin.tambah_admin', compact('breadcrumb', 'activeMenu'));
-}
+        return view('data.tambah_admin.tambah_admin', compact('breadcrumb', 'activeMenu'));
+    }
 
-public function list()
-{
-    $data = Admin::select(['id', 'username', 'email']);
+    public function list()
+    {
+        $data = Admin::select(['id', 'username', 'email']);
 
-    return DataTables::of($data)
-        ->addIndexColumn()
-        ->addColumn('aksi', function ($row) {
-            $editUrl = route('admin.update', $row->id);
-            $deleteUrl = route('admin.destroy', $row->id);
-            return '
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($row) {
+                $editUrl = route('admin.update', $row->id);
+                $deleteUrl = route('admin.destroy', $row->id);
+                return '
                 <button onclick="editAdmin(\'' . $editUrl . '\', \'' . e($row->username) . '\', \'' . e($row->email) . '\')" class="btn btn-warning btn-sm">Edit</button>
                 <button onclick="deleteAdmin(\'' . $deleteUrl . '\')" class="btn btn-danger btn-sm">Hapus</button>
             ';
-        })
-        ->rawColumns(['aksi'])
-        ->make(true);
-}
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
+    }
+
 
 public function store(Request $request)
 {
@@ -226,24 +236,24 @@ public function store(Request $request)
     return redirect()->back()->with('success', 'Admin berhasil ditambahkan. ');
 }
 
-public function update(Request $request, $id)
-{
-    $request->validate([
-        'username' => 'required|unique:admins,username,' . $id,
-        'email' => 'required|email|unique:admins,email,' . $id
-    ]);
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'username' => 'required|unique:admins,username,' . $id,
+            'email' => 'required|email|unique:admins,email,' . $id
+        ]);
 
-    Admin::where('id', $id)->update([
-        'username' => $request->username,
-        'email' => $request->email
-    ]);
+        Admin::where('id', $id)->update([
+            'username' => $request->username,
+            'email' => $request->email
+        ]);
 
-    return response()->json(['success' => true]);
-}
+        return response()->json(['success' => true]);
+    }
 
-public function destroy($id)
-{
-    Admin::destroy($id);
-    return response()->json(['success' => true]);
-}
+    public function destroy($id)
+    {
+        Admin::destroy($id);
+        return response()->json(['success' => true]);
+    }
 }

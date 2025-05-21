@@ -15,11 +15,7 @@ class RekapDataController extends Controller
 {
     public function index(Request $request)
     {
-        $breadcrumb = (object)[
-            'title' => 'Selamat Datang',
-            'list' => ['Home', 'Welcome']
-        ];
-        $activeMenu = 'laporan';
+
         $prodi_id = null;
         $startYear = null;
         $endYear = null;
@@ -96,18 +92,58 @@ class RekapDataController extends Controller
             ];
         }
 
+            $belum_tracer = DB::table('alumni as a')
+                ->leftJoin('lulusan as l', 'a.nim', '=', 'l.alumni_id')
+                ->select(
+                    'a.program_studi_id',
+                    DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus) as tahun_lulus'),
+                    DB::raw('COUNT(CASE WHEN l.alumni_id IS NULL THEN 1 END) as jumlah_belum_mengisi')
+                )
+                ->whereBetween(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'), [$startYear, $endYear])
+                ->where('a.program_studi_id', $prodi_id)
+                ->groupBy('a.program_studi_id', DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'))
+                ->orderBy(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'))
+                ->get();
+
+            $belum_survey = DB::table('alumni as a')
+            ->join('lulusan as l', 'a.id', '=', 'l.alumni_id')
+            ->leftJoin('survei_kepuasan as sk', 'l.alumni_id', '=', 'sk.alumni_id')
+            ->selectRaw("
+                COUNT(CASE WHEN sk.alumni_id IS NOT NULL THEN 1 END) AS jumlah_mengisi_survei,
+                COUNT(CASE WHEN sk.alumni_id IS NULL THEN 1 END) AS jumlah_belum_mengisi_survei
+            ")
+            ->whereBetween(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'), [2023, 2025])
+            ->where('a.program_studi_id', 3)
+            ->first();
+
+        $chart_survei = DB::table('view_rekap_kemampuan')
+            ->select(
+                'program_studi_id',
+                'jenis_kemampuan',
+                DB::raw('ROUND(AVG(sangat_baik), 2) as sangat_baik'),
+                DB::raw('ROUND(AVG(baik), 2) as baik'),
+                DB::raw('ROUND(AVG(cukup), 2) as cukup'),
+                DB::raw('ROUND(AVG(kurang), 2) as kurang')
+            )
+            ->where('program_studi_id', $prodi_id)
+            ->whereBetween('tahun_lulus', [$startYear, $endYear])
+            ->groupBy('program_studi_id', 'jenis_kemampuan')
+            ->get();
+
 
         $prodi = ProgramStudi::all();
         return view('data.laporan.laporan', [
-            'breadcrumb' => $breadcrumb,
-            'activeMenu' => $activeMenu,
+            'chart_survei' => $chart_survei,
             'topProfesi' => $topProfesi,
             'chartData' => $chartData,
+            'belum_tracer' => $belum_tracer,
+            'belum survey' => $belum_survey,
             'prodi' => $prodi,
             'prodi_id' => $prodi_id,
             'startYear' => $startYear,
             'endYear' => $endYear,
         ]);
+
     }
     public function filter(Request $request)
     {
@@ -117,24 +153,26 @@ class RekapDataController extends Controller
         return redirect()->route('laporan', compact('startYear', 'endYear', 'prodi'));
     }
 
+
+
     public function exportExcel(Request $request)
     {
-        return Excel::download(new LaporanSurveiExport($request->start_year,$request->end_year,$request->prodi_id), 'Laporan Rekap Hasil Tracer Study Lulusan.xlsx');
+        return Excel::download(new LaporanSurveiExport($request->start_year, $request->end_year, $request->prodi_id), 'Laporan Rekap Hasil Tracer Study Lulusan.xlsx');
     }
 
     public function exportSurveiKepuasan(Request $request)
     {
-        return Excel::download(new LaporanSurveiKepuasan($request->start_year,$request->end_year,$request->prodi_id), 'Laporan Rekap Hasil Survei Kepuasan Pengguna Lulusan.xlsx');
+        return Excel::download(new LaporanSurveiKepuasan($request->start_year, $request->end_year, $request->prodi_id), 'Laporan Rekap Hasil Survei Kepuasan Pengguna Lulusan.xlsx');
     }
 
     public function exportBelumTS(Request $request)
     {
-        return Excel::download(new LaporanBelumTS($request->start_year,$request->end_year,$request->prodi_id), 'Laporan Rekap Lulusan Yang Belum Mengisi Tracer Study.xlsx');
+        return Excel::download(new LaporanBelumTS($request->start_year, $request->end_year, $request->prodi_id), 'Laporan Rekap Lulusan Yang Belum Mengisi Tracer Study.xlsx');
     }
 
     public function exportBelumSurvei(Request $request)
     {
 
-        return Excel::download(new LaporanBelumSurvei($request->start_year,$request->end_year,$request->prodi_id), 'Laporan Rekap Atasan Yang Belum Mengisi Survei Kepuasan.xlsx');
+        return Excel::download(new LaporanBelumSurvei($request->start_year, $request->end_year, $request->prodi_id), 'Laporan Rekap Atasan Yang Belum Mengisi Survei Kepuasan.xlsx');
     }
 }

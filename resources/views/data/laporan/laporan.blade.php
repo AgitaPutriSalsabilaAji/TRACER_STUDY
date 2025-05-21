@@ -101,7 +101,7 @@
                         <div class="card bg-white text-dark shadow-sm">
                             <div class="card-body">
                                 <h5 class="mb-4 fs-4">Rekap Hasil Survei Kepuasan Pengguna Lulusan</h5>
-                                <div id="performa_chart" style="width: 100%; height: 400px;"></div>
+                                <div id="chartdiv" style="width: 100%; height: 500px;"></div>
                                 <form action="{{ route('laporan.export.kepuasan') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="start_year" value="{{ $startYear }}">
@@ -180,7 +180,6 @@
         ];
 
         // Data 2: Rekap hasil survei kepuasan pengguna lulusan (Bar Chart)
-        const performaChartData = @json($chartData);
 
         am4core.ready(function() {
             am4core.useTheme(am4themes_animated);
@@ -197,29 +196,14 @@
             chart1.legend = new am4charts.Legend();
 
             // Chart 2: Bar Chart
-            var chart2 = am4core.create("performa_chart", am4charts.XYChart);
-            chart2.data = performaChartData;
-            let categoryAxis = chart2.xAxes.push(new am4charts.CategoryAxis());
-            categoryAxis.dataFields.category = "kategori";
-            categoryAxis.renderer.grid.template.location = 0;
-            let valueAxis = chart2.yAxes.push(new am4charts.ValueAxis());
-
-            let seriesColors = ["#5B8FF9", "#61DDAA", "#F6BD16", "#E8684A"];
-            ["sangat_baik", "baik", "cukup", "kurang"].forEach((key, idx) => {
-                let series = chart2.series.push(new am4charts.ColumnSeries());
-                series.name = key.replace('_', ' ').toUpperCase();
-                series.dataFields.valueY = key;
-                series.dataFields.categoryX = "kategori";
-                series.columns.template.tooltipText = "{name}: [bold]{valueY}[/]";
-                series.columns.template.fill = am4core.color(seriesColors[idx]);
-            });
-            chart2.legend = new am4charts.Legend();
-
             var label = chart4.seriesContainer.createChild(am4core.Label);
             label.text = "731"; // Totalnya bisa kamu hitung otomatis kalau mau
             label.horizontalCenter = "middle";
             label.verticalCenter = "middle";
             label.fontSize = 24;
+
+            // Chart 3: Bar Chart Lulusan Belum Mengisi
+            
         });
     </script>
 
@@ -311,6 +295,104 @@
             });
         });
     </script>
+
+    <!-- Styles -->
+    <style>
+        #chartdiv {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+
+    <!-- Resources -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+    <!-- Chart code -->
+    <script>
+        am5.ready(function() {
+            var root = am5.Root.new("chartdiv");
+            root.setThemes([am5themes_Animated.new(root)]);
+
+            var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                panX: false,
+                panY: false,
+                wheelX: "panX",
+                wheelY: "zoomX",
+                layout: root.verticalLayout
+            }));
+
+            var legend = chart.children.push(am5.Legend.new(root, {
+                centerX: am5.p50,
+                x: am5.p50
+            }));
+
+            // Ambil data dari Blade
+            var data = {!! json_encode($chart_survei, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!};
+
+            // Konversi string ke number
+            data = data.map(d => ({
+                ...d,
+                sangat_baik: parseFloat(d.sangat_baik),
+                baik: parseFloat(d.baik),
+                cukup: parseFloat(d.cukup)
+            }));
+
+            // Buat axis
+            var xRenderer = am5xy.AxisRendererX.new(root, {
+                cellStartLocation: 0.1,
+                cellEndLocation: 0.9
+            });
+
+            var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                categoryField: "jenis_kemampuan",
+                renderer: xRenderer,
+                tooltip: am5.Tooltip.new(root, {})
+            }));
+
+            xAxis.data.setAll(data);
+
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                renderer: am5xy.AxisRendererY.new(root, {
+                    strokeOpacity: 0.1
+                })
+            }));
+
+            // Fungsi bikin series
+            function makeSeries(name, fieldName) {
+                var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                    name: name,
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    valueYField: fieldName,
+                    categoryXField: "jenis_kemampuan"
+                }));
+
+                series.columns.template.setAll({
+                    tooltipText: "{name}, {categoryX}: {valueY}%",
+                    width: am5.percent(90),
+                    tooltipY: 0,
+                    strokeOpacity: 0
+                });
+
+                series.data.setAll(data);
+
+                series.appear();
+
+                legend.data.push(series);
+            }
+
+            // Tambahkan series
+            makeSeries("Sangat Baik", "sangat_baik");
+            makeSeries("Baik", "baik");
+            makeSeries("Cukup", "cukup");
+
+            chart.appear(1000, 100);
+        });
+    </script>
+
+
     <style>
         .year-option {
             padding: 8px;
