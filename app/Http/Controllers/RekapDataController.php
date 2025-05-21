@@ -93,30 +93,28 @@ class RekapDataController extends Controller
         }
 
         $belum_tracer = DB::table('alumni as a')
-                ->leftJoin('lulusan as l', 'a.nim', '=', 'l.alumni_id')
-                ->select(
-                    'a.program_studi_id',
-                    DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus) as tahun_lulus'),
-                    DB::raw('COUNT(CASE WHEN l.alumni_id IS NULL THEN 1 END) as jumlah_belum_mengisi')
-                )
-                ->whereBetween(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'), [$startYear, $endYear])
-                ->where('a.program_studi_id', $prodi_id)
-                ->groupBy('a.program_studi_id', DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'))
-                ->orderBy(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'))
-                ->get();
-             
+            ->leftJoin('lulusan as l', 'a.nim', '=', 'l.alumni_id')
+            ->select(
+                'a.program_studi_id',
+                DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus) as tahun_lulus'),
+                DB::raw('COUNT(CASE WHEN l.alumni_id IS NULL THEN 1 END) as jumlah_belum_mengisi')
+            )
+            ->whereBetween(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'), [$startYear, $endYear])
+            ->where('a.program_studi_id', $prodi_id)
+            ->groupBy('a.program_studi_id', DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'))
+            ->orderBy(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'))
+            ->get();
+
 
         $belum_survey = DB::table('alumni as a')
             ->join('lulusan as l', 'a.id', '=', 'l.alumni_id')
             ->leftJoin('survei_kepuasan as sk', 'l.alumni_id', '=', 'sk.alumni_id')
             ->selectRaw("
-                COUNT(CASE WHEN sk.alumni_id IS NOT NULL THEN 1 END) AS jumlah_mengisi_survei,
-                COUNT(CASE WHEN sk.alumni_id IS NULL THEN 1 END) AS jumlah_belum_mengisi_survei
-            ")
-            ->whereBetween(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'), [2023, 2025])
-            ->where('a.program_studi_id', 3)
-            ->groupBy(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'))
-            ->orderBy('tahun_lulus')
+        COUNT(CASE WHEN sk.alumni_id IS NOT NULL THEN 1 END) AS jumlah_mengisi_survei,
+        COUNT(CASE WHEN sk.alumni_id IS NULL THEN 1 END) AS jumlah_belum_mengisi_survei
+    ")
+            ->whereBetween(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'), [$startYear, $endYear])
+            ->where('a.program_studi_id', $prodi_id)
             ->get();
 
 
@@ -133,7 +131,7 @@ class RekapDataController extends Controller
             ->whereBetween('tahun_lulus', [$startYear, $endYear])
             ->groupBy('program_studi_id', 'jenis_kemampuan')
             ->get();
-    
+
 
 
         $prodi = ProgramStudi::all();
@@ -148,7 +146,6 @@ class RekapDataController extends Controller
             'startYear' => $startYear,
             'endYear' => $endYear,
         ]);
-
     }
     public function filter(Request $request)
     {
