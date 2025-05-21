@@ -18,6 +18,7 @@ class AlumniController extends Controller
     // Simpan hasil survei atasan
    public function store(Request $request)
 {
+  
     $request->validate([
         'alumni_id' => 'required|exists:alumni,id',
         'nama_surveyor' => 'required|string|max:255',

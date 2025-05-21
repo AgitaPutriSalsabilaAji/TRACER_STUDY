@@ -206,43 +206,43 @@
         <!-- Row 4: Beberapa Chart Kecil -->
         <div class="row mb-3">
             <div class="col-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded  "data-aos="fade-in">
+                <div class="p-4 bg-white shadow rounded  "data-aos="fade-up">
                     <strong>Kerjasama Tim ({{ $startYear }} - {{ $endYear }})</strong>
                     <div id="chart_kerjasama_tim" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded  "data-aos="fade-in">
+                <div class="p-4 bg-white shadow rounded  "data-aos="fade-up">
                     <strong>Keahlian di Bidang TI ({{ $startYear }} - {{ $endYear }})</strong>
                     <div id="chart_keahlian_di_bidang_ti" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded  "data-aos="fade-in">
+                <div class="p-4 bg-white shadow rounded  "data-aos="fade-up">
                     <strong>Kemampuan Bahasa Asing ({{ $startYear }} - {{ $endYear }})</strong>
                     <div id="chart_kemampuan_bahasa_asing" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded  "data-aos="fade-in">
+                <div class="p-4 bg-white shadow rounded  "data-aos="fade-up">
                     <strong>Kemampuan Komunikasi ({{ $startYear }} - {{ $endYear }})</strong>
                     <div id="chart_kemampuan_komunikasi" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded  "data-aos="fade-in">
+                <div class="p-4 bg-white shadow rounded  "data-aos="fade-up">
                     <strong>Pengembangan Diri ({{ $startYear }} - {{ $endYear }})</strong>
                     <div id="chart_pengembangan_diri" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded  "data-aos="fade-in">
+                <div class="p-4 bg-white shadow rounded  "data-aos="fade-up">
                     <strong>Kepemimpinan ({{ $startYear }} - {{ $endYear }})</strong>
                     <div id="chart_kepemimpinan" style="height: 300px;"></div>
                 </div>
             </div>
             <div class="col-6 col-md-3 mb-3">
-                <div class="p-4 bg-white shadow rounded  "data-aos="fade-in">
+                <div class="p-4 bg-white shadow rounded  "data-aos="fade-up">
                     <strong>Etos Kerja ({{ $startYear }} - {{ $endYear }})</strong>
                     <div id="chart_etos_kerja" style="height: 300px;"></div>
                 </div>

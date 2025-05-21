@@ -38,85 +38,104 @@ class GuestController extends Controller
     public function store(Request $request)
     {
         try {
+            // Cari alumni berdasarkan alumni_id
             $alumni = Alumni::find($request->alumni_id);
+            if (!$alumni) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('alert', 'Alumni tidak ditemukan.');
+            }
 
-
-            $validated = [];
-            if (!($request->tahun_lulus == Carbon::parse($alumni->tanggal_lulus)->year)) {
+            // Validasi kecocokan tahun lulus dengan data alumni
+            if ($request->tahun_lulus != Carbon::parse($alumni->tanggal_lulus)->year) {
                 return redirect()->back()
                     ->withInput()
                     ->with('alert', 'Tahunnya beda tuan');
-            } else if (!($request->prodi == $alumni->program_studi_id)) {
+            }
+
+            // Validasi kecocokan program studi dengan data alumni
+            if ($request->prodi != $alumni->program_studi_id) {
                 return redirect()->back()
                     ->withInput()
                     ->with('alert', 'Produnya beda sama yang di database');
             }
-            if ($request->kategori == 3) {
-                $validated = $request->validate([
-                    'alumni_id'              => 'required|exists:alumni,id',
-                    'profesi_id'             => 'required|exists:profesi,id',
-                    'tahun_lulus'            => 'required|numeric',
-                    'no_hp'                  => 'required|string|max:15',
-                    'email'                  => 'required|email',
-                ]);
-                Lulusan::create($validated);
-            } else {
-                $validated = $request->validate([
-                    'alumni_id'              => 'required|exists:alumni,id',
-                    'profesi_id'             => 'required|exists:profesi,id',
-                    'jenis_instansi_id'      => 'nullable|exists:jenis_instansi,id',
-                    'tahun_lulus'            => 'required|numeric',
-                    'no_hp'                  => 'required|string|max:15',
-                    'email'                  => 'required|email',
-                    'tgl_pertama_kerja'      => 'nullable|date',
+
+            // Atur aturan validasi dasar
+            $rules = [
+                'g-recaptcha-response' => 'required|captcha',
+                'alumni_id' => 'required|exists:alumni,id',
+                'profesi_id' => 'required|exists:profesi,id',
+                'tahun_lulus' => 'required|numeric',
+                'no_hp' => 'required|string|max:15',
+                'email' => 'required|email',
+            ];
+
+            // Jika kategori bukan 3, tambahkan validasi detail instansi dan atasan
+            if ($request->kategori != 3) {
+                $rules = array_merge($rules, [
+                    'jenis_instansi_id' => 'nullable|exists:jenis_instansi,id',
+                    'tgl_pertama_kerja' => 'nullable|date',
                     'tgl_mulai_kerja_instansi' => 'nullable|date',
-                    'nama_instansi'          => 'nullable|string|max:255',
-                    'skala'                  => 'nullable|string|max:100',
-                    'lokasi_instansi'        => 'nullable|string|max:255',
-                    'nama_atasan_langsung'   => 'nullable|string|max:255',
+                    'nama_instansi' => 'nullable|string|max:255',
+                    'skala' => 'nullable|string|max:100',
+                    'lokasi_instansi' => 'nullable|string|max:255',
+                    'nama_atasan_langsung' => 'nullable|string|max:255',
                     'jabatan_atasan_langsung' => 'nullable|string|max:255',
-                    'no_hp_atasan_langsung'  => 'nullable|string|max:15',
-                    'email_atasan_langsung'  => 'nullable|email',
+                    'no_hp_atasan_langsung' => 'nullable|string|max:15',
+                    'email_atasan_langsung' => 'nullable|email',
                 ]);
+            }
 
+            // Pesan error khusus captcha
+            $messages = [
+                'g-recaptcha-response.required' => 'Silakan centang captcha terlebih dahulu.',
+                'g-recaptcha-response.captcha' => 'Kode captcha tidak valid. Silakan coba lagi.',
+            ];
 
-                Lulusan::create($validated);
+            // Validasi request sekaligus semua aturan dan pesan
+            $validated = $request->validate($rules, $messages);
+
+            // Simpan data lulusan ke database
+            Lulusan::create($validated);
+
+            // Jika kategori bukan 3, kirim email permohonan survei ke atasan langsung
+            if ($request->kategori != 3 && !empty($request->email_atasan_langsung)) {
                 $email = $request->email_atasan_langsung;
-
                 $data = [
                     'subject' => 'Permohonan Pengisian Survei Kinerja Alumni',
-                    'title' => 'Permohonan Pengisian Survei',
                     'body' => "Yth. Bapak/Ibu,\n\n" .
                         "Kami dari tim Tracer Study Politeknik Negeri Malang memohon kesediaan Bapak/Ibu untuk mengisi survei terkait kinerja alumni kami, saudara/i *{$alumni->nama}*, yang saat ini bekerja di perusahaan/instansi Bapak/Ibu.\n\n" .
                         "Survei ini bertujuan untuk meningkatkan kualitas pendidikan dan menyesuaikan kurikulum dengan kebutuhan dunia kerja.\n\n" .
                         "Mohon luangkan waktu sejenak untuk mengisi survei tersebut melalui tautan berikut:\n[tautan survei di sini]\n\n" .
                         "Atas perhatian dan kerja sama Bapak/Ibu, kami ucapkan terima kasih.\n\n" .
-                        "Hormat kami,\n" .
-                        "Tim Tracer Study\n" .
-                        "Politeknik Negeri Malang"
+                        "Hormat kami,\nTim Tracer Study\nPoliteknik Negeri Malang"
                 ];
 
                 Mail::raw($data['body'], function ($message) use ($email, $data) {
                     $message->to($email)
                         ->subject($data['subject']);
                 });
-
-                return redirect('/')->with('success', 'Data alumni berhasil disimpan!');
             }
+            return redirect('/')
+                ->with('success', 'Data alumni berhasil disimpan!');
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // Jika validasi gagal
+            // Log error validasi
+            Log::error('Validation error: ' . $e->getMessage());
+
             return redirect()->back()
-                ->withErrors($e->validator) // Mengirim error validasi kembali
-                ->withInput() // Menyertakan data inputan sebelumnya
+                ->withErrors($e->validator)
+                ->withInput()
                 ->with('alert', 'Terjadi kesalahan validasi. Mohon periksa kembali data yang Anda masukkan.');
-        } catch (Exception $e) {
-            // Tangkap exception lainnya
-            Log::error('Error menyimpan data alumni: ' . $e->getMessage()); // Log error ke file log
-            return back()
+        } catch (\Exception $e) {
+            // Log error umum
+            Log::error('Error menyimpan data alumni: ' . $e->getMessage());
+
+            return redirect()->back()
                 ->with('alert', 'Terjadi kesalahan saat menyimpan data alumni. Silakan coba lagi.')
                 ->withInput();
         }
     }
+
 
 
     public function getNama(Request $request)
