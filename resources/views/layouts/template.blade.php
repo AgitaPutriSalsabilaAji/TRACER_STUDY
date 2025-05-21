@@ -50,6 +50,12 @@
         <!-- /.control-sidebar -->
 
 
+        <!-- Main Footer -->
+        <footer class="main-footer" style="text-align: center;">
+            <strong>Copyright &copy; 2025 Tracer Study Politeknik Negeri Malang</strong>
+        </footer>
+
+
     </div>
     <!-- ./wrapper -->
 
