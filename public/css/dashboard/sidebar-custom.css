@@ -32,10 +32,10 @@
 .nav-link.active .nav-icon {
   color: white !important;
 }
-.nav-link.active {
+.nav .nav-treeview .nav-link.active {
   pointer-events: none;       
-  background-color: #343a40;  
-  color: white;               
+  background-color: 	#7bb5f9 !important;  
+  color: rgb(255, 255, 255) !important;               
 }
 
 

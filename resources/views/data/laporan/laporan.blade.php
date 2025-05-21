@@ -101,7 +101,7 @@
                         <div class="card bg-white text-dark shadow-sm">
                             <div class="card-body">
                                 <h5 class="mb-4 fs-4">Rekap Hasil Survei Kepuasan Pengguna Lulusan</h5>
-                                <div id="chartdiv" style="width: 100%; height: 500px;"></div>
+                                <div id="chart_rekap_survei_kepuasan" style="width: 100%; height: 500px;"></div>
                                 <form action="{{ route('laporan.export.kepuasan') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="start_year" value="{{ $startYear }}">
@@ -288,9 +288,9 @@
 
     <!-- Styles -->
     <style>
-        #chartdiv {
+        #chart_rekap_survei_kepuasan {
             width: 100%;
-            height: 500px;
+            height: 300px;
         }
     </style>
 
@@ -302,7 +302,7 @@
     <!-- Chart code -->
     <script>
         am5.ready(function() {
-            var root = am5.Root.new("chartdiv");
+            var root = am5.Root.new("chart_rekap_survei_kepuasan");
             root.setThemes([am5themes_Animated.new(root)]);
 
             var chart = root.container.children.push(am5xy.XYChart.new(root, {

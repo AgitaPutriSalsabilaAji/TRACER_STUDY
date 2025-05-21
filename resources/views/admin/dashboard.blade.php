@@ -1,5 +1,35 @@
 @extends('layouts.template')
 @section('content')
+    <style>
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-card {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.p-4.bg-white.shadow.rounded');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('animate-card');
+                }, index * 200);
+            });
+        });
+    </script>
+
     {{-- modal filter --}}
     <div id="yearAlert" class="alert alert-warning alert-dismissible fade show d-none" role="alert">
         <strong>Peringatan!</strong> Silakan pilih rentang tahun terlebih dahulu.
@@ -65,7 +95,7 @@
         </div>
     </div>
 
-    <div class="container-fluid my-6 px-4">
+    <div class="container-fluid my-6 px-4 animate-card">
         <div class="row mb-3">
             <div class="col-md-6 mb-3 mb-md-0">
                 <div class="p-4 bg-white shadow rounded">
