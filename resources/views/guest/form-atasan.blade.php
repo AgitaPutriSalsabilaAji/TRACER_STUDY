@@ -28,7 +28,7 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="nama_surveyor" class="form-label">Nama Suerveyor</label>
+                        <label for="nama_surveyor" class="form-label">Nama Surveyor</label>
                         <input type="text" class="form-control" id="nama_surveyor" name="nama_surveyor" required>
                     </div>
                     <div class="col-md-6">
@@ -55,59 +55,93 @@
                     <div id="nama-error" class="text-danger mt-1" style="display: none;">Nama alumni tidak valid.</div>
                 </div>
 
-                <div id="form-survey" style="display: none;">
-                    <hr>
-                    <h5 class="mb-3">Penilaian Kompetensi Alumni<br><small>(1 = Sangat Kurang 😞, 4 = Sangat Baik 😃)</small></h5>
+                {{-- Bagian Penilaian Kompetensi --}}
+                <hr>
+                <h5 class="mb-3">Penilaian Kompetensi Alumni</h5>
 
-                    @php
-                        $pertanyaan = [
-                            'kerjasama_tim' => 'Kerjasama Tim',
-                            'keahlian_di_bidang_ti' => 'Keahlian di bidang IT',
-                            'pengembangan_diri' => 'Kemampuan mengembangkan diri',
-                            'kepemimpinan' => 'Kemampuan kepemimpinan',
-                            'kemampuan_bahasa_asing' => 'Kemampuan bahasa asing',
-                            'kemampuan_komunikasi' => 'Kemampuan komunikasi',
-                            'etos_kerja' => 'Etos kerja'
-                        ];
+                @php
+                    $pertanyaan = [
+                        'kerjasama_tim' => 'Kerjasama Tim',
+                        'keahlian_di_bidang_ti' => 'Keahlian di bidang IT',
+                        'pengembangan_diri' => 'Kemampuan mengembangkan diri',
+                        'kepemimpinan' => 'Kemampuan kepemimpinan',
+                        'kemampuan_bahasa_asing' => 'Kemampuan bahasa asing',
+                        'kemampuan_komunikasi' => 'Kemampuan komunikasi',
+                        'etos_kerja' => 'Etos kerja'
+                    ];
 
-                        $emojis = [
-                            '1' => '😞 Sangat Kurang',
-                            '2' => '😐 Kurang',
-                            '3' => '🙂 Baik',
-                            '4' => '😃 Sangat Baik'
-                        ];
-                    @endphp
+                    $emojis = [
+                        '1' => ['icon' => '😞', 'label' => 'Kurang'],
+                        '2' => ['icon' => '😐', 'label' => 'Cukup'],
+                        '3' => ['icon' => '🙂', 'label' => 'Baik'],
+                        '4' => ['icon' => '😃', 'label' => 'Sangat Baik']
+                    ];
 
-                    @foreach($pertanyaan as $key => $label)
-                        <div class="mb-3">
-                            <label class="form-label">{{ $label }}</label>
-                            <select class="form-select" name="{{ $key }}" required>
-                                <option value="">Pilih nilai</option>
-                                @foreach($emojis as $value => $text)
-                                    <option value="{{ $value }}">{{ $value }} - {{ $text }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    @endforeach
+                    $layout = [2, 2, 2, 1];
+                    $pertanyaan_keys = array_keys($pertanyaan);
+                    $index = 0;
+                @endphp
 
-                    <div class="mb-3">
-                        <label class="form-label">Kompetensi yang Belum Terpenuhi</label>
-                        <textarea name="kompetensi_belum_terpenuhi" class="form-control" rows="3" placeholder="Opsional"></textarea>
+                @foreach($layout as $cols)
+                    <div class="row mb-4">
+                        @for($i=0; $i<$cols; $i++)
+                            @php
+                                if(!isset($pertanyaan_keys[$index])) break;
+                                $key = $pertanyaan_keys[$index];
+                                $label = $pertanyaan[$key];
+                                $index++;
+                            @endphp
+                            <div class="col-md-6 col-lg-{{ 12 / $cols }} mb-3">
+                                <label class="form-label">{{ $label }}</label>
+                                <div class="d-flex gap-3 justify-content-center">
+                                    @foreach($emojis as $value => $data)
+                                        <div class="text-center">
+                                            <input type="radio" id="{{ $key }}_{{ $value }}" name="{{ $key }}" value="{{ $value }}" class="d-none" required>
+                                            <label for="{{ $key }}_{{ $value }}" class="emoji-label d-block">{{ $data['icon'] }}</label>
+                                            <small class="d-block">{{ $data['label'] }}</small>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endfor
                     </div>
+                @endforeach
 
-                    <div class="mb-3">
-                        <label class="form-label">Saran untuk Kurikulum Kami</label>
-                        <textarea name="saran_kurikulum" class="form-control" rows="3" placeholder="Opsional"></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-success">Kirim Survei</button>
+                <div class="mb-3">
+                    <label class="form-label">Kompetensi yang Belum Terpenuhi</label>
+                    <textarea name="kompetensi_belum_terpenuhi" class="form-control" rows="3" placeholder="Opsional"></textarea>
                 </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Saran untuk Kurikulum Kami</label>
+                    <textarea name="saran_kurikulum" class="form-control" rows="3" placeholder="Opsional"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success">Kirim Survei</button>
             </form>
         </div>
     </div>
 </div>
 
-{{-- Script tetap --}}
+{{-- Emoji Styles --}}
+<style>
+    .emoji-label {
+        font-size: 2rem;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .emoji-label:hover {
+        transform: scale(1.2);
+    }
+
+    input[type="radio"].d-none:checked + label {
+        color: #0d6efd;
+        transform: scale(1.3);
+    }
+</style>
+
+{{-- jQuery & Autocomplete --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(function () {
@@ -116,7 +150,6 @@
         $('#nama_alumni').on('keyup', function () {
             const query = $(this).val();
             $('#alumni_id').val('');
-            $('#form-survey').hide();
             validName = false;
             $('.list-group').remove();
             $('#nama-error').hide();
@@ -126,36 +159,32 @@
                     url: "{{ route('autocomplete.atasan') }}",
                     type: "GET",
                     data: { q: query },
-                    // Bagian success ajax diubah menjadi seperti ini:
-            success: function(data) {
-                if (data.length > 0) {
-                    let dropdown = '<ul class="list-group position-absolute w-100" style="z-index:1000;">';
-                    data.forEach(item => {
-                        dropdown += `<li class="list-group-item" data-id="${item.id}">${item.text}</li>`;
-                        
-                    });
-                    dropdown += '</ul>';
-                    $('#nama_alumni').after(dropdown);
+                    success: function(data) {
+                        if (data.length > 0) {
+                            let dropdown = '<ul class="list-group position-absolute w-100" style="z-index:1000;">';
+                            data.forEach(item => {
+                                dropdown += `<li class="list-group-item" data-id="${item.id}">${item.text}</li>`;
+                            });
+                            dropdown += '</ul>';
+                            $('#nama_alumni').after(dropdown);
 
-                    $('.list-group-item').on('click', function () {
-                        const selectedText = $(this).text();
-                        const selectedId = $(this).data('id');
-                        $('#nama_alumni').val(selectedText);
-                        $('#alumni_id').val(selectedId);
-                        validName = true;
-                        $('.list-group').remove();
-                        $('#nama-error').hide();
-                        $('#form-survey').slideDown();
-                    });
-                } else {
-                    $('#nama-error').text('Alumni tidak ditemukan.').show();
-                }
-            },
-
-            
+                            $('.list-group-item').on('click', function () {
+                                const selectedText = $(this).text();
+                                const selectedId = $(this).data('id');
+                                $('#nama_alumni').val(selectedText);
+                                $('#alumni_id').val(selectedId);
+                                validName = true;
+                                $('.list-group').remove();
+                                $('#nama-error').hide();
+                            });
+                        } else {
+                            $('#nama-error').text('Alumni tidak ditemukan.').show();
+                        }
+                    }
                 });
             }
         });
+
         $('form').submit(function (e) {
             if (!validName || !$('#alumni_id').val()) {
                 e.preventDefault();
@@ -171,4 +200,5 @@
         });
     });
 </script>
+ @include('layouts.footerguest')
 @endsection

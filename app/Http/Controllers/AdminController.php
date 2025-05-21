@@ -215,22 +215,26 @@ class AdminController extends Controller
             ->make(true);
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'username' => 'required|unique:admins,username',
-            'email' => 'required|email|unique:admins,email',
-            'password' => 'required|min:8'
-        ]);
 
-        Admin::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
+        'username' => 'required|unique:admins,username',
+        'email' => 'required|email|unique:admins,email',
+    ]);
 
-        return response()->json(['success' => true]);
-    }
+    // Buat password otomatis sama dengan username (biasanya di-hash dulu)
+    $password = Hash::make($request->username);
+
+    Admin::create([
+        'username' => $request->username,
+        'name' => $request->username,
+        'email' => $request->email,
+        'password' => $password
+    ]);
+
+    return redirect()->back()->with('success', 'Admin berhasil ditambahkan. ');
+}
 
     public function update(Request $request, $id)
     {

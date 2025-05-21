@@ -101,7 +101,7 @@
                         <div class="card bg-white text-dark shadow-sm">
                             <div class="card-body">
                                 <h5 class="mb-4 fs-4">Rekap Hasil Survei Kepuasan Pengguna Lulusan</h5>
-                                <div id="performa_chart" style="width: 100%; height: 400px;"></div>
+                                <div id="chartdiv" style="width: 100%; height: 500px;"></div>
                                 <form action="{{ route('laporan.export.kepuasan') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="start_year" value="{{ $startYear }}">
@@ -314,47 +314,44 @@
     <!-- Chart code -->
     <script>
         am5.ready(function() {
-
             var root = am5.Root.new("chartdiv");
-
-            root.setThemes([
-                am5themes_Animated.new(root)
-            ]);
+            root.setThemes([am5themes_Animated.new(root)]);
 
             var chart = root.container.children.push(am5xy.XYChart.new(root, {
                 panX: false,
                 panY: false,
-                paddingLeft: 0,
                 wheelX: "panX",
                 wheelY: "zoomX",
                 layout: root.verticalLayout
             }));
 
-            var legend = chart.children.push(
-                am5.Legend.new(root, {
-                    centerX: am5.p50,
-                    x: am5.p50
-                })
-            );
+            var legend = chart.children.push(am5.Legend.new(root, {
+                centerX: am5.p50,
+                x: am5.p50
+            }));
 
-            // Ganti data di sini sesuai hasil dari Laravel
+            // Ambil data dari Blade
             var data = {!! json_encode($chart_survei, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) !!};
-            console.log(data);
+
+            // Konversi string ke number
+            data = data.map(d => ({
+                ...d,
+                sangat_baik: parseFloat(d.sangat_baik),
+                baik: parseFloat(d.baik),
+                cukup: parseFloat(d.cukup)
+            }));
+
+            // Buat axis
             var xRenderer = am5xy.AxisRendererX.new(root, {
                 cellStartLocation: 0.1,
-                cellEndLocation: 0.9,
-                minorGridEnabled: true
+                cellEndLocation: 0.9
             });
 
             var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-                categoryField: "jenis_kemampuan", // Ganti dari "year"
+                categoryField: "jenis_kemampuan",
                 renderer: xRenderer,
                 tooltip: am5.Tooltip.new(root, {})
             }));
-
-            xRenderer.grid.template.setAll({
-                location: 1
-            });
 
             xAxis.data.setAll(data);
 
@@ -364,6 +361,7 @@
                 })
             }));
 
+            // Fungsi bikin series
             function makeSeries(name, fieldName) {
                 var series = chart.series.push(am5xy.ColumnSeries.new(root, {
                     name: name,
@@ -374,7 +372,7 @@
                 }));
 
                 series.columns.template.setAll({
-                    tooltipText: "{name}, {categoryX}:{valueY}",
+                    tooltipText: "{name}, {categoryX}: {valueY}%",
                     width: am5.percent(90),
                     tooltipY: 0,
                     strokeOpacity: 0
@@ -384,32 +382,18 @@
 
                 series.appear();
 
-                series.bullets.push(function() {
-                    return am5.Bullet.new(root, {
-                        locationY: 0,
-                        sprite: am5.Label.new(root, {
-                            text: "{valueY}",
-                            fill: root.interfaceColors.get("alternativeText"),
-                            centerY: 0,
-                            centerX: am5.p50,
-                            populateText: true
-                        })
-                    });
-                });
-
                 legend.data.push(series);
             }
 
-            // Ganti nama kategori sesuai field
-            makeSeries("Sangat Baik", "Sangat Baik");
-            makeSeries("Baik", "Baik");
-            makeSeries("Cukup", "Cukup");
-            makeSeries("Kurang", "Kurang");
+            // Tambahkan series
+            makeSeries("Sangat Baik", "sangat_baik");
+            makeSeries("Baik", "baik");
+            makeSeries("Cukup", "cukup");
 
             chart.appear(1000, 100);
-
         });
     </script>
+
 
     <style>
         .year-option {
