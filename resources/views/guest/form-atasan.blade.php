@@ -1,7 +1,9 @@
 @extends('layouts.headerguest')
 
 @section('content')
-<div class="container my-4">
+<div class="container-fluid bg-siluet py-5">
+    <div class="container">
+
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -18,44 +20,43 @@
         </div>
     @endif
 
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-            Form Survei Kepuasan Pengguna Alumni
-        </div>
+    <div class="card shadow" data-aos="fade-up">
         <div class="card-body">
             <form method="POST" action="{{ route('submit.atasan') }}">
                 @csrf
+                 <div class="card-header bg-primary text-white">
+                Form Survei Kepuasan Pengguna Alumni
+            </div>
 
-                <div class="row mb-3">
+                <div class="row mb-3 mt-3">
                     <div class="col-md-6">
-                        <label for="nama_surveyor" class="form-label">Nama Surveyor</label>
+                        <label for="nama_surveyor" class="form-label"><i class="bi bi-person-fill me-1"></i>Nama Surveyor</label>
                         <input type="text" class="form-control" id="nama_surveyor" name="nama_surveyor" required>
                     </div>
                     <div class="col-md-6">
-                        <label for="instansi" class="form-label">Instansi</label>
+                        <label for="instansi" class="form-label"><i class="bi bi-building me-1"></i>Instansi</label>
                         <input type="text" class="form-control" id="instansi" name="instansi" required>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="jabatan" class="form-label">Jabatan</label>
+                        <label for="jabatan" class="form-label"><i class="bi bi-briefcase-fill me-1"></i>Jabatan</label>
                         <input type="text" class="form-control" id="jabatan" name="jabatan" required>
                     </div>
                     <div class="col-md-6">
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label"><i class="bi bi-envelope-fill me-1"></i>Email</label>
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                 </div>
 
                 <div class="mb-3 position-relative">
-                    <label for="nama_alumni" class="form-label">Data Alumni</label>
+                    <label for="nama_alumni" class="form-label"><i class="bi bi-search me-1"></i>Data Alumni</label>
                     <input type="text" class="form-control" id="nama_alumni" name="nama_alumni" autocomplete="off" required>
                     <input type="hidden" id="alumni_id" name="alumni_id">
                     <div id="nama-error" class="text-danger mt-1" style="display: none;">Nama alumni tidak valid.</div>
                 </div>
 
-                {{-- Bagian Penilaian Kompetensi --}}
                 <hr>
                 <h5 class="mb-3">Penilaian Kompetensi Alumni</h5>
 
@@ -77,7 +78,7 @@
                         '4' => ['icon' => '😃', 'label' => 'Sangat Baik']
                     ];
 
-                    $layout = [2, 2, 2, 1];
+                    $layout = [3, 3, 3];
                     $pertanyaan_keys = array_keys($pertanyaan);
                     $index = 0;
                 @endphp
@@ -108,42 +109,86 @@
                 @endforeach
 
                 <div class="mb-3">
-                    <label class="form-label">Kompetensi yang Belum Terpenuhi</label>
+                    <label class="form-label"><i class="bi bi-x-circle me-1"></i>Kompetensi yang Belum Terpenuhi</label>
                     <textarea name="kompetensi_belum_terpenuhi" class="form-control" rows="3" placeholder="Opsional"></textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Saran untuk Kurikulum Kami</label>
+                    <label class="form-label"><i class="bi bi-lightbulb-fill me-1"></i>Saran untuk Kurikulum Kami</label>
                     <textarea name="saran_kurikulum" class="form-control" rows="3" placeholder="Opsional"></textarea>
                 </div>
-
-                <button type="submit" class="btn btn-success">Kirim Survei</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-send-fill me-1"></i>Kirim Survei
+                </button>
             </form>
         </div>
     </div>
 </div>
 
-{{-- Emoji Styles --}}
+{{-- Styles --}}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
 <style>
+    .bg-siluet {
+        background: radial-gradient(circle at top right, #bad0fc 0%, #ffffff 40%, #ffffff 100%);
+        min-height: 100vh;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 1rem;
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
     .emoji-label {
         font-size: 2rem;
         cursor: pointer;
-        transition: transform 0.2s ease;
+        transition: all 0.2s ease;
+        color: gray;
     }
 
     .emoji-label:hover {
-        transform: scale(1.2);
+        transform: scale(1.3);
+        color: #007bff;
     }
 
-    input[type="radio"].d-none:checked + label {
-        color: #0d6efd;
-        transform: scale(1.3);
+    input[type="radio"].d-none:checked + .emoji-label {
+        color: #28a745;
+        transform: scale(1.5);
+    }
+
+    input.form-control:focus, textarea.form-control:focus {
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+        border-color: #80bdff;
+    }
+
+    .card:hover {
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        transition: box-shadow 0.3s ease-in-out;
     }
 </style>
 
-{{-- jQuery & Autocomplete --}}
+{{-- Scripts --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
+    AOS.init();
+
     $(function () {
         let validName = false;
 
@@ -200,5 +245,6 @@
         });
     });
 </script>
- @include('layouts.footerguest')
+
+@include('layouts.footerguest')
 @endsection

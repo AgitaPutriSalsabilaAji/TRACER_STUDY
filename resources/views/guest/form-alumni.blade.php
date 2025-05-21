@@ -3,6 +3,8 @@
 @section('active-home', 'active')
 
 @section('content')
+<div class="container-fluid bg-siluet py-5">
+    <div class="container">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
@@ -20,7 +22,7 @@
         }
     </style>
 
-
+    <div class="card shadow" data-aos="fade-up">
     <div class="container my-4">
         <div class="card">
             <div class="card-header bg-primary text-white">
@@ -181,8 +183,35 @@
             </div>
         </div>
     </div>
+   <style>
+    .bg-siluet {
+        background: radial-gradient(circle at top right, #bad0fc 0%, #ffffff 40%, #ffffff 100%);
+        min-height: 100vh;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 1rem;
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script>
+       
         $(document).ready(function() {
             let validName = false;
 
