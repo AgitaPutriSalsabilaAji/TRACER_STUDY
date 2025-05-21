@@ -119,7 +119,7 @@
                         <div class="card bg-white text-dark shadow-sm">
                             <div class="card-body">
                                 <h5 class="mb-4 fs-4">Rekap Lulusan Yang Belum Mengisi Tracer Study</h5>
-                                <div id="belum_tracer_chart" style="width: 100%; height: 400px;"></div>
+<div id="belum_tracer"></div>
                                 <form action="{{ route('laporan.export.belumTracer') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="start_year" value="{{ $startYear }}">
@@ -137,7 +137,7 @@
                         <div class="card bg-white text-dark shadow-sm">
                             <div class="card-body">
                                 <h5 class="mb-4 fs-4">Rekap Atasan Yang Belum Mengisi Survei Kepuasan</h5>
-                                <div id="belum_survei_chart" style="width: 100%; height: 400px;"></div>
+<div id="belum_survey"></div>
                                 <form action="{{ route('laporan.export.belumSurvei') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="start_year" value="{{ $startYear }}">
@@ -191,18 +191,6 @@
             pieSeries1.labels.template.disabled = true;
             pieSeries1.ticks.template.disabled = true;
             chart1.legend = new am4charts.Legend();
-
-            // Chart 2: Bar Chart
-            //var label = chart4.seriesContainer.createChild(am4core.Label);
-            //label.text = "731"; // Totalnya bisa kamu hitung otomatis kalau mau
-            //label.horizontalCenter = "middle";
-            //label.verticalCenter = "middle";
-            //label.fontSize = 24;
-
-            // Chart 3: Bar Chart Lulusan Belum Tracer
-            
-            
-            // Chart 4: Bar Chart Lulusan Belum Survei
 
         
             
@@ -393,9 +381,164 @@
             chart.appear(1000, 100);
         });
     </script>
-
-
+    // chart belum tracer
+    <!-- Styles -->
     <style>
+    #belum_tracer {
+    width: 100%;
+    height: 500px;
+    }
+    </style>
+
+    <!-- Kirim data dari Laravel -->
+    <script>
+    const belumTracerData = @json($belum_tracer);
+    </script>
+
+    <!-- Chart code -->
+    <script>
+    am5.ready(function() {
+
+    var root = am5.Root.new("belum_tracer");
+
+    root.setThemes([
+    am5themes_Animated.new(root)
+    ]);
+
+    var chart = root.container.children.push(am5xy.XYChart.new(root, {
+    panX: true,
+    panY: true,
+    wheelX: "panX",
+    wheelY: "zoomX",
+    pinchZoomX: true,
+    paddingLeft:0,
+    paddingRight:1
+    }));
+
+    var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+    cursor.lineY.set("visible", false);
+
+    var xRenderer = am5xy.AxisRendererX.new(root, { 
+    minGridDistance: 30, 
+    minorGridEnabled: true
+    });
+
+    xRenderer.labels.template.setAll({
+    rotation: -90,
+    centerY: am5.p50,
+    centerX: am5.p100,
+    paddingRight: 15
+    });
+
+    xRenderer.grid.template.setAll({ location: 1 })
+
+    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+    maxDeviation: 0.3,
+    categoryField: "country",
+    renderer: xRenderer,
+    tooltip: am5.Tooltip.new(root, {})
+    }));
+
+    var yRenderer = am5xy.AxisRendererY.new(root, {
+    strokeOpacity: 0.1
+    });
+
+    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+    maxDeviation: 0.3,
+    renderer: yRenderer
+    }));
+
+    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+    name: "Jumlah Belum Mengisi",
+    xAxis: xAxis,
+    yAxis: yAxis,
+    valueYField: "value",
+    sequencedInterpolation: true,
+    categoryXField: "country",
+    tooltip: am5.Tooltip.new(root, {
+        labelText: "{valueY}"
+    })
+    }));
+
+    series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
+    series.columns.template.adapters.add("fill", function (fill, target) {
+    return chart.get("colors").getIndex(series.columns.indexOf(target));
+    });
+    series.columns.template.adapters.add("stroke", function (stroke, target) {
+    return chart.get("colors").getIndex(series.columns.indexOf(target));
+    });
+
+    // Format data dari Laravel
+    const chartData = belumTracerData.map(item => ({
+    country: `Prodi ${item.program_studi_id} (${item.tahun_lulus})`,
+    value: item.jumlah_belum_mengisi
+    }));
+
+    xAxis.data.setAll(chartData);
+    series.data.setAll(chartData);
+
+    series.appear(1000);
+    chart.appear(1000, 100);
+
+    }); // end am5.ready()
+    </script>
+
+    // Chart Belum Survei
+
+
+<style>
+  #belum_survey {
+    width: 100%;
+    height: 500px;
+  }
+</style>
+
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+<!-- amCharts 5 library -->
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+<!-- Ambil data dari Laravel -->
+<script>
+  let belumSurveiData = @json($belum_survey); // ini bentuknya array berisi satu object
+  let data = belumSurveiData[0]; // ambil object pertama
+
+  am5.ready(function() {
+    // Buat root element
+    var root = am5.Root.new("belum_survey");
+
+    // Tambahkan tema animasi
+    root.setThemes([
+      am5themes_Animated.new(root)
+    ]);
+
+    // Buat chart pie
+    var chart = root.container.children.push(am5percent.PieChart.new(root, {
+      layout: root.verticalLayout
+    }));
+
+    // Buat pie series
+    var series = chart.series.push(am5percent.PieSeries.new(root, {
+      valueField: "value",
+      categoryField: "category"
+    }));
+
+    // Set data ke chart
+    series.data.setAll([
+      { category: "Sudah Mengisi", value: data.jumlah_mengisi_survei },
+      { category: "Belum Mengisi", value: data.jumlah_belum_mengisi_survei }
+    ]);
+
+    // Animasi muncul awal
+    series.appear(1000, 100);
+  });
+</script>
+
+<style>
         .year-option {
             padding: 8px;
             background: #f1f1f1;

@@ -104,6 +104,7 @@ class RekapDataController extends Controller
                 ->groupBy('a.program_studi_id', DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'))
                 ->orderBy(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'))
                 ->get();
+             
 
         $belum_survey = DB::table('alumni as a')
             ->join('lulusan as l', 'a.id', '=', 'l.alumni_id')
@@ -114,7 +115,10 @@ class RekapDataController extends Controller
             ")
             ->whereBetween(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'), [2023, 2025])
             ->where('a.program_studi_id', 3)
-            ->first();
+            ->groupBy(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'))
+            ->orderBy('tahun_lulus')
+            ->get();
+
 
         $chart_survei = DB::table('view_rekap_kemampuan')
             ->select(
