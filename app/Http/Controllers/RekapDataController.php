@@ -39,7 +39,7 @@ class RekapDataController extends Controller
             ->where('a.program_studi_id', $prodi_id)
             ->groupBy('p.nama_profesi')
             ->orderByDesc('jumlah')
-            ->limit(9)
+            ->limit(4)
             ->get();
 
         // Hitung jumlah profesi selain top 9
@@ -131,6 +131,7 @@ class RekapDataController extends Controller
             ->whereBetween('tahun_lulus', [$startYear, $endYear])
             ->groupBy('program_studi_id', 'jenis_kemampuan')
             ->get();
+
 
 
 
