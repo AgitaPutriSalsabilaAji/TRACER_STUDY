@@ -318,6 +318,7 @@
                     toggleAtasanFields(true);
                 }
             });
+            }
     </script>
-
+ @include('layouts.footerguest')
 @endsection
