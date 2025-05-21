@@ -31,12 +31,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 white">
-                    <h1>ChartJS</h1>
+                    <h1>Rekap Laporan</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#" class="breadcrumb-item">Home</a></li>
-                        <li class="breadcrumb-item active">ChartJS</li>
+                        <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </div>
             </div>
@@ -491,67 +491,58 @@
         }); // end am5.ready()
     </script>
 
-    // Chart Belum Survei
 
 
-    <style>
-        #belum_survey {
-            width: 100%;
-            height: 500px;
-        }
-    </style>
 
-    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+<style>
+  #belum_survey {
+    width: 100%;
+    height: 500px;
+  }
+</style>
+<!-- amCharts 5 library -->
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
-    <!-- amCharts 5 library -->
-    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+<!-- Ambil data dari Laravel -->
+<script>
+  let belumSurveiData = @json($belum_survey); 
+  let data = belumSurveiData[0]; 
 
-    <!-- Ambil data dari Laravel -->
-    <script>
-        let belumSurveiData = @json($belum_survey); // ini bentuknya array berisi satu object
-        let data = belumSurveiData[0]; // ambil object pertama
+  am5.ready(function() {
+    // Buat root element
+    var root = am5.Root.new("belum_survey");
 
-        am5.ready(function() {
-            // Buat root element
-            var root = am5.Root.new("belum_survey");
+    // Tambahkan tema animasi
+    root.setThemes([
+      am5themes_Animated.new(root)
+    ]);
 
-            // Tambahkan tema animasi
-            root.setThemes([
-                am5themes_Animated.new(root)
-            ]);
+    // Buat chart pie
+    var chart = root.container.children.push(am5percent.PieChart.new(root, {
+      layout: root.verticalLayout
+    }));
 
-            // Buat chart pie
-            var chart = root.container.children.push(am5percent.PieChart.new(root, {
-                layout: root.verticalLayout
-            }));
+    // Buat pie series
+    var series = chart.series.push(am5percent.PieSeries.new(root, {
+      valueField: "value",
+      categoryField: "category"
+    }));
 
-            // Buat pie series
-            var series = chart.series.push(am5percent.PieSeries.new(root, {
-                valueField: "value",
-                categoryField: "category"
-            }));
+    // Set data ke chart
+    series.data.setAll([
+      { category: "Sudah Mengisi", value: data.jumlah_mengisi_survei },
+      { category: "Belum Mengisi", value: data.jumlah_belum_mengisi_survei }
+    ]);
 
-            // Set data ke chart
-            series.data.setAll([{
-                    category: "Sudah Mengisi",
-                    value: data.jumlah_mengisi_survei
-                },
-                {
-                    category: "Belum Mengisi",
-                    value: data.jumlah_belum_mengisi_survei
-                }
-            ]);
+    // Animasi muncul awal
+    series.appear(1000, 100);
+  });
+</script>
 
-            // Animasi muncul awal
-            series.appear(1000, 100);
-        });
-    </script>
+<style>
 
-    <style>
         .year-option {
             padding: 8px;
             background: #f1f1f1;
