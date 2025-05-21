@@ -8,9 +8,7 @@
     <li class="nav-item d-none d-sm-inline-block">
       <a href="/" class="nav-link">Home</a>
     </li>
-    <li class="nav-item d-none d-sm-inline-block">
-      <a href="#" class="nav-link">Contact</a>
-    </li>
+  
   </ul>
 
   <!-- Right navbar links -->
@@ -38,7 +36,7 @@
     </li> --}}
 
     <!-- Language Dropdown -->
-    <li class="nav-item dropdown">
+    {{-- <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-language"></i> Language
       </a>
@@ -46,7 +44,7 @@
         <a class="dropdown-item" href="#" id="lang-id">Indonesian</a>
         <a class="dropdown-item" href="#" id="lang-en">English</a>
       </div>
-    </li>
+    </li> --}}
 
     <!-- User Dropdown -->
     <li class="nav-item dropdown">
