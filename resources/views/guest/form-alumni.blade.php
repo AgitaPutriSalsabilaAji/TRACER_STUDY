@@ -1,14 +1,16 @@
+
 @extends('layouts.headerguest')
 
 @section('active-home', 'active')
 
 @section('content')
 <div class="container-fluid bg-siluet py-5">
-    <div class="container">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-    </script>
+<head>
+    <!-- ...other head content -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</head>
 
 
     <style>
@@ -50,139 +52,169 @@
                 <form action="{{ route('submit.alumni') }}" method="POST">
                     @csrf
                     <div class="row g-4">
-                        <!-- Kolom Kiri -->
-                        <div class="col-md-6">
-                            <div class="mb-3 position-relative">
-                                <label for="nama" class="form-label">Nama atau NIM</label>
-                                <input type="text" class="form-control" id="nama" autocomplete="off" required>
-                                <input type="hidden" name="alumni_id" id="alumni_id">
-                                <div class="invalid-feedback" id="nama-error">Nama atau NIM tidak ditemukan.</div>
-                            </div>
-
-
-                            <div class="mb-3">
-                                <label class="form-label">Program Studi</label>
-                                <select class="form-select" name="prodi" required>
-                                <option value="" disabled selected>-- Pilih Program Studi --</option>
-                                    @foreach ($prodi as $p)
-                                        <option value="{{ $p->id }}">{{ $p->program_studi }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Tahun Lulus</label>
-                                <select class="form-select" name="tahun_lulus" required>
-                                <option value="" disabled selected>-- Pilih Tahun Lulus --</option>
-                                    @foreach ($tahunLulus as $p)
-                                        <option value="{{ $p }}">{{ $p }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">No. HP</label>
-                                <input type="text" class="form-control" name="no_hp" required pattern="^[0-9]+$">
-                                <div class="invalid-feedback">
-                                    Harus diisi dengan angka saja.
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Tanggal Pertama Kerja</label>
-                                <input type="date" class="form-control" name="tgl_pertama_kerja">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Tanggal Mulai di Instansi Saat Ini</label>
-                                <input type="date" class="form-control" name="tgl_mulai_kerja_instansi">
-                            </div>
-                            <div class="mb-3">
-                                      <label class="form-label">Jenis Instansi</label>
-                                      <select class="form-select" name="jenis_instansi_id" required>
-                                          <option value="" disabled selected>-- Pilih Jenis Instansi --</option>
-                                          @foreach ($jenisInstansi as $instansi)
-                                              <option value="{{ $instansi->id }}">{{ $instansi->jenis_instansi }}</option>
-                                          @endforeach
-                                      </select>
-                                  </div>
-                            <div class="mb-3">
-                                <label class="form-label">Nama Instansi</label>
-                                <input type="text" class="form-control" name="nama_instansi">
-                            </div>
-                        </div>
-
-                        <!-- Kolom Kanan -->
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Skala Instansi</label>
-                                <select class="form-select" name="skala" id="skala_instansi">
-                                    <option value="" disabled selected>-- Pilih Skala Instansi --</option>
-                                    <option value="Internasional">Multinasional/Internasional</option>
-                                    <option value="Nasional">Nasional</option>
-                                    <option value="Wirausaha">Wirausaha</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Lokasi Instansi</label>
-                                <input type="text" class="form-control" name="lokasi_instansi">
-                            </div>
-                            <div class="mb-3">
-                                <label for="kategori" class="form-label">Kategori profesi</label>
-                                <select class="form-select" name="kategori" required id="kategori"
-                                    onchange="handleKategoriChange(this)">
-                                    <option value="" disabled selected>-- Pilih Kategori --</option>
-                                    @foreach ($kategoriProfesi as $kategori)
-                                        <option value="{{ $kategori->id }}">{{ $kategori->kategori_profesi }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="profesi" class="form-label">Profesi</label>
-                                <select class="form-select" name="profesi_id" id="profesi">
-                                    <option value="" disabled selected>-- Pilih Profesi --</option>
-                                    <!-- Opsi profesi akan muncul berdasarkan kategori -->
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Nama Atasan Langsung</label>
-                                <input type="text" class="form-control" name="nama_atasan_langsung"
-                                    placeholder="Nama lengkap atasan langsung">
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Jabatan Atasan Langsung</label>
-                                <input type="text" class="form-control" name="jabatan_atasan_langsung"
-                                    placeholder="Contoh: Manajer HRD">
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">No. HP Atasan Langsung</label>
-                                <input type="text" class="form-control" name="no_hp_atasan_langsung"
-                                    pattern="^[0-9]+$" placeholder="Hanya angka">
-                                <div class="invalid-feedback">
-                                    Harus diisi dengan angka saja.
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Email Atasan Langsung</label>
-                                <input type="email" class="form-control" name="email_atasan_langsung"
-                                    placeholder="email@domain.com">
-                            </div>
-
-                            <div class="text-end mt-3">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+                      <!-- Kolom Kiri -->
+<div class="col-md-6">
+    <div class="mb-3 position-relative">
+        <label for="nama" class="form-label">
+            <i class="bi bi-person text-primary me-2"></i>Nama atau NIM
+        </label>
+        <input type="text" class="form-control" id="nama" autocomplete="off" required>
+        <input type="hidden" name="alumni_id" id="alumni_id">
+        <div class="invalid-feedback" id="nama-error">Nama atau NIM tidak ditemukan.</div>
     </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-journal-text text-primary me-2"></i>Program Studi
+        </label>
+        <select class="form-select" name="prodi" required>
+            <option value="" disabled selected>-- Pilih Program Studi --</option>
+            @foreach ($prodi as $p)
+                <option value="{{ $p->id }}">{{ $p->program_studi }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-calendar3 text-primary me-2"></i>Tahun Lulus
+        </label>
+        <select class="form-select" name="tahun_lulus" required>
+            <option value="" disabled selected>-- Pilih Tahun Lulus --</option>
+            @foreach ($tahunLulus as $p)
+                <option value="{{ $p }}">{{ $p }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-telephone text-primary me-2"></i>No. HP
+        </label>
+        <input type="text" class="form-control" name="no_hp" required pattern="^[0-9]+$">
+        <div class="invalid-feedback">Harus diisi dengan angka saja.</div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-envelope text-primary me-2"></i>Email
+        </label>
+        <input type="email" class="form-control" name="email" required>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-calendar-event text-primary me-2"></i>Tanggal Pertama Kerja
+        </label>
+        <input type="date" class="form-control" name="tgl_pertama_kerja">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-calendar2-week text-primary me-2"></i>Tanggal Mulai di Instansi Saat Ini
+        </label>
+        <input type="date" class="form-control" name="tgl_mulai_kerja_instansi">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-building text-primary me-2"></i>Jenis Instansi
+        </label>
+        <select class="form-select" name="jenis_instansi_id" required>
+            <option value="" disabled selected>-- Pilih Jenis Instansi --</option>
+            @foreach ($jenisInstansi as $instansi)
+                <option value="{{ $instansi->id }}">{{ $instansi->jenis_instansi }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-bank text-primary me-2"></i>Nama Instansi
+        </label>
+        <input type="text" class="form-control" name="nama_instansi">
+    </div>
+</div>
+
+<!-- Kolom Kanan -->
+<div class="col-md-6">
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-diagram-3 text-primary me-2"></i>Skala Instansi
+        </label>
+        <select class="form-select" name="skala" id="skala_instansi">
+            <option value="" disabled selected>-- Pilih Skala Instansi --</option>
+            <option value="Internasional">Multinasional/Internasional</option>
+            <option value="Nasional">Nasional</option>
+            <option value="Wirausaha">Wirausaha</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-geo-alt text-primary me-2"></i>Lokasi Instansi
+        </label>
+        <input type="text" class="form-control" name="lokasi_instansi">
+    </div>
+
+    <div class="mb-3">
+        <label for="kategori" class="form-label">
+            <i class="bi bi-tags text-primary me-2"></i>Kategori Profesi
+        </label>
+        <select class="form-select" name="kategori" required id="kategori" onchange="handleKategoriChange(this)">
+            <option value="" disabled selected>-- Pilih Kategori --</option>
+            @foreach ($kategoriProfesi as $kategori)
+                <option value="{{ $kategori->id }}">{{ $kategori->kategori_profesi }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="profesi" class="form-label">
+            <i class="bi bi-person-workspace text-primary me-2"></i>Profesi
+        </label>
+        <select class="form-select" name="profesi_id" id="profesi">
+            <option value="" disabled selected>-- Pilih Profesi --</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-person-lines-fill text-primary me-2"></i>Nama Atasan Langsung
+        </label>
+        <input type="text" class="form-control" name="nama_atasan_langsung" placeholder="Nama lengkap atasan langsung">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-person-badge text-primary me-2"></i>Jabatan Atasan Langsung
+        </label>
+        <input type="text" class="form-control" name="jabatan_atasan_langsung" placeholder="Contoh: Manajer HRD">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-telephone-forward text-primary me-2"></i>No. HP Atasan Langsung
+        </label>
+        <input type="text" class="form-control" name="no_hp_atasan_langsung" pattern="^[0-9]+$"
+            placeholder="Hanya angka">
+        <div class="invalid-feedback">Harus diisi dengan angka saja.</div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">
+            <i class="bi bi-envelope-open text-primary me-2"></i>Email Atasan Langsung
+        </label>
+        <input type="email" class="form-control" name="email_atasan_langsung" placeholder="email@domain.com">
+    </div>
+
+    <div class="text-end mt-3">
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-send-fill me-1"></i>Submit
+        </button>
+    </div>
+</div>
+
    <style>
     .bg-siluet {
         background: radial-gradient(circle at top right, #bad0fc 0%, #ffffff 40%, #ffffff 100%);
@@ -336,7 +368,7 @@
 
                 if (selectedValue === '3') {
                     toggleAtasanFields(false);
-                } else {
+                } else { 
                     toggleAtasanFields(true);
                 }
             });
@@ -350,5 +382,7 @@
             });
             }
     </script>
- @include('layouts.footerguest')
+    <br>
+    @include('layouts.footerguest')
 @endsection
+

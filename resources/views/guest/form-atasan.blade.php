@@ -126,7 +126,7 @@
 </div>
 
 {{-- Styles --}}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
 <style>
@@ -181,6 +181,15 @@
         box-shadow: 0 0 20px rgba(0,0,0,0.1);
         transition: box-shadow 0.3s ease-in-out;
     }
+    .form-label i.bi {
+    color: #0d6efd;
+}
+
+.form-label i.bi {
+    color: #0d6efd; /* warna biru bootstrap */
+}
+
+
 </style>
 
 {{-- Scripts --}}
