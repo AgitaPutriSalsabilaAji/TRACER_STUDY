@@ -483,7 +483,6 @@
     }); // end am5.ready()
     </script>
 
-    // Chart Belum Survei
 
 
 <style>
@@ -504,8 +503,8 @@
 
 <!-- Ambil data dari Laravel -->
 <script>
-  let belumSurveiData = @json($belum_survey); // ini bentuknya array berisi satu object
-  let data = belumSurveiData[0]; // ambil object pertama
+  let belumSurveiData = @json($belum_survey); 
+  let data = belumSurveiData[0]; 
 
   am5.ready(function() {
     // Buat root element
