@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Key;
 use App\Models\Lulusan;
 use App\Models\Profesi;
 use App\Models\ProgramStudi;
@@ -15,12 +16,71 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Alumni; // Pastikan model Alumni sudah ada
 
+
 class GuestController extends Controller
 {
+
+    public function validateKode(Request $request)
+    {
+        $request->validate([
+            'alumni_id' => 'required|exists:alumni,id',
+            'nim' => 'required|string',
+            'prodi' => 'required|integer',
+            'tahun_lulus' => 'required|integer',
+        ]);
+        $exists = Lulusan::where('alumni_id', $request->alumni_id)->exists();
+        if ($exists) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Hanya bisa mengisi satu kali'
+            ]);
+        }
+        $alumni = Alumni::find($request->alumni_id);
+
+        if (!$alumni) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Alumni tidak ditemukan.'
+            ]);
+        }
+
+        if ($alumni->nim !== $request->nim) {
+            return response()->json([
+                'success' => false,
+                'message' => 'NIM tidak cocok.'
+            ]);
+        }
+
+        if ((int)$request->tahun_lulus !== (int)Carbon::parse($alumni->tanggal_lulus)->year) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tahun lulus tidak cocok.'
+            ]);
+        }
+
+        if ((int)$request->prodi !== (int)$alumni->program_studi_id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Program studi tidak cocok.'
+            ]);
+        }
+        $token = bin2hex(random_bytes(16));
+        Key::create([
+            'alumni_id' => $request->alumni_id,
+            'key_value' =>  $token,
+        ]);
+        session(['validated_alumni' => true]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Validasi berhasil'
+        ]);
+    }
     // Menampilkan form
     // GuestController.php
     public function create()
     {
+        $validated = session('validated_alumni', false);
         // Generate tahun lulus dari tahun sekarang hingga 2000
         $tahunLulus = [];
         for ($i = date('Y'); $i >= 2000; $i--) {
@@ -32,7 +92,7 @@ class GuestController extends Controller
         $jenisInstansi = JenisInstansi::all();
         $prodi =  ProgramStudi::all();
         // Pastikan nama view sesuai dengan file view yang ada
-        return view('guest/form-alumni', compact('tahunLulus', 'kategoriProfesi', 'profesi', 'jenisInstansi', 'prodi'));
+        return view('guest/form-alumni', compact('tahunLulus', 'kategoriProfesi', 'profesi', 'jenisInstansi', 'prodi', 'validated'));
     }
 
     public function store(Request $request)
