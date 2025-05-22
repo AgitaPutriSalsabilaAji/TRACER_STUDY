@@ -289,10 +289,10 @@
                                                 placeholder="email@domain.com">
                                         </div>
 
-                                        <div id="captcha-error" class="alert alert-danger d-none mt-2" role="alert">
-                                        </div>
+                                        {{-- <div id="captcha-error" class="alert alert-danger d-none mt-2" role="alert">
+                                        </div> --}}
 
-                                        {!! NoCaptcha::display() !!}
+                                        {{-- {!! NoCaptcha::display() !!} --}}
 
                                         <div class="text-end mt-3">
                                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -302,7 +302,7 @@
                                 </div>
                             </form>
 
-                            {!! NoCaptcha::renderJs() !!}
+                            {{-- {!! NoCaptcha::renderJs() !!} --}}
                         </div>
                     </div>
                 </div>
@@ -495,7 +495,7 @@
     </script>
     @include('layouts.footerguest')
     {{-- captha --}}
-
+    {{-- 
     <script>
         document.getElementById('form-alumni').addEventListener('submit', function(e) {
             var response = grecaptcha.getResponse();
@@ -510,7 +510,7 @@
                 errorBox.classList.add('d-none');
             }
         });
-    </script>
+    </script> --}}
     {{-- validasi kode --}}
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
