@@ -19,14 +19,47 @@
             </ul>
         </div>
     @endif
+      <style>
+        .list-group-item {
+            cursor: pointer;
+        }
+
+           .card-header-custom {
+        background: linear-gradient(45deg, #1685fc, #3d8adc);
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        padding: 1rem;
+        border-radius: 0.5rem 0.5rem 0 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .card-header-custom i {
+        font-size: 1.7rem;
+    }
+</style>
+
+
+     
+<div class="container my-4">
+    <div class="card shadow">
+        <div class="card-header card-header-custom">
+            <i class="fas fa-user-tie"></i>
+<!-- Ikon dari Font Awesome -->
+            Form Survei Kepuasan Alumni
+        </div>
+        <br>
+
 
     <div class="card shadow" data-aos="fade-up">
         <div class="card-body">
             <form method="POST" action="{{ route('submit.atasan') }}">
                 @csrf
-                 <div class="card-header bg-primary text-white">
-                Form Survei Kepuasan Pengguna Alumni
-            </div>
+              
 
                 <div class="row mb-3 mt-3">
                     <div class="col-md-6">
@@ -117,18 +150,20 @@
                     <label class="form-label"><i class="bi bi-lightbulb-fill me-1"></i>Saran untuk Kurikulum Kami</label>
                     <textarea name="saran_kurikulum" class="form-control" rows="3" placeholder="Opsional"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-send-fill me-1"></i>Kirim Survei
-                </button>
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-send-fill me-1"></i>kirim survei
+        </button>
+    </div>
+
             </form>
         </div>
     </div>
 </div>
 
 {{-- Styles --}}
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
     .bg-siluet {
         background: radial-gradient(circle at top right, #bad0fc 0%, #ffffff 40%, #ffffff 100%);
@@ -181,6 +216,15 @@
         box-shadow: 0 0 20px rgba(0,0,0,0.1);
         transition: box-shadow 0.3s ease-in-out;
     }
+    .form-label i.bi {
+    color: #0d6efd;
+}
+
+.form-label i.bi {
+    color: #0d6efd; /* warna biru bootstrap */
+}
+
+
 </style>
 
 {{-- Scripts --}}
