@@ -1,15 +1,14 @@
-
 @extends('layouts.headerguest')
 
 @section('active-home', 'active')
 
 @section('content')
-<div class="container-fluid bg-siluet py-5">
-    <div class="container">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-    </script>
+    <div class="container-fluid bg-siluet py-5">
+        <div class="container">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+                crossorigin="anonymous">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
+            </script>
 
 
             <style>
@@ -17,181 +16,240 @@
                     cursor: pointer;
                 }
 
-        .list-group-item:hover {
-            background-color: #f8f9fa;
-            /* Ganti warna hover jika perlu */
-        }
-    </style>
+                .list-group-item:hover {
+                    background-color: #f8f9fa;
+                    /* Ganti warna hover jika perlu */
+                }
+            </style>
+            @if (session('alert'))
+                <div id="alertWarning" class="alert alert-warning alert-dismissible fade show mt-2" role="alert"
+                    style="position: fixed; top: 20px; right: 20px; z-index: 1100; min-width: 300px;">
+                    {{ session('alert') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
 
-    <div class="card shadow" data-aos="fade-up">
-    <div class="container my-4">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                Form Tracer Alumni
-            </div>
-            <div class="card-body">
-                @if (session('alert'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        {{ session('alert') }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
+                <script>
+                    setTimeout(() => {
+                        const alert = document.getElementById('alertWarning');
+                        if (alert) {
+                            alert.classList.remove('show');
+                            setTimeout(() => alert.remove(), 150);
+                        }
+                    }, 4000);
+                </script>
+            @endif
 
-                @if ($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Terjadi kesalahan pada input Anda:</strong>
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
-                <form action="{{ route('submit.alumni') }}" method="POST">
-                    @csrf
-                    <div class="row g-4">
-                        <!-- Kolom Kiri -->
-                        <div class="col-md-6">
-                            <div class="mb-3 position-relative">
-                                <label for="nama" class="form-label">Nama atau NIM</label>
-                                <input type="text" class="form-control" id="nama" autocomplete="off" required>
-                                <input type="hidden" name="alumni_id" id="alumni_id">
-                                <div class="invalid-feedback" id="nama-error">Nama atau NIM tidak ditemukan.</div>
-                            </div>
+            @if ($errors->has('g-recaptcha-response'))
+                <div id="errorCaptcha" class="text-danger"
+                    style="position: fixed; top: 80px; right: 20px; z-index: 1100; min-width: 300px; background: #f8d7da; padding: 10px; border-radius: 4px; box-shadow: 0 0 5px rgba(0,0,0,0.1);">
+                    {{ $errors->first('g-recaptcha-response') }}
+                </div>
 
+                <script>
+                    setTimeout(() => {
+                        const errorDiv = document.getElementById('errorCaptcha');
+                        if (errorDiv) {
+                            errorDiv.style.transition = 'opacity 0.5s ease';
+                            errorDiv.style.opacity = '0';
+                            setTimeout(() => errorDiv.remove(), 500);
+                        }
+                    }, 5000);
+                </script>
+            @endif
 
-                            <div class="mb-3">
-                                <label class="form-label">Program Studi</label>
-                                <select class="form-select" name="prodi" required>
-                                <option value="" disabled selected>-- Pilih Program Studi --</option>
-                                    @foreach ($prodi as $p)
-                                        <option value="{{ $p->id }}">{{ $p->program_studi }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Tahun Lulus</label>
-                                <select class="form-select" name="tahun_lulus" required>
-                                <option value="" disabled selected>-- Pilih Tahun Lulus --</option>
-                                    @foreach ($tahunLulus as $p)
-                                        <option value="{{ $p }}">{{ $p }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">No. HP</label>
-                                <input type="text" class="form-control" name="no_hp" required pattern="^[0-9]+$">
-                                <div class="invalid-feedback">
-                                    Harus diisi dengan angka saja.
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Tanggal Pertama Kerja</label>
-                                <input type="date" class="form-control" name="tgl_pertama_kerja">
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Tanggal Mulai di Instansi Saat Ini</label>
-                                <input type="date" class="form-control" name="tgl_mulai_kerja_instansi">
-                            </div>
-                            <div class="mb-3">
-                                      <label class="form-label">Jenis Instansi</label>
-                                      <select class="form-select" name="jenis_instansi_id" required>
-                                          <option value="" disabled selected>-- Pilih Jenis Instansi --</option>
-                                          @foreach ($jenisInstansi as $instansi)
-                                              <option value="{{ $instansi->id }}">{{ $instansi->jenis_instansi }}</option>
-                                          @endforeach
-                                      </select>
-                                  </div>
-                            <div class="mb-3">
-                                <label class="form-label">Nama Instansi</label>
-                                <input type="text" class="form-control" name="nama_instansi">
-                            </div>
+            <div class="card shadow" data-aos="fade-up">
+                <div class="container my-4">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            Form Tracer Alumni
                         </div>
-
-                        <!-- Kolom Kanan -->
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Skala Instansi</label>
-                                <select class="form-select" name="skala" id="skala_instansi">
-                                    <option value="" disabled selected>-- Pilih Skala Instansi --</option>
-                                    <option value="Internasional">Multinasional/Internasional</option>
-                                    <option value="Nasional">Nasional</option>
-                                    <option value="Wirausaha">Wirausaha</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Lokasi Instansi</label>
-                                <input type="text" class="form-control" name="lokasi_instansi">
-                            </div>
-                            <div class="mb-3">
-                                <label for="kategori" class="form-label">Kategori profesi</label>
-                                <select class="form-select" name="kategori" required id="kategori"
-                                    onchange="handleKategoriChange(this)">
-                                    <option value="" disabled selected>-- Pilih Kategori --</option>
-                                    @foreach ($kategoriProfesi as $kategori)
-                                        <option value="{{ $kategori->id }}">{{ $kategori->kategori_profesi }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="profesi" class="form-label">Profesi</label>
-                                <select class="form-select" name="profesi_id" id="profesi">
-                                    <option value="" disabled selected>-- Pilih Profesi --</option>
-                                    <!-- Opsi profesi akan muncul berdasarkan kategori -->
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Nama Atasan Langsung</label>
-                                <input type="text" class="form-control" name="nama_atasan_langsung"
-                                    placeholder="Nama lengkap atasan langsung">
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Jabatan Atasan Langsung</label>
-                                <input type="text" class="form-control" name="jabatan_atasan_langsung"
-                                    placeholder="Contoh: Manajer HRD">
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">No. HP Atasan Langsung</label>
-                                <input type="text" class="form-control" name="no_hp_atasan_langsung"
-                                    pattern="^[0-9]+$" placeholder="Hanya angka">
-                                <div class="invalid-feedback">
-                                    Harus diisi dengan angka saja.
+                        <div class="card-body">
+                            @if (session('alert'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ session('alert') }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
                                 </div>
-                            </div>
+                            @endif
 
-                            <div class="mb-3">
-                                <label class="form-label">Email Atasan Langsung</label>
-                                <input type="email" class="form-control" name="email_atasan_langsung"
-                                    placeholder="email@domain.com">
-                            </div>
+                            @if ($errors->any())
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Terjadi kesalahan pada input Anda:</strong>
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endif
+                            <form action="{{ route('submit.alumni') }}" id="form-alumni" method="POST">
+                                @csrf
+                                <div class="row g-4">
+                                    <!-- Kolom Kiri -->
+                                    <div class="col-md-6">
+                                        <div class="mb-3 position-relative">
+                                            <label for="nama" class="form-label">Nama atau NIM</label>
+                                            <input type="text" class="form-control" id="nama" autocomplete="off"
+                                                required>
+                                            <input type="hidden" name="alumni_id" id="alumni_id">
+                                            <div class="invalid-feedback" id="nama-error">Nama atau NIM tidak ditemukan.
+                                            </div>
+                                        </div>
 
-                            <div class="text-end mt-3">
-                                <button type="submit" class="btn btn-primary">Submit</button>
 
-                            </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Program Studi</label>
+                                            <select class="form-select" name="prodi" required>
+                                                <option value="" disabled selected>-- Pilih Program Studi --</option>
+                                                @foreach ($prodi as $p)
+                                                    <option value="{{ $p->id }}">{{ $p->program_studi }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Tahun Lulus</label>
+                                            <select class="form-select" name="tahun_lulus" required>
+                                                <option value="" disabled selected>-- Pilih Tahun Lulus --</option>
+                                                @foreach ($tahunLulus as $p)
+                                                    <option value="{{ $p }}">{{ $p }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">No. HP</label>
+                                            <input type="text" class="form-control" name="no_hp" required
+                                                pattern="^[0-9]+$">
+                                            <div class="invalid-feedback">
+                                                Harus diisi dengan angka saja.
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control" name="email" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Tanggal Pertama Kerja</label>
+                                            <input type="date" class="form-control" name="tgl_pertama_kerja">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Tanggal Mulai di Instansi Saat Ini</label>
+                                            <input type="date" class="form-control" name="tgl_mulai_kerja_instansi">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Jenis Instansi</label>
+                                            <select class="form-select" name="jenis_instansi_id">
+                                                <option value="" disabled selected>-- Pilih Jenis Instansi --</option>
+                                                @foreach ($jenisInstansi as $instansi)
+                                                    <option value="{{ $instansi->id }}">{{ $instansi->jenis_instansi }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Nama Instansi</label>
+                                            <input type="text" class="form-control" name="nama_instansi">
+                                        </div>
+                                    </div>
+
+                                    <!-- Kolom Kanan -->
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Skala Instansi</label>
+                                            <select class="form-select" name="skala" id="skala_instansi">
+                                                <option value="" disabled selected>-- Pilih Skala Instansi --
+                                                </option>
+                                                <option value="Internasional">Multinasional/Internasional</option>
+                                                <option value="Nasional">Nasional</option>
+                                                <option value="Wirausaha">Wirausaha</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Lokasi Instansi</label>
+                                            <input type="text" class="form-control" name="lokasi_instansi">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="kategori" class="form-label">Kategori profesi</label>
+                                            <select class="form-select" name="kategori" required id="kategori"
+                                                onchange="handleKategoriChange(this)">
+                                                <option value="" disabled selected>-- Pilih Kategori --</option>
+                                                @foreach ($kategoriProfesi as $kategori)
+                                                    <option value="{{ $kategori->id }}">{{ $kategori->kategori_profesi }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="mb-3" id="profesi-wrapper">
+                                            <label for="profesi" class="form-label">Profesi</label>
+                                            <select class="form-select" name="profesi_id" id="profesi">
+                                                <option value="" disabled selected>-- Pilih Profesi --</option>
+                                                <!-- Diisi oleh JavaScript -->
+                                            </select>
+                                        </div>
+
+                                        <!-- PROFESI OUTPUT (JIKA HANYA SATU) -->
+                                        <div class="mb-3" id="profesi-output" style="display: none;">
+                                            <label class="form-label">Profesi</label>
+                                            <div class="form-control bg-light fw-bold" id="profesi-name"></div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Nama Atasan Langsung</label>
+                                            <input type="text" class="form-control" name="nama_atasan_langsung"
+                                                placeholder="Nama lengkap atasan langsung">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Jabatan Atasan Langsung</label>
+                                            <input type="text" class="form-control" name="jabatan_atasan_langsung"
+                                                placeholder="Contoh: Manajer HRD">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">No. HP Atasan Langsung</label>
+                                            <input type="text" class="form-control" name="no_hp_atasan_langsung"
+                                                pattern="^[0-9]+$" placeholder="Hanya angka">
+                                            <div class="invalid-feedback">
+                                                Harus diisi dengan angka saja.
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Email Atasan Langsung</label>
+                                            <input type="email" class="form-control" name="email_atasan_langsung"
+                                                placeholder="email@domain.com">
+                                        </div>
+
+                                        <div id="captcha-error" class="alert alert-danger d-none mt-2" role="alert">
+                                        </div>
+
+                                        {!! NoCaptcha::display() !!}
+
+                                        <div class="text-end mt-3">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            {!! NoCaptcha::renderJs() !!}
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-   <style>
-    .bg-siluet {
-        background: radial-gradient(circle at top right, #bad0fc 0%, #ffffff 40%, #ffffff 100%);
-        min-height: 100vh;
-        background-repeat: no-repeat;
-        background-size: cover;
-        position: relative;
-    }
+
+    <style>
+        .bg-siluet {
+            background: radial-gradient(circle at top right, #bad0fc 0%, #ffffff 40%, #ffffff 100%);
+            min-height: 100vh;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
 
         .card {
             background-color: white;
@@ -214,18 +272,15 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script>
         $(document).ready(function() {
-            $('.nama-autocomplete').on('input', function() {
-                const $input = $(this);
-                const query = $input.val();
+            let validName = false;
 
-                // Cari elemen terkait (hidden input dan error div) secara relatif
-                const $hidden = $input.siblings('.alumni_id');
-                const $error = $input.siblings('.nama-error');
-
-                $hidden.val('');
-                $input.removeClass('is-invalid');
-                $error.hide();
-                $input.siblings('.list-group').remove();
+            $('#nama').on('input', function() {
+                const query = $(this).val();
+                validName = false;
+                $('#alumni_id').val('');
+                $('#nama-error').hide();
+                $('#nama').removeClass('is-invalid');
+                $('.list-group').remove();
 
                 if (query.length >= 3) {
                     $.ajax({
@@ -235,6 +290,7 @@
                             query: query
                         },
                         success: function(data) {
+                            console.log(data);
                             if (data.length > 0) {
                                 let dropdown =
                                     '<ul class="list-group position-absolute w-100" style="z-index:1000;">';
@@ -243,36 +299,45 @@
                                         `<li class="list-group-item" data-id="${item.id}">${item.nama} (${item.nim})</li>`;
                                 });
                                 dropdown += '</ul>';
+                                $('#nama').after(dropdown);
 
-                                $input.after(dropdown);
-
-                                $input.siblings('.list-group').find('.list-group-item').on(
-                                    'click',
-                                    function() {
-                                        const selectedText = $(this).text();
-                                        const selectedId = $(this).data('id');
-                                        $input.val(selectedText);
-                                        $hidden.val(selectedId);
-                                        $input.siblings('.list-group').remove();
-                                        $input.removeClass('is-invalid');
-                                        $error.hide();
-                                    });
+                                // Klik pilihan
+                                $('.list-group-item').on('click', function() {
+                                    const selectedText = $(this).text();
+                                    const selectedId = $(this).data('id');
+                                    $('#nama').val(selectedText);
+                                    $('#alumni_id').val(selectedId);
+                                    validName = true;
+                                    $('.list-group').remove();
+                                    $('#nama').removeClass('is-invalid');
+                                    $('#nama-error').hide();
+                                });
                             } else {
-                                $input.addClass('is-invalid');
-                                $error.show();
+                                // Tidak ditemukan di autocomplete
+                                $('#nama').addClass('is-invalid');
+                                $('#nama-error').show();
                             }
                         },
                         error: function() {
-                            $input.addClass('is-invalid');
-                            $error.text('Terjadi kesalahan server.').show();
+                            $('#nama').addClass('is-invalid');
+                            $('#nama-error').text('Terjadi kesalahan server.').show();
                         }
                     });
                 }
             });
 
-            // Hapus dropdown jika klik di luar input manapun
+            // Validasi saat submit
+            $('form').submit(function(e) {
+                if (!validName || !$('#alumni_id').val()) {
+                    e.preventDefault();
+                    $('#nama').addClass('is-invalid');
+                    $('#nama-error').show();
+                }
+            });
+
+            // Hapus dropdown jika klik di luar
             $(document).on('click', function(e) {
-                if (!$(e.target).closest('.nama-autocomplete').length) {
+                if (!$(e.target).closest('#nama').length) {
                     $('.list-group').remove();
                 }
             });
@@ -353,7 +418,7 @@
 
                 if (selectedValue === '3') {
                     toggleAtasanFields(false);
-                } else { 
+                } else {
                     toggleAtasanFields(true);
                 }
             });
@@ -367,6 +432,23 @@
             });
         }
     </script>
- @include('layouts.footerguest')
-@endsection
+    @include('layouts.footerguest')
+    {{-- captha --}}
 
+    <script>
+        document.getElementById('form-alumni').addEventListener('submit', function(e) {
+            var response = grecaptcha.getResponse();
+            var errorBox = document.getElementById('captcha-error');
+
+            if (response.length === 0) {
+                e.preventDefault(); // hentikan form dikirim
+                errorBox.textContent = 'Tolong selesaikan CAPTCHA terlebih dahulu.';
+                errorBox.classList.remove('d-none');
+            } else {
+                // Sembunyikan pesan error kalau sudah diisi
+                errorBox.classList.add('d-none');
+            }
+        });
+    </script>
+
+@endsection
