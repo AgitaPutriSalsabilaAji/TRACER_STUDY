@@ -14,22 +14,26 @@
 <body class="d-flex flex-column min-vh-100">
 
     <header>
-        <a href="/" class="logo-wrapper" style="text-decoration: none;">
-            <div class="logo-text">TRACER STUDY</div>
-        </a>
-
+            <!-- Logo dan Judul -->
+            <div class="d-flex align-items-center ps-3">
+                <img src="image/logo_polinema.png" alt="Logo Polinema" height="60">
+                <div class="ms-3">
+                    <strong style="font-size: 22px;">TRACER STUDY</strong><br>
+                    <span style="font-size: 16px;">Politeknik Negeri Malang</span>
+                </div>
+            </div>
         <!-- Hamburger icon for mobile -->
         <button class="menu-toggle d-md-none" id="menu-toggle">
             ☰
         </button>
 
         <nav class="navbar d-none d-md-flex">
-            <li><a href="{{ url('/') }}" class="{{ Request::is('/') ? 'active' : '' }}">Beranda</a></li>
-            <li><a href="{{ url('/form-alumni') }}" class="{{ Request::is('form-alumni') ? 'active' : '' }}">Data
+            <li><a href="{{ url('/') }}" class="text-dark {{ Request::is('/') ? 'active' : '' }}">Beranda</a></li>
+            <li><a href="{{ url('/form-alumni') }}" class="text-dark{{ Request::is('form-alumni') ? 'active' : '' }}">Data
                     Alumni</a></li>
-            <li><a href="/form-atasan" class="{{ Request::is('isi-survei') ? 'active' : '' }}">Isi Survei</a></li>
-            <a href="/login" class="btn login-btn d-none d-md-inline">Login Admin</a>
+            <li><a href="/form-atasan" class="text-dark{{ Request::is('form-atasan') ? 'active' : '' }}">Isi Survei</a></li>
         </nav>
+        <a href="/login" class="btn login-btn d-none d-md-inline">Login Admin</a>
 
         <!-- Mobile Menu -->
         <div class="mobile-menu d-md-none" id="mobile-menu">
@@ -45,8 +49,7 @@
 
     @yield('content')
 
-    <script src="{{ asset('js/app.js') }}"></script>
-</body>
+</body> 
 
 </html>
 <script>
@@ -54,4 +57,17 @@
         const menu = document.getElementById('mobile-menu');
         menu.classList.toggle('show');
     });
-</script>
+</script> 
+
+<style>
+    .navbar a {
+        font-size: 22px;
+        color: black !important;
+    }
+
+    .login-btn {
+        font-size: 20px;
+        color: white !important;
+    }
+
+</style>

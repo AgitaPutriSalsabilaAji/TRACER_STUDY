@@ -16,6 +16,7 @@ use App\Http\Controllers\GuestController;
 */
 
 Route::get('/', function () {
+    session()->forget('validated_alumni');
     return view('guest.home');
 })->name('guest.home');
 
@@ -33,6 +34,7 @@ Route::fallback(function () {
 Route::get('/form-alumni', [GuestController::class, 'create'])->name('form.alumni');
 Route::post('/form-alumni', [GuestController::class, 'store'])->name('submit.alumni');
 Route::get('/form-alumni/autocomplete-alumni', [GuestController::class, 'getNama'])->name('autocomplete.alumni');
+Route::post('/validate-code',  [GuestController::class, 'validateKode'])->name('validate.alumni');
 
 // ==========================
 // Atasan

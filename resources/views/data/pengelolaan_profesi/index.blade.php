@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 white">
-                    <h1>ChartJS</h1>
+                    <h1>Pengelolaan Profesi</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#" class="breadcrumb-item">Home</a></li>
-                        <li class="breadcrumb-item active">ChartJS</li>
+                        <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </div>
             </div>

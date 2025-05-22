@@ -31,12 +31,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 white">
-                    <h1>ChartJS</h1>
+                    <h1>Rekap Laporan</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#" class="breadcrumb-item">Home</a></li>
-                        <li class="breadcrumb-item active">ChartJS</li>
+                        <li class="breadcrumb-item active">Dashboard</li>
                     </ol>
                 </div>
             </div>
@@ -70,90 +70,90 @@
     </div>
 
     {{-- Card utama --}}
-    <div class="card mt-4">
-        <div class="card-body">
-            <div class="row">
-                <div class="row pe-2">
-                    {{-- Card 1 --}}
-                    <div class="col-md-6 mb-3">
-                        <div class="card bg-white text-dark shadow-sm">
-                            <div class="card-body">
-                                <h5 class="mb-4 fs-4">Rekap Hasil Tracer Study Lulusan</h5>
-                                <div id="profesi_chart" style="width: 100%; height: 400px;"></div>
+    <div class="container-fluid my-4 px-3">
+        <div class="row">
+            <div class="row pe-2">
+                {{-- Card 1 --}}
+                <div class="col-md-6 mb-3">
+                    <div class="card bg-white text-dark shadow-sm">
+                        <div class="card-body">
+                            <h5 class="mb-4 fs-4">Rekap Hasil Tracer Study Lulusan</h5>
+                            <div id="profesi_chart" style="width: 100%; height: 500px;"></div>
 
-                                <form action="{{ route('laporan.export.tracer') }}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="start_year" value="{{ $startYear }}">
-                                    <input type="hidden" name="end_year" value="{{ $endYear }}">
-                                    <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
+                            <form action="{{ route('laporan.export.tracer') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="start_year" value="{{ $startYear }}">
+                                <input type="hidden" name="end_year" value="{{ $endYear }}">
+                                <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
 
-                                    <button type="submit" class="btn btn-success btn-sm">
-                                        Download Laporan
-                                    </button>
-                                </form>
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Download Laporan
+                                </button>
+                            </form>
 
-                            </div>
                         </div>
                     </div>
+                </div>
 
-                    {{-- Card 2 --}}
-                    <div class="col-md-6 mb-3">
-                        <div class="card bg-white text-dark shadow-sm">
-                            <div class="card-body">
-                                <h5 class="mb-4 fs-4">Rekap Hasil Survei Kepuasan Pengguna Lulusan</h5>
-                                <div id="chartdiv" style="width: 100%; height: 500px;"></div>
-                                <form action="{{ route('laporan.export.kepuasan') }}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="start_year" value="{{ $startYear }}">
-                                    <input type="hidden" name="end_year" value="{{ $endYear }}">
-                                    <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
-                                    <button type="submit" class="btn btn-success btn-sm">
-                                        Download Laporan
-                                    </button>
-                                </form>
-                            </div>
+                {{-- Card 2 --}}
+                <div class="col-md-6 mb-3">
+                    <div class="card bg-white text-dark shadow-sm">
+                        <div class="card-body">
+                            <h5 class="mb-4 fs-4">Rekap Hasil Survei Kepuasan Pengguna Lulusan</h5>
+                            <div id="chart_rekap_survei_kepuasan" style="width: 100%; height: 500px;"></div>
+                            <form action="{{ route('laporan.export.kepuasan') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="start_year" value="{{ $startYear }}">
+                                <input type="hidden" name="end_year" value="{{ $endYear }}">
+                                <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Download Laporan
+                                </button>
+                            </form>
                         </div>
                     </div>
-                    {{-- Card 3 --}}
-                    <div class="col-md-6 mb-3">
-                        <div class="card bg-white text-dark shadow-sm">
-                            <div class="card-body">
-                                <h5 class="mb-4 fs-4">Rekap Lulusan Yang Belum Mengisi Tracer Study</h5>
-<div id="belum_tracer"></div>
-                                <form action="{{ route('laporan.export.belumTracer') }}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="start_year" value="{{ $startYear }}">
-                                    <input type="hidden" name="end_year" value="{{ $endYear }}">
-                                    <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
-                                    <button type="submit" class="btn btn-success btn-sm">
-                                        Download Laporan
-                                    </button>
-                                </form>
-                            </div>
+                </div>
+                {{-- Card 3 --}}
+                <div class="col-md-6 mb-3">
+                    <div class="card bg-white text-dark shadow-sm">
+                        <div class="card-body">
+                            <h5 class="mb-4 fs-4">Rekap Lulusan Yang Belum Mengisi Tracer Study</h5>
+                            <div id="belum_tracer"></div>
+                            <form action="{{ route('laporan.export.belumTracer') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="start_year" value="{{ $startYear }}">
+                                <input type="hidden" name="end_year" value="{{ $endYear }}">
+                                <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Download Laporan
+                                </button>
+                            </form>
                         </div>
                     </div>
-                    {{-- Card 4 --}}
-                    <div class="col-md-6 mb-3">
-                        <div class="card bg-white text-dark shadow-sm">
-                            <div class="card-body">
-                                <h5 class="mb-4 fs-4">Rekap Atasan Yang Belum Mengisi Survei Kepuasan</h5>
-<div id="belum_survey"></div>
-                                <form action="{{ route('laporan.export.belumSurvei') }}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="start_year" value="{{ $startYear }}">
-                                    <input type="hidden" name="end_year" value="{{ $endYear }}">
-                                    <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
-                                    <button type="submit" class="btn btn-success btn-sm">
-                                        Download Laporan
-                                    </button>
-                                </form>
-                            </div>
+                </div>
+                {{-- Card 4 --}}
+                <div class="col-md-6 mb-3">
+                    <div class="card bg-white text-dark shadow-sm">
+                        <div class="card-body">
+                            <h5 class="mb-4 fs-4">Rekap Atasan Yang Belum Mengisi Survei Kepuasan</h5>
+                            <div id="belum_survey"></div>
+                            <form action="{{ route('laporan.export.belumSurvei') }}" method="post">
+                                @csrf
+                                <input type="hidden" name="start_year" value="{{ $startYear }}">
+                                <input type="hidden" name="end_year" value="{{ $endYear }}">
+                                <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Download Laporan
+                                </button>
+                            </form>
                         </div>
                     </div>
-                </div> {{-- /.row --}}
-            </div> {{-- /.card-body --}}
-        </div> {{-- /.card --}}
+                </div>
+            </div> {{-- /.row --}}
+        </div>
     </div>
+    {{-- /.card-body --}}
+
 
     </div><!-- /.container-fluid -->
     </section>
@@ -192,8 +192,8 @@
             pieSeries1.ticks.template.disabled = true;
             chart1.legend = new am4charts.Legend();
 
-        
-            
+
+
         });
     </script>
 
@@ -288,9 +288,9 @@
 
     <!-- Styles -->
     <style>
-        #chartdiv {
+        #chart_rekap_survei_kepuasan {
             width: 100%;
-            height: 500px;
+            height: 300px;
         }
     </style>
 
@@ -302,7 +302,7 @@
     <!-- Chart code -->
     <script>
         am5.ready(function() {
-            var root = am5.Root.new("chartdiv");
+            var root = am5.Root.new("chart_rekap_survei_kepuasan");
             root.setThemes([am5themes_Animated.new(root)]);
 
             var chart = root.container.children.push(am5xy.XYChart.new(root, {
@@ -326,7 +326,8 @@
                 ...d,
                 sangat_baik: parseFloat(d.sangat_baik),
                 baik: parseFloat(d.baik),
-                cukup: parseFloat(d.cukup)
+                cukup: parseFloat(d.cukup),
+                kurang: parseFloat(d.kurang)
             }));
 
             // Buat axis
@@ -377,6 +378,7 @@
             makeSeries("Sangat Baik", "sangat_baik");
             makeSeries("Baik", "baik");
             makeSeries("Cukup", "cukup");
+            makeSeries("Kurang", "kurang");
 
             chart.appear(1000, 100);
         });
@@ -384,106 +386,112 @@
     // chart belum tracer
     <!-- Styles -->
     <style>
-    #belum_tracer {
-    width: 100%;
-    height: 500px;
-    }
+        #belum_tracer {
+            width: 100%;
+            height: 500px;
+        }
     </style>
 
     <!-- Kirim data dari Laravel -->
     <script>
-    const belumTracerData = @json($belum_tracer);
+        const belumTracerData = @json($belum_tracer);
     </script>
 
     <!-- Chart code -->
     <script>
-    am5.ready(function() {
+        am5.ready(function() {
 
-    var root = am5.Root.new("belum_tracer");
+            var root = am5.Root.new("belum_tracer");
 
-    root.setThemes([
-    am5themes_Animated.new(root)
-    ]);
+            root.setThemes([
+                am5themes_Animated.new(root)
+            ]);
 
-    var chart = root.container.children.push(am5xy.XYChart.new(root, {
-    panX: true,
-    panY: true,
-    wheelX: "panX",
-    wheelY: "zoomX",
-    pinchZoomX: true,
-    paddingLeft:0,
-    paddingRight:1
-    }));
+            var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                panX: true,
+                panY: true,
+                wheelX: "panX",
+                wheelY: "zoomX",
+                pinchZoomX: true,
+                paddingLeft: 0,
+                paddingRight: 1
+            }));
 
-    var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
-    cursor.lineY.set("visible", false);
+            var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+            cursor.lineY.set("visible", false);
 
-    var xRenderer = am5xy.AxisRendererX.new(root, { 
-    minGridDistance: 30, 
-    minorGridEnabled: true
-    });
+            var xRenderer = am5xy.AxisRendererX.new(root, {
+                minGridDistance: 30,
+                minorGridEnabled: true
+            });
 
-    xRenderer.labels.template.setAll({
-    rotation: -90,
-    centerY: am5.p50,
-    centerX: am5.p100,
-    paddingRight: 15
-    });
+            xRenderer.labels.template.setAll({
+                rotation: -90,
+                centerY: am5.p50,
+                centerX: am5.p100,
+                paddingRight: 15
+            });
 
-    xRenderer.grid.template.setAll({ location: 1 })
+            xRenderer.grid.template.setAll({
+                location: 1
+            })
 
-    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-    maxDeviation: 0.3,
-    categoryField: "country",
-    renderer: xRenderer,
-    tooltip: am5.Tooltip.new(root, {})
-    }));
+            var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                maxDeviation: 0.3,
+                categoryField: "country",
+                renderer: xRenderer,
+                tooltip: am5.Tooltip.new(root, {})
+            }));
 
-    var yRenderer = am5xy.AxisRendererY.new(root, {
-    strokeOpacity: 0.1
-    });
+            var yRenderer = am5xy.AxisRendererY.new(root, {
+                strokeOpacity: 0.1
+            });
 
-    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-    maxDeviation: 0.3,
-    renderer: yRenderer
-    }));
+            var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                maxDeviation: 0.3,
+                renderer: yRenderer
+            }));
 
-    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
-    name: "Jumlah Belum Mengisi",
-    xAxis: xAxis,
-    yAxis: yAxis,
-    valueYField: "value",
-    sequencedInterpolation: true,
-    categoryXField: "country",
-    tooltip: am5.Tooltip.new(root, {
-        labelText: "{valueY}"
-    })
-    }));
+            var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                name: "Jumlah Belum Mengisi",
+                xAxis: xAxis,
+                yAxis: yAxis,
+                valueYField: "value",
+                sequencedInterpolation: true,
+                categoryXField: "country",
+                tooltip: am5.Tooltip.new(root, {
+                    labelText: "{valueY}"
+                })
+            }));
 
-    series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
-    series.columns.template.adapters.add("fill", function (fill, target) {
-    return chart.get("colors").getIndex(series.columns.indexOf(target));
-    });
-    series.columns.template.adapters.add("stroke", function (stroke, target) {
-    return chart.get("colors").getIndex(series.columns.indexOf(target));
-    });
+            series.columns.template.setAll({
+                cornerRadiusTL: 5,
+                cornerRadiusTR: 5,
+                strokeOpacity: 0
+            });
+            series.columns.template.adapters.add("fill", function(fill, target) {
+                return chart.get("colors").getIndex(series.columns.indexOf(target));
+            });
+            series.columns.template.adapters.add("stroke", function(stroke, target) {
+                return chart.get("colors").getIndex(series.columns.indexOf(target));
+            });
 
-    // Format data dari Laravel
-    const chartData = belumTracerData.map(item => ({
-    country: `Prodi ${item.program_studi_id} (${item.tahun_lulus})`,
-    value: item.jumlah_belum_mengisi
-    }));
+            // Format data dari Laravel
+            const chartData = belumTracerData.map(item => ({
+                country: `Prodi ${item.program_studi_id} (${item.tahun_lulus})`,
+                value: item.jumlah_belum_mengisi
+            }));
 
-    xAxis.data.setAll(chartData);
-    series.data.setAll(chartData);
+            xAxis.data.setAll(chartData);
+            series.data.setAll(chartData);
 
-    series.appear(1000);
-    chart.appear(1000, 100);
+            series.appear(1000);
+            chart.appear(1000, 100);
 
-    }); // end am5.ready()
+        }); // end am5.ready()
     </script>
 
-    // Chart Belum Survei
+
 
 
 <style>
@@ -492,11 +500,6 @@
     height: 500px;
   }
 </style>
-
-<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-
 <!-- amCharts 5 library -->
 <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
 <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
@@ -504,8 +507,8 @@
 
 <!-- Ambil data dari Laravel -->
 <script>
-  let belumSurveiData = @json($belum_survey); // ini bentuknya array berisi satu object
-  let data = belumSurveiData[0]; // ambil object pertama
+  let belumSurveiData = @json($belum_survey); 
+  let data = belumSurveiData[0]; 
 
   am5.ready(function() {
     // Buat root element
@@ -539,6 +542,7 @@
 </script>
 
 <style>
+
         .year-option {
             padding: 8px;
             background: #f1f1f1;
