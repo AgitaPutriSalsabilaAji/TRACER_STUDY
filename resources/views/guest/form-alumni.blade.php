@@ -3,24 +3,59 @@
 @section('active-home', 'active')
 
 @section('content')
-    <div class="container-fluid bg-siluet py-5">
-        <div class="container">
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-                crossorigin="anonymous">
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-            </script>
+<div class="container-fluid bg-siluet py-5">
+    <div class="container">
+        <!-- CSS Bootstrap & Font Awesome -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+            crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
 
+        <!-- JS Bootstrap -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            crossorigin="anonymous"></script>
 
-            <style>
-                .list-group-item {
-                    cursor: pointer;
-                }
+        <style>
+            .list-group-item {
+                cursor: pointer;
+            }
 
-                .list-group-item:hover {
-                    background-color: #f8f9fa;
-                    /* Ganti warna hover jika perlu */
-                }
-            </style>
+            .form-label i.bi {
+                color: #0d6efd;
+            }
+
+            .list-group-item:hover {
+                background-color: #f8f9fa;
+            }
+
+            .card-header-custom {
+                background: linear-gradient(45deg, #1685fc, #3d8adc);
+                color: white;
+                font-size: 1.5rem;
+                font-weight: bold;
+                text-align: center;
+                padding: 1rem;
+                border-radius: 0.5rem 0.5rem 0 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .card-header-custom i {
+                font-size: 1.7rem;
+            }
+        </style>
+        <div class="container my-4">
+            <div class="card shadow">
+                <div class="card-header card-header-custom">
+                    <i class="fas fa-user-graduate"></i> {{-- Ikon alumni --}}
+                    Form Tracer Study Alumni
+                </div>
+                <br>
+                   <div class="card shadow" data-aos="fade-up">
+        <div class="card-body">
             @if (session('alert'))
                 <div id="alertWarning" class="alert alert-warning alert-dismissible fade show mt-2" role="alert"
                     style="position: fixed; top: 20px; right: 20px; z-index: 1100; min-width: 300px;">
@@ -57,12 +92,6 @@
                 </script>
             @endif
 
-            <div class="card shadow" data-aos="fade-up">
-                <div class="container my-4">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            Form Tracer Alumni
-                        </div>
                         <div class="card-body">
                             @if (session('alert'))
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -86,11 +115,15 @@
                             @endif
                             <form action="{{ route('submit.alumni') }}" id="form-alumni" method="POST">
                                 @csrf
+                                
                                 <div class="row g-4">
                                     <!-- Kolom Kiri -->
                                     <div class="col-md-6">
                                         <div class="mb-3 position-relative">
-                                            <label for="nama" class="form-label">Nama atau NIM</label>
+                                        <label for="nama" class="form-label">
+                                        <i class="bi bi-person"></i>
+                                        Nama atau NIM
+                                        </label>
                                             <input type="text" class="form-control" id="nama" autocomplete="off"
                                                 required>
                                             <input type="hidden" name="alumni_id" id="alumni_id">
@@ -100,8 +133,10 @@
 
 
                                         <div class="mb-3">
+                                            <i class="bi bi-mortarboard text-primary me-2"></i>
                                             <label class="form-label">Program Studi</label>
                                             <select class="form-select" name="prodi" required>
+                                                
                                                 <option value="" disabled selected>-- Pilih Program Studi --</option>
                                                 @foreach ($prodi as $p)
                                                     <option value="{{ $p->id }}">{{ $p->program_studi }}</option>
@@ -109,6 +144,7 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
+                                            <i class="bi bi-calendar3 text-primary me-2"></i>
                                             <label class="form-label">Tahun Lulus</label>
                                             <select class="form-select" name="tahun_lulus" required>
                                                 <option value="" disabled selected>-- Pilih Tahun Lulus --</option>
@@ -118,6 +154,7 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
+                                            <i class="bi bi-telephone text-primary me-2"></i>
                                             <label class="form-label">No. HP</label>
                                             <input type="text" class="form-control" name="no_hp" required
                                                 pattern="^[0-9]+$">
@@ -127,18 +164,22 @@
                                         </div>
 
                                         <div class="mb-3">
+                                             <i class="bi bi-envelope text-primary me-2"></i>
                                             <label class="form-label">Email</label>
                                             <input type="email" class="form-control" name="email" required>
                                         </div>
                                         <div class="mb-3">
+                                             <i class="bi bi-briefcase text-primary me-2"></i>
                                             <label class="form-label">Tanggal Pertama Kerja</label>
                                             <input type="date" class="form-control" name="tgl_pertama_kerja">
                                         </div>
                                         <div class="mb-3">
+                                             <i class="bi bi-building text-primary me-2"></i>
                                             <label class="form-label">Tanggal Mulai di Instansi Saat Ini</label>
                                             <input type="date" class="form-control" name="tgl_mulai_kerja_instansi">
                                         </div>
                                         <div class="mb-3">
+                                            <i class="bi bi-diagram-3 text-primary me-2"></i>
                                             <label class="form-label">Jenis Instansi</label>
                                             <select class="form-select" name="jenis_instansi_id">
                                                 <option value="" disabled selected>-- Pilih Jenis Instansi --</option>
@@ -149,6 +190,7 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
+                                              <i class="bi bi-bank text-primary me-2"></i>
                                             <label class="form-label">Nama Instansi</label>
                                             <input type="text" class="form-control" name="nama_instansi">
                                         </div>
@@ -157,7 +199,7 @@
                                     <!-- Kolom Kanan -->
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Skala Instansi</label>
+                                            <label class="form-label"><i class="bi bi-building"></i> Skala Instansi</label>
                                             <select class="form-select" name="skala" id="skala_instansi">
                                                 <option value="" disabled selected>-- Pilih Skala Instansi --
                                                 </option>
@@ -167,11 +209,11 @@
                                             </select>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Lokasi Instansi</label>
+                                            <label class="form-label"><i class="bi bi-geo-alt"></i> Lokasi Instansi</label>
                                             <input type="text" class="form-control" name="lokasi_instansi">
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="kategori" class="form-label">Kategori profesi</label>
+                                        <div class="mb-3">                                  
+                                            <label class="form-label"><i class="bi bi-briefcase"></i> Kategori Profesi</label>
                                             <select class="form-select" name="kategori" required id="kategori"
                                                 onchange="handleKategoriChange(this)">
                                                 <option value="" disabled selected>-- Pilih Kategori --</option>
@@ -182,7 +224,7 @@
                                             </select>
                                         </div>
                                         <div class="mb-3" id="profesi-wrapper">
-                                            <label for="profesi" class="form-label">Profesi</label>
+                                            <label class="form-label"><i class="bi bi-person-badge"></i> Profesi</label>
                                             <select class="form-select" name="profesi_id" id="profesi">
                                                 <option value="" disabled selected>-- Pilih Profesi --</option>
                                                 <!-- Diisi oleh JavaScript -->
@@ -191,23 +233,23 @@
 
                                         <!-- PROFESI OUTPUT (JIKA HANYA SATU) -->
                                         <div class="mb-3" id="profesi-output" style="display: none;">
-                                            <label class="form-label">Profesi</label>
+                                            <label class="form-label"><i class="bi bi-person-badge"></i> Profesi</label>
                                             <div class="form-control bg-light fw-bold" id="profesi-name"></div>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Nama Atasan Langsung</label>
+                                            <label class="form-label"><i class="bi bi-person-lines-fill"></i> Nama Atasan Langsung</label>
                                             <input type="text" class="form-control" name="nama_atasan_langsung"
                                                 placeholder="Nama lengkap atasan langsung">
                                         </div>
 
                                         <div class="mb-3">
-                                            <label class="form-label">Jabatan Atasan Langsung</label>
+                                            <label class="form-label"><i class="bi bi-person-vcard"></i> Jabatan Atasan Langsung</label>
                                             <input type="text" class="form-control" name="jabatan_atasan_langsung"
                                                 placeholder="Contoh: Manajer HRD">
                                         </div>
 
                                         <div class="mb-3">
-                                            <label class="form-label">No. HP Atasan Langsung</label>
+                                            <label class="form-label"><i class="bi bi-telephone"></i> No. HP Atasan Langsung</label>
                                             <input type="text" class="form-control" name="no_hp_atasan_langsung"
                                                 pattern="^[0-9]+$" placeholder="Hanya angka">
                                             <div class="invalid-feedback">
@@ -216,7 +258,7 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label class="form-label">Email Atasan Langsung</label>
+                                            <label class="form-label"><i class="bi bi-envelope"></i> Email Atasan Langsung</label>
                                             <input type="email" class="form-control" name="email_atasan_langsung"
                                                 placeholder="email@domain.com">
                                         </div>
@@ -226,9 +268,10 @@
 
                                         {!! NoCaptcha::display() !!}
 
-                                        <div class="text-end mt-3">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-
+                                       
+                                              <button type="submit" class="btn btn-primary">
+                                                <i class="bi bi-send-fill me-1"></i>Submit
+                                                </button>
                                         </div>
                                     </div>
                                 </div>

@@ -63,7 +63,7 @@
 
                 <div class="row mb-3 mt-3">
                     <div class="col-md-6">
-                        <label for="nama_surveyor" class="form-label"><i class="bi bi-person-fill me-1"></i>Nama Surveyor</label>
+                        <label for="nama_surveyor" class="form-label"><i class="bi bi-person-lines-fill"></i> Nama Surveyor</label>
                         <input type="text" class="form-control" id="nama_surveyor" name="nama_surveyor" required>
                     </div>
                     <div class="col-md-6">
@@ -74,11 +74,11 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="jabatan" class="form-label"><i class="bi bi-briefcase-fill me-1"></i>Jabatan</label>
+                        <label for="jabatan" class="form-label"><i class="bi bi-person-vcard"></i> Jabatan</label>
                         <input type="text" class="form-control" id="jabatan" name="jabatan" required>
                     </div>
                     <div class="col-md-6">
-                        <label for="email" class="form-label"><i class="bi bi-envelope-fill me-1"></i>Email</label>
+                        <label for="email" class="form-label"><i class="bi bi-envelope"></i> Email</label>
                         <input type="email" class="form-control" id="email" name="email" required>
                     </div>
                 </div>
