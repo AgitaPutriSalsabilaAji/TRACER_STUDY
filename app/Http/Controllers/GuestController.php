@@ -122,7 +122,7 @@ class GuestController extends Controller
 
             // Atur aturan validasi dasar
             $rules = [
-                'g-recaptcha-response' => 'required|captcha',
+                // 'g-recaptcha-response' => 'required|captcha',
                 'alumni_id' => 'required|exists:alumni,id',
                 'profesi_id' => 'required|exists:profesi,id',
                 'tahun_lulus' => 'required|numeric',
@@ -145,15 +145,15 @@ class GuestController extends Controller
                     'email_atasan_langsung' => 'nullable|email',
                 ]);
             }
-
             // Pesan error khusus captcha
-            $messages = [
-                'g-recaptcha-response.required' => 'Silakan centang captcha terlebih dahulu.',
-                'g-recaptcha-response.captcha' => 'Kode captcha tidak valid. Silakan coba lagi.',
-            ];
+            // $messages = [
+            //     'g-recaptcha-response.required' => 'Silakan centang captcha terlebih dahulu.',
+            //     'g-recaptcha-response.captcha' => 'Kode captcha tidak valid. Silakan coba lagi.',
+            // ];
 
             // Validasi request sekaligus semua aturan dan pesan
-            $validated = $request->validate($rules, $messages);
+            // $validated = $request->validate($rules, $messages);
+            $validated = $request->validate($rules);
 
             // Simpan data lulusan ke database
             Lulusan::create($validated);
