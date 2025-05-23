@@ -1,8 +1,26 @@
 @extends('layouts.headerguest')
 
 @section('content')
-    <!-- Import Bootstrap 5 CSS -->
+    <!-- Import Bootstrap 5 CSS & AOS CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Cursor Blink CSS for Typing Effect -->
+    <style>
+        .cursor {
+            display: inline-block;
+            animation: blink 0.7s infinite;
+            color: #0d6efd;
+            font-weight: bold;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
 
     @if (session('success'))
         <div id="alertSuccess" class="alert alert-success alert-dismissible fade show" role="alert"
@@ -36,22 +54,19 @@
         </script>
     @endif
 
-
     <!-- Home Section -->
     <section class="home" id="home">
         <div class="container py-5">
-            <div class="card shadow-lg border-0">
+            <div class="card shadow-lg border-0" data-aos="zoom-in" data-aos-duration="1000">
                 <div class="row g-0">
                     <!-- Left side: Image -->
                     <div class="col-md-6 d-flex justify-content-center align-items-center">
-                        <img src="{{ asset('image/wisuda6.png') }}" class="img-fluid" style="max-width: 80%;"
-                            alt="Ilustrasi Tracer Study">
+                        <img src="{{ asset('image/wisuda6.png') }}" class="img-fluid" style="max-width: 80%;" alt="Ilustrasi Tracer Study">
                     </div>
                     <!-- Right side: Text Content -->
                     <div class="col-md-6 d-flex align-items-center">
                         <div class="card-body">
-                            <h2 class="card-title text-primary mb-3">Selamat Datang di Website Tracer Study <br>Politeknik
-                                Negeri Malang</h2>
+                            <h2 class="card-title text-primary mb-3">Selamat Datang di Website Tracer Study <br>Politeknik Negeri Malang</h2>
                             <h3 class="card-subtitle text-muted mb-4">Langkah Kecil, Dampak Besar!</h3>
                             <a href="/form-alumni" class="btn btn-primary btn-lg mb-3">Isi Survei</a>
                         </div>
@@ -64,8 +79,10 @@
     <main>
         <!-- About Section -->
         <section class="about bg-light py-5" id="tentang">
-            <div class="container">
-                <h2 class="text-center mb-4">Apa itu Tracer Study?</h2>
+            <div class="container" data-aos="fade-up" data-aos-duration="1200">
+                <h2 class="text-center mb-4">
+                    <span id="typed-tracer" class="text-primary fw-bold"></span><span class="cursor">|</span>
+                </h2>
                 <p class="lead text-justify">
                     Tracer Study adalah salah satu metode yang digunakan oleh perguruan tinggi untuk mengumpulkan data dan
                     umpan balik dari alumni mengenai pengalaman mereka setelah lulus. Informasi yang diperoleh digunakan
@@ -87,9 +104,35 @@
             </div>
         </section>
     </main>
+
     @include('layouts.footerguest')
 
-    <!-- Import Bootstrap 5 JS and dependencies -->
+    <!-- Bootstrap JS, Popper.js, and AOS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+    <!-- Init AOS -->
+    <script>
+        AOS.init();
+    </script>
+
+    <!-- Typing Effect Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const text = "Apa itu Tracer Study?";
+            const el = document.getElementById("typed-tracer");
+            let i = 0;
+
+            function typeText() {
+                if (i < text.length) {
+                    el.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeText, 80);
+                }
+            }
+
+            typeText();
+        });
+    </script>
 @endsection
