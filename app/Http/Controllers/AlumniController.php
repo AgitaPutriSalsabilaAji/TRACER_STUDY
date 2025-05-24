@@ -84,7 +84,7 @@ class AlumniController extends Controller
     // =====================
     public function index()
     {
-        $alumni = Alumni::all();
+        $alumni = Alumni::with('programStudi')->get();
         return view('data.data_alumni.data_alumni', compact('alumni'));
     }
 

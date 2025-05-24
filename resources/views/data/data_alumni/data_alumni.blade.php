@@ -42,7 +42,7 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $item->nama }}</td>
-                        <td>{{ $item->program_studi }}</td>
+                        <td>{{ $item->programStudi->program_studi ?? '-' }}</td>
                         <td>{{ $item->nim }}</td>
                         <td>{{ \Carbon\Carbon::parse($item->tanggal_lulus)->format('d-m-Y') }}</td>
                         <td>
