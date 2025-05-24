@@ -78,4 +78,70 @@ class AlumniController extends Controller
 
         return response()->json($result);
     }
+
+    // =====================
+    // Tampilkan Halaman Data Alumni
+    // =====================
+    public function index()
+    {
+        $alumni = Alumni::all();
+        return view('data.data_alumni.data_alumni', compact('alumni'));
+    }
+
+     // =====================
+    // Simpan Alumni Baru dari Halaman Admin
+    // =====================
+    public function storeAlumni(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'nim' => 'required|string|max:20|unique:alumni,nim',
+            'program_studi' => 'required|string|max:255',
+            'tanggal_lulus' => 'required|date',
+        ]);
+
+        Alumni::create([
+            'nama' => $request->nama,
+            'nim' => $request->nim,
+            'program_studi' => $request->program_studi,
+            'tanggal_lulus' => $request->tanggal_lulus,
+        ]);
+
+        return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil ditambahkan!');
+    }
+
+    public function createAlumni()
+{
+    return view('data.data_alumni.create');
 }
+
+public function editAlumni($id)
+{
+    $alumni = Alumni::findOrFail($id);
+    return view('data.data_alumni.edit', compact('alumni'));
+}
+
+public function updateAlumni(Request $request, $id)
+{
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'nim' => 'required|string|max:20|unique:alumni,nim,' . $id,
+        'program_studi' => 'required|string|max:255',
+        'tanggal_lulus' => 'required|date',
+    ]);
+
+    $alumni = Alumni::findOrFail($id);
+    $alumni->update($request->all());
+
+    return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil diperbarui!');
+}
+
+public function destroyAlumni($id)
+{
+    $alumni = Alumni::findOrFail($id);
+    $alumni->delete();
+
+    return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil dihapus!');
+}
+
+} 
