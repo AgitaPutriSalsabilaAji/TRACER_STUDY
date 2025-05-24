@@ -53,15 +53,13 @@ class AuthController extends Controller
 
         public function showForgotPassword()
     {
-        return view('auth.forgot-password'); // Pastikan view-nya ada
+        return view('auth.forgot-password'); 
     }
 
     public function editPassword()
     {
         return view('auth.change-password');
     }
-
-
 
         public function updatePassword(Request $request)
     {
@@ -75,7 +73,7 @@ class AuthController extends Controller
             'old_password.required' => 'Password lama harus diisi.',
         ]);
 
-        $admin = Auth::user(); // ✅ Ambil user yang sedang login (model Admin)
+        $admin = Auth::user(); 
 
         if (!Hash::check($request->old_password, $admin->password)) {
             return back()->with('error', 'Old password is incorrect.');
@@ -125,32 +123,4 @@ class AuthController extends Controller
             return redirect()->route('login')->with('success', 'Password baru berhasil dikirim!');
     }
 
-    public function changePassword(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'old_password' => 'required',
-            'new_password' => 'required|min:8',
-            'confirm_password' => 'required|same:newPassword',
-        ], [
-            'old_password.required' => 'Password lama harus diisi.',
-            'new_password.required' => 'Password baru harus diisi.',
-            'new_password.min' => 'Password baru minimal 8 karakter.',
-            'confirm_password.required' => 'Konfirmasi password baru harus diisi.',
-            'confirm_password.same' => 'Password baru dan konfirmasi password tidak cocok.',
-        ]);
-
-        // Periksa apakah password lama benar
-        if (!Hash::check($request->old_password, Auth::admins()->password)) {
-            return back()->withErrors(['old_password' => 'Password lama salah.']);
-        }
-
-        // Update password user
-        $admins = Auth::admins();
-        $admins->password = Hash::make($request->new_password);  // Pastikan password di-hash
-        $admins->save();  // Menyimpan perubahan
-
-        // Redirect dengan pesan sukses
-        return redirect()->route('indexProfils', ['username' => $admins->username])->with('success', 'Password berhasil diubah!');
-    }
 }

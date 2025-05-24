@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Yajra\DataTables\Facades\DataTables;
 
 class AdminController extends Controller
@@ -223,15 +224,36 @@ public function store(Request $request)
         'email' => 'required|email|unique:admins,email',
     ]);
 
+     // Ambil input dari request
+     $username = $request->username;
+     $email = $request->email;
+
     // Buat password otomatis sama dengan username (biasanya di-hash dulu)
     $password = Hash::make($request->username);
 
-    Admin::create([
+    Admin::create([ 
         'username' => $request->username,
         'name' => $request->username,
         'email' => $request->email,
         'password' => $password
     ]);
+
+    // Kirim email ke admin baru
+    $data = [
+        'subject' => 'Akun Admin Baru',
+        'body' => "Selamat! Anda telah ditambahkan sebagai admin.\n\n" .
+                  "Berikut adalah detail akun Anda:\n" .
+                  "Username: {$username}\n" .
+                  "Password: {$username}\n\n" .
+                  "Silakan login dan segera ubah password Anda demi keamanan akun.\n\n" .
+                  "Terima kasih,\nTracer Study"
+    ];
+
+    $adminsEmail = $email;
+    Mail::raw($data['body'], function ($message) use ($adminsEmail, $data) {
+        $message->to($adminsEmail)
+                ->subject($data['subject']);
+    });
 
     return redirect()->back()->with('success', 'Admin berhasil ditambahkan. ');
 }
