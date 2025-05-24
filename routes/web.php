@@ -16,6 +16,7 @@ use App\Http\Controllers\GuestController;
 */
 
 Route::get('/', function () {
+    session()->forget('validated_alumni');
     return view('guest.home');
 })->name('guest.home');
 
@@ -33,6 +34,7 @@ Route::fallback(function () {
 Route::get('/form-alumni', [GuestController::class, 'create'])->name('form.alumni');
 Route::post('/form-alumni', [GuestController::class, 'store'])->name('submit.alumni');
 Route::get('/form-alumni/autocomplete-alumni', [GuestController::class, 'getNama'])->name('autocomplete.alumni');
+Route::post('/validate-code',  [GuestController::class, 'validateKode'])->name('validate.alumni');
 
 // ==========================
 // Atasan
@@ -100,3 +102,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/export-belum-tracer', [RekapDataController::class, 'exportBelumTS'])->name('laporan.export.belumTracer');
     Route::post('/export-belum-survei', [RekapDataController::class, 'exportBelumSurvei'])->name('laporan.export.belumSurvei');
 });
+
+// Data Alumni (CRUD Sederhana)
+Route::middleware('auth')->group(function () {
+    Route::get('/data-alumni', [AlumniController::class, 'index'])->name('data-alumni.index');
+    Route::post('/data-alumni', [AlumniController::class, 'storeAlumni'])->name('alumni.store');
+    Route::get('/data-alumni/create', [AlumniController::class, 'createAlumni'])->name('data-alumni.create');
+    Route::get('/data-alumni/{id}/edit', [AlumniController::class, 'editAlumni'])->name('data-alumni.edit');
+    Route::put('/data-alumni/{id}', [AlumniController::class, 'updateAlumni'])->name('data-alumni.update');
+    Route::delete('/data-alumni/{id}', [AlumniController::class, 'destroyAlumni'])->name('data-alumni.destroy');
+});
+

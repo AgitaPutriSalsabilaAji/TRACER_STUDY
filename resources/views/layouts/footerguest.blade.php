@@ -4,7 +4,7 @@
             <!-- Logo dan Deskripsi -->
             <div class="col-md-5 mb-4 mb-md-0">
                 <div class="d-flex align-items-center mb-3">
-                    <img src="{{ asset('image/logo-polinema.png') }}" alt="Logo Polinema" width="50" class="me-2">
+                    <img src="image/logo_polinema.png" alt="Logo Polinema" height="60">
                     <div>
                         <h5 class="mb-0 fw-bold text-dark">TRACER <span class="text-primary">STUDY</span></h5>
                         <small class="text-muted">Politeknik Negeri Malang</small>

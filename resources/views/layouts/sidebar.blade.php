@@ -58,6 +58,13 @@
                                 <p>Tambah Admin</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ url('data-alumni') }}" class="nav-link {{ Request::is('data-alumni') ? 'active' : '' }}">
+                              <i class="far fa-circle nav-icon"></i>
+                              <p>Data Alumni</p>
+                            </a>
+                          </li>
+                          
                     </ul>
                 </li>
 

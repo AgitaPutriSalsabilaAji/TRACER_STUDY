@@ -48,7 +48,12 @@ class DatabaseSeeder extends Seeder
             'nim' => '2341760037',
             'tanggal_lulus' => '2025-08-15',
         ]);
-
+        Alumni::create([
+            'program_studi_id' => 2,
+            'nama' => 'Siska Nuri Aprilia',
+            'nim' => '2341760038',
+            'tanggal_lulus' => '2025-08-15',
+        ]);
 
         $this->call([
             KategoriProfesiSeeder::class,
