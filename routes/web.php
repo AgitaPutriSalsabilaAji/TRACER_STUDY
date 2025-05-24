@@ -83,12 +83,10 @@ Route::get('/tambah-admin', [AdminController::class, 'index_admin'])->name('admi
 Route::prefix('profesi')->group(function () {
     Route::get('/', [ProfesiController::class, 'index'])->name('profesi.index');
     Route::get('/list', [ProfesiController::class, 'list'])->name('profesi.list');
-    Route::get('/create_ajax', [ProfesiController::class, 'create_ajax'])->name('profesi.create_ajax');
-    Route::post('/store_ajax', [ProfesiController::class, 'store_ajax'])->name('profesi.store_ajax');
-    Route::get('/{id}/edit_ajax', [ProfesiController::class, 'edit_ajax'])->name('profesi.edit_ajax');
-    Route::put('/{id}/update_ajax', [ProfesiController::class, 'update_ajax'])->name('profesi.update_ajax');
-    Route::get('/{id}/confirm_ajax', [ProfesiController::class, 'confirm_ajax'])->name('profesi.confirm_ajax');
-    Route::delete('/{id}/delete_ajax', [ProfesiController::class, 'delete_ajax'])->name('profesi.delete_ajax');
+    Route::post('/profesi/store', [ProfesiController::class, 'store'])->name('profesi.store');
+    Route::put('/profesi/update/{id}', [ProfesiController::class, 'update'])->name('profesi.update');
+    Route::delete('/profesi/destroy/{id}', [ProfesiController::class, 'destroy'])->name('profesi.destroy');
+    Route::get('/tambah-profesi', [ProfesiController::class, 'index_profesi'])->name('profesi.index');
 });
 
 // ==========================
