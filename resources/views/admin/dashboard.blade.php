@@ -97,9 +97,9 @@
         <!-- Row 2: Full Width Table Data Lulusan -->
         <div class="row mb-3">
             <div class="col-12">
-                <div class="p-4 bg-white shadow rounded "data-aos="zoom-in-up">
+                <div class="p-4 bg-white shadow rounded" data-aos="zoom-in-up">
                     <h2 class="mb-4 fs-4 text-center">Data Lulusan ({{ $startYear }} - {{ $endYear }})</h2>
-                    <div class="table-responsive d-flex justify-content-center">
+                    <div class="table-responsive">
                         <table id="tabel-lulusan" class="table table-bordered table-striped table-hover"
                             style="width: auto; min-width: 600px;">
                             <thead>
@@ -107,8 +107,8 @@
                                     <th rowspan="2" class="align-middle text-center">Tahun Lulus</th>
                                     <th rowspan="2" class="align-middle text-center">Total Lulusan</th>
                                     <th rowspan="2" class="align-middle text-center">Lulusan Terlacak</th>
-                                    <th rowspan="2" class="align-middle text-center">Kerja di Bidang<br>Infokom</th>
-                                    <th rowspan="2" class="align-middle text-center">Kerja di Bidang<br>Non-Infokom</th>
+                                    <th rowspan="2" class="align-middle text-center">Kerja di Bidang Infokom</th>
+                                    <th rowspan="2" class="align-middle text-center">Kerja di Bidang Non-Infokom</th>
                                     <th colspan="3" class="text-center">Tempat Kerja</th>
                                 </tr>
                                 <tr>
@@ -120,17 +120,28 @@
                             <tfoot>
                                 <tr>
                                     <th><b>Jumlah</b></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+                                    <th>{{ $tabel_lulusan->sum('total_lulusan') }}</th>
+                                    <th>{{ $tabel_lulusan->sum('lulusan_terlacak') }}</th>
+                                    <th>{{ $tabel_lulusan->sum('kerja_bidang_infokom') }}</th>
+                                    <th>{{ $tabel_lulusan->sum('kerja_bidang_non_infokom') }}</th>
+                                    <th>{{ $tabel_lulusan->sum('internasional') }}</th>
+                                    <th>{{ $tabel_lulusan->sum('nasional') }}</th>
+                                    <th>{{ $tabel_lulusan->sum('wirausaha') }}</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <!-- Isi data akan di sini -->
+                                @foreach ($tabel_lulusan as $row)
+                                    <tr>
+                                        <td class="text-center">{{ $row->tahun_lulus }}</td>
+                                        <td class="text-center">{{ $row->total_lulusan }}</td>
+                                        <td class="text-center">{{ $row->lulusan_terlacak }}</td>
+                                        <td class="text-center">{{ $row->kerja_bidang_infokom }}</td>
+                                        <td class="text-center">{{ $row->kerja_bidang_non_infokom }}</td>
+                                        <td class="text-center">{{ $row->internasional }}</td>
+                                        <td class="text-center">{{ $row->nasional }}</td>
+                                        <td class="text-center">{{ $row->wirausaha }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -138,33 +149,47 @@
             </div>
         </div>
 
+
         <!-- Row 3: Dua Tabel Rata-rata Masa Tunggu & Performa Lulusan -->
         <div class="row mb-3">
             <div class="col-md-6 mb-3 mb-md-0">
                 <div class="p-4 bg-white shadow rounded  "data-aos="fade-up">
                     <h2 class="mb-4 fs-4 text-center">Tabel rata-rata masa tunggu ({{ $startYear }} -
                         {{ $endYear }})</h2>
-                    <div class="table-responsive">
-                        <table id="tabel-rata-rata-masa-tunggu" class="table table-bordered table-striped table-hover">
+                    <div class=" table-responsive ">
+                        <table id="tabel-rata-rata-masa-tunggu"
+                            class="table table-bordered table-striped table-hover text-center">
                             <thead>
                                 <tr>
-                                    <th class="text-center">Tahun Lulusan</th>
-                                    <th class="text-center">Jumlah Lulusan</th>
-                                    <th class="text-center">Jumlah Terlacak</th>
-                                    <th class="text-center">Rata-rata Waktu Tunggu (Bulan)</th>
+                                    <th>Tahun Lulusan</th>
+                                    <th>Jumlah Lulusan</th>
+                                    <th>Jumlah Terlacak</th>
+                                    <th>Rata-rata Waktu Tunggu (Bulan)</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                @foreach ($tabel_masa_tunggu as $row)
+                                    <tr>
+                                        <td>{{ $row->tahun_lulusan }}</td>
+                                        <td>{{ $row->jumlah_lulusan }}</td>
+                                        <td>{{ $row->jumlah_terlacak }}</td>
+                                        <td>{{ $row->rata_rata_waktu_tunggu_bulan }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
                             <tfoot>
                                 <tr>
-                                    <th class="text-center">Total</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
+                                    <th>Total</th>
+                                    <th>{{ $tabel_masa_tunggu->sum('jumlah_lulusan') }}</th>
+                                    <th>{{ $tabel_masa_tunggu->sum('jumlah_terlacak') }}</th>
+                                    <th>
+                                        @php
+                                            $avg_waktu_tunggu = $tabel_masa_tunggu->avg('rata_rata_waktu_tunggu_bulan');
+                                        @endphp
+                                        {{ number_format($avg_waktu_tunggu, 2) }}
+                                    </th>
                                 </tr>
                             </tfoot>
-                            <tbody>
-                                <!-- Isi data akan di sini -->
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -175,6 +200,23 @@
                     <h2 class="mb-4 fs-4 text-center">Tabel performa lulusan ({{ $startYear }} - {{ $endYear }})
                     </h2>
                     <div class="table-responsive">
+                        @php
+                            $total_sangat_baik = $tabel_performa->sum('sangat_baik');
+                            $total_baik = $tabel_performa->sum('baik');
+                            $total_cukup = $tabel_performa->sum('cukup');
+                            $total_kurang = $tabel_performa->sum('kurang');
+
+                            // Total keseluruhan (jumlah semua kategori)
+                            $total_all = $total_sangat_baik + $total_baik + $total_cukup + $total_kurang;
+
+                            // Hitung persentase total per kategori
+                            $persen_sangat_baik =
+                                $total_all > 0 ? round(($total_sangat_baik / $total_all) * 100, 2) : 0;
+                            $persen_baik = $total_all > 0 ? round(($total_baik / $total_all) * 100, 2) : 0;
+                            $persen_cukup = $total_all > 0 ? round(($total_cukup / $total_all) * 100, 2) : 0;
+                            $persen_kurang = $total_all > 0 ? round(($total_kurang / $total_all) * 100, 2) : 0;
+                        @endphp
+
                         <table id="tabel-performa-lulusan" class="table table-bordered table-striped table-hover">
                             <thead>
                                 <tr>
@@ -188,17 +230,27 @@
                             <tfoot>
                                 <tr>
                                     <th class="text-center">Total</th>
-                                    <th id="total-sangat-baik" class="text-center"></th>
-                                    <th id="total-baik" class="text-center"></th>
-                                    <th id="total-cukup" class="text-center"></th>
-                                    <th id="total-kurang" class="text-center"></th>
+                                    <th class="text-center">{{ $persen_sangat_baik }}%</th>
+                                    <th class="text-center">{{ $persen_baik }}%</th>
+                                    <th class="text-center">{{ $persen_cukup }}%</th>
+                                    <th class="text-center">{{ $persen_kurang }}%</th>
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <!-- Isi data akan di sini -->
+                                @foreach ($tabel_performa as $row)
+                                    <tr>
+                                        <td>{{ $row->jenis_kemampuan }}</td>
+                                        <td class="text-center">{{ $row->sangat_baik }}</td>
+                                        <td class="text-center">{{ $row->baik }}</td>
+                                        <td class="text-center">{{ $row->cukup }}</td>
+                                        <td class="text-center">{{ $row->kurang }}</td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
+
                     </div>
+
                 </div>
             </div>
         </div>
@@ -370,262 +422,25 @@
         const performaChartData = @json($chartData);
     </script>
     {{-- table --}}
-    <script>
-        $(document).ready(function() {
-            $('#tabel-lulusan').DataTable({
-                processing: true,
-                serverSide: true,
-                scrollX: true,
-                ordering: false,
-                ajax: {
-                    "url": "{{ url('dashboard/lulusan/table') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": function(d) {
-                        d._token = '{{ csrf_token() }}';
-                        const prodi_id = <?php echo json_encode($prodi_id); ?>;
-                        const start_year = <?php echo json_encode($startYear); ?>;
-                        const end_year = <?php echo json_encode($endYear); ?>;
-                        d.filter_prodi = prodi_id;
-                        d.start_year = start_year;
-                        d.end_year = end_year;
 
-                    }
-                },
-                dom: '<"table-responsive"t>',
-                columns: [{
-                        data: 'tahun_lulus',
-                        name: 'tahun_lulus'
-                    },
-                    {
-                        data: 'total_lulusan',
-                        name: 'total_lulusan'
-                    },
-                    {
-                        data: 'lulusan_terlacak',
-                        name: 'lulusan_terlacak'
-                    },
-                    {
-                        data: 'kerja_bidang_infokom',
-                        name: 'kerja_bidang_infokom'
-                    },
-                    {
-                        data: 'kerja_bidang_non_infokom',
-                        name: 'kerja_bidang_non_infokom'
-                    },
-                    {
-                        data: 'internasional',
-                        name: 'internasional'
-                    },
-                    {
-                        data: 'nasional',
-                        name: 'nasional'
-                    },
-                    {
-                        data: 'wirausaha',
-                        name: 'wirausaha'
-                    }
-                ],
-                footerCallback: function(row, data, start, end, display) {
-                    var api = this.api();
 
-                    var total = function(colIndex) {
-                        return api
-                            .column(colIndex)
-                            .data()
-                            .reduce(function(a, b) {
-                                return parseFloat(a) + parseFloat(b) || 0;
-                            }, 0);
-                    };
-
-                    $(api.column(0).footer()).html(
-                        '<b>Jumlah</b>');
-                    for (var i = 1; i <= 7; i++) {
-                        $(api.column(i).footer()).html('<b>' + total(i) + '</b>');
-                    }
-                }
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            tabel_rata_rata_masa_tunggu = $('#tabel-rata-rata-masa-tunggu').DataTable({
-                processing: true,
-                serverSide: true,
-                scrollX: true,
-                ordering: false,
-                ajax: {
-                    "url": "{{ url('dashboard/masa_tunggu/table') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": function(d) {
-                        d._token = '{{ csrf_token() }}';
-                        const prodi_id = <?php echo json_encode($prodi_id); ?>;
-                        const start_year = <?php echo json_encode($startYear); ?>;
-                        const end_year = <?php echo json_encode($endYear); ?>;
-                        d.filter_prodi = prodi_id;
-                        d.start_year = start_year;
-                        d.end_year = end_year;
-                    }
-                },
-                dom: '<"table-responsive"t>',
-                columns: [{
-                        data: 'tahun_lulusan',
-                        name: 'tahun_lulusan'
-                    },
-                    {
-                        data: 'jumlah_lulusan',
-                        name: 'jumlah_lulusan'
-                    },
-                    {
-                        data: 'jumlah_terlacak',
-                        name: 'jumlah_terlacak'
-                    },
-                    {
-                        data: 'rata_rata_waktu_tunggu_bulan',
-                        name: 'rata_rata_waktu_tunggu_bulan'
-                    },
-                ],
-                footerCallback: function(row, data, start, end, display) {
-                    var api = this.api();
-
-                    var totalJumlahLulusan = api.column(1).data().reduce(function(a, b) {
-                        return a + b;
-                    }, 0);
-                    var totalJumlahTerlacak = api.column(2).data().reduce(function(a, b) {
-                        return a + b;
-                    }, 0);
-                    var totalRataWaktuTunggu = api.column(3).data().reduce(function(a, b) {
-                        return a + (isNaN(b) ? 0 : b);
-                    }, 0);
-
-                    $(api.column(1).footer()).html(totalJumlahLulusan);
-                    $(api.column(2).footer()).html(totalJumlahTerlacak);
-
-                    $(api.column(3).footer()).html(totalRataWaktuTunggu > 0 ? (totalRataWaktuTunggu /
-                        data.length).toFixed(2) : 0);
-                }
-            });
-            $('.filter_prodi').change(function() {
-                tabel_rata_rata_masa_tunggu.draw();
-            });
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            $('#tabel-performa-lulusan').DataTable({
-                processing: true,
-                serverSide: true,
-                scrollX: true,
-                ordering: false,
-                ajax: {
-                    "url": "{{ url('dashboard/performa_lulusan/table') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": function(d) {
-                        d._token = '{{ csrf_token() }}';
-                        const prodi_id = <?php echo json_encode($prodi_id); ?>;
-                        const start_year = <?php echo json_encode($startYear); ?>;
-                        const end_year = <?php echo json_encode($endYear); ?>;
-                        d.filter_prodi = prodi_id;
-                        d.start_year = start_year;
-                        d.end_year = end_year;
-                        console.log(d);
-                    }
-                },
-                dom: '<"table-responsive"t>',
-                columns: [{
-                        data: 'jenis_kemampuan',
-                        name: 'jenis_kemampuan'
-                    },
-                    {
-                        data: 'sangat_baik',
-                        name: 'sangat_baik',
-                        render: function(data, type, row) {
-                            return data + '%';
-                        }
-                    },
-                    {
-                        data: 'baik',
-                        name: 'baik',
-                        render: function(data, type, row) {
-                            return data + '%';
-                        }
-                    },
-                    {
-                        data: 'cukup',
-                        name: 'cukup',
-                        render: function(data, type, row) {
-                            return data + '%';
-                        }
-                    },
-                    {
-                        data: 'kurang',
-                        name: 'kurang',
-                        render: function(data, type, row) {
-                            return data + '%';
-                        }
-                    }
-                ],
-
-                footerCallback: function(row, data, start, end, display) {
-                    var api = this.api();
-                    var totalSangatBaik = api.column(1, {
-                        page: 'current'
-                    }).data().reduce(function(a, b) {
-                        return a + parseFloat(b.replace('%', '')) || 0;
-                    }, 0);
-
-                    var totalBaik = api.column(2, {
-                        page: 'current'
-                    }).data().reduce(function(a, b) {
-                        return a + parseFloat(b.replace('%', '')) || 0;
-                    }, 0);
-
-                    var totalCukup = api.column(3, {
-                        page: 'current'
-                    }).data().reduce(function(a, b) {
-                        return a + parseFloat(b.replace('%', '')) || 0;
-                    }, 0);
-
-                    var totalKurang = api.column(4, {
-                        page: 'current'
-                    }).data().reduce(function(a, b) {
-                        return a + parseFloat(b.replace('%', '')) || 0;
-                    }, 0);
-
-                    var totalSum = totalSangatBaik + totalBaik + totalCukup + totalKurang;
-                    var percentSangatBaik = (totalSangatBaik / totalSum) * 100;
-                    var percentBaik = (totalBaik / totalSum) * 100;
-                    var percentCukup = (totalCukup / totalSum) * 100;
-                    var percentKurang = (totalKurang / totalSum) * 100;
-
-                    $('#total-sangat-baik').text(percentSangatBaik.toFixed(2) + '%');
-                    $('#total-baik').text(percentBaik.toFixed(2) + '%');
-                    $('#total-cukup').text(percentCukup.toFixed(2) + '%');
-                    $('#total-kurang').text(percentKurang.toFixed(2) + '%');
-                }
-            });
-        });
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
     <script>
-        
         AOS.init({
-            duration: 1200,
+            duration: 1000,
             easing: 'ease-in-out',
-            delay: 100, // delay global, bisa juga pakai atribut data-aos-delay di elemen
+            delay: 50, // delay global, bisa juga pakai atribut data-aos-delay di elemen
             once: true,
             offset: 250
         });
     </script>
     <style>
-        table.dataTable tfoot th {
+        tfoot th {
             background-color: #5a8dee !important;
             color: #fafafa !important;
         }
 
-        table.dataTable thead th {
+        thead th {
             background-color: #5a8dee !important;
             color: #fafafa !important;
         }
