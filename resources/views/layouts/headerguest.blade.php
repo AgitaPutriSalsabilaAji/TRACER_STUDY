@@ -14,14 +14,14 @@
 <body class="d-flex flex-column min-vh-100">
 
     <header>
-            <!-- Logo dan Judul -->
-            <div class="d-flex align-items-center ps-3">
-                <img src="image/logo_polinema.png" alt="Logo Polinema" height="60">
-                <div class="ms-3">
-                    <strong style="font-size: 22px;">TRACER STUDY</strong><br>
-                    <span style="font-size: 16px;">Politeknik Negeri Malang</span>
-                </div>
+        <!-- Logo dan Judul -->
+        <div class="d-flex align-items-center ps-3">
+            <img src="image/logo_polinema.png" alt="Logo Polinema" height="60">
+            <div class="ms-3">
+                <strong style="font-size: 22px;">TRACER STUDY</strong><br>
+                <span style="font-size: 16px;">Politeknik Negeri Malang</span>
             </div>
+        </div>
         <!-- Hamburger icon for mobile -->
         <button class="menu-toggle d-md-none" id="menu-toggle">
             ☰
@@ -29,9 +29,11 @@
 
         <nav class="navbar d-none d-md-flex">
             <li><a href="{{ url('/') }}" class="text-dark {{ Request::is('/') ? 'active' : '' }}">Beranda</a></li>
-            <li><a href="{{ url('/form-alumni') }}" class="text-dark{{ Request::is('form-alumni') ? 'active' : '' }}">Data
+            <li><a href="{{ url('/form-alumni') }}"
+                    class="text-dark {{ Request::is('form-alumni') ? 'active' : '' }}">Data
                     Alumni</a></li>
-            <li><a href="/form-atasan" class="text-dark{{ Request::is('form-atasan') ? 'active' : '' }}">Isi Survei</a></li>
+            <li><a href="/form-atasan" class="text-dark {{ Request::is('form-atasan') ? 'active' : '' }}">Isi Survei</a>
+            </li>
         </nav>
         <a href="/login" class="btn login-btn d-none d-md-inline">Login Admin</a>
 
@@ -49,7 +51,7 @@
 
     @yield('content')
 
-</body> 
+</body>
 
 </html>
 <script>
@@ -57,7 +59,7 @@
         const menu = document.getElementById('mobile-menu');
         menu.classList.toggle('show');
     });
-</script> 
+</script>
 
 <style>
     .navbar a {
@@ -69,5 +71,4 @@
         font-size: 20px;
         color: white !important;
     }
-
 </style>

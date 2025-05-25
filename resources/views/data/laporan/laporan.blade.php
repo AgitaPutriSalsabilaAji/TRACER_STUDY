@@ -163,6 +163,10 @@
     <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
     <script src="{{ asset('js/dashboard/profesi_chart.js') }}"></script>
     <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
 
     {{-- Chart --}}
     <script>
@@ -294,11 +298,6 @@
         }
     </style>
 
-    <!-- Resources -->
-    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-
     <!-- Chart code -->
     <script>
         am5.ready(function() {
@@ -392,13 +391,9 @@
         }
     </style>
 
-    <!-- Kirim data dari Laravel -->
-    <script>
-        const belumTracerData = @json($belum_tracer);
-    </script>
-
     <!-- Chart code -->
     <script>
+        const belumTracerData = @json($belum_tracer);
         am5.ready(function() {
 
             var root = am5.Root.new("belum_tracer");
@@ -491,58 +486,58 @@
         }); // end am5.ready()
     </script>
 
+    <style>
+        #belum_survey {
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+
+    <!-- Ambil data dari Laravel -->
+    <script>
+        let belumSurveiData = @json($belum_survey);
+        let data = belumSurveiData[0];
+        console.log(data);
+        am5.ready(function() {
+            // CEK DAN DISPOSE ROOT LAMA JIKA SUDAH ADA
+            let existingRoot = am5.registry.rootElements.find(root => root.dom.id === "belum_survey");
+            if (existingRoot) {
+                existingRoot.dispose();
+            }
 
 
+            // Buat root baru
+            var root = am5.Root.new("belum_survey");
 
-<style>
-  #belum_survey {
-    width: 100%;
-    height: 500px;
-  }
-</style>
-<!-- amCharts 5 library -->
-<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+            root.setThemes([
+                am5themes_Animated.new(root)
+            ]);
 
-<!-- Ambil data dari Laravel -->
-<script>
-  let belumSurveiData = @json($belum_survey); 
-  let data = belumSurveiData[0]; 
+            var chart = root.container.children.push(am5percent.PieChart.new(root, {
+                layout: root.verticalLayout
+            }));
 
-  am5.ready(function() {
-    // Buat root element
-    var root = am5.Root.new("belum_survey");
+            var series = chart.series.push(am5percent.PieSeries.new(root, {
+                valueField: "value",
+                categoryField: "category"
+            }));
 
-    // Tambahkan tema animasi
-    root.setThemes([
-      am5themes_Animated.new(root)
-    ]);
+            series.data.setAll([{
+                    category: "Sudah Mengisi",
+                    value: data.jumlah_mengisi_survei
+                },
+                {
+                    category: "Belum Mengisi",
+                    value: data.jumlah_belum_mengisi_survei
+                }
+            ]);
 
-    // Buat chart pie
-    var chart = root.container.children.push(am5percent.PieChart.new(root, {
-      layout: root.verticalLayout
-    }));
+            series.appear(1000, 100);
+        });
+    </script>
 
-    // Buat pie series
-    var series = chart.series.push(am5percent.PieSeries.new(root, {
-      valueField: "value",
-      categoryField: "category"
-    }));
 
-    // Set data ke chart
-    series.data.setAll([
-      { category: "Sudah Mengisi", value: data.jumlah_mengisi_survei },
-      { category: "Belum Mengisi", value: data.jumlah_belum_mengisi_survei }
-    ]);
-
-    // Animasi muncul awal
-    series.appear(1000, 100);
-  });
-</script>
-
-<style>
-
+    <style>
         .year-option {
             padding: 8px;
             background: #f1f1f1;

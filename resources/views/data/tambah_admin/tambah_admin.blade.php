@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 white">
-                    <h1>Dasboard admin</h1>
+                    <h1>Dashboard admin</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -15,9 +15,10 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
+
     <div id="adminModal" class="modal fade" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
-            <form id="formAdmin" method="POST">
+            <form id="formAdmin" method="POST" action="">
                 @csrf
                 <input type="hidden" name="_method" value="POST" id="formMethod">
                 <div class="modal-content">
@@ -28,12 +29,14 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label>Username</label>
-                            <input type="text" name="username" class="form-control" id="adminUsername" required minlength="7">
+                            <input type="text" name="username" class="form-control" id="adminUsername" required
+                                minlength="7">
                         </div>
                         <div class="mb-3">
                             <label>Email</label>
-                            <input type="email" name="email" class="form-control" id="adminEmail" required placeholder="admin@gmail.com">
-                        </div>                        
+                            <input type="email" name="email" class="form-control" id="adminEmail" required
+                                placeholder="admin@gmail.com">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Simpan</button>
@@ -70,13 +73,15 @@
             </table>
         </div>
     </div>
-    <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
 
+    <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
         var tableAdmin;
 
         $(function() {
+            // Initialize datatable
             tableAdmin = $('#table-admin').DataTable({
                 processing: true,
                 serverSide: true,
@@ -106,6 +111,7 @@
                 ]
             });
 
+            // Form submit handler (only once registered)
             $('#formAdmin').submit(function(e) {
                 e.preventDefault();
 
@@ -122,14 +128,24 @@
                 }
 
                 let url = $(this).attr('action');
-                let method = $('#formMethod').val();
+                if (!url) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'URL form belum di-set.',
+                    });
+                    return;
+                }
 
+                // Selalu gunakan POST, karena method spoofing di data via _method
                 $.ajax({
                     url: url,
-                    method: method,
+                    method: 'POST',
                     data: $(this).serialize(),
                     success: function(response) {
                         $('#adminModal').modal('hide');
+                        // Reset form saat modal ditutup
+                        $('#formAdmin')[0].reset();
                         tableAdmin.ajax.reload();
                         Swal.fire({
                             icon: 'success',
@@ -143,23 +159,23 @@
                         Swal.fire({
                             icon: 'error',
                             title: 'Gagal',
-                            text: 'Terjadi kesalahan: ' + xhr.responseText,
+                            text: 'Username atau Email Sudah digunakan!',
                         });
                     }
                 });
             });
-
         });
 
+        // Fungsi untuk membuka modal tambah admin
         function tambahAdmin() {
             $('#adminModalTitle').text('Tambah Admin');
             $('#formAdmin').attr('action', "{{ route('admin.store') }}");
             $('#formMethod').val('POST');
-            $('#adminUsername').val('');
-            $('#adminEmail').val('');
+            $('#formAdmin')[0].reset();
             $('#adminModal').modal('show');
         }
 
+        // Fungsi untuk membuka modal edit admin
         function editAdmin(url, username, email) {
             $('#adminModalTitle').text('Edit Admin');
             $('#formAdmin').attr('action', url);
@@ -169,6 +185,7 @@
             $('#adminModal').modal('show');
         }
 
+        // Fungsi hapus admin
         function deleteAdmin(url) {
             Swal.fire({
                 title: 'Yakin ingin menghapus admin ini?',
@@ -209,9 +226,5 @@
                 }
             });
         }
-
     </script>
-    <!-- Tambahkan library SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 @endsection
