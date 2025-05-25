@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profesi;
+use App\Models\KategoriProfesi;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,11 +23,14 @@ class ProfesiController extends Controller
         ];
 
         $activeMenu = 'profesi';
+        $kategoriList = KategoriProfesi::all();
 
         return view('data.pengelolaan_profesi.index', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
-            'activeMenu' => 'profesi'
+            'activeMenu' => 'profesi',
+            'kategoriList' => $kategoriList
+
         ]);
     }
     public function list(Request $request)
@@ -34,116 +38,54 @@ class ProfesiController extends Controller
        
             $data = DB::table('profesi as p')
                 ->join('kategori_profesi as kp', 'p.kategori_profesi_id', '=', 'kp.id')
-                ->select('p.id', 'p.nama_profesi', 'kp.kategori_profesi');
+                ->select('p.id', 'p.nama_profesi', 'kp.kategori_profesi')
+                ->get();
 
             return DataTables::of($data)
                 ->addIndexColumn() // untuk DT_RowIndex
                 ->addColumn('aksi', function ($row) {
-                    $editBtn = '<button onclick="editForm(' . $row->id . ')" class="btn btn-sm btn-warning me-1">Edit</button>';
-                    $deleteBtn = '<button onclick="deleteForm(' . $row->id . ')" class="btn btn-sm btn-danger">Hapus</button>';
+                    $editBtn = '<button onclick="editProfesi(' . $row->id . ')" class="btn btn-sm btn-warning me-1">Edit</button>';
+                    $deleteBtn = '<button onclick="deleteProfesi(' . $row->id . ')" class="btn btn-sm btn-danger">Hapus</button>';
                     return $editBtn . $deleteBtn;
                 })
                 ->rawColumns(['aksi'])
-                ->make(true);
-        
-
-     
+                ->make(true);     
     }
 
-    public function create_ajax()
+    
+    public function store(Request $request)
     {
-        return view('data.pengelolaan_profesi.create_ajax');
+        $request->validate([
+        'kategori_profesi_id' => 'required|exists:kategori_profesi,id',
+        'profesi' => 'required|unique:profesi,nama_profesi'
+        ]);
+
+        Profesi::create([
+            'kategori_profesi_id' => $request->kategori_profesi_id,
+            'nama_profesi' => $request->profesi
+        ]);
+
+        return redirect()->back()->with('success', 'Admin berhasil ditambahkan. ');
     }
 
-    public function store_ajax(Request $request)
+    public function update(Request $request, $id)
     {
-        if ($request->ajax() || $request->wantsJson()) {
-            $rules = [
-                'kategori' => 'required|string|max:100',
-                'nama_profesi' => 'required|string|max:100|unique:profesi,nama_profesi'
-            ];
+        $request->validate([
+            'kategori_profesi_id' => 'required|exists:kategori_profesi,id',
+            'profesi' => 'required|unique:profesi,nama_profesi,' . $id
+        ]);
 
-            $validator = Validator::make($request->all(), $rules);
+        Profesi::where('id', $id)->update([
+            'kategori_profesi_id' => $request->kategori_profesi_id,
+            'nama_profesi' => $request->profesi
+        ]);
 
-            if ($validator->fails()) {
-                return response()->json([
-                    'status'   => false,
-                    'message'  => 'Validasi gagal.',
-                    'msgField' => $validator->errors()
-                ]);
-            }
-
-            Profesi::create($request->all());
-            return response()->json([
-                'status'  => true,
-                'message' => 'Data profesi berhasil disimpan'
-            ]);
-        }
-        return redirect('/');
+        return response()->json(['success' => true]);
     }
 
-    public function edit_ajax(string $id)
+    public function destroy($id)
     {
-        $profesi = Profesi::find($id);
-        return view('data.pengelolaan_profesi.edit_ajax', compact('profesi'));
-    }
-
-    public function update_ajax(Request $request, $id)
-    {
-        if ($request->ajax() || $request->wantsJson()) {
-            $rules = [
-                'kategori' => 'required|string|max:100',
-                'nama_profesi' => 'required|string|max:100|unique:profesi,nama_profesi,' . $id . ',id'
-            ];
-
-            $validator = Validator::make($request->all(), $rules);
-
-            if ($validator->fails()) {
-                return response()->json([
-                    'status'   => false,
-                    'message'  => 'Validasi gagal.',
-                    'msgField' => $validator->errors()
-                ]);
-            }
-
-            $profesi = Profesi::find($id);
-            if ($profesi) {
-                $profesi->update($request->all());
-                return response()->json([
-                    'status'  => true,
-                    'message' => 'Data profesi berhasil diperbarui'
-                ]);
-            }
-            return response()->json([
-                'status'  => false,
-                'message' => 'Data tidak ditemukan'
-            ]);
-        }
-        return redirect('/');
-    }
-
-    public function confirm_ajax(string $id)
-    {
-        $profesi = Profesi::find($id);
-        return view('data.pengelolaan_profesi.confirm_ajax', compact('profesi'));
-    }
-
-    public function delete_ajax(Request $request, $id)
-    {
-        if ($request->ajax() || $request->wantsJson()) {
-            $profesi = Profesi::find($id);
-            if ($profesi) {
-                $profesi->delete();
-                return response()->json([
-                    'status'  => true,
-                    'message' => 'Data profesi berhasil dihapus'
-                ]);
-            }
-            return response()->json([
-                'status'  => false,
-                'message' => 'Data tidak ditemukan'
-            ]);
-        }
-        return redirect('/');
+        Profesi::destroy($id);
+        return response()->json(['success' => true]);
     }
 }
