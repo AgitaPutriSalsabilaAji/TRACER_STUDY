@@ -22,20 +22,21 @@ class GuestController extends Controller
 
     public function validateKode(Request $request)
     {
+
         $request->validate([
-            'alumni_id' => 'required|exists:alumni,id',
+            'alumni_id_validate' => 'required|exists:alumni,id',
             'nim' => 'required|string',
             'prodi' => 'required|integer',
             'tahun_lulus' => 'required|integer',
         ]);
-        $exists = Lulusan::where('alumni_id', $request->alumni_id)->exists();
+        $exists = Lulusan::where('alumni_id', $request->alumni_id_validate)->exists();
         if ($exists) {
             return response()->json([
                 'success' => false,
                 'message' => 'Hanya bisa mengisi satu kali'
             ]);
         }
-        $alumni = Alumni::find($request->alumni_id);
+        $alumni = Alumni::find($request->alumni_id_validate);
 
         if (!$alumni) {
             return response()->json([
@@ -66,10 +67,17 @@ class GuestController extends Controller
         }
         $token = bin2hex(random_bytes(16));
         Key::create([
-            'alumni_id' => $request->alumni_id,
+            'alumni_id' => $request->alumni_id_validate,
             'key_value' =>  $token,
         ]);
-        session(['validated_alumni' => true]);
+    
+        session([
+            'validated_alumni' => true,
+            'alumni_id' => $alumni->id,
+            'nama' => $alumni->nama . ' (' . $alumni->nim . ')',
+            'prodi' => $alumni->program_studi_id,
+            'tahun_lulus' => $request->input('tahun_lulus'),
+        ]);
 
         return response()->json([
             'success' => true,
@@ -81,18 +89,19 @@ class GuestController extends Controller
     public function create()
     {
         $validated = session('validated_alumni', false);
-        // Generate tahun lulus dari tahun sekarang hingga 2000
-        $tahunLulus = [];
-        for ($i = date('Y'); $i >= 2000; $i--) {
-            $tahunLulus[$i] = $i;
-        }
-
         $kategoriProfesi = KategoriProfesi::all();
         $profesi =  Profesi::all();
         $jenisInstansi = JenisInstansi::all();
-        $prodi =  ProgramStudi::all();
-        // Pastikan nama view sesuai dengan file view yang ada
-        return view('guest/form-alumni', compact('tahunLulus', 'kategoriProfesi', 'profesi', 'jenisInstansi', 'prodi', 'validated'));
+        $key = Key::where('alumni_id',)->first();
+        $prodi = ProgramStudi::all();
+
+        $nama = session('nama', '');
+        $alumni_id = session('alumni_id', '');
+        $prodi_terpilih = session('prodi', '');
+        $tahun_lulus_terpilih = session('tahun_lulus', '');
+
+        $prodi_terpilih_nama = optional($prodi->firstWhere('id', $prodi_terpilih))->program_studi ?? '-';
+        return view('guest/form-alumni', compact('kategoriProfesi', 'profesi', 'jenisInstansi', 'prodi',  'validated', 'nama', 'alumni_id', 'prodi_terpilih', 'prodi_terpilih_nama', 'tahun_lulus_terpilih'));
     }
 
     public function store(Request $request)
@@ -106,23 +115,10 @@ class GuestController extends Controller
                     ->with('alert', 'Alumni tidak ditemukan.');
             }
 
-            // Validasi kecocokan tahun lulus dengan data alumni
-            if ($request->tahun_lulus != Carbon::parse($alumni->tanggal_lulus)->year) {
-                return redirect()->back()
-                    ->withInput()
-                    ->with('alert', 'Tahunnya beda tuan');
-            }
-
-            // Validasi kecocokan program studi dengan data alumni
-            if ($request->prodi != $alumni->program_studi_id) {
-                return redirect()->back()
-                    ->withInput()
-                    ->with('alert', 'Produnya beda sama yang di database');
-            }
 
             // Atur aturan validasi dasar
             $rules = [
-                // 'g-recaptcha-response' => 'required|captcha',
+                'g-recaptcha-response' => 'required|captcha',
                 'alumni_id' => 'required|exists:alumni,id',
                 'profesi_id' => 'required|exists:profesi,id',
                 'tahun_lulus' => 'required|numeric',
@@ -146,14 +142,13 @@ class GuestController extends Controller
                 ]);
             }
             // Pesan error khusus captcha
-            // $messages = [
-            //     'g-recaptcha-response.required' => 'Silakan centang captcha terlebih dahulu.',
-            //     'g-recaptcha-response.captcha' => 'Kode captcha tidak valid. Silakan coba lagi.',
-            // ];
+            $messages = [
+                'g-recaptcha-response.required' => 'Silakan centang captcha terlebih dahulu.',
+                'g-recaptcha-response.captcha' => 'Kode captcha tidak valid. Silakan coba lagi.',
+            ];
 
             // Validasi request sekaligus semua aturan dan pesan
-            // $validated = $request->validate($rules, $messages);
-            $validated = $request->validate($rules);
+            $validated = $request->validate($rules, $messages);
 
             // Simpan data lulusan ke database
             Lulusan::create($validated);
