@@ -13,7 +13,12 @@
                 </div>
                 <div class="form-group mb-3">
                     <label>Program Studi</label>
-                    <input type="text" name="program_studi" class="form-control" required>
+                    <select name="program_studi_id" class="form-control" required>
+                        <option value="">-- Pilih Program Studi --</option>
+                        @foreach ($programStudi as $prodi)
+                            <option value="{{ $prodi->id }}">{{ $prodi->program_studi }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group mb-3">
                     <label>NIM</label>
