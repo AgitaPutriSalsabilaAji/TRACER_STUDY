@@ -108,23 +108,7 @@ class AdminController extends Controller
         }
         $prodi = ProgramStudi::all();
 
-        return view('admin.dashboard', compact('breadcrumb', 'activeMenu', 'topProfesi', 'jenisInstansi', 'chartData', 'prodi', 'startYear', 'endYear', 'prodi_id'));
-    }
-    public function filter(Request $request)
-    {
-        $startYear = $request->input('start_year');
-        $endYear = $request->input('end_year');
-        $prodi = $request->input('prodi_id');
-        return redirect()->route('dashboard', compact('startYear', 'endYear', 'prodi'));
-    }
-    public function lulusan_table(Request $request)
-    {
-
-        $prodiId = $request->input('filter_prodi');
-        $startYear = $request->input('start_year');
-        $endYear = $request->input('end_year');
-
-        $data = DB::table('alumni as a')
+        $tabel_lulusan = DB::table('alumni as a')
             ->leftJoin('lulusan as l', 'a.id', '=', 'l.alumni_id')
             ->leftJoin('profesi as p', 'l.profesi_id', '=', 'p.id')
             ->leftJoin('kategori_profesi as kp', 'p.kategori_profesi_id', '=', 'kp.id')
@@ -139,18 +123,12 @@ class AdminController extends Controller
                 DB::raw('SUM(CASE WHEN l.skala = "Wirausaha" THEN 1 ELSE 0 END) as wirausaha')
             )
             ->whereBetween(DB::raw('YEAR(a.tanggal_lulus)'), [$startYear, $endYear])
-            ->where('a.program_studi_id', $prodiId)
+            ->where('a.program_studi_id', $prodi_id)
             ->groupBy(DB::raw('YEAR(a.tanggal_lulus)'))
-            ->orderBy('tahun_lulus');
+            ->orderBy('tahun_lulus')
+            ->get();
 
-        return DataTables::of($data)->make(true);
-    }
-    public function masa_tunggu_table(Request $request)
-    {
-        $prodiId = $request->input('filter_prodi');
-        $startYear = $request->input('start_year');
-        $endYear = $request->input('end_year');
-        $data = Alumni::select(
+        $tabel_masa_tunggu = Alumni::select(
             DB::raw('YEAR(tanggal_lulus) as tahun_lulusan'),
             DB::raw('COUNT(alumni.id) as jumlah_lulusan'),
             DB::raw('COUNT(lulusan.id) as jumlah_terlacak'),
@@ -158,18 +136,11 @@ class AdminController extends Controller
         )
             ->leftJoin('lulusan', 'alumni.id', '=', 'lulusan.alumni_id')
             ->whereBetween(DB::raw('YEAR(alumni.tanggal_lulus)'), [$startYear, $endYear])
-            ->where('alumni.program_studi_id', $prodiId)
+            ->where('alumni.program_studi_id', $prodi_id)
             ->groupBy(DB::raw('YEAR(alumni.tanggal_lulus)'))
-            ->orderBy('tahun_lulusan');
-        return DataTables::of($data)->make(true);
-    }
-    public function performa_lulusan_table(Request $request)
-    {
-        $prodiId = $request->input('filter_prodi');
-        $startYear = $request->input('start_year');
-        $endYear = $request->input('end_year');
-
-        $data = DB::table('view_rekap_kemampuan')
+            ->orderBy('tahun_lulusan')
+            ->get();
+        $tabel_performa = DB::table('view_rekap_kemampuan')
             ->select(
                 'program_studi_id',
                 'jenis_kemampuan',
@@ -178,14 +149,23 @@ class AdminController extends Controller
                 DB::raw('ROUND(AVG(cukup), 2) as cukup'),
                 DB::raw('ROUND(AVG(kurang), 2) as kurang')
             )
-            ->where('program_studi_id', $prodiId)
+            ->where('program_studi_id', $prodi_id)
             ->whereBetween('tahun_lulus', [$startYear, $endYear])
             ->groupBy('program_studi_id', 'jenis_kemampuan')
             ->get();
 
-
-        return DataTables::of($data)->make(true);
+        return view('admin.dashboard', compact('tabel_lulusan', 'tabel_masa_tunggu', 'tabel_performa', 'activeMenu', 'topProfesi', 'jenisInstansi', 'chartData', 'prodi', 'startYear', 'endYear', 'prodi_id'));
     }
+    public function filter(Request $request)
+    {
+        $startYear = $request->input('start_year');
+        $endYear = $request->input('end_year');
+        $prodi = $request->input('prodi_id');
+        return redirect()->route('dashboard', compact('startYear', 'endYear', 'prodi'));
+    }
+
+
+
 
     public function index_admin()
     {
@@ -217,46 +197,46 @@ class AdminController extends Controller
     }
 
 
-public function store(Request $request)
-{
-    $request->validate([
-        'username' => 'required|unique:admins,username',
-        'email' => 'required|email|unique:admins,email',
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'username' => 'required|unique:admins,username',
+            'email' => 'required|email|unique:admins,email',
+        ]);
 
-     // Ambil input dari request
-     $username = $request->username;
-     $email = $request->email;
+        // Ambil input dari request
+        $username = $request->username;
+        $email = $request->email;
 
-    // Buat password otomatis sama dengan username (biasanya di-hash dulu)
-    $password = Hash::make($request->username);
+        // Buat password otomatis sama dengan username (biasanya di-hash dulu)
+        $password = Hash::make($request->username);
 
-    Admin::create([ 
-        'username' => $request->username,
-        'name' => $request->username,
-        'email' => $request->email,
-        'password' => $password
-    ]);
+        Admin::create([
+            'username' => $request->username,
+            'name' => $request->username,
+            'email' => $request->email,
+            'password' => $password
+        ]);
 
-    // Kirim email ke admin baru
-    $data = [
-        'subject' => 'Akun Admin Baru',
-        'body' => "Selamat! Anda telah ditambahkan sebagai admin.\n\n" .
-                  "Berikut adalah detail akun Anda:\n" .
-                  "Username: {$username}\n" .
-                  "Password: {$username}\n\n" .
-                  "Silakan login dan segera ubah password Anda demi keamanan akun.\n\n" .
-                  "Terima kasih,\nTracer Study"
-    ];
+        // Kirim email ke admin baru
+        $data = [
+            'subject' => 'Akun Admin Baru',
+            'body' => "Selamat! Anda telah ditambahkan sebagai admin.\n\n" .
+                "Berikut adalah detail akun Anda:\n" .
+                "Username: {$username}\n" .
+                "Password: {$username}\n\n" .
+                "Silakan login dan segera ubah password Anda demi keamanan akun.\n\n" .
+                "Terima kasih,\nTracer Study"
+        ];
 
-    $adminsEmail = $email;
-    Mail::raw($data['body'], function ($message) use ($adminsEmail, $data) {
-        $message->to($adminsEmail)
+        $adminsEmail = $email;
+        Mail::raw($data['body'], function ($message) use ($adminsEmail, $data) {
+            $message->to($adminsEmail)
                 ->subject($data['subject']);
-    });
+        });
 
-    return redirect()->back()->with('success', 'Admin berhasil ditambahkan. ');
-}
+        return redirect()->back()->with('success', 'Admin berhasil ditambahkan. ');
+    }
 
     public function update(Request $request, $id)
     {
