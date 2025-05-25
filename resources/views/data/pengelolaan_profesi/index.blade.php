@@ -88,7 +88,6 @@
                 processing: true,
                 serverSide: true,
                 scrollX: true,
-                ordering: false,
                 ajax: {
                     url: "{{ url('/profesi/list') }}",
                     type: "get",
