@@ -31,7 +31,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6 white">
-                    <h1>Rekap Laporan</h1>
+                    <h1>Rekap Laporan </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -76,7 +76,7 @@
                 <div class="col-md-6 mb-3">
                     <div class="card bg-white text-dark shadow-sm">
                         <div class="card-body">
-                            <h5 class="mb-4 fs-4">Rekap Hasil Tracer Study Lulusan</h5>
+                            <h5 class="mb-4 fs-4">Rekap Hasil Tracer Study Lulusan  ({{ $startYear }} - {{ $endYear }})</h5>
                             <div id="profesi_chart" style="width: 100%; height: 500px;"></div>
 
                             <form action="{{ route('laporan.export.tracer') }}" method="post">
@@ -98,7 +98,7 @@
                 <div class="col-md-6 mb-3">
                     <div class="card bg-white text-dark shadow-sm">
                         <div class="card-body">
-                            <h5 class="mb-4 fs-4">Rekap Hasil Survei Kepuasan Pengguna Lulusan</h5>
+                            <h5 class="mb-4 fs-4">Rekap Hasil Survei Kepuasan Pengguna Lulusan ({{ $startYear }} - {{ $endYear }})</h5>
                             <div id="chart_rekap_survei_kepuasan" style="width: 100%; height: 500px;"></div>
                             <form action="{{ route('laporan.export.kepuasan') }}" method="post">
                                 @csrf
@@ -116,7 +116,7 @@
                 <div class="col-md-6 mb-3">
                     <div class="card bg-white text-dark shadow-sm">
                         <div class="card-body">
-                            <h5 class="mb-4 fs-4">Rekap Lulusan Yang Belum Mengisi Tracer Study</h5>
+                            <h5 class="mb-4 fs-4">Rekap Lulusan Yang Belum Mengisi Tracer Study ({{ $startYear }} - {{ $endYear }})</h5>
                             <div id="belum_tracer"></div>
                             <form action="{{ route('laporan.export.belumTracer') }}" method="post">
                                 @csrf
@@ -134,7 +134,7 @@
                 <div class="col-md-6 mb-3">
                     <div class="card bg-white text-dark shadow-sm">
                         <div class="card-body">
-                            <h5 class="mb-4 fs-4">Rekap Atasan Yang Belum Mengisi Survei Kepuasan</h5>
+                            <h5 class="mb-4 fs-4">Rekap Atasan Yang Belum Mengisi Survei Kepuasan ({{ $startYear }} - {{ $endYear }})</h5>
                             <div id="belum_survey"></div>
                             <form action="{{ route('laporan.export.belumSurvei') }}" method="post">
                                 @csrf
