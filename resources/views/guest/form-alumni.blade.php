@@ -222,6 +222,9 @@
                                                 <label class="form-label">Email</label>
                                                 <input type="email" class="form-control" name="email" required>
                                             </div>
+
+                                            <div id="field-kerja-lanjutan1" style="display: none;">
+                                            
                                             <div class="mb-3">
                                                 <i class="bi bi-briefcase text-primary me-2"></i>
                                                 <label class="form-label">Tanggal Pertama Kerja</label>
@@ -251,10 +254,42 @@
                                                 <label class="form-label">Nama Instansi</label>
                                                 <input type="text" class="form-control" name="nama_instansi">
                                             </div>
+                                            </div>
                                         </div>
 
                                         <!-- Kolom Kanan -->
                                         <div class="col-md-6">
+                                                <div class="mb-3">
+                                                <label class="form-label"><i class="bi bi-briefcase"></i> Kategori
+                                                    Profesi</label>
+                                                <select class="form-select" name="kategori" required id="kategori"
+                                                    onchange="handleKategoriChange(this)">
+                                                    <option value="" disabled selected>-- Pilih Kategori --</option>
+                                                    @foreach ($kategoriProfesi as $kategori)
+                                                        <option value="{{ $kategori->id }}">
+                                                            {{ $kategori->kategori_profesi }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                             <div class="mb-3" id="profesi-wrapper">
+                                                <label class="form-label"><i class="bi bi-person-badge"></i>
+                                                    Profesi</label>
+                                                <select class="form-select" name="profesi_id" id="profesi">
+                                                    <option value="" disabled selected>-- Pilih Profesi --</option>
+                                                    <!-- Diisi oleh JavaScript -->
+                                                </select>
+                                            </div>
+
+                                            <!-- PROFESI OUTPUT (JIKA HANYA SATU) -->
+                                            <div class="mb-3" id="profesi-output" style="display: none;">
+                                                <label class="form-label"><i class="bi bi-person-badge"></i>
+                                                    Profesi</label>
+                                                <div class="form-control bg-light fw-bold" id="profesi-name"></div>
+                                            </div>
+
+
+<div id="field-kerja-lanjutan2" style="display: none;">
                                             <div class="mb-3">
                                                 <label class="form-label"><i class="bi bi-building"></i> Skala
                                                     Instansi</label>
@@ -270,34 +305,6 @@
                                                 <label class="form-label"><i class="bi bi-geo-alt"></i> Lokasi
                                                     Instansi</label>
                                                 <input type="text" class="form-control" name="lokasi_instansi">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label"><i class="bi bi-briefcase"></i> Kategori
-                                                    Profesi</label>
-                                                <select class="form-select" name="kategori" required id="kategori"
-                                                    onchange="handleKategoriChange(this)">
-                                                    <option value="" disabled selected>-- Pilih Kategori --</option>
-                                                    @foreach ($kategoriProfesi as $kategori)
-                                                        <option value="{{ $kategori->id }}">
-                                                            {{ $kategori->kategori_profesi }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="mb-3" id="profesi-wrapper">
-                                                <label class="form-label"><i class="bi bi-person-badge"></i>
-                                                    Profesi</label>
-                                                <select class="form-select" name="profesi_id" id="profesi">
-                                                    <option value="" disabled selected>-- Pilih Profesi --</option>
-                                                    <!-- Diisi oleh JavaScript -->
-                                                </select>
-                                            </div>
-
-                                            <!-- PROFESI OUTPUT (JIKA HANYA SATU) -->
-                                            <div class="mb-3" id="profesi-output" style="display: none;">
-                                                <label class="form-label"><i class="bi bi-person-badge"></i>
-                                                    Profesi</label>
-                                                <div class="form-control bg-light fw-bold" id="profesi-name"></div>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label"><i class="bi bi-person-lines-fill"></i> Nama
@@ -329,7 +336,7 @@
                                                 <input type="email" class="form-control" name="email_atasan_langsung"
                                                     placeholder="email@domain.com">
                                             </div>
-
+</div>
                                             <div id="captcha-error" class="alert alert-danger d-none mt-2"
                                                 role="alert">
                                             </div>
@@ -455,6 +462,8 @@
                 const profesiSelect = document.getElementById('profesi');
                 const profesiWrapper = document.getElementById('profesi-wrapper'); // Bungkus dropdown untuk disembunyikan
                 const profesiOutput = document.getElementById('profesi-output'); // Elemen untuk tampilkan nama langsung
+  const fieldKerjaLanjutan1 = document.getElementById('field-kerja-lanjutan1');
+const fieldKerjaLanjutan2 = document.getElementById('field-kerja-lanjutan2');
 
                 // Reset dropdown
                 profesiSelect.innerHTML = '<option value="" disabled selected>-- Pilih Profesi --</option>';
@@ -466,7 +475,8 @@
                 if (kategoriId == 3 && filteredProfesi.length === 1) {
                     profesiWrapper.style.display = 'none'; // Sembunyikan dropdown
                     profesiOutput.style.display = 'block'; // Tampilkan teks
-
+fieldKerjaLanjutan1.style.display = 'none';
+fieldKerjaLanjutan2.style.display = 'none';
                     const selectedProfesi = filteredProfesi[0];
                     profesiOutput.innerText = selectedProfesi.nama_profesi;
 
@@ -480,7 +490,8 @@
                     // Tampilkan dropdown kembali
                     profesiWrapper.style.display = 'block';
                     profesiOutput.style.display = 'none';
-
+fieldKerjaLanjutan1.style.display = 'block';
+fieldKerjaLanjutan2.style.display = 'block';
                     // Tambahkan opsi
                     filteredProfesi.forEach(p => {
                         const option = document.createElement('option');
@@ -488,6 +499,7 @@
                         option.textContent = p.nama_profesi;
                         profesiSelect.appendChild(option);
                     });
+                    // Deteksi saat pertama kali halaman dimuat
                 }
             }
         </script>
@@ -628,7 +640,6 @@
                 });
             });
         </script>
-
         {{-- captha --}}
         <script>
             document.getElementById('form-alumni').addEventListener('submit', function(e) {
