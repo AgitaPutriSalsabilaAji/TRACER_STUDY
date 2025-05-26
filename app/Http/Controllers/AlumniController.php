@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Key;
 use App\Models\Alumni;
+
 use Illuminate\Http\Request;
+use App\Models\ProgramStudi;
 use App\Models\SurveiKepuasan;
 
 class AlumniController extends Controller
@@ -117,11 +119,22 @@ class AlumniController extends Controller
     // =====================
     public function index()
     {
-        $alumni = Alumni::all();
+        $alumni = Alumni::with('programStudi')->get();
         return view('data.data_alumni.data_alumni', compact('alumni'));
     }
 
     // =====================
+
+    // Create Alumni - Form & Simpan
+    // =====================
+    public function createAlumni()
+    {
+        $programStudi = ProgramStudi::all();
+        return view('data.data_alumni.create', compact('programStudi'));
+    }
+
+     // =====================
+
     // Simpan Alumni Baru dari Halaman Admin
     // =====================
     public function storeAlumni(Request $request)
@@ -129,19 +142,20 @@ class AlumniController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'nim' => 'required|string|max:20|unique:alumni,nim',
-            'program_studi' => 'required|string|max:255',
+            'program_studi_id' => 'required|exists:program_studi_id|string|max:255',
             'tanggal_lulus' => 'required|date',
         ]);
 
         Alumni::create([
             'nama' => $request->nama,
             'nim' => $request->nim,
-            'program_studi' => $request->program_studi,
+            'program_studi' => $request->program_studi_id,
             'tanggal_lulus' => $request->tanggal_lulus,
         ]);
 
         return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil ditambahkan!');
     }
+
 
     public function createAlumni()
     {
@@ -154,6 +168,18 @@ class AlumniController extends Controller
         return view('data.data_alumni.edit', compact('alumni'));
     }
 
+     // =====================
+    // Edit & Update Alumni
+    // =====================
+
+public function editAlumni($id)
+{
+    $alumni = Alumni::findOrFail($id);              // ambil data alumni berdasarkan ID
+    $programStudi = ProgramStudi::all();            // ambil semua program studi untuk dropdown
+    return view('data.data_alumni.edit', compact('alumni', 'programStudi'));
+}
+
+
     public function updateAlumni(Request $request, $id)
     {
         $request->validate([
@@ -163,16 +189,28 @@ class AlumniController extends Controller
             'tanggal_lulus' => 'required|date',
         ]);
 
-        $alumni = Alumni::findOrFail($id);
-        $alumni->update($request->all());
+
+    $alumni = Alumni::findOrFail($id);
+    $alumni->update([
+        'nama' => $request->nama,
+        'nim' => $request->nim,
+        'program_studi_id' => $request->program_studi_id,
+        'tanggal_lulus' => $request->tanggal_lulus,
+    ]);
+
 
         return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil diperbarui!');
     }
 
-    public function destroyAlumni($id)
-    {
-        $alumni = Alumni::findOrFail($id);
-        $alumni->delete();
+// =====================
+    // Hapus Alumni
+    // =====================
+
+public function destroyAlumni($id)
+{
+    $alumni = Alumni::findOrFail($id);
+    $alumni->delete();
+
 
         return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil dihapus!');
     }

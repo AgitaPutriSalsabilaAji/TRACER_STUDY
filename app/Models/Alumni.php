@@ -20,7 +20,7 @@ class Alumni extends Model
 
     public function programStudi()
     {
-        return $this->belongsTo(ProgramStudi::class);
+        return $this->belongsTo(ProgramStudi::class, 'program_studi_id');
     }
 
     public function surveiKepuasan()
@@ -32,4 +32,10 @@ class Alumni extends Model
     {
         return $this->hasOne(Lulusan::class);
     }
+
+    public function alumni()
+    {
+        return $this->hasMany(Alumni::class, 'program_studi_id');
+    }
+
 }
