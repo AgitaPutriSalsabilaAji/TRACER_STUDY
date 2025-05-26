@@ -31,14 +31,15 @@
                         <div class="mb-3">
                             <label>Kategori</label>
                             <select name="kategori_profesi_id" class="form-control" id="profesiKategori">
-                                @foreach($kategoriList as $kategori)
+                                @foreach ($kategoriList as $kategori)
                                     <option value="{{ $kategori->id }}">{{ $kategori->kategori_profesi }}</option>
                                 @endforeach
-                            </select>                        </div>
+                            </select>
+                        </div>
                         <div class="mb-3">
                             <label>Profesi</label>
                             <input type="text" name="profesi" class="form-control" id="profesiProfesi">
-                        </div>                        
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Simpan</button>
@@ -55,13 +56,13 @@
             </div>
         </div>
         <div class="card-body">
-             @if (session('success'))
+            @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
             @if (session('error'))
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
-            
+
             <table id="tabel-profesi" class="table table-bordered table-striped w-100">
                 <thead>
                     <tr>
@@ -87,7 +88,14 @@
             tableProfesi = $('#tabel-profesi').DataTable({
                 processing: true,
                 serverSide: true,
-                scrollX: true,
+                 pagingType: "simple_numbers", // Menampilkan "Previous 1 2 3 Next"
+    language: {
+        paginate: {
+            previous: "<i class='fas fa-angle-left'></i>",
+            next: "<i class='fas fa-angle-right'></i>"
+        }
+    },
+
                 ajax: {
                     url: "{{ url('/profesi/list') }}",
                     type: "get",
@@ -99,7 +107,6 @@
                         console.error("AJAX Error:", xhr.responseText);
                     }
                 },
-                dom: '<"table-responsive"t>',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -173,8 +180,8 @@
             $('#formProfesi').attr('action', url);
             $('#formMethod').val('PUT');
             $('#profesiKategori option').filter(function() {
-                return $(this).text() === kategori; 
-                }).prop('selected', true);
+                return $(this).text() === kategori;
+            }).prop('selected', true);
             $('#profesiProfesi').val(profesi);
             $('#profesiModal').modal('show');
         }
@@ -223,4 +230,40 @@
     <!-- Tambahkan library SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </script>
+
+    <style>
+   .dataTables_paginate {
+    display: flex;
+    justify-content: right; /* atau right/left sesuai keinginan */
+    align-items: center;
+    gap: 5px; /* memberi jarak antar tombol */
+    margin-top: 15px;
+}
+
+.dataTables_paginate .paginate_button {
+    padding: 6px 12px;
+    border: 1px solid #007bff;
+    color: #007bff !important;
+    border-radius: 4px;
+    background-color: #fff;
+    text-align: center;
+    min-width: 36px; /* memastikan tombol berukuran sama */
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dataTables_paginate .paginate_button.current {
+    background-color: #007bff !important;
+    color: white !important;
+}
+
+.dataTables_paginate .paginate_button:hover {
+    background-color: #0056b3 !important;
+    color: white !important;
+    cursor: pointer;
+}
+
+</style>
+
 @endsection

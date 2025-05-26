@@ -1,10 +1,11 @@
-<footer class="bg-light py-4 mt-5 border-top">
-    <div class="container">
+<!-- Footer -->
+<div class="bg-light border-top mt-5 w-100">
+    <footer class="container py-4">
         <div class="row">
             <!-- Logo dan Deskripsi -->
             <div class="col-md-5 mb-4 mb-md-0">
                 <div class="d-flex align-items-center mb-3">
-                    <img src="image/logo_polinema.png" alt="Logo Polinema" height="60">
+                    <img src="image/logo_polinema.png" alt="Logo Polinema" height="60" class="me-3">
                     <div>
                         <h5 class="mb-0 fw-bold text-dark">TRACER <span class="text-primary">STUDY</span></h5>
                         <small class="text-muted">Politeknik Negeri Malang</small>
@@ -40,8 +41,9 @@
         </div>
 
         <hr class="my-4">
+
         <div class="text-center text-muted small">
             &copy; {{ date('Y') }} Politeknik Negeri Malang. All rights reserved.
         </div>
-    </div>
-</footer>
+    </footer>
+</div>

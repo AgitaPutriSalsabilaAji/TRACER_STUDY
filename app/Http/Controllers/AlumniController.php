@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Models\Key;
 use App\Models\Alumni;
+
+use Illuminate\Http\Request;
 use App\Models\ProgramStudi;
 use App\Models\SurveiKepuasan;
 use Yajra\DataTables\Facades\DataTables;
@@ -12,11 +14,41 @@ use Yajra\DataTables\Facades\DataTables;
 
 class AlumniController extends Controller
 {
+    public function validateKode(Request $request)
+    {
+
+        $request->validate([
+            'key' => 'required|exists:keys,key_value',
+        ]);
+        $key = Key::where('key_value', $request->key)->first();
+        if (!$key) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Key tidak valid atau survei sudah diisi'
+            ]);
+        }
+        
+        $alumni = Alumni::find($key->alumni_id);
+
+        session([
+            'validated_atasan' => true,
+            'alumni_id' => $alumni->id,
+            'nama' => $alumni->nama . ' (' . $alumni->nim . ')',
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Validasi berhasil'
+        ]);
+    }
     // Tampilkan form survei atasan
     public function create()
     {
         session()->forget('validated_alumni');
-        return view('guest.form-atasan');
+        $validated = session('validated_atasan', false);
+        $nama = session('nama', '');
+        $alumni_id = session('alumni_id', '');
+        return view('guest.form-atasan', compact('validated', 'nama', 'alumni_id'));
     }
 
     // Simpan hasil survei atasan
@@ -24,6 +56,7 @@ class AlumniController extends Controller
     {
 
         $request->validate([
+            'g-recaptcha-response' => 'required|captcha',
             'alumni_id' => 'required|exists:alumni,id',
             'nama_surveyor' => 'required|string|max:255',
             'instansi' => 'required|string|max:255',
@@ -56,6 +89,7 @@ class AlumniController extends Controller
             'kompetensi_belum_terpenuhi' => $request->kompetensi_belum_terpenuhi,
             'saran_kurikulum' => $request->saran_kurikulum,
         ]);
+        Key::where('alumni_id', $request->alumni_id)->delete();
 
         return redirect()->route('guest.home')->with('success', 'Terima kasih telah mengisi survei!');
     }
@@ -93,6 +127,7 @@ class AlumniController extends Controller
     }
 
     // =====================
+
     // Create Alumni - Form & Simpan
     // =====================
     public function createAlumni()
@@ -102,6 +137,7 @@ class AlumniController extends Controller
     }
 
      // =====================
+
     // Simpan Alumni Baru dari Halaman Admin
     // =====================
     public function storeAlumni(Request $request)
@@ -123,6 +159,10 @@ class AlumniController extends Controller
         return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil ditambahkan!');
     }
 
+
+  
+
+
      // =====================
     // Edit & Update Alumni
     // =====================
@@ -134,14 +174,16 @@ public function editAlumni($id)
     return view('data.data_alumni.edit', compact('alumni', 'programStudi'));
 }
 
-public function updateAlumni(Request $request, $id)
-{
-    $request->validate([
-        'nama' => 'required|string|max:255',
-        'nim' => 'required|string|max:20|unique:alumni,nim,' . $id,
-        'program_studi' => 'required|string|max:255',
-        'tanggal_lulus' => 'required|date',
-    ]);
+
+    public function updateAlumni(Request $request, $id)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'nim' => 'required|string|max:20|unique:alumni,nim,' . $id,
+            'program_studi' => 'required|string|max:255',
+            'tanggal_lulus' => 'required|date',
+        ]);
+
 
     $alumni = Alumni::findOrFail($id);
     $alumni->update([
@@ -151,8 +193,9 @@ public function updateAlumni(Request $request, $id)
         'tanggal_lulus' => $request->tanggal_lulus,
     ]);
 
-    return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil diperbarui!');
-}
+
+        return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil diperbarui!');
+    }
 
 // =====================
     // Hapus Alumni
@@ -163,8 +206,6 @@ public function destroyAlumni($id)
     $alumni = Alumni::findOrFail($id);
     $alumni->delete();
 
-    return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil dihapus!');
-}
 
 public function list(Request $request)
 {
@@ -201,3 +242,4 @@ HTML;
 }
 
 } 
+
