@@ -31,8 +31,8 @@
                 </li>
 
                 <!-- Manajemen Data -->
-                <li class="nav-item has-treeview {{ Request::is('import-lulusan') || Request::is('profesi') || Request::is('tambah-admin') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request::is('import-lulusan') || Request::is('profesi') || Request::is('tambah-admin') ? 'active' : '' }}">
+                <li class="nav-item has-treeview {{ Request::is('import-lulusan') || Request::is('profesi') || Request::is('list-admin') ? 'menu-open' : '' }}">
+                    <a  class="nav-link {{ Request::is('import-lulusan') || Request::is('profesi') || Request::is('list-admin') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
                             Manajemen Data
@@ -53,9 +53,9 @@
                             </a>                            
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/tambah-admin') }}" class="nav-link {{ Request::is('tambah-admin') ? 'active' : '' }}">
+                            <a href="{{ url('/list-admin') }}" class="nav-link {{ Request::is('list-admin') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Tambah Admin</p>
+                                <p>List Admin</p>
                             </a>
                         </li>
                         <li class="nav-item">

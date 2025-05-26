@@ -34,7 +34,7 @@
 <body class="hold-transition sidebar-mini layout-navbar-fixed">
     <!-- Preloader -->
     <div class="preloader dark flex-column justify-content-center align-items-center">
-        <img class="animation__wobble" src="{{ asset('adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo"
+        <img class="animation__wobble" src="{{ asset('image/logo_polinema.png') }}" alt="AdminLTELogo"
             height="60" width="60">
     </div>
     <div class="wrapper">

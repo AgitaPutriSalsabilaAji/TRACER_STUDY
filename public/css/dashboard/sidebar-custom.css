@@ -42,3 +42,15 @@
 .sidebar-divider {
   border-top: 1px solid #000000;
 }
+.nav-link.active {
+    pointer-events: none;
+    cursor: default;     
+    background-color: #7bb5f9; 
+    color: white;         
+}
+
+.nav-link.active:hover {
+    background-color: #7bb5f9; 
+    color: white;
+}
+
