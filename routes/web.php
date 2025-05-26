@@ -106,10 +106,11 @@ Route::middleware('auth')->group(function () {
 // Data Alumni (CRUD Sederhana)
 Route::middleware('auth')->group(function () {
     Route::get('/data-alumni', [AlumniController::class, 'index'])->name('data-alumni.index');
-    Route::post('/data-alumni', [AlumniController::class, 'storeAlumni'])->name('alumni.store');
+    Route::post('/data-alumni', [AlumniController::class, 'storeAlumni'])->name('data-alumni.store');
     Route::get('/data-alumni/create', [AlumniController::class, 'createAlumni'])->name('data-alumni.create');
     Route::get('/data-alumni/{id}/edit', [AlumniController::class, 'editAlumni'])->name('data-alumni.edit');
     Route::put('/data-alumni/{id}', [AlumniController::class, 'updateAlumni'])->name('data-alumni.update');
     Route::delete('/data-alumni/{id}', [AlumniController::class, 'destroyAlumni'])->name('data-alumni.destroy');
+    Route::get('/data-alumni/list', [AlumniController::class, 'list'])->name('data-alumni.list');
 });
 
