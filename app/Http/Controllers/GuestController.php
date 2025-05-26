@@ -70,7 +70,7 @@ class GuestController extends Controller
             'alumni_id' => $request->alumni_id_validate,
             'key_value' =>  $token,
         ]);
-    
+
         session([
             'validated_alumni' => true,
             'alumni_id' => $alumni->id,
@@ -88,6 +88,7 @@ class GuestController extends Controller
     // GuestController.php
     public function create()
     {
+
         $validated = session('validated_alumni', false);
         $kategoriProfesi = KategoriProfesi::all();
         $profesi =  Profesi::all();

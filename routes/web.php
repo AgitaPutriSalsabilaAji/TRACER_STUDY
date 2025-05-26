@@ -16,8 +16,8 @@ use App\Http\Controllers\GuestController;
 */
 
 Route::get('/', function () {
-    session()->forget('validated_alumni');
-    session()->forget('validated_atasan');
+    session()->flush();
+
     return view('guest.home');
 })->name('guest.home');
 
@@ -114,4 +114,3 @@ Route::middleware('auth')->group(function () {
     Route::put('/data-alumni/{id}', [AlumniController::class, 'updateAlumni'])->name('data-alumni.update');
     Route::delete('/data-alumni/{id}', [AlumniController::class, 'destroyAlumni'])->name('data-alumni.destroy');
 });
-
