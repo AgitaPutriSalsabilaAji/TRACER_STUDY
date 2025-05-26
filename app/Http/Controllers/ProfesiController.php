@@ -35,29 +35,28 @@ class ProfesiController extends Controller
     }
     public function list(Request $request)
     {
-       
-            $data = DB::table('profesi as p')
-                ->join('kategori_profesi as kp', 'p.kategori_profesi_id', '=', 'kp.id')
-                ->select('p.id', 'p.nama_profesi', 'kp.kategori_profesi')
-                ->get();
+        $query = DB::table('profesi as p')
+            ->join('kategori_profesi as kp', 'p.kategori_profesi_id', '=', 'kp.id')
+            ->select('p.id', 'p.nama_profesi', 'kp.kategori_profesi');
 
-            return DataTables::of($data)
-                ->addIndexColumn() // untuk DT_RowIndex
-                ->addColumn('aksi', function ($row) {
-                    $editBtn = '<button onclick="editProfesi(' . $row->id . ')" class="btn btn-sm btn-warning me-1">Edit</button>';
-                    $deleteBtn = '<button onclick="deleteProfesi(' . $row->id . ')" class="btn btn-sm btn-danger">Hapus</button>';
-                    return $editBtn . $deleteBtn;
-                })
-                ->rawColumns(['aksi'])
-                ->make(true);     
+        return DataTables::of($query)
+            ->addIndexColumn() // untuk DT_RowIndex
+            ->addColumn('aksi', function ($row) {
+                $editBtn = '<button onclick="editProfesi(' . $row->id . ')" class="btn btn-sm btn-warning me-1">Edit</button>';
+                $deleteBtn = '<button onclick="deleteProfesi(' . $row->id . ')" class="btn btn-sm btn-danger">Hapus</button>';
+                return $editBtn . $deleteBtn;
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 
-    
+
+
     public function store(Request $request)
     {
         $request->validate([
-        'kategori_profesi_id' => 'required|exists:kategori_profesi,id',
-        'profesi' => 'required|unique:profesi,nama_profesi'
+            'kategori_profesi_id' => 'required|exists:kategori_profesi,id',
+            'profesi' => 'required|unique:profesi,nama_profesi'
         ]);
 
         Profesi::create([

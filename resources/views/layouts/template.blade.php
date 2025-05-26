@@ -70,9 +70,6 @@
     <script src="{{ asset('adminlte/plugins/jquery-validation/additional-methods.min.js') }}"></script>
     <!-- AdminLTE -->
     <script src="{{ asset('adminlte/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
-    <!-- AdminLTE -->
-    <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
-
     <!-- OPTIONAL SCRIPTS -->
     <script src="{{ asset('adminlte\plugins\chart.js\Chart.min.js') }}"></script>
 
@@ -80,6 +77,9 @@
     {{-- datatables --}}
     <script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE -->
+    <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
+
 
 </body>
 
