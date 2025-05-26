@@ -54,6 +54,7 @@ class AlumniController extends Controller
     {
 
         $request->validate([
+            'g-recaptcha-response' => 'required|captcha',
             'alumni_id' => 'required|exists:alumni,id',
             'nama_surveyor' => 'required|string|max:255',
             'instansi' => 'required|string|max:255',
@@ -156,16 +157,8 @@ class AlumniController extends Controller
     }
 
 
-    public function createAlumni()
-    {
-        return view('data.data_alumni.create');
-    }
+  
 
-    public function editAlumni($id)
-    {
-        $alumni = Alumni::findOrFail($id);
-        return view('data.data_alumni.edit', compact('alumni'));
-    }
 
      // =====================
     // Edit & Update Alumni

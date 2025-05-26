@@ -41,8 +41,8 @@
             </style>
             <form id="alumniForm">
                 @csrf
-                <div class="modal" id="validationModal" tabindex="-1" aria-labelledby="validationModalLabel"
-                    aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+                <div class="modal" id="validationModal" tabindex="-1" aria-labelledby="validationModalLabel" aria-hidden="true"
+                    data-bs-backdrop="static" data-bs-keyboard="false">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
 
@@ -341,7 +341,10 @@
                                                 role="alert">
                                             </div>
 
-                                            {!! NoCaptcha::display() !!}
+                                            <div class="my-3">
+                                                {!! NoCaptcha::display() !!}
+                                            </div>
+
 
 
                                             <button type="submit" class="btn btn-primary">
@@ -387,7 +390,7 @@
             }
         </style>
         <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-       
+
 
         <script>
             $(document).ready(function() {

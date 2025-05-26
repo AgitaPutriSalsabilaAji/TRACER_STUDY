@@ -92,7 +92,7 @@
 
                     <div class="card shadow" data-aos="fade-up">
                         <div class="card-body">
-                            <form method="POST" action="{{ route('submit.atasan') }}">
+                            <form method="POST" id="form-atasan" action="{{ route('submit.atasan') }}">
                                 @csrf
 
 
@@ -200,238 +200,258 @@
                                         Kurikulum Kami</label>
                                     <textarea name="saran_kurikulum" class="form-control" rows="3" placeholder="Opsional"></textarea>
                                 </div>
+                                <div class="my-3">
+                                    {!! NoCaptcha::display() !!}
+                                </div>
+
                                 <button type="submit" class="btn btn-primary">
                                     <i class="bi bi-send-fill me-1"></i>kirim survei
                                 </button>
+                            </form>
+                            {!! NoCaptcha::renderJs() !!}
                         </div>
-
-                        </form>
                     </div>
                 </div>
-            </div>
 
-            {{-- Styles --}}
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-            <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-            <style>
-                .bg-siluet {
-                    background: radial-gradient(circle at top right, #bad0fc 0%, #ffffff 40%, #ffffff 100%);
-                    min-height: 100vh;
-                    background-repeat: no-repeat;
-                    background-size: cover;
-                    position: relative;
-                }
-
-                .card {
-                    background-color: white;
-                    border-radius: 1rem;
-                    animation: fadeInUp 0.6s ease-out;
-                }
-
-                @keyframes fadeInUp {
-                    from {
-                        opacity: 0;
-                        transform: translateY(20px);
+                {{-- Styles --}}
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+                    rel="stylesheet" />
+                <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+                <style>
+                    .bg-siluet {
+                        background: radial-gradient(circle at top right, #bad0fc 0%, #ffffff 40%, #ffffff 100%);
+                        min-height: 100vh;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                        position: relative;
                     }
 
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
+                    .card {
+                        background-color: white;
+                        border-radius: 1rem;
+                        animation: fadeInUp 0.6s ease-out;
                     }
-                }
 
-                .emoji-label {
-                    font-size: 2rem;
-                    cursor: pointer;
-                    transition: all 0.2s ease;
-                    color: gray;
-                }
-
-                .emoji-label:hover {
-                    transform: scale(1.3);
-                    color: #007bff;
-                }
-
-                input[type="radio"].d-none:checked+.emoji-label {
-                    color: #28a745;
-                    transform: scale(1.5);
-                }
-
-                input.form-control:focus,
-                textarea.form-control:focus {
-                    box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
-                    border-color: #80bdff;
-                }
-
-                .card:hover {
-                    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-                    transition: box-shadow 0.3s ease-in-out;
-                }
-
-                .form-label i.bi {
-                    color: #0d6efd;
-                }
-
-                .form-label i.bi {
-                    color: #0d6efd;
-                    /* warna biru bootstrap */
-                }
-            </style>
-
-            {{-- Scripts --}}
-            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-            <script>
-                AOS.init();
-
-                $(function() {
-                    let validName = false;
-
-                    $('#nama_alumni').on('keyup', function() {
-                        const query = $(this).val();
-                        $('#alumni_id').val('');
-                        validName = false;
-                        $('.list-group').remove();
-                        $('#nama-error').hide();
-
-                        if (query.length >= 3) {
-                            $.ajax({
-                                url: "{{ route('autocomplete.atasan') }}",
-                                type: "GET",
-                                data: {
-                                    q: query
-                                },
-                                success: function(data) {
-                                    if (data.length > 0) {
-                                        let dropdown =
-                                            '<ul class="list-group position-absolute w-100" style="z-index:1000;">';
-                                        data.forEach(item => {
-                                            dropdown +=
-                                                `<li class="list-group-item" data-id="${item.id}">${item.text}</li>`;
-                                        });
-                                        dropdown += '</ul>';
-                                        $('#nama_alumni').after(dropdown);
-
-                                        $('.list-group-item').on('click', function() {
-                                            const selectedText = $(this).text();
-                                            const selectedId = $(this).data('id');
-                                            $('#nama_alumni').val(selectedText);
-                                            $('#alumni_id').val(selectedId);
-                                            validName = true;
-                                            $('.list-group').remove();
-                                            $('#nama-error').hide();
-                                        });
-                                    } else {
-                                        $('#nama-error').text('Alumni tidak ditemukan.').show();
-                                    }
-                                }
-                            });
+                    @keyframes fadeInUp {
+                        from {
+                            opacity: 0;
+                            transform: translateY(20px);
                         }
-                    });
 
-                    $('form').submit(function(e) {
-                        if (!validName || !$('#alumni_id').val()) {
-                            e.preventDefault();
-                            $('#nama-error').text('Silakan pilih alumni dari daftar.').show();
-                            $('#nama_alumni').addClass('is-invalid');
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
                         }
-                    });
+                    }
 
-                    $(document).on('click', function(e) {
-                        if (!$(e.target).closest('#nama_alumni').length) {
+                    .emoji-label {
+                        font-size: 2rem;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+                        color: gray;
+                    }
+
+                    .emoji-label:hover {
+                        transform: scale(1.3);
+                        color: #007bff;
+                    }
+
+                    input[type="radio"].d-none:checked+.emoji-label {
+                        color: #28a745;
+                        transform: scale(1.5);
+                    }
+
+                    input.form-control:focus,
+                    textarea.form-control:focus {
+                        box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+                        border-color: #80bdff;
+                    }
+
+                    .card:hover {
+                        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+                        transition: box-shadow 0.3s ease-in-out;
+                    }
+
+                    .form-label i.bi {
+                        color: #0d6efd;
+                    }
+
+                    .form-label i.bi {
+                        color: #0d6efd;
+                        /* warna biru bootstrap */
+                    }
+                </style>
+
+                {{-- Scripts --}}
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+                <script>
+                    AOS.init();
+
+                    $(function() {
+                        let validName = false;
+
+                        $('#nama_alumni').on('keyup', function() {
+                            const query = $(this).val();
+                            $('#alumni_id').val('');
+                            validName = false;
                             $('.list-group').remove();
-                        }
-                    });
-                });
-            </script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    @if (!$validated)
-                        const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
-                        validationModal.show();
-                    @endif
-                });
-            </script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    // Bootstrap modal instance
-                    const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
+                            $('#nama-error').hide();
 
-                    const form = document.getElementById('atasanForm');
-                    const submitBtn = document.getElementById('submitAtasan');
+                            if (query.length >= 3) {
+                                $.ajax({
+                                    url: "{{ route('autocomplete.atasan') }}",
+                                    type: "GET",
+                                    data: {
+                                        q: query
+                                    },
+                                    success: function(data) {
+                                        if (data.length > 0) {
+                                            let dropdown =
+                                                '<ul class="list-group position-absolute w-100" style="z-index:1000;">';
+                                            data.forEach(item => {
+                                                dropdown +=
+                                                    `<li class="list-group-item" data-id="${item.id}">${item.text}</li>`;
+                                            });
+                                            dropdown += '</ul>';
+                                            $('#nama_alumni').after(dropdown);
 
-                    // Input dan error elemen
-                    const inputs = {
-                        key: document.getElementById('key'),
-                    };
-
-                    const errors = {
-
-                        key: document.getElementById('key-error'),
-                        general: document.getElementById('general-error'),
-                        success: document.getElementById('success-alert'),
-                    };
-
-                    function clearErrors() {
-                        errors.general.classList.add('d-none');
-                        errors.success.classList.add('d-none');
-                        Object.keys(inputs).forEach(key => {
-                            inputs[key].classList.remove('is-invalid');
-                            errors[key].textContent = '';
-                        });
-                    }
-
-                    function showGeneralError(msg) {
-                        errors.general.textContent = msg;
-                        errors.general.classList.remove('d-none');
-                    }
-
-                    form.addEventListener('submit', function(e) {
-                        e.preventDefault();
-
-                        clearErrors();
-
-                        // Disable tombol dan ubah text
-                        submitBtn.disabled = true;
-                        submitBtn.innerText = 'Memeriksa...';
-
-                        const formData = new FormData(form);
-
-                        axios.post('{{ route('validate.atasan') }}', formData)
-                            .then(response => {
-                                if (response.data.success) {
-                                    errors.success.classList.remove('d-none');
-                                    // Sembunyikan modal setelah 1 detik
-                                    setTimeout(() => {
-                                        validationModal.hide();
-                                        // Redirect ke halaman form alumni sebenarnya atau submit form biasa:
-                                        window.location.href = '{{ route('form.atasan') }}';
-                                    }, 1000);
-                                } else {
-                                    showGeneralError(response.data.message || 'Validasi gagal.');
-                                }
-                            })
-                            .catch(error => {
-                                console.log(error.response);
-                                if (error.response && error.response.status === 422) {
-                                    const responseErrors = error.response.data.errors;
-                                    // Tandai input yang error sesuai respon Laravel
-                                    for (const key in responseErrors) {
-                                        if (inputs[key]) {
-                                            inputs[key].classList.add('is-invalid');
-                                            errors[key].textContent = responseErrors[key][0];
+                                            $('.list-group-item').on('click', function() {
+                                                const selectedText = $(this).text();
+                                                const selectedId = $(this).data('id');
+                                                $('#nama_alumni').val(selectedText);
+                                                $('#alumni_id').val(selectedId);
+                                                validName = true;
+                                                $('.list-group').remove();
+                                                $('#nama-error').hide();
+                                            });
+                                        } else {
+                                            $('#nama-error').text('Alumni tidak ditemukan.').show();
                                         }
                                     }
-                                } else {
-                                    showGeneralError('Terjadi kesalahan pada server.');
-                                }
-                            })
-                            .finally(() => {
-                                submitBtn.disabled = false;
-                                submitBtn.innerText = 'Lanjut';
-                            });
+                                });
+                            }
+                        });
+
+                        $('form').submit(function(e) {
+                            if (!validName || !$('#alumni_id').val()) {
+                                e.preventDefault();
+                                $('#nama-error').text('Silakan pilih alumni dari daftar.').show();
+                                $('#nama_alumni').addClass('is-invalid');
+                            }
+                        });
+
+                        $(document).on('click', function(e) {
+                            if (!$(e.target).closest('#nama_alumni').length) {
+                                $('.list-group').remove();
+                            }
+                        });
                     });
-                });
-            </script>
-        @endsection
+                </script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        @if (!$validated)
+                            const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
+                            validationModal.show();
+                        @endif
+                    });
+                </script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Bootstrap modal instance
+                        const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
+
+                        const form = document.getElementById('atasanForm');
+                        const submitBtn = document.getElementById('submitAtasan');
+
+                        // Input dan error elemen
+                        const inputs = {
+                            key: document.getElementById('key'),
+                        };
+
+                        const errors = {
+
+                            key: document.getElementById('key-error'),
+                            general: document.getElementById('general-error'),
+                            success: document.getElementById('success-alert'),
+                        };
+
+                        function clearErrors() {
+                            errors.general.classList.add('d-none');
+                            errors.success.classList.add('d-none');
+                            Object.keys(inputs).forEach(key => {
+                                inputs[key].classList.remove('is-invalid');
+                                errors[key].textContent = '';
+                            });
+                        }
+
+                        function showGeneralError(msg) {
+                            errors.general.textContent = msg;
+                            errors.general.classList.remove('d-none');
+                        }
+
+                        form.addEventListener('submit', function(e) {
+                            e.preventDefault();
+
+                            clearErrors();
+
+                            // Disable tombol dan ubah text
+                            submitBtn.disabled = true;
+                            submitBtn.innerText = 'Memeriksa...';
+
+                            const formData = new FormData(form);
+
+                            axios.post('{{ route('validate.atasan') }}', formData)
+                                .then(response => {
+                                    if (response.data.success) {
+                                        errors.success.classList.remove('d-none');
+                                        // Sembunyikan modal setelah 1 detik
+                                        setTimeout(() => {
+                                            validationModal.hide();
+                                            // Redirect ke halaman form alumni sebenarnya atau submit form biasa:
+                                            window.location.href = '{{ route('form.atasan') }}';
+                                        }, 1000);
+                                    } else {
+                                        showGeneralError(response.data.message || 'Validasi gagal.');
+                                    }
+                                })
+                                .catch(error => {
+                                    console.log(error.response);
+                                    if (error.response && error.response.status === 422) {
+                                        const responseErrors = error.response.data.errors;
+                                        // Tandai input yang error sesuai respon Laravel
+                                        for (const key in responseErrors) {
+                                            if (inputs[key]) {
+                                                inputs[key].classList.add('is-invalid');
+                                                errors[key].textContent = responseErrors[key][0];
+                                            }
+                                        }
+                                    } else {
+                                        showGeneralError('Terjadi kesalahan pada server.');
+                                    }
+                                })
+                                .finally(() => {
+                                    submitBtn.disabled = false;
+                                    submitBtn.innerText = 'Lanjut';
+                                });
+                        });
+                    });
+                </script>
+                {{-- captha --}}
+                <script>
+                    document.getElementById('form-atasan').addEventListener('submit', function(e) {
+                        var response = grecaptcha.getResponse();
+                        var errorBox = document.getElementById('captcha-error');
+
+                        if (response.length === 0) {
+                            e.preventDefault(); // hentikan form dikirim
+                            errorBox.textContent = 'Tolong selesaikan CAPTCHA terlebih dahulu.';
+                            errorBox.classList.remove('d-none');
+                        } else {
+                            // Sembunyikan pesan error kalau sudah diisi
+                            errorBox.classList.add('d-none');
+                        }
+                    });
+                </script>
+            @endsection
