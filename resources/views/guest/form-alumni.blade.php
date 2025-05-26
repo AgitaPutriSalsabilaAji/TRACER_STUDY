@@ -657,6 +657,4 @@ fieldKerjaLanjutan2.style.display = 'block';
             });
         </script>
 
-
-        @include('layouts.footerguest')
     @endsection
