@@ -41,12 +41,6 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('/import-lulusan') }}" class="nav-link {{ Request::is('import-lulusan') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Import Data Lulusan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{ url('/profesi') }}" class="nav-link {{ Request::is('profesi') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Pengelolaan Profesi</p>
