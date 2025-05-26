@@ -31,14 +31,15 @@
                         <div class="mb-3">
                             <label>Kategori</label>
                             <select name="kategori_profesi_id" class="form-control" id="profesiKategori">
-                                @foreach($kategoriList as $kategori)
+                                @foreach ($kategoriList as $kategori)
                                     <option value="{{ $kategori->id }}">{{ $kategori->kategori_profesi }}</option>
                                 @endforeach
-                            </select>                        </div>
+                            </select>
+                        </div>
                         <div class="mb-3">
                             <label>Profesi</label>
                             <input type="text" name="profesi" class="form-control" id="profesiProfesi">
-                        </div>                        
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Simpan</button>
@@ -55,13 +56,13 @@
             </div>
         </div>
         <div class="card-body">
-             @if (session('success'))
+            @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
             @if (session('error'))
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
-            
+
             <table id="tabel-profesi" class="table table-bordered table-striped w-100">
                 <thead>
                     <tr>
@@ -87,19 +88,19 @@
             tableProfesi = $('#tabel-profesi').DataTable({
                 processing: true,
                 serverSide: true,
-                scrollX: true,
+
                 ajax: {
                     url: "{{ url('/profesi/list') }}",
                     type: "get",
                     dataType: "json",
                     data: function(d) {
                         d._token = '{{ csrf_token() }}';
+                        console.log(d);
                     },
                     error: function(xhr) {
                         console.error("AJAX Error:", xhr.responseText);
                     }
                 },
-                dom: '<"table-responsive"t>',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -173,8 +174,8 @@
             $('#formProfesi').attr('action', url);
             $('#formMethod').val('PUT');
             $('#profesiKategori option').filter(function() {
-                return $(this).text() === kategori; 
-                }).prop('selected', true);
+                return $(this).text() === kategori;
+            }).prop('selected', true);
             $('#profesiProfesi').val(profesi);
             $('#profesiModal').modal('show');
         }
