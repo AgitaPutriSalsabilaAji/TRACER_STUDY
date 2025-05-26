@@ -52,6 +52,7 @@ class AlumniController extends Controller
     {
 
         $request->validate([
+            'g-recaptcha-response' => 'required|captcha',
             'alumni_id' => 'required|exists:alumni,id',
             'nama_surveyor' => 'required|string|max:255',
             'instansi' => 'required|string|max:255',

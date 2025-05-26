@@ -100,8 +100,8 @@
                 <div class="p-4 bg-white shadow rounded" data-aos="zoom-in-up">
                     <h2 class="mb-4 fs-4 text-center">Data Lulusan ({{ $startYear }} - {{ $endYear }})</h2>
                     <div class="table-responsive">
-                        <table id="tabel-lulusan" class="table table-bordered table-striped table-hover"
-                            style="width: auto; min-width: 600px;">
+                        <table id="tabel-lulusan" class="table table-bordered table-striped table-hover w-100">
+
                             <thead>
                                 <tr>
                                     <th rowspan="2" class="align-middle text-center">Tahun Lulus</th>
