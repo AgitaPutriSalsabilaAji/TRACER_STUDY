@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Alumni extends Model
 {
     use HasFactory;
-
+    use SoftDeletes;
     protected $table = 'alumni';
 
     protected $fillable = [
@@ -37,5 +38,4 @@ class Alumni extends Model
     {
         return $this->hasMany(Alumni::class, 'program_studi_id');
     }
-
 }
