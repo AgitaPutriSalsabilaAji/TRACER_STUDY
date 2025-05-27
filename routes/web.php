@@ -79,7 +79,7 @@ Route::get('/admin/list', [AdminController::class, 'list'])->name('admin.list');
 Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
 Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
 Route::delete('/admin/destroy/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
-Route::get('/tambah-admin', [AdminController::class, 'index_admin'])->name('admin.index');
+Route::get('/list-admin', [AdminController::class, 'index_admin'])->name('admin.index');
 
 // ==========================
 // Profesi

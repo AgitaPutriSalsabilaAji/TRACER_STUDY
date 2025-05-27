@@ -9,7 +9,9 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item active">Manajemen Data</li>
+                        <li class="breadcrumb-item active">List Admin</li>
+
                     </ol>
                 </div>
             </div>
