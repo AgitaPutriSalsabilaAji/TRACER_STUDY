@@ -182,7 +182,7 @@
                                                     <i class="bi bi-person"></i>
                                                     Nama atau NIM
                                                 </label>
-                                                <input type="text" class="form-control" id="nama" name="nama"
+                                                <input type="text" class="form-control readonly-style" id="nama" name="nama"
                                                     value="{{ $nama ?? '' }}" readonly>
                                                 <input type="hidden" name="alumni_id" id="alumni_id"
                                                     value="{{ $alumni_id ?? '' }}">
@@ -388,6 +388,12 @@
                     transform: translateY(0);
                 }
             }
+             .readonly-style[readonly] {
+                        background: linear-gradient(to right, #2196f3, #3287e5);   /* Biru cerah */
+                        color: #ffffff;              /* Teks putih */
+                        font-weight: bold;          /* Teks tebal */
+                        cursor: not-allowed;        /* Tidak bisa diklik */
+                    }
         </style>
         <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
