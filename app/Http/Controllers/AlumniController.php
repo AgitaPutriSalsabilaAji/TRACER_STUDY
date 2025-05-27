@@ -9,6 +9,8 @@ use App\Models\Alumni;
 use Illuminate\Http\Request;
 use App\Models\ProgramStudi;
 use App\Models\SurveiKepuasan;
+use Yajra\DataTables\Facades\DataTables;
+
 
 class AlumniController extends Controller
 {
@@ -120,7 +122,8 @@ class AlumniController extends Controller
     public function index()
     {
         $alumni = Alumni::with('programStudi')->get();
-        return view('data.data_alumni.data_alumni', compact('alumni'));
+        $programStudi = ProgramStudi::all();
+        return view('data.data_alumni.data_alumni', compact('alumni', 'programStudi'));
     }
 
     // =====================
@@ -204,6 +207,39 @@ public function destroyAlumni($id)
     $alumni->delete();
 
 
-        return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil dihapus!');
+public function list(Request $request)
+{
+    if ($request->ajax()) {
+        $data = Alumni::with('programStudi')->select('alumni.*');
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('program_studi', function ($row) {
+                return $row->programStudi->program_studi ?? '-';
+            })
+            ->addColumn('tanggal_lulus', function ($row) {
+                return \Carbon\Carbon::parse($row->tanggal_lulus)->format('d-m-Y');
+            })
+            ->addColumn('aksi', function ($row) {
+                $editUrl = route('data-alumni.edit', $row->id);
+                $deleteUrl = route('data-alumni.destroy', $row->id);
+
+                $csrf = csrf_field();
+                $method = method_field('DELETE');
+
+                return <<<HTML
+<a href="{$editUrl}" class="btn btn-warning btn-sm">Edit</a>
+<form action="{$deleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus alumni ini?')">
+    {$csrf}
+    {$method}
+    <button class="btn btn-danger btn-sm">Hapus</button>
+</form>
+HTML;
+            })
+            ->rawColumns(['aksi']) // agar HTML pada kolom aksi dirender
+            ->make(true);
     }
 }
+
+} 
+

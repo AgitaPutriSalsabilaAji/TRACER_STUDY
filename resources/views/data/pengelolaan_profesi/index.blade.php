@@ -9,8 +9,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#" class="breadcrumb-item">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item active">Manajemen Data</li>
+                        <li class="breadcrumb-item active">Pengelolaan Profesi</li>
                     </ol>
                 </div>
             </div>
@@ -88,6 +88,13 @@
             tableProfesi = $('#tabel-profesi').DataTable({
                 processing: true,
                 serverSide: true,
+                pagingType: "simple_numbers", // Menampilkan "Previous 1 2 3 Next"
+                language: {
+                    paginate: {
+                        previous: "<i class='fas fa-angle-left'></i>",
+                        next: "<i class='fas fa-angle-right'></i>"
+                    }
+                },
 
                 ajax: {
                     url: "{{ url('/profesi/list') }}",
@@ -95,7 +102,6 @@
                     dataType: "json",
                     data: function(d) {
                         d._token = '{{ csrf_token() }}';
-                        console.log(d);
                     },
                     error: function(xhr) {
                         console.error("AJAX Error:", xhr.responseText);
@@ -224,4 +230,54 @@
     <!-- Tambahkan library SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     </script>
+
+    <style>
+        .dataTables_paginate {
+            display: flex;
+            justify-content: right;
+            /* atau right/left sesuai keinginan */
+            align-items: center;
+            gap: 5px;
+            /* memberi jarak antar tombol */
+            margin-top: 15px;
+        }
+
+        .dataTables_paginate .paginate_button {
+            padding: 6px 12px;
+            border: 1px solid #007bff;
+            color: #007bff !important;
+            border-radius: 4px;
+            background-color: #fff;
+            text-align: center;
+            min-width: 36px;
+            /* memastikan tombol berukuran sama */
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dataTables_paginate .paginate_button.current {
+            background-color: #007bff !important;
+            color: white !important;
+        }
+
+        .dataTables_paginate .paginate_button:hover {
+            background-color: #0056b3 !important;
+            color: white !important;
+            cursor: pointer;
+        }
+
+      
+
+        thead th {
+            background-color: #5a8dee !important;
+            color: #fafafa !important;
+        }
+
+        th,
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
+    </style>
 @endsection
