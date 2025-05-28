@@ -1,6 +1,7 @@
 @extends('layouts.headerguest')
 
 @section('content')
+
     <div class="container-fluid bg-siluet py-5">
         <div class="container">
 
@@ -82,6 +83,16 @@
 
             <div class="container my-4">
                 <div class="card shadow">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <div class="card-header card-header-custom">
                         <i class="fas fa-user-tie"></i>
                         <!-- Ikon dari Font Awesome -->
@@ -127,8 +138,8 @@
                                     <label for="nama_alumni" class="form-label "><i class="bi bi-search me-1"></i>Data
                                         Alumni</label>
                                     </label>
-                                    <input type="text" class="form-control readonly-style" id="nama_alumni" name="nama_alumni"
-                                        value="{{ $nama ?? '' }}" readonly>
+                                    <input type="text" class="form-control readonly-style" id="nama_alumni"
+                                        name="nama_alumni" value="{{ $nama ?? '' }}" readonly>
                                     <input type="hidden" name="alumni_id" id="alumni_id" value="{{ $alumni_id ?? '' }}">
                                 </div>
 
@@ -190,7 +201,8 @@
                                 @endforeach
 
                                 <div class="mb-3">
-                                    <label class="form-label"><i class="bi bi-exclamation-circle text-warning me-1"></i>Kompetensi yang Belum
+                                    <label class="form-label"><i
+                                            class="bi bi-exclamation-circle text-warning me-1"></i>Kompetensi yang Belum
                                         Terpenuhi</label>
                                     <textarea name="kompetensi_belum_terpenuhi" class="form-control" rows="3" placeholder="Opsional"></textarea>
                                 </div>
@@ -200,10 +212,9 @@
                                         Kurikulum Kami</label>
                                     <textarea name="saran_kurikulum" class="form-control" rows="3" placeholder="Opsional"></textarea>
                                 </div>
-                                
-                                            <div id="captcha-error" class="alert alert-danger d-none mt-2"
-                                                role="alert">
-                                            </div>
+
+                                <div id="captcha-error" class="alert alert-danger d-none mt-2" role="alert">
+                                </div>
                                 <div class="my-3">
                                     {!! NoCaptcha::display() !!}
                                 </div>
@@ -285,13 +296,15 @@
                         color: #0d6efd;
                         /* warna biru bootstrap */
                     }
-                   .readonly-style[readonly] {
-                        background:  #d9dee1;   /* Biru cerah */
-                        color: #070606;              /* Teks putih */
-                        cursor: not-allowed;        /* Tidak bisa diklik */
+
+                    .readonly-style[readonly] {
+                        background: #d9dee1;
+                        /* Biru cerah */
+                        color: #070606;
+                        /* Teks putih */
+                        cursor: not-allowed;
+                        /* Tidak bisa diklik */
                     }
-
-
                 </style>
 
                 {{-- Scripts --}}
@@ -299,66 +312,6 @@
                 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
                 <script>
                     AOS.init();
-
-                    $(function() {
-                        let validName = false;
-
-                        $('#nama_alumni').on('keyup', function() {
-                            const query = $(this).val();
-                            $('#alumni_id').val('');
-                            validName = false;
-                            $('.list-group').remove();
-                            $('#nama-error').hide();
-
-                            if (query.length >= 3) {
-                                $.ajax({
-                                    url: "{{ route('autocomplete.atasan') }}",
-                                    type: "GET",
-                                    data: {
-                                        q: query
-                                    },
-                                    success: function(data) {
-                                        if (data.length > 0) {
-                                            let dropdown =
-                                                '<ul class="list-group position-absolute w-100" style="z-index:1000;">';
-                                            data.forEach(item => {
-                                                dropdown +=
-                                                    `<li class="list-group-item" data-id="${item.id}">${item.text}</li>`;
-                                            });
-                                            dropdown += '</ul>';
-                                            $('#nama_alumni').after(dropdown);
-
-                                            $('.list-group-item').on('click', function() {
-                                                const selectedText = $(this).text();
-                                                const selectedId = $(this).data('id');
-                                                $('#nama_alumni').val(selectedText);
-                                                $('#alumni_id').val(selectedId);
-                                                validName = true;
-                                                $('.list-group').remove();
-                                                $('#nama-error').hide();
-                                            });
-                                        } else {
-                                            $('#nama-error').text('Alumni tidak ditemukan.').show();
-                                        }
-                                    }
-                                });
-                            }
-                        });
-
-                        $('form').submit(function(e) {
-                            if (!validName || !$('#alumni_id').val()) {
-                                e.preventDefault();
-                                $('#nama-error').text('Silakan pilih alumni dari daftar.').show();
-                                $('#nama_alumni').addClass('is-invalid');
-                            }
-                        });
-
-                        $(document).on('click', function(e) {
-                            if (!$(e.target).closest('#nama_alumni').length) {
-                                $('.list-group').remove();
-                            }
-                        });
-                    });
                 </script>
                 <script>
                     document.addEventListener('DOMContentLoaded', function() {
@@ -428,7 +381,6 @@
                                     }
                                 })
                                 .catch(error => {
-                                    console.log(error.response);
                                     if (error.response && error.response.status === 422) {
                                         const responseErrors = error.response.data.errors;
                                         // Tandai input yang error sesuai respon Laravel
