@@ -76,7 +76,8 @@
                 <div class="col-md-6 mb-3">
                     <div class="card bg-white text-dark shadow-sm">
                         <div class="card-body">
-                            <h5 class="mb-4 fs-4">Rekap Hasil Tracer Study Lulusan  ({{ $startYear }} - {{ $endYear }})</h5>
+                            <h5 class="mb-4 fs-4">Rekap Hasil Tracer Study Lulusan ({{ $startYear }} -
+                                {{ $endYear }})</h5>
                             <div id="profesi_chart" style="width: 100%; height: 500px;"></div>
 
                             <form action="{{ route('laporan.export.tracer') }}" method="post">
@@ -98,7 +99,8 @@
                 <div class="col-md-6 mb-3">
                     <div class="card bg-white text-dark shadow-sm">
                         <div class="card-body">
-                            <h5 class="mb-4 fs-4">Rekap Hasil Survei Kepuasan Pengguna Lulusan ({{ $startYear }} - {{ $endYear }})</h5>
+                            <h5 class="mb-4 fs-4">Rekap Hasil Survei Kepuasan Pengguna Lulusan ({{ $startYear }} -
+                                {{ $endYear }})</h5>
                             <div id="chart_rekap_survei_kepuasan" style="width: 100%; height: 500px;"></div>
                             <form action="{{ route('laporan.export.kepuasan') }}" method="post">
                                 @csrf
@@ -116,7 +118,8 @@
                 <div class="col-md-6 mb-3">
                     <div class="card bg-white text-dark shadow-sm">
                         <div class="card-body">
-                            <h5 class="mb-4 fs-4">Rekap Lulusan Yang Belum Mengisi Tracer Study ({{ $startYear }} - {{ $endYear }})</h5>
+                            <h5 class="mb-4 fs-4">Rekap Lulusan Yang Belum Mengisi Tracer Study ({{ $startYear }} -
+                                {{ $endYear }})</h5>
                             <div id="belum_tracer"></div>
                             <form action="{{ route('laporan.export.belumTracer') }}" method="post">
                                 @csrf
@@ -134,7 +137,8 @@
                 <div class="col-md-6 mb-3">
                     <div class="card bg-white text-dark shadow-sm">
                         <div class="card-body">
-                            <h5 class="mb-4 fs-4">Rekap Atasan Yang Belum Mengisi Survei Kepuasan ({{ $startYear }} - {{ $endYear }})</h5>
+                            <h5 class="mb-4 fs-4">Rekap Atasan Yang Belum Mengisi Survei Kepuasan ({{ $startYear }} -
+                                {{ $endYear }})</h5>
                             <div id="belum_survey"></div>
                             <form action="{{ route('laporan.export.belumSurvei') }}" method="post">
                                 @csrf
@@ -492,49 +496,61 @@
         }
     </style>
 
-    <!-- Ambil data dari Laravel -->
     <script>
         let belumSurveiData = @json($belum_survey);
         let data = belumSurveiData[0];
-        console.log(data);
         am5.ready(function() {
-            // CEK DAN DISPOSE ROOT LAMA JIKA SUDAH ADA
-            let existingRoot = am5.registry.rootElements.find(root => root.dom.id === "belum_survey");
-            if (existingRoot) {
-                existingRoot.dispose();
-            }
 
+            // Buat root element
+            let chartData = [{
+                    value: data.jumlah_belum_mengisi_survei,
+                    category: "Belum Mengisi Survei"
+                },
+                {
+                    value: data.jumlah_mengisi_survei,
+                    category: "Sudah Mengisi Survei"
+                }
+            ];
 
-            // Buat root baru
+            // Buat root element
             var root = am5.Root.new("belum_survey");
 
+            // Tema animasi
             root.setThemes([
                 am5themes_Animated.new(root)
             ]);
 
+            // Pie chart
             var chart = root.container.children.push(am5percent.PieChart.new(root, {
                 layout: root.verticalLayout
             }));
 
+            // Series
             var series = chart.series.push(am5percent.PieSeries.new(root, {
                 valueField: "value",
                 categoryField: "category"
             }));
 
-            series.data.setAll([{
-                    category: "Sudah Mengisi",
-                    value: data.jumlah_mengisi_survei
-                },
-                {
-                    category: "Belum Mengisi",
-                    value: data.jumlah_belum_mengisi_survei
-                }
-            ]);
+            // Masukkan data ke chart
+            series.data.setAll(chartData);
+            series.labels.template.set("visible", false);
+            series.ticks.template.set("visible", false);
 
+            // Legend
+            var legend = chart.children.push(am5.Legend.new(root, {
+                centerX: am5.percent(50),
+                x: am5.percent(50),
+                marginTop: 15,
+                marginBottom: 15
+            }));
+
+            legend.data.setAll(series.dataItems);
+
+            // Animasi muncul
             series.appear(1000, 100);
-        });
-    </script>
 
+        }); // end am5.ready()
+    </script>
 
     <style>
         .year-option {

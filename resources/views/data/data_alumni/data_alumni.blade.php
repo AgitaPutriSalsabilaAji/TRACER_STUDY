@@ -254,5 +254,6 @@
             $('#alumniLulus').val(tanggal_lulus);
             $('#alumniModal').modal('show');
         }
+        
     </script>
 @endsection

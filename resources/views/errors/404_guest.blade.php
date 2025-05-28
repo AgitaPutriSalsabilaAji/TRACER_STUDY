@@ -55,21 +55,26 @@
     <div class="error-wrapper">
         <div class="card error-card">
             <div class="card-header error-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">404 Error</h5>
-                <a href="{{ url('/') }}" class="btn btn-sm btn-home">Return Home</a>
+                <h5 class="mb-0">Kesalahan 404</h5>
+                <a href="{{ url('/') }}" class="btn btn-sm btn-home">Beranda</a>
             </div>
             <div class="card-body text-center error-message">
                 <div class="error-code">404</div>
-                <h4 class="mb-3"><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h4>
-                <p class="mb-4">The page you are looking for might have been removed, had its name changed, or is
-                    temporarily unavailable.</p>
-                <a href="{{ url('/dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
+                <h4 class="mb-3"><i class="fas fa-exclamation-triangle text-warning"></i> Ups! Halaman tidak
+                    ditemukan.</h4>
+                <p class="mb-4">Halaman yang Anda cari mungkin telah dihapus, namanya diubah, atau sedang tidak
+                    tersedia untuk sementara waktu.</p>
+                <div class="d-flex justify-content-center gap-2">
+                    <a href="javascript:history.back()" class="btn btn-primary">Kembali ke Halaman
+                        Sebelumnya</a>
+                </div>
             </div>
             <div class="card-footer text-center text-muted">
-                Error code: 404
+                Kode kesalahan: 404
             </div>
         </div>
     </div>
+
 
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>

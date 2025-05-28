@@ -96,14 +96,12 @@ Route::middleware('auth')->group(function () {
     // ==========================
     // Laporan / Rekap Data
     // ==========================
-    Route::middleware('auth')->group(function () {
-        Route::get('/laporan', [RekapDataController::class, 'index'])->name('laporan');
-        Route::get('/laporan/filter', [RekapDataController::class, 'filter'])->name('laporan.filter');
-        Route::post('/export-tracer', [RekapDataController::class, 'exportExcel'])->name('laporan.export.tracer');
-        Route::post('/export-kepuasan', [RekapDataController::class, 'exportSurveiKepuasan'])->name('laporan.export.kepuasan');
-        Route::post('/export-belum-tracer', [RekapDataController::class, 'exportBelumTS'])->name('laporan.export.belumTracer');
-        Route::post('/export-belum-survei', [RekapDataController::class, 'exportBelumSurvei'])->name('laporan.export.belumSurvei');
-    });
+    Route::get('/laporan', [RekapDataController::class, 'index'])->name('laporan');
+    Route::get('/laporan/filter', [RekapDataController::class, 'filter'])->name('laporan.filter');
+    Route::post('/export-tracer', [RekapDataController::class, 'exportExcel'])->name('laporan.export.tracer');
+    Route::post('/export-kepuasan', [RekapDataController::class, 'exportSurveiKepuasan'])->name('laporan.export.kepuasan');
+    Route::post('/export-belum-tracer', [RekapDataController::class, 'exportBelumTS'])->name('laporan.export.belumTracer');
+    Route::post('/export-belum-survei', [RekapDataController::class, 'exportBelumSurvei'])->name('laporan.export.belumSurvei');
 
     // Data Alumni (CRUD Sederhana)
     Route::middleware('auth')->group(function () {

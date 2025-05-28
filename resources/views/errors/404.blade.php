@@ -86,29 +86,30 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
-    <div class="center-404-wrapper">
-        <div class="card error-card">
-            <div class="card-header error-header">
-                <div class="d-flex justify-content-between">
-                    <h3 class="card-title">404 Error</h3>
-                    <a href="{{ url('/') }}" class="btn btn-light">Return Home</a>
-                </div>
+<div class="center-404-wrapper">
+    <div class="card error-card">
+        <div class="card-header error-header">
+            <div class="d-flex justify-content-between">
+                <h3 class="card-title">Kesalahan 404</h3>
+                <a href="{{ url('/') }}" class="btn btn-light">Kembali ke Beranda</a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="error-message">
+                <h1>404</h1>
+                <h4><i class="fas fa-exclamation-triangle text-warning"></i> Ups! Halaman tidak ditemukan.</h4>
+                <p>
+                    Kami tidak dapat menemukan halaman yang Anda cari. Mungkin telah dipindahkan atau tidak pernah ada sebelumnya.
+                    Sementara itu, Anda dapat <a href="{{ url('/dashboard') }}">kembali ke dashboard</a>.
+                </p>
             </div>
 
-            <div class="card-body">
-                <div class="error-message">
-                    <h1>404</h1>
-                    <h4><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h4>
-                    <p>
-                        We couldn't find the page you were looking for. Maybe it was moved or never existed.
-                        Meanwhile, you may <a href="{{ url('/dashboard') }}">return to the dashboard</a>.
-                    </p>
-                </div>
-
-                <div class="d-flex justify-content-center">
-                    <span class="text-muted">Error code: 404</span>
-                </div>
+            <div class="d-flex justify-content-center">
+                <span class="text-muted">Kode kesalahan: 404</span>
             </div>
         </div>
     </div>
+</div>
+
 @endsection
