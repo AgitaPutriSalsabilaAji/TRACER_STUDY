@@ -5,6 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Cursor Blink CSS for Typing Effect -->
@@ -22,37 +23,121 @@
         }
     </style>
 
-    @if (session('success'))
-        <div id="alertSuccess" class="alert alert-success alert-dismissible fade show" role="alert"
-            style="
-            position: fixed; 
-            top: 50%; 
-            left: 50%; 
+@if (session('success'))
+    <div id="alertSuccess" class="alert alert-success alert-dismissible fade show"
+        role="alert"
+        style="
+            position: fixed;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1100;
             min-width: 400px;
             max-width: 600px;
             padding: 20px 30px;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 600;
             text-align: center;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0, 128, 0, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #007bff, #66b2ff);
+            color: #ffffff;
+            animation: fadeInPop 0.5s ease-out;
+            backdrop-filter: blur(8px);
         ">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 10px;"></i> 🎓 {{ session('success') }}
+        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+            data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+&nbsp;
+&nbsp;
 
-        <script>
-            setTimeout(() => {
-                const alert = document.getElementById('alertSuccess');
-                if (alert) {
-                    alert.classList.remove('show');
-                    setTimeout(() => alert.remove(), 150);
-                }
-            }, 3000);
-        </script>
-    @endif
+    <style>
+        @keyframes fadeInPop {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -60%) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        .alert {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+    </style>
+&nbsp;
+&nbsp;
+
+    <script>
+        setTimeout(() => {
+            const alert = document.getElementById('alertSuccess');
+            if (alert) {
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 500);
+            }
+        }, 3500);
+    </script>
+@endif
+@if (session('success_atasan'))
+    <div id="alertSuccess" class="alert alert-success alert-dismissible fade show"
+        role="alert"
+        style="
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1100;
+            min-width: 400px;
+            max-width: 600px;
+            padding: 20px 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, #007bff, #66b2ff);
+            color: #ffffff;
+            animation: fadeInPop 0.5s ease-out;
+            backdrop-filter: blur(8px);
+        ">
+        <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 10px;"></i> 🎓 {{ session('success') }}
+        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+            data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+&nbsp;
+&nbsp;
+
+    <style>
+        @keyframes fadeInPop {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -60%) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        .alert {
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+    </style>
+&nbsp;
+&nbsp;
+
+    <script>
+        setTimeout(() => {
+            const alert = document.getElementById('alertSuccess');
+            if (alert) {
+                alert.classList.remove('show');
+                setTimeout(() => alert.remove(), 500);
+            }
+        }, 3500);
+    </script>
+@endif
+
 
     <!-- Home Section -->
     <section class="home" id="home">
@@ -100,6 +185,9 @@
                     mereka diminta untuk mengisi survei mengenai kinerja dan kompetensi yang dimiliki alumni di tempat
                     kerja. Hal ini bertujuan untuk mendapatkan gambaran yang lebih objektif mengenai kesiapan lulusan dalam
                     menghadapi dunia kerja serta untuk meningkatkan mutu pendidikan di perguruan tinggi.
+                </p>
+                <p class="lead text-justify">
+                    Mari dukung dan sukseskan pelaksanaan Tracer Study PoliteknikNegeri Malang untuk kemajuan pendidikan dan karier alumni!
                 </p>
             </div>
         </section>

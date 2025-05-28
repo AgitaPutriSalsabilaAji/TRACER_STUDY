@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | Dashboard 3</title>
-
+    <title>Tracer Study Polinema</title>
+    <link rel="icon" href="{{ asset('image/logo_polinema.png') }}" type="image/png" />
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -31,11 +31,12 @@
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
 </head>
 
+
 <body class="hold-transition sidebar-mini layout-navbar-fixed">
     <!-- Preloader -->
     <div class="preloader dark flex-column justify-content-center align-items-center">
-        <img class="animation__wobble" src="{{ asset('adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo"
-            height="60" width="60">
+        <img class="animation__wobble" src="{{ asset('image/logo_polinema.png') }}" alt="AdminLTELogo" height="60"
+            width="60">
     </div>
     <div class="wrapper">
 
