@@ -54,7 +54,6 @@ class AlumniController extends Controller
     // Simpan hasil survei atasan
     public function store(Request $request)
     {
-
         $request->validate([
             'g-recaptcha-response' => 'required|captcha',
             'alumni_id' => 'required|exists:alumni,id',
@@ -231,7 +230,6 @@ class AlumniController extends Controller
 
             $table->addColumn('aksi', function ($row) {
 
-                $editUrl = route('data-alumni.edit', $row->id);
                 $deleteUrl = route('data-alumni.destroy', $row->id);
                 $restoreUrl = route('data-alumni.restore', $row->id);
                 $forceDeleteUrl = route('data-alumni.forceDelete', $row->id);
