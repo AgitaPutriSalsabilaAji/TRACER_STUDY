@@ -42,8 +42,8 @@ class ProfesiController extends Controller
         return DataTables::of($query)
             ->addIndexColumn() // untuk DT_RowIndex
             ->addColumn('aksi', function ($row) {
-                $editBtn = '<button onclick="editProfesi(' . $row->id . ')" class="btn btn-sm btn-warning me-1">Edit</button>';
-                $deleteBtn = '<button onclick="deleteProfesi(' . $row->id . ')" class="btn btn-sm btn-danger">Hapus</button>';
+                $editBtn = '<button onclick="editProfesi(\'/profesi/update/' . $row->id . '\', \'' . $row->kategori_profesi . '\', \'' . $row->nama_profesi . '\')" class="btn btn-sm btn-warning me-1"><i class="fa fa-edit"></i> Edit</button>';                
+                $deleteBtn = '<button onclick="deleteProfesi(' . $row->id . ')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i> Hapus</button>';
                 return $editBtn . $deleteBtn;
             })
             ->rawColumns(['aksi'])
@@ -64,7 +64,7 @@ class ProfesiController extends Controller
             'nama_profesi' => $request->profesi
         ]);
 
-        return redirect()->back()->with('success', 'Admin berhasil ditambahkan. ');
+        return redirect()->back()->with('success', 'Profesi berhasil ditambahkan. ');
     }
 
     public function update(Request $request, $id)
@@ -87,4 +87,37 @@ class ProfesiController extends Controller
         Profesi::destroy($id);
         return response()->json(['success' => true]);
     }
+
+    public function storeKategori(Request $request)
+{
+    $request->validate([
+        'kategori_profesi' => 'required|unique:kategori_profesi,kategori_profesi'
+    ]);
+
+    KategoriProfesi::create([
+        'kategori_profesi' => $request->kategori_profesi
+    ]);
+
+    return response()->json(['success' => true]);
+}
+
+public function updateKategori(Request $request, $id)
+{
+    $request->validate([
+'kategori_profesi' => 'required|unique:kategori_profesi,kategori_profesi,' . $id . ',id'
+    ]);
+
+    KategoriProfesi::where('id', $id)->update([
+        'kategori_profesi' => $request->kategori_profesi
+    ]);
+
+    return response()->json(['success' => true]);
+}
+
+public function deleteKategori($id)
+{
+    KategoriProfesi::destroy($id);
+    return response()->json(['success' => true]);
+}
+
 }

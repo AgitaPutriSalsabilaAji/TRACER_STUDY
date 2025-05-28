@@ -187,10 +187,15 @@ class AdminController extends Controller
             ->addColumn('aksi', function ($row) {
                 $editUrl = route('admin.update', $row->id);
                 $deleteUrl = route('admin.destroy', $row->id);
+
                 return '
-                <button onclick="editAdmin(\'' . $editUrl . '\', \'' . e($row->username) . '\', \'' . e($row->email) . '\')" class="btn btn-warning btn-sm">Edit</button>
-                <button onclick="deleteAdmin(\'' . $deleteUrl . '\')" class="btn btn-danger btn-sm">Hapus</button>
-            ';
+                    <button onclick="editAdmin(\'' . $editUrl . '\', \'' . e($row->username) . '\', \'' . e($row->email) . '\')" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button onclick="deleteAdmin(\'' . $deleteUrl . '\')" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash-alt"></i> Hapus
+                    </button>
+                ';
             })
             ->rawColumns(['aksi'])
             ->make(true);

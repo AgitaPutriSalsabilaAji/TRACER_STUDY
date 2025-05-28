@@ -87,10 +87,13 @@ Route::get('/tambah-admin', [AdminController::class, 'index_admin'])->name('admi
 Route::prefix('profesi')->group(function () {
     Route::get('/', [ProfesiController::class, 'index'])->name('profesi.index');
     Route::get('/list', [ProfesiController::class, 'list'])->name('profesi.list');
-    Route::post('/profesi/store', [ProfesiController::class, 'store'])->name('profesi.store');
-    Route::put('/profesi/update/{id}', [ProfesiController::class, 'update'])->name('profesi.update');
-    Route::delete('/profesi/destroy/{id}', [ProfesiController::class, 'destroy'])->name('profesi.destroy');
+    Route::post('/store', [ProfesiController::class, 'store'])->name('profesi.store');
+    Route::put('/update/{id}', [ProfesiController::class, 'update'])->name('profesi.update');
+    Route::delete('/destroy/{id}', [ProfesiController::class, 'destroy'])->name('profesi.destroy');
     Route::get('/tambah-profesi', [ProfesiController::class, 'index_profesi'])->name('profesi.index');
+    Route::post('/kategori-profesi/store', [ProfesiController::class, 'storeKategori'])->name('kategori.store');
+Route::post('/kategori-profesi/update/{id}', [ProfesiController::class, 'updateKategori']);
+Route::delete('/kategori-profesi/delete/{id}', [ProfesiController::class, 'deleteKategori']);
 });
 
 // ==========================
