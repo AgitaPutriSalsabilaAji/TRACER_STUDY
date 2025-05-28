@@ -27,7 +27,7 @@ class AlumniController extends Controller
                 'message' => 'Key tidak valid atau survei sudah diisi'
             ]);
         }
-        
+
         $alumni = Alumni::find($key->alumni_id);
 
         session([
@@ -123,7 +123,8 @@ class AlumniController extends Controller
     {
         $alumni = Alumni::with('programStudi')->get();
         $programStudi = ProgramStudi::all();
-        return view('data.data_alumni.data_alumni', compact('alumni', 'programStudi'));
+        $isSuperadmin = auth()->user()->is_superadmin;
+        return view('data.data_alumni.data_alumni', compact('alumni', 'programStudi', 'isSuperadmin'));
     }
 
     // =====================
@@ -136,7 +137,7 @@ class AlumniController extends Controller
         return view('data.data_alumni.create', compact('programStudi'));
     }
 
-     // =====================
+    // =====================
 
     // Simpan Alumni Baru dari Halaman Admin
     // =====================
@@ -159,28 +160,27 @@ class AlumniController extends Controller
         return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil ditambahkan!');
     }
 
-
-  
-
-
-     // =====================
     // Edit & Update Alumni
     // =====================
 
-public function editAlumni($id)
-{
-    $alumni = Alumni::findOrFail($id);              // ambil data alumni berdasarkan ID
-    $programStudi = ProgramStudi::all();            // ambil semua program studi untuk dropdown
-    return view('data.data_alumni.edit', compact('alumni', 'programStudi'));
-}
+    public function editAlumni($id)
+    {
 
-
+        $alumni = Alumni::findOrFail($id);
+        $programStudi = ProgramStudi::all();
+    
+        return response()->json([
+            'alumni' => $alumni,
+            'programStudi' => $programStudi
+        ]);
+    }
+    
     public function updateAlumni(Request $request, $id)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
             'nim' => 'required|string|max:20|unique:alumni,nim,' . $id,
-            'program_studi' => 'required|string|max:255',
+            'program_studi_id' => 'required|string|max:255',
             'tanggal_lulus' => 'required|date',
         ]);
 
@@ -193,53 +193,114 @@ public function editAlumni($id)
         'tanggal_lulus' => $request->tanggal_lulus,
     ]);
 
-
         return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil diperbarui!');
     }
 
-// =====================
+    // =====================
     // Hapus Alumni
     // =====================
 
-public function destroyAlumni($id)
-{
-    $alumni = Alumni::findOrFail($id);
-    $alumni->delete();
+    public function list(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = auth()->user()->is_superadmin
+                ? Alumni::withTrashed()->with('programStudi')->select('alumni.*')
+                : Alumni::with('programStudi')->select('alumni.*');
 
-}
-public function list(Request $request)
-{
-    if ($request->ajax()) {
-        $data = Alumni::with('programStudi')->select('alumni.*');
+            $table = DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('program_studi', function ($row) {
+                    return $row->programStudi->program_studi ?? '-';
+                })
+                ->addColumn('tanggal_lulus', function ($row) {
+                    return \Carbon\Carbon::parse($row->tanggal_lulus)->format('d-m-Y');
+                });
 
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('program_studi', function ($row) {
-                return $row->programStudi->program_studi ?? '-';
-            })
-            ->addColumn('tanggal_lulus', function ($row) {
-                return \Carbon\Carbon::parse($row->tanggal_lulus)->format('d-m-Y');
-            })
-            ->addColumn('aksi', function ($row) {
+            // Kalau superadmin, tambahkan kolom ini
+            if (auth()->user()->is_superadmin) {
+                $table->addColumn('created_at', function ($row) {
+                    return $row->created_at ? $row->created_at->format('d-m-Y H:i') : '-';
+                })
+                    ->addColumn('updated_at', function ($row) {
+                        return $row->updated_at ? $row->updated_at->format('d-m-Y H:i') : '-';
+                    })
+                    ->addColumn('deleted_at', function ($row) {
+                        return $row->deleted_at ? $row->deleted_at->format('d-m-Y H:i') : '-';
+                    });
+            }
+
+            $table->addColumn('aksi', function ($row) {
+
                 $editUrl = route('data-alumni.edit', $row->id);
                 $deleteUrl = route('data-alumni.destroy', $row->id);
+                $restoreUrl = route('data-alumni.restore', $row->id);
+                $forceDeleteUrl = route('data-alumni.forceDelete', $row->id);
+
 
                 $csrf = csrf_field();
-                $method = method_field('DELETE');
+                $methodDelete = method_field('DELETE');
 
-                return <<<HTML
-<a href="{$editUrl}" class="btn btn-warning btn-sm">Edit</a>
+                $buttons = '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm">Edit</button> ';
+
+                if (is_null($row->deleted_at)) {
+                    $buttons .= <<<HTML
 <form action="{$deleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus alumni ini?')">
     {$csrf}
-    {$method}
+    {$methodDelete}
     <button class="btn btn-danger btn-sm">Hapus</button>
 </form>
 HTML;
-            })
-            ->rawColumns(['aksi']) // agar HTML pada kolom aksi dirender
-            ->make(true);
+                } else {
+                    if (auth()->user()->is_superadmin) {
+                        $buttons .= <<<HTML
+<form action="{$restoreUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin mengembalikan data {$row->nama} ?')"> 
+    {$csrf}
+    <button class="btn btn-success btn-sm">Restore</button>
+</form>
+<form action="{$forceDeleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus permanen alumni ini?')">
+    {$csrf}
+    {$methodDelete}
+    <button class="btn btn-danger btn-sm">Hapus Permanen</button>
+</form>
+HTML;
+                    }
+                }
+
+                return $buttons;
+            });
+
+            return $table->rawColumns(['aksi'])->make(true);
+        }
     }
+
+    // Soft Delete (hapus sementara)
+    public function destroy($id)
+    {
+        $alumni = Alumni::findOrFail($id);
+        $alumni->delete();
+        return back()->with('success', 'Alumni berhasil dihapus .');
+    }
+
+    // Restore (kembalikan data yang sudah di soft delete)
+    public function restore($id)
+    {
+        $alumni = Alumni::withTrashed()->findOrFail($id);
+        $alumni->restore();
+
+        return back()->with('success', "Alumni {$alumni->nama} berhasil dipulihkan.");
+    }
+
+
+    // Hapus Permanen (force delete)
+    public function forceDelete($id)
+    {
+        $alumni = Alumni::withTrashed()->findOrFail($id);
+        $alumni->forceDelete();
+        return back()->with('success', "Alumni {$alumni->nama} berhasil dihapus permanen.");
+    }
+
 }
 
-} 
+
+
 

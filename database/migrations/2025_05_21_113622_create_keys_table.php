@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('keys', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('alumni_id');
-            $table->string('key_value'); // contoh kolom key string
+            $table->string('key_value'); 
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
 
             // foreign key constraint
