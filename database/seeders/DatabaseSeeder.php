@@ -16,12 +16,20 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $faker = \Faker\Factory::create('id_ID');
-
+        if (!Admin::where('username', 'PurnamaSuper')->exists()) {
+            Admin::create([
+                'name' => 'PurnamaSuper',
+                'username' => 'PurnamaSuper',
+                'email' => 'himadatsuki@gmail.com',
+                'is_superadmin' => true,
+                'password' => Hash::make('purnama'),
+            ]);
+        }
         if (!Admin::where('username', 'Purnama')->exists()) {
             Admin::create([
                 'name' => 'Purnama',
                 'username' => 'Purnama',
-                'email' => 'himadatsuki@gmail.com',
+                'email' => 'minamiharuka18@gmail.com',
                 'password' => Hash::make('purnama'),
             ]);
         }

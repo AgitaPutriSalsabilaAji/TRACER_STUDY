@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nim', 20);
             $table->date('tanggal_lulus');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('program_studi_id')
                   ->references('id')->on('program_studi')
