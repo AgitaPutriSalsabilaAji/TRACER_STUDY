@@ -160,40 +160,38 @@ class AlumniController extends Controller
         return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil ditambahkan!');
     }
 
-
-
-
-
-    // =====================
     // Edit & Update Alumni
     // =====================
 
     public function editAlumni($id)
     {
-        $alumni = Alumni::findOrFail($id);              // ambil data alumni berdasarkan ID
-        $programStudi = ProgramStudi::all();            // ambil semua program studi untuk dropdown
-        return view('data.data_alumni.edit', compact('alumni', 'programStudi'));
+
+        $alumni = Alumni::findOrFail($id);
+        $programStudi = ProgramStudi::all();
+    
+        return response()->json([
+            'alumni' => $alumni,
+            'programStudi' => $programStudi
+        ]);
     }
-
-
+    
     public function updateAlumni(Request $request, $id)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
             'nim' => 'required|string|max:20|unique:alumni,nim,' . $id,
-            'program_studi' => 'required|string|max:255',
+            'program_studi_id' => 'required|string|max:255',
             'tanggal_lulus' => 'required|date',
         ]);
 
 
-        $alumni = Alumni::findOrFail($id);
-        $alumni->update([
-            'nama' => $request->nama,
-            'nim' => $request->nim,
-            'program_studi_id' => $request->program_studi_id,
-            'tanggal_lulus' => $request->tanggal_lulus,
-        ]);
-
+    $alumni = Alumni::findOrFail($id);
+    $alumni->update([
+        'nama' => $request->nama,
+        'nim' => $request->nim,
+        'program_studi_id' => $request->program_studi_id,
+        'tanggal_lulus' => $request->tanggal_lulus,
+    ]);
 
         return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil diperbarui!');
     }
@@ -201,12 +199,6 @@ class AlumniController extends Controller
     // =====================
     // Hapus Alumni
     // =====================
-
-    public function destroyAlumni($id)
-    {
-        $alumni = Alumni::findOrFail($id);
-        $alumni->delete();
-    }
 
     public function list(Request $request)
     {
@@ -238,15 +230,17 @@ class AlumniController extends Controller
             }
 
             $table->addColumn('aksi', function ($row) {
+
                 $editUrl = route('data-alumni.edit', $row->id);
                 $deleteUrl = route('data-alumni.destroy', $row->id);
                 $restoreUrl = route('data-alumni.restore', $row->id);
                 $forceDeleteUrl = route('data-alumni.forceDelete', $row->id);
 
+
                 $csrf = csrf_field();
                 $methodDelete = method_field('DELETE');
 
-                $buttons = '<a href="' . $editUrl . '" class="btn btn-warning btn-sm">Edit</a> ';
+                $buttons = '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm">Edit</button> ';
 
                 if (is_null($row->deleted_at)) {
                     $buttons .= <<<HTML
@@ -304,4 +298,9 @@ HTML;
         $alumni->forceDelete();
         return back()->with('success', "Alumni {$alumni->nama} berhasil dihapus permanen.");
     }
+
 }
+
+
+
+
