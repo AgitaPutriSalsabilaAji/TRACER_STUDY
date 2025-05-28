@@ -282,9 +282,8 @@
                         /* warna biru bootstrap */
                     }
                    .readonly-style[readonly] {
-                        background: linear-gradient(to right, #2196f3, #3287e5);   /* Biru cerah */
-                        color: #ffffff;              /* Teks putih */
-                        font-weight: bold;          /* Teks tebal */
+                        background:  #d9dee1;   /* Biru cerah */
+                        color: #070606;              /* Teks putih */
                         cursor: not-allowed;        /* Tidak bisa diklik */
                     }
 

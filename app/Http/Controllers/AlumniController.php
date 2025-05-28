@@ -206,7 +206,7 @@ public function destroyAlumni($id)
     $alumni = Alumni::findOrFail($id);
     $alumni->delete();
 
-
+}
 public function list(Request $request)
 {
     if ($request->ajax()) {

@@ -22,26 +22,45 @@
         }
     </style>
 
-    @if (session('success'))
-        <div id="alertSuccess" class="alert alert-success alert-dismissible fade show" role="alert"
-            style="
-            position: fixed; 
-            top: 50%; 
-            left: 50%; 
+@if (session('success'))
+    <div id="alertSuccess" class="alert alert-success alert-dismissible fade show"
+        role="alert"
+        style="
+            position: fixed;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
             z-index: 1100;
             min-width: 400px;
             max-width: 600px;
-            padding: 20px 30px;
-            font-size: 1.25rem;
-            font-weight: 600;
+            padding: 25px 35px;
+            font-size: 1.15rem;
+            font-weight: 500;
             text-align: center;
-            border-radius: 12px;
-            box-shadow: 0 0 15px rgba(0, 128, 0, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 128, 0, 0.4);
+            background: linear-gradient(135deg, #38b000, #70e000);
+            color: #ffffff;
+            animation: fadeInPop 0.5s ease-out;
         ">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        {{ session('success') }}
+        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+            data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <style>
+        @keyframes fadeInPop {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -60%) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+    </style>
+
 
         <script>
             setTimeout(() => {
@@ -100,6 +119,9 @@
                     mereka diminta untuk mengisi survei mengenai kinerja dan kompetensi yang dimiliki alumni di tempat
                     kerja. Hal ini bertujuan untuk mendapatkan gambaran yang lebih objektif mengenai kesiapan lulusan dalam
                     menghadapi dunia kerja serta untuk meningkatkan mutu pendidikan di perguruan tinggi.
+                </p>
+                <p class="lead text-justify">
+                    Mari dukung dan sukseskan pelaksanaan Tracer Study PoliteknikNegeri Malang untuk kemajuan pendidikan dan karier alumni!
                 </p>
             </div>
         </section>
