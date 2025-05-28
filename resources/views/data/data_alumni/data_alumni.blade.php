@@ -43,7 +43,19 @@
                         <th>Aksi</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    @foreach($alumni as $alumni)
+                        <tr>
+                            <td>{{ $alumni->nama }}</td>
+                            <td>{{ $alumni->email }}</td>
+                            <td>{{ $alumni->tahun_lulus }}</td>
+                            <td>
+                                <a href="{{ route('data-alumni.edit', $alumni->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <button class="btn btn-sm btn-danger" onclick="hapusAlumni({{ $alumni->id }})">Hapus</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>
@@ -191,15 +203,58 @@
         $('#alumniModal').modal('show');
     }
 
-    function editAlumni(url, nama, program_studi_id, nim, tanggal_lulus) {
-        $('#alumniModalTitle').text('Edit Alumni');
-        $('#formAlumni').attr('action', url);
+    function editAlumni(id) {
+    $.get('/data-alumni/' + id + '/edit', function(data) {
+        const alumni = data.alumni;
+        const programStudiList = data.programStudi;
+
+        $('#alumniNama').val(alumni.nama);
+        $('#alumniNim').val(alumni.nim);
+        $('#alumniLulus').val(alumni.tanggal_lulus);
+        $('#formAlumni').attr('action', '/data-alumni/' + id);
         $('#formMethod').val('PUT');
-        $('#alumniNama').val(nama);
-        $('#alumniProdi').val(program_studi_id);
-        $('#alumniNim').val(nim);
-        $('#alumniLulus').val(tanggal_lulus);
+        $('#alumniModalTitle').text('Edit Alumni');
+
+        // Isi ulang dropdown program studi
+        const $dropdown = $('#alumniProdi');
+        $dropdown.empty().append('<option value="">-- Pilih Program Studi --</option>');
+        programStudiList.forEach(prodi => {
+            const selected = prodi.id == alumni.program_studi_id ? 'selected' : '';
+            $dropdown.append(`<option value="${prodi.id}" ${selected}>${prodi.program_studi}</option>`);
+        });
+
         $('#alumniModal').modal('show');
-    }
+    });
+}
+
+
+
+function hapusAlumni(id) {
+    Swal.fire({
+        title: 'Yakin ingin menghapus?',
+        text: "Data alumni ini akan hilang permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Hapus'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/data-alumni/' + id,
+                type: 'DELETE',
+                data: { _token: '{{ csrf_token() }}' },
+                success: function() {
+                    table.ajax.reload();
+                    Swal.fire('Terhapus!', 'Data alumni berhasil dihapus.', 'success');
+                },
+                error: function() {
+                    Swal.fire('Error!', 'Gagal menghapus data.', 'error');
+                }
+            });
+        }
+    });
+}
+
 </script>
 @endsection

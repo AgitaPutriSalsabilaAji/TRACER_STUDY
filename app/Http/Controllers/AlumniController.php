@@ -159,31 +159,30 @@ class AlumniController extends Controller
         return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil ditambahkan!');
     }
 
-
-  
-
-
      // =====================
     // Edit & Update Alumni
     // =====================
 
-public function editAlumni($id)
-{
-    $alumni = Alumni::findOrFail($id);              // ambil data alumni berdasarkan ID
-    $programStudi = ProgramStudi::all();            // ambil semua program studi untuk dropdown
-    return view('data.data_alumni.edit', compact('alumni', 'programStudi'));
-}
-
-
+    public function editAlumni($id)
+    {
+        $alumni = Alumni::findOrFail($id);
+        $programStudi = ProgramStudi::all();
+    
+        return response()->json([
+            'alumni' => $alumni,
+            'programStudi' => $programStudi
+        ]);
+    }
+    
+    
     public function updateAlumni(Request $request, $id)
     {
         $request->validate([
             'nama' => 'required|string|max:255',
             'nim' => 'required|string|max:20|unique:alumni,nim,' . $id,
-            'program_studi' => 'required|string|max:255',
+            'program_studi_id' => 'required|string|max:255',
             'tanggal_lulus' => 'required|date',
         ]);
-
 
     $alumni = Alumni::findOrFail($id);
     $alumni->update([
@@ -192,20 +191,19 @@ public function editAlumni($id)
         'program_studi_id' => $request->program_studi_id,
         'tanggal_lulus' => $request->tanggal_lulus,
     ]);
-
-
         return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil diperbarui!');
     }
 
-// =====================
+    // =====================
     // Hapus Alumni
     // =====================
-
-public function destroyAlumni($id)
-{
-    $alumni = Alumni::findOrFail($id);
-    $alumni->delete();
-
+    public function destroyAlumni($id)
+    {
+        $alumni = Alumni::findOrFail($id);
+        $alumni->delete();
+    
+        return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil dihapus!');
+    }    
 
 public function list(Request $request)
 {
@@ -218,28 +216,34 @@ public function list(Request $request)
                 return $row->programStudi->program_studi ?? '-';
             })
             ->addColumn('tanggal_lulus', function ($row) {
-                return \Carbon\Carbon::parse($row->tanggal_lulus)->format('d-m-Y');
+                return optional($row->tanggal_lulus)
+                    ? \Carbon\Carbon::parse($row->tanggal_lulus)->format('d-m-Y')
+                    : '-';
             })
             ->addColumn('aksi', function ($row) {
                 $editUrl = route('data-alumni.edit', $row->id);
                 $deleteUrl = route('data-alumni.destroy', $row->id);
 
-                $csrf = csrf_field();
-                $method = method_field('DELETE');
+                // Pakai csrf dan method_field() versi string karena di DataTables tidak bisa pakai blade
+                $csrf = csrf_token();
+                $method = 'DELETE';
 
-                return <<<HTML
-<a href="{$editUrl}" class="btn btn-warning btn-sm">Edit</a>
-<form action="{$deleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus alumni ini?')">
-    {$csrf}
-    {$method}
-    <button class="btn btn-danger btn-sm">Hapus</button>
-</form>
-HTML;
+                return '
+                    <button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm">Edit</button>
+
+                    <form action="' . $deleteUrl . '" method="POST" class="d-inline" onsubmit="return confirm(\'Yakin ingin menghapus alumni ini?\')">
+                        <input type="hidden" name="_token" value="' . $csrf . '">
+                        <input type="hidden" name="_method" value="' . $method . '">
+                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                    </form>
+                ';
             })
-            ->rawColumns(['aksi']) // agar HTML pada kolom aksi dirender
+            ->rawColumns(['aksi']) // agar HTML tidak di-escape
             ->make(true);
     }
+
+    // Return view jika bukan request AJAX
+    return view('data.data_alumni'); // <-- sesuaikan
 }
 
 } 
-
