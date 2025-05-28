@@ -18,11 +18,13 @@
     </section>
 
     <div class="card card-outline card-primary">
-        <div class="card-header">
-            <div class="card-tools">
-                <button onclick="tambahAlumni()" class="btn btn-sm btn-success mt-1">Tambah Alumni</button>
-            </div>
-        </div>
+<div class="card-header">
+  <form action="{{ route('import.alumni')}}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center" style="gap: 10px;">
+    @csrf
+    <input class="form-control form-control-sm" type="file" name="file" required>
+    <button class="btn btn-primary btn-sm" type="submit">Import</button>
+  </form>
+</div>
 
         <div class="card-body">
             <h4>Daftar Alumni</h4>

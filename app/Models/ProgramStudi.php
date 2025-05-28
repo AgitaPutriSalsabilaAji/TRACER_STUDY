@@ -12,7 +12,7 @@ class ProgramStudi extends Model
     protected $table = 'program_studi';
 
     protected $fillable = [
-        'nama',
+        'program_studi',
     ];
 
     public function alumni()
