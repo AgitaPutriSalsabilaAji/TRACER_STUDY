@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfesiController;
 use App\Http\Controllers\RekapDataController;
 use App\Http\Controllers\AlumniController;
+use App\Http\Controllers\DataImportController;
 use App\Http\Controllers\GuestController;
 
 /*
@@ -129,5 +130,7 @@ Route::delete('/kategori-profesi/delete/{id}', [ProfesiController::class, 'delet
             Route::post('/data-alumni/{id}/restore', [AlumniController::class, 'restore'])->name('data-alumni.restore');
             Route::delete('/data-alumni/{id}/force-delete', [AlumniController::class, 'forceDelete'])->name('data-alumni.forceDelete');
         });
+        Route::post('/import-alumni', [DataImportController::class, 'upload'])->name('import.alumni');
+
     });
 });
