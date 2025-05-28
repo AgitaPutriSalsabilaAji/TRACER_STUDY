@@ -164,9 +164,6 @@ class AdminController extends Controller
         return redirect()->route('dashboard', compact('startYear', 'endYear', 'prodi'));
     }
 
-
-
-
     public function index_admin()
     {
         $breadcrumb = (object)[

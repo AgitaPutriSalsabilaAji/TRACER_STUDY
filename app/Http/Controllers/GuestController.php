@@ -37,7 +37,9 @@ class GuestController extends Controller
 
             return response()->json([
                 'success' => false,
+
                 'message' => "Dengan hormat, pengisian formulir ini hanya diperkenankan satu kali. Berdasarkan catatan kami, Anda telah melakukan pengisian pada tanggal {$tanggal} pukul {$jam}."
+
             ]);
         }
         $alumni = Alumni::find($request->alumni_id_validate);
@@ -117,7 +119,7 @@ class GuestController extends Controller
             if (!$alumni) {
                 return redirect()->back()
                     ->withInput()
-                    ->with('alert', 'Alumni tidak ditemukan.');
+                    ->with('alert', 'Mohon maaf, Alumni tidak ditemukan.');
             }
 
 
@@ -173,7 +175,8 @@ class GuestController extends Controller
                 });
             }
             return redirect('/')
-                ->with('success', 'Data alumni berhasil disimpan!');
+                ->with('success', 'Data alumni berhasil disimpan. Terima kasih atas partisipasi Anda!')
+                ->with('success_atasan', 'Data alumni berhasil disimpan. Terima kasih atas partisipasi Anda!');
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Log error validasi
             Log::error('Validation error: ' . $e->getMessage());

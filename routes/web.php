@@ -15,11 +15,17 @@ use App\Http\Controllers\GuestController;
 |--------------------------------------------------------------------------
 */
 
+// Route::get('/', function () {
+//     session()->flush();
+
+//     return view('guest.home');
+// })->name('guest.home');
 Route::get('/', function () {
-    session()->flush();
+    session()->forget(['validated_alumni', 'validated_atasan']);
 
     return view('guest.home');
 })->name('guest.home');
+
 
 // Fallback untuk 404
 Route::fallback(function () {
