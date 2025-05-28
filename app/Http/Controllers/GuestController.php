@@ -33,7 +33,7 @@ class GuestController extends Controller
         if ($exists) {
             return response()->json([
                 'success' => false,
-                'message' => 'Hanya bisa mengisi satu kali'
+                'message' => 'Mohon maaf, pengisian survei ini hanya diperbolehkan satu kali.'
             ]);
         }
         $alumni = Alumni::find($request->alumni_id_validate);
@@ -113,7 +113,7 @@ class GuestController extends Controller
             if (!$alumni) {
                 return redirect()->back()
                     ->withInput()
-                    ->with('alert', 'Alumni tidak ditemukan.');
+                    ->with('alert', 'Mohon maaf, Alumni tidak ditemukan.');
             }
 
 
@@ -169,7 +169,7 @@ class GuestController extends Controller
                 });
             }
             return redirect('/')
-                ->with('success', 'Data alumni berhasil disimpan!');
+                ->with('success', 'Data alumni berhasil disimpan. Terima kasih atas partisipasi Anda!');
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Log error validasi
             Log::error('Validation error: ' . $e->getMessage());

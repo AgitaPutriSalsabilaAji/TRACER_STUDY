@@ -192,7 +192,7 @@
                                             <div class="mb-3">
                                                 <i class="bi bi-mortarboard text-primary me-2"></i>
                                                 <label class="form-label">Program Studi</label>
-                                                <input type="text" class="form-control"
+                                                <input type="text" class="form-control readonly-style"
                                                     value="{{ $prodi_terpilih_nama ?? '' }}" readonly>
                                                 <!-- Kirim id program studi secara tersembunyi -->
                                                 <input type="hidden" name="prodi"
@@ -201,7 +201,7 @@
                                             <div class="mb-3">
                                                 <i class="bi bi-calendar3 text-primary me-2"></i>
                                                 <label class="form-label">Tahun Lulus</label>
-                                                <input type="text" class="form-control"
+                                                <input type="text" class="form-control readonly-style"
                                                     value="{{ $tahun_lulus_terpilih ?? '' }}" readonly>
                                                 <!-- Kirim tahun lulus secara tersembunyi -->
                                                 <input type="hidden" name="tahun_lulus"
@@ -389,9 +389,8 @@
                 }
             }
              .readonly-style[readonly] {
-                        background: linear-gradient(to right, #2196f3, #3287e5);   /* Biru cerah */
-                        color: #ffffff;              /* Teks putih */
-                        font-weight: bold;          /* Teks tebal */
+                        background:  #d9dee1;   /* Biru cerah */
+                        color: #070606;              /* Teks putih */
                         cursor: not-allowed;        /* Tidak bisa diklik */
                     }
         </style>
