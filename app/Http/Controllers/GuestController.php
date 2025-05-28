@@ -166,7 +166,7 @@ class GuestController extends Controller
                 Mail::send('emails.permohonan_survei', [
                     'alumni' => $alumni,
                     'token' => $token,
-                    'survey_link' => 'https://link-survey.example.com',
+                    'survey_link' => route('form.atasan'),
                 ], function ($message) use ($email) {
                     $message->to($email)
                         ->subject('Permohonan Pengisian Survei Kinerja Alumni');
