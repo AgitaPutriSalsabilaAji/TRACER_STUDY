@@ -1,29 +1,29 @@
 @extends('layouts.template')
 
 @section('content')
- <section class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6 white">
-        <h1>Pengelolaan Profesi</h1>
-      </div>
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item active">Manajemen Data</li>
-          <li class="breadcrumb-item active">Pengelolaan Profesi</li>
-        </ol>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item">Manajemen Data</li>
-          <li class="breadcrumb-item active">Dashboard</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-</section>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6 white">
+                    <h1>Pengelolaan Profesi</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item active">Manajemen Data</li>
+                        <li class="breadcrumb-item active">Pengelolaan Profesi</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">Manajemen Data</li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
     {{-- Modal Profesi --}}
@@ -298,7 +298,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: '/destroy/' + id,
+                        url: 'profesi/destroy/' + id,
                         type: 'DELETE',
                         data: {
                             _token: "{{ csrf_token() }}"
@@ -344,13 +344,18 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post(`/kategori-profesi/delete/${id}`, {
-                        _token: "{{ csrf_token() }}",
-                        _method: 'DELETE'
-                    }, function() {
-                        location.reload();
-                    }).fail(function() {
-                        Swal.fire('Gagal', 'Tidak dapat menghapus kategori.', 'error');
+                    $.ajax({
+                        url: `profesi/kategori-profesi/delete/${id}`,
+                        type: 'DELETE',
+                        data: {
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function() {
+                            location.reload();
+                        },
+                        error: function() {
+                            Swal.fire('Gagal', 'Tidak dapat menghapus kategori.', 'error');
+                        }
                     });
                 }
             });
