@@ -200,6 +200,10 @@
                                         Kurikulum Kami</label>
                                     <textarea name="saran_kurikulum" class="form-control" rows="3" placeholder="Opsional"></textarea>
                                 </div>
+                                
+                                            <div id="captcha-error" class="alert alert-danger d-none mt-2"
+                                                role="alert">
+                                            </div>
                                 <div class="my-3">
                                     {!! NoCaptcha::display() !!}
                                 </div>
