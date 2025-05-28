@@ -29,11 +29,17 @@ class GuestController extends Controller
             'prodi' => 'required|integer',
             'tahun_lulus' => 'required|integer',
         ]);
-        $exists = Lulusan::where('alumni_id', $request->alumni_id_validate)->exists();
-        if ($exists) {
+        $record = Lulusan::where('alumni_id', $request->alumni_id_validate)->first();
+
+        if ($record) {
+            $tanggal = $record->created_at->format('d-m-Y');
+            $jam = $record->created_at->format('H:i');
+
             return response()->json([
                 'success' => false,
-                'message' => 'Mohon maaf, pengisian survei ini hanya diperbolehkan satu kali.'
+
+                'message' => "Dengan hormat, pengisian formulir ini hanya diperkenankan satu kali. Berdasarkan catatan kami, Anda telah melakukan pengisian pada tanggal {$tanggal} pukul {$jam}."
+
             ]);
         }
         $alumni = Alumni::find($request->alumni_id_validate);
@@ -162,7 +168,7 @@ class GuestController extends Controller
                 Mail::send('emails.permohonan_survei', [
                     'alumni' => $alumni,
                     'token' => $token,
-                    'survey_link' => 'https://link-survey.example.com',
+                    'survey_link' => route('form.atasan'),
                 ], function ($message) use ($email) {
                     $message->to($email)
                         ->subject('Permohonan Pengisian Survei Kinerja Alumni');

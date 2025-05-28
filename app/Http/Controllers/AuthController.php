@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -21,6 +22,9 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'username' => ['required'],
             'password' => ['required'],
+        ], [
+            'username.required' => 'Silakan isi username Anda.',
+            'password.required' => 'Silakan isi kata sandi Anda.',
         ]);
 
         // Cek apakah input adalah email atau username
@@ -51,9 +55,9 @@ class AuthController extends Controller
         return redirect('/login');
     }
 
-        public function showForgotPassword()
+    public function showForgotPassword()
     {
-        return view('auth.forgot-password'); 
+        return view('auth.forgot-password');
     }
 
     public function editPassword()
@@ -61,7 +65,7 @@ class AuthController extends Controller
         return view('auth.change-password');
     }
 
-        public function updatePassword(Request $request)
+    public function updatePassword(Request $request)
     {
         $request->validate([
             'old_password' => ['required'],
@@ -73,7 +77,7 @@ class AuthController extends Controller
             'old_password.required' => 'Password lama harus diisi.',
         ]);
 
-        $admin = Auth::user(); 
+        $admin = Auth::user();
 
         if (!Hash::check($request->old_password, $admin->password)) {
             return back()->with('error', 'Old password is incorrect.');
@@ -88,39 +92,38 @@ class AuthController extends Controller
     public function sendResetLinkEmail(Request $request)
     {
         // Debugging untuk melihat input yang diterima
-            // Validasi input: email dan phone harus diisi
-            $request->validate([
-                'email' => ['required', 'email'], // Wajib email yang valid
-            ]);
+        // Validasi input: email dan phone harus diisi
+        $request->validate([
+            'email' => ['required', 'email'], // Wajib email yang valid
+        ]);
 
-            // Cek apakah email sudah ada di database
-            $admins = Admin::where('email', $request->email)->first(); // Cari pengguna berdasarkan email
-            if (!$admins) {
-                return redirect()->back()->withErrors(['email' => 'Pengguna dengan email tersebut tidak ditemukan.']);
-            }
-            
-            $newPassword = Str::random(8);
-            $admins->password = Hash::make($newPassword);  // Pastikan password di-hash
-            $admins->save();
-            $data = [
-                'subject' => 'Pemulihan Kata Sandi Akun Anda',
-                'title' => 'Password Baru Untuk Akun Anda',
-                'body' => 'Anda baru saja melakukan permintaan untuk mereset kata sandi akun Anda. ' .  "\n" .
-                    'Berikut adalah kata sandi sementara yang telah kami buat untuk Anda: ' . "\n\n" .
-                    'Kata Sandi Baru: ' . $newPassword . "\n\n" .
-                    'Silakan gunakan kata sandi ini untuk login ke akun Anda. Demi keamanan, kami sangat menyarankan agar Anda segera mengganti kata sandi tersebut melalui menu Profil setelah berhasil masuk.' . "\n\n" .
-                    'Terima kasih' . "\n" .
-                    'Tracer Study'
-            ];
+        // Cek apakah email sudah ada di database
+        $admins = Admin::where('email', $request->email)->first(); // Cari pengguna berdasarkan email
+        if (!$admins) {
+            return redirect()->back()->withErrors(['email' => 'Pengguna dengan email tersebut tidak ditemukan.']);
+        }
 
-            $adminsEmail = $admins->email;
-            Mail::raw($data['body'], function ($message) use ($adminsEmail, $data) {
-                $message->to($adminsEmail)
-                    ->subject($data['subject']);
-            });
+        $newPassword = Str::random(8);
+        $admins->password = Hash::make($newPassword);  // Pastikan password di-hash
+        $admins->save();
+        $data = [
+            'subject' => 'Pemulihan Kata Sandi Akun Anda',
+            'title' => 'Password Baru Untuk Akun Anda',
+            'body' => 'Anda baru saja melakukan permintaan untuk mereset kata sandi akun Anda. ' .  "\n" .
+                'Berikut adalah kata sandi sementara yang telah kami buat untuk Anda: ' . "\n\n" .
+                'Kata Sandi Baru: ' . $newPassword . "\n\n" .
+                'Silakan gunakan kata sandi ini untuk login ke akun Anda. Demi keamanan, kami sangat menyarankan agar Anda segera mengganti kata sandi tersebut melalui menu Profil setelah berhasil masuk.' . "\n\n" .
+                'Terima kasih' . "\n" .
+                'Tracer Study'
+        ];
+
+        $adminsEmail = $admins->email;
+        Mail::raw($data['body'], function ($message) use ($adminsEmail, $data) {
+            $message->to($adminsEmail)
+                ->subject($data['subject']);
+        });
 
 
-            return redirect()->route('login')->with('success', 'Password baru berhasil dikirim!');
+        return redirect()->route('login')->with('success', 'Password baru berhasil dikirim!');
     }
-
 }

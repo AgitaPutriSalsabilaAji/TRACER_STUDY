@@ -78,16 +78,16 @@
                             <form action="{{ route('login') }}" method="POST">
                                 @csrf
                                 <div class="mb-3">
-                                    <label class="form-label" for="username">Username address</label>
+                                    <label class="form-label" for="username">Username </label>
                                     <input type="text" id="username" name="username" class="form-control"
-                                        placeholder="Enter a valid username" />
+                                        placeholder="Masukan Username" />
                                 </div>
 
                                 <div class="form-outline mb-3 position-relative">
                                     <label class="form-label" for="password">Password</label>
                                     <div class="input-group">
                                         <input type="password" id="password" name="password" class="form-control"
-                                            placeholder="Enter password" />
+                                            placeholder="Masukan password" />
                                         <span class="input-group-text">
                                             <i class="fa-solid fa-eye" id="togglePassword" style="cursor: pointer;"></i>
                                         </span>
@@ -98,9 +98,9 @@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="remember"
                                             name="remember" />
-                                        <label class="form-check-label" for="remember">Remember me</label>
+                                        <label class="form-check-label" for="remember">Ingat saya</label>
                                     </div>
-                                    <a href="{{ route('password.request') }}">Forgot password?</a>
+                                    <a href="{{ route('password.request') }}">Lupa password?</a>
                                 </div>
 
                                 <div class="d-grid">

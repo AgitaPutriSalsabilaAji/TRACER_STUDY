@@ -62,7 +62,7 @@
                 <!-- Form -->
                 <div class="col-md-6 order-1 order-md-1">
                     <div class="card-body p-4">
-                        <h4 class="card-title text-center mb-4">Forgot Password</h4>
+                        <h4 class="card-title text-center mb-4">Lupa Password</h4>
 
                         @if (session('success'))
                             <div class="alert alert-success">{{ session('success') }}</div>
@@ -74,16 +74,16 @@
                         <form action="{{ route('password.email') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email Address</label>
-                                <input type="email" name="email" class="form-control" placeholder="Enter email" required autofocus>
+                                <label for="email" class="form-label">Email </label>
+                                <input type="email" name="email" class="form-control" placeholder="Masukan email" required autofocus>
                             </div>
 
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Send New Password</button>
+                                <button type="submit" class="btn btn-primary">Kirim Password Baru</button>
                             </div>
 
                             <div class="text-center mt-3">
-                                <a href="{{ route('login') }}">Back to Login</a>
+                                <a href="{{ route('login') }}">Kemabali ke Halaman Login</a>
                             </div>
                         </form>
                     </div>

@@ -300,9 +300,8 @@ function hapusAlumni(id) {
                 }
             });
         }
-    });
-}
 
+  
 </script>
 
 @endsection
