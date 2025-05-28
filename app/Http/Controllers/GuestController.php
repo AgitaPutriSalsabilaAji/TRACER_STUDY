@@ -169,7 +169,8 @@ class GuestController extends Controller
                 });
             }
             return redirect('/')
-                ->with('success', 'Data alumni berhasil disimpan. Terima kasih atas partisipasi Anda!');
+                ->with('success', 'Data alumni berhasil disimpan. Terima kasih atas partisipasi Anda!')
+                ->with('success_atasan', 'Data alumni berhasil disimpan. Terima kasih atas partisipasi Anda!');
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Log error validasi
             Log::error('Validation error: ' . $e->getMessage());
