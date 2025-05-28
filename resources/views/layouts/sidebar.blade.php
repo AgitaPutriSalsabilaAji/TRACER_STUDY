@@ -10,9 +10,10 @@
     <div class="sidebar">
         <div class="mt-3 pb-3 mb-1 d-flex justify-content-center" id="userPanel">
             <div class="info">
-                <a style="color: #5a8dee;" id="userName">
+                <a style="color: #5a8dee; font-size: 1.2rem;" id="userName">
                     {{ Auth::user()->username }}
                 </a>
+
                 <i class="fas fa-user-shield" style="color: #5a8dee; font-size: 24px;" id="userIcon"></i>
             </div>
         </div>
@@ -50,13 +51,16 @@
                                 <p>Pengelolaan Profesi</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/list-admin') }}"
-                                class="nav-link {{ Request::is('list-admin') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>List Admin</p>
-                            </a>
-                        </li>
+                        @if (auth()->user()->is_superadmin)
+                            <li class="nav-item">
+                                <a href="{{ url('/list-admin') }}"
+                                    class="nav-link {{ Request::is('list-admin') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>List Admin</p>
+                                </a>
+                            </li>
+                        @endif
+
                         <li class="nav-item">
                             <a href="{{ url('data-alumni') }}"
                                 class="nav-link {{ Request::is('data-alumni') ? 'active' : '' }}">

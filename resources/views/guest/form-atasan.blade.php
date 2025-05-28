@@ -124,10 +124,10 @@
                                 </div>
 
                                 <div class="mb-3 position-relative">
-                                    <label for="nama_alumni" class="form-label"><i class="bi bi-search me-1"></i>Data
+                                    <label for="nama_alumni" class="form-label "><i class="bi bi-search me-1"></i>Data
                                         Alumni</label>
                                     </label>
-                                    <input type="text" class="form-control" id="nama_alumni" name="nama_alumni"
+                                    <input type="text" class="form-control readonly-style" id="nama_alumni" name="nama_alumni"
                                         value="{{ $nama ?? '' }}" readonly>
                                     <input type="hidden" name="alumni_id" id="alumni_id" value="{{ $alumni_id ?? '' }}">
                                 </div>
@@ -190,13 +190,13 @@
                                 @endforeach
 
                                 <div class="mb-3">
-                                    <label class="form-label"><i class="bi bi-x-circle me-1"></i>Kompetensi yang Belum
+                                    <label class="form-label"><i class="bi bi-exclamation-circle text-warning me-1"></i>Kompetensi yang Belum
                                         Terpenuhi</label>
                                     <textarea name="kompetensi_belum_terpenuhi" class="form-control" rows="3" placeholder="Opsional"></textarea>
                                 </div>
 
                                 <div class="mb-3">
-                                    <label class="form-label"><i class="bi bi-lightbulb-fill me-1"></i>Saran untuk
+                                    <label class="form-label"><i class="bi bi-stars text-warning me-1"></i>Saran untuk
                                         Kurikulum Kami</label>
                                     <textarea name="saran_kurikulum" class="form-control" rows="3" placeholder="Opsional"></textarea>
                                 </div>
@@ -281,6 +281,14 @@
                         color: #0d6efd;
                         /* warna biru bootstrap */
                     }
+                   .readonly-style[readonly] {
+                        background: linear-gradient(to right, #2196f3, #3287e5);   /* Biru cerah */
+                        color: #ffffff;              /* Teks putih */
+                        font-weight: bold;          /* Teks tebal */
+                        cursor: not-allowed;        /* Tidak bisa diklik */
+                    }
+
+
                 </style>
 
                 {{-- Scripts --}}

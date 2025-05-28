@@ -70,48 +70,54 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard/lulusan/table', [AdminController::class, 'lulusan_table'])->name('lulusan.table');
     Route::post('/dashboard/masa_tunggu/table', [AdminController::class, 'masa_tunggu_table'])->name('masa_tunggu.table');
     Route::post('/dashboard/performa_lulusan/table', [AdminController::class, 'performa_lulusan_table'])->name('performa_lulusan.table');
-});
 
-// ==========================
-// Admin (CRUD)
-// ==========================
-Route::get('/admin/list', [AdminController::class, 'list'])->name('admin.list');
-Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
-Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
-Route::delete('/admin/destroy/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
-Route::get('/list-admin', [AdminController::class, 'index_admin'])->name('admin.index');
 
-// ==========================
-// Profesi
-// ==========================
-Route::prefix('profesi')->group(function () {
-    Route::get('/', [ProfesiController::class, 'index'])->name('profesi.index');
-    Route::get('/list', [ProfesiController::class, 'list'])->name('profesi.list');
-    Route::post('/profesi/store', [ProfesiController::class, 'store'])->name('profesi.store');
-    Route::put('/profesi/update/{id}', [ProfesiController::class, 'update'])->name('profesi.update');
-    Route::delete('/profesi/destroy/{id}', [ProfesiController::class, 'destroy'])->name('profesi.destroy');
-    Route::get('/tambah-profesi', [ProfesiController::class, 'index_profesi'])->name('profesi.index');
-});
+    // ==========================
+    // Admin (CRUD)
+    // ==========================
+    Route::get('/admin/list', [AdminController::class, 'list'])->name('admin.list');
+    Route::post('/admin/store', [AdminController::class, 'store'])->name('admin.store');
+    Route::put('/admin/update/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::delete('/admin/destroy/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+    Route::get('/list-admin', [AdminController::class, 'index_admin'])->name('admin.index');
 
-// ==========================
-// Laporan / Rekap Data
-// ==========================
-Route::middleware('auth')->group(function () {
-    Route::get('/laporan', [RekapDataController::class, 'index'])->name('laporan');
-    Route::get('/laporan/filter', [RekapDataController::class, 'filter'])->name('laporan.filter');
-    Route::post('/export-tracer', [RekapDataController::class, 'exportExcel'])->name('laporan.export.tracer');
-    Route::post('/export-kepuasan', [RekapDataController::class, 'exportSurveiKepuasan'])->name('laporan.export.kepuasan');
-    Route::post('/export-belum-tracer', [RekapDataController::class, 'exportBelumTS'])->name('laporan.export.belumTracer');
-    Route::post('/export-belum-survei', [RekapDataController::class, 'exportBelumSurvei'])->name('laporan.export.belumSurvei');
-});
+    // ==========================
+    // Profesi
+    // ==========================
+    Route::prefix('profesi')->group(function () {
+        Route::get('/', [ProfesiController::class, 'index'])->name('profesi.index');
+        Route::get('/list', [ProfesiController::class, 'list'])->name('profesi.list');
+        Route::post('/profesi/store', [ProfesiController::class, 'store'])->name('profesi.store');
+        Route::put('/profesi/update/{id}', [ProfesiController::class, 'update'])->name('profesi.update');
+        Route::delete('/profesi/destroy/{id}', [ProfesiController::class, 'destroy'])->name('profesi.destroy');
+        Route::get('/tambah-profesi', [ProfesiController::class, 'index_profesi'])->name('profesi.index');
+    });
 
-// Data Alumni (CRUD Sederhana)
-Route::middleware('auth')->group(function () {
-    Route::get('/data-alumni', [AlumniController::class, 'index'])->name('data-alumni.index');
-    Route::post('/data-alumni', [AlumniController::class, 'storeAlumni'])->name('data-alumni.store');
-    Route::get('/data-alumni/create', [AlumniController::class, 'createAlumni'])->name('data-alumni.create');
-    Route::get('/data-alumni/{id}/edit', [AlumniController::class, 'editAlumni'])->name('data-alumni.edit');
-    Route::put('/data-alumni/{id}', [AlumniController::class, 'updateAlumni'])->name('data-alumni.update');
-    Route::delete('/data-alumni/{id}', [AlumniController::class, 'destroyAlumni'])->name('data-alumni.destroy');
-    Route::get('/data-alumni/list', [AlumniController::class, 'list'])->name('data-alumni.list');
+    // ==========================
+    // Laporan / Rekap Data
+    // ==========================
+    Route::middleware('auth')->group(function () {
+        Route::get('/laporan', [RekapDataController::class, 'index'])->name('laporan');
+        Route::get('/laporan/filter', [RekapDataController::class, 'filter'])->name('laporan.filter');
+        Route::post('/export-tracer', [RekapDataController::class, 'exportExcel'])->name('laporan.export.tracer');
+        Route::post('/export-kepuasan', [RekapDataController::class, 'exportSurveiKepuasan'])->name('laporan.export.kepuasan');
+        Route::post('/export-belum-tracer', [RekapDataController::class, 'exportBelumTS'])->name('laporan.export.belumTracer');
+        Route::post('/export-belum-survei', [RekapDataController::class, 'exportBelumSurvei'])->name('laporan.export.belumSurvei');
+    });
+
+    // Data Alumni (CRUD Sederhana)
+    Route::middleware('auth')->group(function () {
+        Route::get('/data-alumni', [AlumniController::class, 'index'])->name('data-alumni.index');
+        Route::post('/data-alumni', [AlumniController::class, 'storeAlumni'])->name('data-alumni.store');
+        Route::get('/data-alumni/create', [AlumniController::class, 'createAlumni'])->name('data-alumni.create');
+        Route::get('/data-alumni/{id}/edit', [AlumniController::class, 'editAlumni'])->name('data-alumni.edit');
+        Route::put('/data-alumni/{id}', [AlumniController::class, 'updateAlumni'])->name('data-alumni.update');
+        Route::delete('/data-alumni/{id}', [AlumniController::class, 'destroyAlumni'])->name('data-alumni.destroy');
+        Route::get('/data-alumni/list', [AlumniController::class, 'list'])->name('data-alumni.list');
+        Route::delete('/alumni/{id}', [AlumniController::class, 'destroy'])->name('data-alumni.destroy');
+        Route::middleware(['superadmin'])->group(function () {
+            Route::post('/data-alumni/{id}/restore', [AlumniController::class, 'restore'])->name('data-alumni.restore');
+            Route::delete('/data-alumni/{id}/force-delete', [AlumniController::class, 'forceDelete'])->name('data-alumni.forceDelete');
+        });
+    });
 });

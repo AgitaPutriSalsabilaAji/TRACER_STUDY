@@ -27,7 +27,7 @@ class AlumniController extends Controller
                 'message' => 'Key tidak valid atau survei sudah diisi'
             ]);
         }
-        
+
         $alumni = Alumni::find($key->alumni_id);
 
         session([
@@ -123,7 +123,8 @@ class AlumniController extends Controller
     {
         $alumni = Alumni::with('programStudi')->get();
         $programStudi = ProgramStudi::all();
-        return view('data.data_alumni.data_alumni', compact('alumni', 'programStudi'));
+        $isSuperadmin = auth()->user()->is_superadmin;
+        return view('data.data_alumni.data_alumni', compact('alumni', 'programStudi', 'isSuperadmin'));
     }
 
     // =====================
@@ -136,7 +137,7 @@ class AlumniController extends Controller
         return view('data.data_alumni.create', compact('programStudi'));
     }
 
-     // =====================
+    // =====================
 
     // Simpan Alumni Baru dari Halaman Admin
     // =====================
@@ -159,12 +160,12 @@ class AlumniController extends Controller
         return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil ditambahkan!');
     }
 
-     // =====================
     // Edit & Update Alumni
     // =====================
 
     public function editAlumni($id)
     {
+
         $alumni = Alumni::findOrFail($id);
         $programStudi = ProgramStudi::all();
     
@@ -173,7 +174,6 @@ class AlumniController extends Controller
             'programStudi' => $programStudi
         ]);
     }
-    
     
     public function updateAlumni(Request $request, $id)
     {
@@ -184,6 +184,7 @@ class AlumniController extends Controller
             'tanggal_lulus' => 'required|date',
         ]);
 
+
     $alumni = Alumni::findOrFail($id);
     $alumni->update([
         'nama' => $request->nama,
@@ -191,59 +192,115 @@ class AlumniController extends Controller
         'program_studi_id' => $request->program_studi_id,
         'tanggal_lulus' => $request->tanggal_lulus,
     ]);
+
         return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil diperbarui!');
     }
 
     // =====================
     // Hapus Alumni
     // =====================
-    public function destroyAlumni($id)
+
+    public function list(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = auth()->user()->is_superadmin
+                ? Alumni::withTrashed()->with('programStudi')->select('alumni.*')
+                : Alumni::with('programStudi')->select('alumni.*');
+
+            $table = DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('program_studi', function ($row) {
+                    return $row->programStudi->program_studi ?? '-';
+                })
+                ->addColumn('tanggal_lulus', function ($row) {
+                    return \Carbon\Carbon::parse($row->tanggal_lulus)->format('d-m-Y');
+                });
+
+            // Kalau superadmin, tambahkan kolom ini
+            if (auth()->user()->is_superadmin) {
+                $table->addColumn('created_at', function ($row) {
+                    return $row->created_at ? $row->created_at->format('d-m-Y H:i') : '-';
+                })
+                    ->addColumn('updated_at', function ($row) {
+                        return $row->updated_at ? $row->updated_at->format('d-m-Y H:i') : '-';
+                    })
+                    ->addColumn('deleted_at', function ($row) {
+                        return $row->deleted_at ? $row->deleted_at->format('d-m-Y H:i') : '-';
+                    });
+            }
+
+            $table->addColumn('aksi', function ($row) {
+
+                $editUrl = route('data-alumni.edit', $row->id);
+                $deleteUrl = route('data-alumni.destroy', $row->id);
+                $restoreUrl = route('data-alumni.restore', $row->id);
+                $forceDeleteUrl = route('data-alumni.forceDelete', $row->id);
+
+
+                $csrf = csrf_field();
+                $methodDelete = method_field('DELETE');
+
+                $buttons = '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm">Edit</button> ';
+
+                if (is_null($row->deleted_at)) {
+                    $buttons .= <<<HTML
+<form action="{$deleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus alumni ini?')">
+    {$csrf}
+    {$methodDelete}
+    <button class="btn btn-danger btn-sm">Hapus</button>
+</form>
+HTML;
+                } else {
+                    if (auth()->user()->is_superadmin) {
+                        $buttons .= <<<HTML
+<form action="{$restoreUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin mengembalikan data {$row->nama} ?')"> 
+    {$csrf}
+    <button class="btn btn-success btn-sm">Restore</button>
+</form>
+<form action="{$forceDeleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus permanen alumni ini?')">
+    {$csrf}
+    {$methodDelete}
+    <button class="btn btn-danger btn-sm">Hapus Permanen</button>
+</form>
+HTML;
+                    }
+                }
+
+                return $buttons;
+            });
+
+            return $table->rawColumns(['aksi'])->make(true);
+        }
+    }
+
+    // Soft Delete (hapus sementara)
+    public function destroy($id)
     {
         $alumni = Alumni::findOrFail($id);
         $alumni->delete();
-    
-        return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil dihapus!');
-    }    
-
-public function list(Request $request)
-{
-    if ($request->ajax()) {
-        $data = Alumni::with('programStudi')->select('alumni.*');
-
-        return DataTables::of($data)
-            ->addIndexColumn()
-            ->addColumn('program_studi', function ($row) {
-                return $row->programStudi->program_studi ?? '-';
-            })
-            ->addColumn('tanggal_lulus', function ($row) {
-                return optional($row->tanggal_lulus)
-                    ? \Carbon\Carbon::parse($row->tanggal_lulus)->format('d-m-Y')
-                    : '-';
-            })
-            ->addColumn('aksi', function ($row) {
-                $editUrl = route('data-alumni.edit', $row->id);
-                $deleteUrl = route('data-alumni.destroy', $row->id);
-
-                // Pakai csrf dan method_field() versi string karena di DataTables tidak bisa pakai blade
-                $csrf = csrf_token();
-                $method = 'DELETE';
-
-                return '
-                    <button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm">Edit</button>
-
-                    <form action="' . $deleteUrl . '" method="POST" class="d-inline" onsubmit="return confirm(\'Yakin ingin menghapus alumni ini?\')">
-                        <input type="hidden" name="_token" value="' . $csrf . '">
-                        <input type="hidden" name="_method" value="' . $method . '">
-                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                    </form>
-                ';
-            })
-            ->rawColumns(['aksi']) // agar HTML tidak di-escape
-            ->make(true);
+        return back()->with('success', 'Alumni berhasil dihapus .');
     }
 
-    // Return view jika bukan request AJAX
-    return view('data.data_alumni'); // <-- sesuaikan
+    // Restore (kembalikan data yang sudah di soft delete)
+    public function restore($id)
+    {
+        $alumni = Alumni::withTrashed()->findOrFail($id);
+        $alumni->restore();
+
+        return back()->with('success', "Alumni {$alumni->nama} berhasil dipulihkan.");
+    }
+
+
+    // Hapus Permanen (force delete)
+    public function forceDelete($id)
+    {
+        $alumni = Alumni::withTrashed()->findOrFail($id);
+        $alumni->forceDelete();
+        return back()->with('success', "Alumni {$alumni->nama} berhasil dihapus permanen.");
+    }
+
 }
 
-} 
+
+
+
