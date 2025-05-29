@@ -1,11 +1,10 @@
 @extends('layouts.headerguest')
 
 @section('content')
-    <!-- Import Bootstrap 5 CSS & AOS CSS -->
+    <!-- Import Bootstrap 5 & AOS CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Cursor Blink CSS for Typing Effect -->
@@ -16,193 +15,486 @@
             color: #0d6efd;
             font-weight: bold;
         }
-
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
-    </style>
 
-@if (session('success'))
-    <div id="alertSuccess" class="alert alert-success alert-dismissible fade show"
-        role="alert"
-        style="
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1100;
-            min-width: 400px;
-            max-width: 600px;
-            padding: 20px 30px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            text-align: center;
+        /* Style Card Informasi Tracer Study */
+        .container .card {
+            margin-top: 2rem;
+            padding: 1.5rem;
             border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(135deg, #007bff, #66b2ff);
-            color: #ffffff;
-            animation: fadeInPop 0.5s ease-out;
-            backdrop-filter: blur(8px);
-        ">
-        <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 10px;"></i> 🎓 {{ session('success') }}
-        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
-            data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-&nbsp;
-&nbsp;
-
-    <style>
-        @keyframes fadeInPop {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -60%) scale(0.95);
-            }
-            100% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border: none;
+            transition: transform 0.3s;
         }
-        .alert {
-            transition: opacity 0.5s ease, transform 0.5s ease;
+        .container .card:hover {
+            transform: translateY(-5px);
         }
-    </style>
-&nbsp;
-&nbsp;
-
-    <script>
-        setTimeout(() => {
-            const alert = document.getElementById('alertSuccess');
-            if (alert) {
-                alert.classList.remove('show');
-                setTimeout(() => alert.remove(), 500);
-            }
-        }, 3500);
-    </script>
-@endif
-@if (session('success_atasan'))
-    <div id="alertSuccess" class="alert alert-success alert-dismissible fade show"
-        role="alert"
-        style="
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1100;
-            min-width: 400px;
-            max-width: 600px;
-            padding: 20px 30px;
-            font-size: 1.2rem;
-            font-weight: 600;
+        .icon {
+            font-size: 2.5rem;
+            color: #0d6efd;
+            margin-bottom: 1rem;
             text-align: center;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(135deg, #007bff, #66b2ff);
-            color: #ffffff;
-            animation: fadeInPop 0.5s ease-out;
-            backdrop-filter: blur(8px);
-        ">
-        <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 10px;"></i> 🎓 {{ session('success') }}
-        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
-            data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-&nbsp;
-&nbsp;
+        }
+        .card p {
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        .manfaat-section {
+  padding: 80px 20px;
+  background: #fff;
+}
 
-    <style>
-        @keyframes fadeInPop {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -60%) scale(0.95);
-            }
-            100% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1);
-            }
-        }
-        .alert {
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
+.subtitle {
+  font-size: 14px;
+  color: #a0a0a0;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: bold;
+  color: #2c2c2c;
+  margin-bottom: 20px;
+}
+
+.title .highlight {
+  color: #0d2186;
+}
+
+.description {
+  color: #4a4a4a;
+  max-width: 800px;
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+.benefit-boxes {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.benefit-box {
+  display: flex;
+  flex-direction: row !important; /* Paksa horizontal */
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  gap: 20px;
+}
+
+.benefit-box .number {
+  min-width: 60px;
+  min-height: 60px;
+  background-color: #0d2186;
+  color: #fff;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.benefit-box .content {
+  flex: 1;
+}
+
+.benefit-box .content h4 {
+  margin: 0;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #2c2c2c;
+}
+
+.benefit-box .content p {
+  margin: 0;
+  color: #4a4a4a;
+  font-size: 1rem;
+}
+/* Tambahan gaya untuk card info */
+.tracer-card {
+  border: 1px solid #dbe7f5;
+  border-radius: 16px;
+  background-color: #ffffff;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.tracer-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(38, 120, 186, 0.2);
+}
+
+/* Ikon bulat */
+.tracer-card .icon {
+  background-color: #2678ba;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+/* Responsif */
+@media (max-width: 768px) {
+  .tracer-card {
+    padding: 2rem 1.2rem;
+  }
+}
+
+
     </style>
-&nbsp;
-&nbsp;
 
-    <script>
-        setTimeout(() => {
-            const alert = document.getElementById('alertSuccess');
-            if (alert) {
-                alert.classList.remove('show');
-                setTimeout(() => alert.remove(), 500);
-            }
-        }, 3500);
-    </script>
-@endif
-
-
-    <!-- Home Section -->
-    <section class="home" id="home">
-        <div class="container py-5">
-            <div class="card shadow-lg border-0" data-aos="zoom-in" data-aos-duration="1000">
-                <div class="row g-0">
-                    <!-- Left side: Image -->
-                    <div class="col-md-6 d-flex justify-content-center align-items-center">
-                        <img src="{{ asset('image/wisuda6.png') }}" class="img-fluid" style="max-width: 80%;" alt="Ilustrasi Tracer Study">
-                    </div>
-                    <!-- Right side: Text Content -->
-                    <div class="col-md-6 d-flex align-items-center">
-                        <div class="card-body">
-                            <h2 class="card-title text-primary mb-3">Selamat Datang di Website Tracer Study <br>Politeknik Negeri Malang</h2>
-                            <h3 class="card-subtitle text-muted mb-4">Langkah Kecil, Dampak Besar!</h3>
-                            <a href="/form-alumni" class="btn btn-primary btn-lg mb-3">Isi Survei</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    @if (session('success') || session('success_atasan'))
+        <div id="alertSuccess" class="alert alert-success alert-dismissible fade show"
+            role="alert"
+            style="
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 1100;
+                min-width: 400px;
+                max-width: 600px;
+                padding: 20px 30px;
+                font-size: 1.2rem;
+                font-weight: 600;
+                text-align: center;
+                border-radius: 15px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+                background: linear-gradient(135deg, #007bff, #66b2ff);
+                color: #ffffff;
+                animation: fadeInPop 0.5s ease-out;
+                backdrop-filter: blur(8px);
+            ">
+            <i class="bi bi-check-circle" style="font-size: 1.5rem; margin-right: 10px;"></i>
+            🎓 {{ session('success') ?? session('success_atasan') }}
+            <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </section>
 
-    <main>
-        <!-- About Section -->
-        <section class="about bg-light py-5" id="tentang">
-            <div class="container" data-aos="fade-up" data-aos-duration="1200">
-                <h2 class="text-center mb-4">
-                    <span id="typed-tracer" class="text-primary fw-bold"></span><span class="cursor">|</span>
-                </h2>
-                <p class="lead text-justify">
-                    Tracer Study adalah salah satu metode yang digunakan oleh perguruan tinggi untuk mengumpulkan data dan
-                    umpan balik dari alumni mengenai pengalaman mereka setelah lulus. Informasi yang diperoleh digunakan
-                    sebagai bahan evaluasi untuk meningkatkan kualitas pendidikan,
-                    kurikulum, serta relevansi program studi dengan dunia kerja.
-                </p>
-                <p class="lead text-justify">
-                    Tracer Study juga bermanfaat dalam menyediakan informasi penting mengenai hubungan antara pendidikan
-                    tinggi dan dunia kerja profesional, menilai relevansi pendidikan tinggi, informasi bagi pemangku
-                    kepentingan (stakeholders),
-                    dan kelengkapan persyaratan bagi akreditasi pendidikan tinggi.
-                </p>
-                <p class="lead text-justify">
-                    Dalam proses Tracer Study, alumni diwajibkan untuk mengisi data pribadi terlebih dahulu sebelum atasan
-                    mereka diminta untuk mengisi survei mengenai kinerja dan kompetensi yang dimiliki alumni di tempat
-                    kerja. Hal ini bertujuan untuk mendapatkan gambaran yang lebih objektif mengenai kesiapan lulusan dalam
-                    menghadapi dunia kerja serta untuk meningkatkan mutu pendidikan di perguruan tinggi.
-                </p>
-                <p class="lead text-justify">
-                    Mari dukung dan sukseskan pelaksanaan Tracer Study PoliteknikNegeri Malang untuk kemajuan pendidikan dan karier alumni!
-                </p>
-            </div>
-        </section>
-    </main>
+        <style>
+            @keyframes fadeInPop {
+                0% { opacity: 0; transform: translate(-50%, -60%) scale(0.95); }
+                100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            }
+        </style>
+        <script>
+            setTimeout(() => {
+                const alert = document.getElementById('alertSuccess');
+                if (alert) {
+                    alert.classList.remove('show');
+                    setTimeout(() => alert.remove(), 500);
+                }
+            }, 3500);
+        </script>
+    @endif
+<style>
+  /* Hover efek sederhana untuk tombol */
+  .btn-primary:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+  }
 
-  
-    <!-- Bootstrap JS, Popper.js, and AOS -->
+  /* Hover efek untuk gambar di home */
+  .home img:hover {
+    transform: scale(1.03);
+    transition: transform 0.4s ease;
+  }
+
+  /* Hover efek untuk kartu info */
+  .card:hover {
+    box-shadow: 0 8px 20px rgba(38, 120, 186, 0.4);
+    transform: translateY(-8px);
+    transition: all 0.3s ease;
+  }
+  .card-info {
+  border-radius: 1rem;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.card-info:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 12px 30px rgba(38, 120, 186, 0.35);
+  background: linear-gradient(to bottom, #ffffff, #f0f7ff);
+}
+
+.card-info .icon {
+  transition: all 0.3s ease;
+}
+
+.card-info:hover .icon {
+  transform: rotate(360deg) scale(1.1);
+  background-color: #1d5d99 !important;
+}
+
+</style>
+
+<!-- Home Section -->
+<section class="home py-5" id="home" style="background: linear-gradient(to right, #f3f8ff, #e1ecfa); position: relative; overflow: hidden; margin-bottom: 0;">
+
+  <svg style="position: absolute; top: -50px; left: 0; width: 100%; height: auto; z-index: 1;" viewBox="0 0 1440 320" data-aos="fade-down" data-aos-duration="1500">
+    <path fill="#d0e4ff" fill-opacity="1" d="M0,160L60,149.3C120,139,240,117,360,128C480,139,600,181,720,197.3C840,213,960,203,1080,176C1200,149,1320,107,1380,85.3L1440,64L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"></path>
+  </svg>
+
+  <div class="container position-relative" style="z-index: 2;">
+    <div class="row align-items-center">
+
+      <!-- Gambar Anime dengan Background Shape -->
+      <div class="col-lg-6 text-center mb-5 mb-lg-0 position-relative" data-aos="zoom-in" data-aos-duration="1500">
+        <!-- Blob SVG background -->
+        <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 100%; height: 100%; z-index: -1;">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto;">
+            <path fill="#cfe2ff" d="M38.6,-58.2C50.4,-51.2,61.4,-42.4,67.5,-30.9C73.6,-19.5,74.9,-5.3,73.2,9.1C71.5,23.6,66.7,38.2,56.6,48.8C46.5,59.4,31,66,15.8,68.9C0.6,71.7,-14.3,70.8,-30.1,66.7C-45.9,62.5,-62.5,55.1,-70.7,42.5C-79,29.8,-78.9,11.9,-75.7,-4.9C-72.5,-21.6,-66.2,-37.2,-54.9,-46.5C-43.6,-55.9,-27.3,-59,-12.2,-63.2C2.9,-67.5,17.8,-72.9,31.5,-69.3C45.1,-65.6,57.4,-53.3,63.2,-39.8C69,-26.3,68.2,-11.6,64.2,1.3C60.1,14.2,52.8,25.1,41.8,36.2C30.9,47.3,16.4,58.6,0.9,64.2C-14.6,69.9,-29.2,69.9,-41.4,63.7C-53.5,57.5,-63.2,45.1,-67.6,31.1C-72,17.1,-71.1,1.6,-66.8,-11.4C-62.5,-24.3,-54.7,-34.7,-44.9,-43.5C-35.1,-52.2,-23.3,-59.3,-10.3,-62.9C2.7,-66.5,13.7,-66.6,25.5,-63.4C37.4,-60.2,49.9,-53.7,61.1,-44.6C72.4,-35.5,82.4,-24,84.8,-10.7C87.2,2.6,82.1,17.3,72.2,30.1C62.3,42.9,47.5,53.8,32.4,60.2C17.3,66.6,1.9,68.4,-11.9,65.3C-25.8,62.2,-38.1,54.1,-49.2,42.6C-60.3,31.1,-70.3,16.1,-72.3,0C-74.2,-16.1,-68.1,-32.3,-58.4,-46.5C-48.8,-60.7,-35.7,-73.1,-21.6,-77.5C-7.6,-81.8,7.5,-78.1,20.5,-69.7C33.6,-61.3,45.6,-48.1,53.8,-33.1C62.1,-18.1,66.7,-1.4,68.8,15.6C70.9,32.6,70.5,49.9,60.5,59.4C50.5,69,30.8,70.7,11.4,72.8C-7.9,74.9,-25.9,77.2,-41.5,72.1C-57.1,67,-70.3,54.5,-77.1,39.1C-83.9,23.7,-84.2,5.5,-81.3,-12.4C-78.4,-30.3,-72.2,-48.1,-60.4,-58.8C-48.7,-69.5,-31.3,-73,-14.3,-71.4C2.6,-69.8,19.5,-63.3,38.6,-58.2Z" transform="translate(100 100)" />
+          </svg>
+        </div>
+
+        <!-- Foto -->
+        <img src="{{ asset('image/wisuda6.png') }}" class="img-fluid" style="max-width: 85%; z-index: 2; position: relative;" alt="Ilustrasi Tracer Study">
+      </div>
+
+      <!-- Teks -->
+      <div class="col-lg-6 text-center text-lg-start" data-aos="fade-left" data-aos-duration="1500">
+        <h1 class="fw-bold mb-4" style="color: #1e2a4a;">
+          Selamat Datang di <br><span style="color: #2678ba;">Tracer Study</span><br>Politeknik Negeri Malang
+        </h1>
+        <p class="lead text-muted mb-4">
+         <strong>Langkah Kecil, Dampak Besar! </strong>.
+        </p>
+        <a href="/form-alumni" class="btn btn-lg btn-primary rounded-pill px-5 py-3 shadow-sm">
+          Isi Survei
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="py-5" id="about" style="background: linear-gradient(to right, #f3f8ff, #e1ecfa); position: relative; overflow: hidden;">
+  <div class="container position-relative" style="z-index: 2;">
+    <div class="row align-items-center">
+      
+      <!-- Teks -->
+      <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1500">
+        <h3 class="display-5 mb-4 fw-bold text-primary">
+          Apa itu <span style="color: #2678ba;">Tracer Study?</span>
+        </h3>
+         <p class="px-lg-2" style="font-size: 1.3rem; line-height: 1.6;">
+          <strong>Tracer Study</strong>  salah satu metode yang digunakan oleh perguruan tinggi untuk mengumpulkan data dan umpan balik dari alumni mengenai pengalaman mereka setelah lulus.Informasi yang diperoleh digunakan sebagai bahan evaluasi untuk meningkatkan kualitas pendidikan, kurikulum, serta relevansi program studi dengan dunia kerja. 
+        </p>
+      </div>
+
+      <!-- Gambar -->
+      <div class="col-lg-6 text-center mt-4 mt-lg-0" data-aos="fade-left" data-aos-duration="1500">
+       <img src="{{ asset('image/tracer-study.png') }}" class="img-fluid w-100" alt="Ilustrasi Tracer Study">
+
+    </div>
+  </section>
+
+ <section class="py-5" style="background-color: #ffffff;">
+  <div class="container pt-5 pt-md-10">
+    <div class="row text-center" data-aos="zoom-in" data-aos-duration="1500">
+      <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+        <h3 class="display-10 mb-4 fw-bold text-primary">
+        <span style="color: #2678ba;">Proses Tracer Study</span>
+        </h3>
+      </div>
+    </div>
+
+    <div class="row text-center mb-5" data-aos="zoom-in" data-aos-duration="1500">
+      <div class="col-md-12 col-lg-12">
+        <p class="px-lg-2" style="font-size: 1.3rem; line-height: 1.6;">
+           Dalam proses <strong>Tracer Study</strong>, alumni diwajibkan untuk mengisi data pribadi terlebih dahulu sebelum atasan mereka diminta untuk mengisi survei mengenai kinerja dan kompetensi yang dimiliki alumni di tempat kerja. Hal ini bertujuan untuk mendapatkan gambaran yang lebih objektif mengenai kesiapan lulusan dalam menghadapi dunia kerja serta untuk meningkatkan mutu pendidikan di perguruan tinggi.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-white">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h3 class="fw-bold text-primary">Mekanisme Pengisian Tracer Study</h3>
+      <p class="text-muted">Langkah-langkah pelaksanaan tracer study oleh alumni</p>
+    </div>
+
+    <div class="row text-center justify-content-center align-items-start">
+      <!-- Langkah 1 -->
+      <div class="col-md-2 mb-4">
+        <img src="img/langkah1.png" alt="Langkah 1" class="img-fluid mb-3" style="max-height: 130px;">
+        <p class="text-muted small">DSSDI mengirimkan pemberitahuan pengisian tracer study via email ke alumni.</p>
+      </div>
+
+      <!-- Panah -->
+      <div class="col-auto d-flex align-items-center">
+        <i class="bi bi-arrow-right-circle-fill fs-2 text-primary"></i>
+      </div>
+
+      <!-- Langkah 2 -->
+      <div class="col-md-2 mb-4">
+        <img src="img/langkah2.png" alt="Langkah 2" class="img-fluid mb-3" style="max-height: 130px;">
+        <p class="text-muted small">Alumni menerima email pemberitahuan untuk mengisi tracer study.</p>
+      </div>
+
+      <!-- Panah -->
+      <div class="col-auto d-flex align-items-center">
+        <i class="bi bi-arrow-right-circle-fill fs-2 text-primary"></i>
+      </div>
+
+      <!-- Langkah 3 -->
+      <div class="col-md-2 mb-4">
+        <img src="img/langkah3.png" alt="Langkah 3" class="img-fluid mb-3" style="max-height: 130px;">
+        <p class="text-muted small">Alumni mengisi data pribadi dan survei tracer study secara online.</p>
+      </div>
+
+      <!-- Panah -->
+      <div class="col-auto d-flex align-items-center">
+        <i class="bi bi-arrow-right-circle-fill fs-2 text-primary"></i>
+      </div>
+
+      <!-- Langkah 4 -->
+      <div class="col-md-2 mb-4">
+        <img src="img/langkah4.png" alt="Langkah 4" class="img-fluid mb-3" style="max-height: 130px;">
+        <p class="text-muted small">Atasan alumni (opsional) mengisi survei penilaian kinerja alumni.</p>
+      </div>
+
+      <!-- Panah -->
+      <div class="col-auto d-flex align-items-center">
+        <i class="bi bi-arrow-right-circle-fill fs-2 text-primary"></i>
+      </div>
+
+      <!-- Langkah 5 -->
+      <div class="col-md-2 mb-4">
+        <img src="img/langkah5.png" alt="Langkah 5" class="img-fluid mb-3" style="max-height: 130px;">
+        <p class="text-muted small">Data hasil tracer study digunakan untuk evaluasi dan peningkatan mutu pendidikan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+ 
+<section class="py-5" style="background-color: #ffffff;">
+  <div class="container">
+    <div class="row text-center mb-4">
+      <div class="col">
+        <h3 class="fw-bold text-primary">Manfaat Tracer Study</h3>
+        <p class="text-muted">Beberapa manfaat penting dari pelaksanaan tracer study bagi perguruan tinggi dan pemangku kepentingan</p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="card tracer-card h-100 text-center p-4">
+          <div class="icon mb-3 mx-auto">
+            <i class="fas fa-clipboard-list text-white fs-4"></i>
+          </div>
+          <p class="mb-0">
+            Mengevaluasi relevansi kurikulum dengan kebutuhan dunia kerja untuk memastikan lulusan siap menghadapi tantangan profesional.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="card tracer-card h-100 text-center p-4">
+          <div class="icon mb-3 mx-auto">
+            <i class="fas fa-chart-pie text-white fs-4"></i>
+          </div>
+          <p class="mb-0">
+            Menyediakan data akurat sebagai dasar pengambilan keputusan dalam peningkatan mutu pendidikan tinggi secara berkelanjutan.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+        <div class="card tracer-card h-100 text-center p-4">
+          <div class="icon mb-3 mx-auto">
+            <i class="fas fa-award text-white fs-4"></i>
+          </div>
+          <p class="mb-0">
+            Memberikan informasi penting yang dibutuhkan dalam proses akreditasi dan laporan kepada pemangku kepentingan.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-light" id="team">
+  <div class="container">
+    <div class="row text-center mb-5" data-aos="fade-down" data-aos-duration="1200">
+      <div class="col">
+        <h2 class="fw-bold text-primary">Meet Our Team</h2>
+        <p class="text-muted">Tim profesional yang berdedikasi untuk memberikan yang terbaik</p>
+      </div>
+    </div>
+    <div class="row g-4">
+      
+      <!-- Member 1 -->
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+        <div class="card shadow-sm border-0 rounded-4 text-center p-4">
+          <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Member 1" class="rounded-circle mb-3 mx-auto" style="width:120px; height:120px; object-fit:cover;">
+          <h5 class="fw-bold mb-1">Siska Aprilia</h5>
+          <p class="text-primary mb-2">Project Manager</p>
+          <p class="text-muted small">Memimpin proyek dan memastikan semua berjalan sesuai jadwal dengan komunikasi yang efektif.</p>
+        </div>
+      </div>
+
+      <!-- Member 2 -->
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
+        <div class="card shadow-sm border-0 rounded-4 text-center p-4">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Member 2" class="rounded-circle mb-3 mx-auto" style="width:120px; height:120px; object-fit:cover;">
+          <h5 class="fw-bold mb-1">Dedi Santoso</h5>
+          <p class="text-primary mb-2">Lead Developer</p>
+          <p class="text-muted small">Mengembangkan solusi teknis terbaik dengan fokus pada kualitas dan performa aplikasi.</p>
+        </div>
+      </div>
+
+      <!-- Member 3 -->
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="500" data-aos-duration="1000">
+        <div class="card shadow-sm border-0 rounded-4 text-center p-4">
+          <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Member 3" class="rounded-circle mb-3 mx-auto" style="width:120px; height:120px; object-fit:cover;">
+          <h5 class="fw-bold mb-1">Rina Kusuma</h5>
+          <p class="text-primary mb-2">UI/UX Designer</p>
+          <p class="text-muted small">Merancang antarmuka yang menarik dan mudah digunakan agar pengalaman pengguna maksimal.</p>
+        </div>
+      </div>
+
+      <!-- Member 4 -->
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="700" data-aos-duration="1000">
+        <div class="card shadow-sm border-0 rounded-4 text-center p-4">
+          <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Member 4" class="rounded-circle mb-3 mx-auto" style="width:120px; height:120px; object-fit:cover;">
+          <h5 class="fw-bold mb-1">Arif Pratama</h5>
+          <p class="text-primary mb-2">Marketing Specialist</p>
+          <p class="text-muted small">Menghubungkan produk dengan pelanggan melalui strategi pemasaran yang inovatif.</p>
+        </div>
+      </div>
+
+</section>
+
+
+
+
+
+    <!-- JS Assets -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-
-    <!-- Init AOS -->
-    <script>
-        AOS.init();
-    </script>
+    <script>AOS.init();</script>
 
     <!-- Typing Effect Script -->
     <script>
