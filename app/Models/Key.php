@@ -9,7 +9,7 @@ class Key extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['alumni_id', 'key_value'];
+    protected $fillable = ['alumni_id','lulusan_id', 'key_value', 'is_active'];
 
     // Relasi ke alumni
     public function alumni()

@@ -364,312 +364,313 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <style>
-            .bg-siluet {
-                background: radial-gradient(circle at top right, #bad0fc 0%, #ffffff 40%, #ffffff 100%);
-                min-height: 100vh;
-                background-repeat: no-repeat;
-                background-size: cover;
-                position: relative;
+    <style>
+        .bg-siluet {
+            background: radial-gradient(circle at top right, #bad0fc 0%, #ffffff 40%, #ffffff 100%);
+            min-height: 100vh;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
             }
 
-            .card {
-                background-color: white;
-                border-radius: 1rem;
-                animation: fadeInUp 0.6s ease-out;
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
+        }
 
-            @keyframes fadeInUp {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            .readonly-style[readonly] {
-                background: #d9dee1;
-                /* Biru cerah */
-                color: #070606;
-                /* Teks putih */
-                cursor: not-allowed;
-                /* Tidak bisa diklik */
-            }
-        </style>
-        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+        .readonly-style[readonly] {
+            background: #d9dee1;
+            /* Biru cerah */
+            color: #070606;
+            /* Teks putih */
+            cursor: not-allowed;
+            /* Tidak bisa diklik */
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
 
-        <script>
-            $(document).ready(function() {
-                let validName = false;
+    <script>
+        $(document).ready(function() {
+            let validName = false;
 
-                $('#nama').on('input', function() {
-                    const query = $(this).val();
-                    validName = false;
-                    $('#alumni_id_validate').val('');
-                    $('#nama-error').hide();
-                    $('#nama').removeClass('is-invalid');
-                    $('.list-group').remove();
+            $('#nama').on('input', function() {
+                const query = $(this).val();
+                validName = false;
+                $('#alumni_id_validate').val('');
+                $('#nama-error').hide();
+                $('#nama').removeClass('is-invalid');
+                $('.list-group').remove();
 
-                    if (query.length >= 3) {
-                        $.ajax({
-                            url: "{{ route('autocomplete.alumni') }}",
-                            type: "GET",
-                            data: {
-                                query: query
-                            },
-                            success: function(data) {
-                                console.log(data);
-                                if (data.length > 0) {
-                                    let dropdown =
-                                        '<ul class="list-group position-absolute w-100" style="z-index:1000;">';
-                                    data.forEach(item => {
-                                        dropdown +=
-                                            `<li class="list-group-item" data-id="${item.id}">${item.nama} </li>`;
-                                    });
-                                    dropdown += '</ul>';
-                                    $('#nama').after(dropdown);
+                if (query.length >= 3) {
+                    $.ajax({
+                        url: "{{ route('autocomplete.alumni') }}",
+                        type: "GET",
+                        data: {
+                            query: query
+                        },
+                        success: function(data) {
+                            console.log(data);
+                            if (data.length > 0) {
+                                let dropdown =
+                                    '<ul class="list-group position-absolute w-100" style="z-index:1000;">';
+                                data.forEach(item => {
+                                    dropdown +=
+                                        `<li class="list-group-item" data-id="${item.id}">${item.nama} </li>`;
+                                });
+                                dropdown += '</ul>';
+                                $('#nama').after(dropdown);
 
-                                    // Klik pilihan
-                                    $('.list-group-item').on('click', function() {
-                                        const selectedText = $(this).text();
-                                        const selectedId = $(this).data('id');
-                                        $('#nama').val(selectedText);
-                                        $('#alumni_id_validate').val(selectedId);
-                                        validName = true;
-                                        $('.list-group').remove();
-                                        $('#nama').removeClass('is-invalid');
-                                        $('#nama-error').hide();
-                                    });
-                                } else {
-                                    // Tidak ditemukan di autocomplete
-                                    $('#nama').addClass('is-invalid');
-                                    $('#nama-error').show();
-                                }
-                            },
-                            error: function() {
+                                // Klik pilihan
+                                $('.list-group-item').on('click', function() {
+                                    const selectedText = $(this).text();
+                                    const selectedId = $(this).data('id');
+                                    $('#nama').val(selectedText);
+                                    $('#alumni_id_validate').val(selectedId);
+                                    validName = true;
+                                    $('.list-group').remove();
+                                    $('#nama').removeClass('is-invalid');
+                                    $('#nama-error').hide();
+                                });
+                            } else {
+                                // Tidak ditemukan di autocomplete
                                 $('#nama').addClass('is-invalid');
-                                $('#nama-error').text('Terjadi kesalahan server.').show();
+                                $('#nama-error').show();
                             }
-                        });
-                    }
-                });
-
-
-                // Hapus dropdown jika klik di luar
-                $(document).on('click', function(e) {
-                    if (!$(e.target).closest('#nama').length) {
-                        $('.list-group').remove();
-                    }
-                });
-            });
-        </script>
-        <script>
-            const profesiData = @json($profesi);
-
-            function handleKategoriChange(select) {
-                const kategoriId = select.value;
-                const profesiSelect = document.getElementById('profesi');
-                const profesiWrapper = document.getElementById('profesi-wrapper'); // Bungkus dropdown untuk disembunyikan
-                const profesiOutput = document.getElementById('profesi-output'); // Elemen untuk tampilkan nama langsung
-                const fieldKerjaLanjutan1 = document.getElementById('field-kerja-lanjutan1');
-                const fieldKerjaLanjutan2 = document.getElementById('field-kerja-lanjutan2');
-
-                // Reset dropdown
-                profesiSelect.innerHTML = '<option value="" disabled selected>-- Pilih Profesi --</option>';
-
-                // Filter berdasarkan kategori
-                const filteredProfesi = profesiData.filter(p => p.kategori_profesi_id == kategoriId);
-
-                // Jika kategori ID = 3, tampilkan satu-satunya profesi
-                if (kategoriId == 3 && filteredProfesi.length === 1) {
-                    profesiWrapper.style.display = 'none'; // Sembunyikan dropdown
-                    profesiOutput.style.display = 'block'; // Tampilkan teks
-                    fieldKerjaLanjutan1.style.display = 'none';
-                    fieldKerjaLanjutan2.style.display = 'none';
-                    const selectedProfesi = filteredProfesi[0];
-                    profesiOutput.innerText = selectedProfesi.nama_profesi;
-
-                    // Buat hidden input agar tetap terkirim saat submit
-                    const hiddenInput = document.createElement('input');
-                    hiddenInput.type = 'hidden';
-                    hiddenInput.name = 'profesi_id';
-                    hiddenInput.value = selectedProfesi.id;
-                    profesiOutput.appendChild(hiddenInput);
-                } else {
-                    // Tampilkan dropdown kembali
-                    profesiWrapper.style.display = 'block';
-                    profesiOutput.style.display = 'none';
-                    fieldKerjaLanjutan1.style.display = 'block';
-                    fieldKerjaLanjutan2.style.display = 'block';
-                    // Tambahkan opsi
-                    filteredProfesi.forEach(p => {
-                        const option = document.createElement('option');
-                        option.value = p.id;
-                        option.textContent = p.nama_profesi;
-                        profesiSelect.appendChild(option);
+                        },
+                        error: function() {
+                            $('#nama').addClass('is-invalid');
+                            $('#nama-error').text('Terjadi kesalahan server.').show();
+                        }
                     });
-                    // Deteksi saat pertama kali halaman dimuat
                 }
-            }
-        </script>
-
-        <script>
-            function toggleAtasanFields(required) {
-                const fields = [
-                    'tgl_pertama_kerja',
-                    'tgl_mulai_kerja_instansi',
-                    'jenis_instansi_id',
-                    'skala',
-                    'nama_instansi',
-                    'lokasi_instansi',
-                    'nama_atasan_langsung',
-                    'jabatan_atasan_langsung',
-                    'no_hp_atasan_langsung',
-                    'email_atasan_langsung'
-                ];
-                const shouldHide = true;
-                fields.forEach(id => {
-                    const el = document.querySelector(`[name="${id}"]`);
-                    if (el) {
-                        el.closest('.mb-3').style.display = shouldHide ? 'none' : '';
-                    }
-                });
-
-                document.getElementById('kategori').addEventListener('change', function() {
-                    const selectedValue = this.value;
-
-                    if (selectedValue === '3') {
-                        toggleAtasanFields(false);
-                    } else {
-                        toggleAtasanFields(true);
-                    }
-                });
-                window.addEventListener('DOMContentLoaded', function() {
-                    const selectedValue = document.getElementById('kategori').value;
-                    if (selectedValue === '3') {
-                        toggleAtasanFields(false);
-                    } else {
-                        toggleAtasanFields(true);
-                    }
-                });
-            }
-        </script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                @if (!$validated)
-                    const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
-                    validationModal.show();
-                @endif
             });
-        </script>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Bootstrap modal instance
+
+            // Hapus dropdown jika klik di luar
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('#nama').length) {
+                    $('.list-group').remove();
+                }
+            });
+        });
+    </script>
+    <script>
+        const profesiData = @json($profesi);
+
+        function handleKategoriChange(select) {
+            const kategoriId = select.value;
+            const profesiSelect = document.getElementById('profesi');
+            const profesiWrapper = document.getElementById('profesi-wrapper'); // Bungkus dropdown untuk disembunyikan
+            const profesiOutput = document.getElementById('profesi-output'); // Elemen untuk tampilkan nama langsung
+            const fieldKerjaLanjutan1 = document.getElementById('field-kerja-lanjutan1');
+            const fieldKerjaLanjutan2 = document.getElementById('field-kerja-lanjutan2');
+
+            // Reset dropdown
+            profesiSelect.innerHTML = '<option value="" disabled selected>-- Pilih Profesi --</option>';
+
+            // Filter berdasarkan kategori
+            const filteredProfesi = profesiData.filter(p => p.kategori_profesi_id == kategoriId);
+
+            // Jika kategori ID = 3, tampilkan satu-satunya profesi
+            if (kategoriId == 3 && filteredProfesi.length === 1) {
+                profesiWrapper.style.display = 'none'; // Sembunyikan dropdown
+                profesiOutput.style.display = 'block'; // Tampilkan teks
+                fieldKerjaLanjutan1.style.display = 'none';
+                fieldKerjaLanjutan2.style.display = 'none';
+                const selectedProfesi = filteredProfesi[0];
+                profesiOutput.innerText = selectedProfesi.nama_profesi;
+
+                // Buat hidden input agar tetap terkirim saat submit
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'profesi_id';
+                hiddenInput.value = selectedProfesi.id;
+                profesiOutput.appendChild(hiddenInput);
+            } else {
+                // Tampilkan dropdown kembali
+                profesiWrapper.style.display = 'block';
+                profesiOutput.style.display = 'none';
+                fieldKerjaLanjutan1.style.display = 'block';
+                fieldKerjaLanjutan2.style.display = 'block';
+                // Tambahkan opsi
+                filteredProfesi.forEach(p => {
+                    const option = document.createElement('option');
+                    option.value = p.id;
+                    option.textContent = p.nama_profesi;
+                    profesiSelect.appendChild(option);
+                });
+                // Deteksi saat pertama kali halaman dimuat
+            }
+        }
+    </script>
+
+    <script>
+        function toggleAtasanFields(required) {
+            const fields = [
+                'tgl_pertama_kerja',
+                'tgl_mulai_kerja_instansi',
+                'jenis_instansi_id',
+                'skala',
+                'nama_instansi',
+                'lokasi_instansi',
+                'nama_atasan_langsung',
+                'jabatan_atasan_langsung',
+                'no_hp_atasan_langsung',
+                'email_atasan_langsung'
+            ];
+            const shouldHide = true;
+            fields.forEach(id => {
+                const el = document.querySelector(`[name="${id}"]`);
+                if (el) {
+                    el.closest('.mb-3').style.display = shouldHide ? 'none' : '';
+                }
+            });
+
+            document.getElementById('kategori').addEventListener('change', function() {
+                const selectedValue = this.value;
+
+                if (selectedValue === '3') {
+                    toggleAtasanFields(false);
+                } else {
+                    toggleAtasanFields(true);
+                }
+            });
+            window.addEventListener('DOMContentLoaded', function() {
+                const selectedValue = document.getElementById('kategori').value;
+                if (selectedValue === '3') {
+                    toggleAtasanFields(false);
+                } else {
+                    toggleAtasanFields(true);
+                }
+            });
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (!$validated)
                 const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
+                validationModal.show();
+            @endif
+        });
+    </script>
 
-                const form = document.getElementById('alumniForm');
-                const submitBtn = document.getElementById('submitAlumni');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Bootstrap modal instance
+            const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
 
-                // Input dan error elemen
-                const inputs = {
-                    nama: document.getElementById('nama'),
-                    nim: document.getElementById('nim'),
-                    prodi: document.getElementById('prodi'),
-                    tahun_lulus: document.getElementById('tahun_lulus'),
-                };
+            const form = document.getElementById('alumniForm');
+            const submitBtn = document.getElementById('submitAlumni');
 
-                const errors = {
-                    nama: document.getElementById('nama-error'),
-                    nim: document.getElementById('nim-error'),
-                    prodi: document.getElementById('prodi-error'),
-                    tahun_lulus: document.getElementById('tahun_lulus-error'),
-                    general: document.getElementById('general-error'),
-                    success: document.getElementById('success-alert'),
-                };
+            // Input dan error elemen
+            const inputs = {
+                nama: document.getElementById('nama'),
+                nim: document.getElementById('nim'),
+                prodi: document.getElementById('prodi'),
+                tahun_lulus: document.getElementById('tahun_lulus'),
+            };
 
-                function clearErrors() {
-                    errors.general.classList.add('d-none');
-                    errors.success.classList.add('d-none');
-                    Object.keys(inputs).forEach(key => {
-                        inputs[key].classList.remove('is-invalid');
-                        errors[key].textContent = '';
-                    });
-                }
+            const errors = {
+                nama: document.getElementById('nama-error'),
+                nim: document.getElementById('nim-error'),
+                prodi: document.getElementById('prodi-error'),
+                tahun_lulus: document.getElementById('tahun_lulus-error'),
+                general: document.getElementById('general-error'),
+                success: document.getElementById('success-alert'),
+            };
 
-                function showGeneralError(msg) {
-                    errors.general.textContent = msg;
-                    errors.general.classList.remove('d-none');
-                }
-
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-
-                    clearErrors();
-
-                    // Disable tombol dan ubah text
-                    submitBtn.disabled = true;
-                    submitBtn.innerText = 'Memeriksa...';
-
-                    const formData = new FormData(form);
-
-                    axios.post('{{ route('validate.alumni') }}', formData)
-                        .then(response => {
-                            if (response.data.success) {
-                                errors.success.classList.remove('d-none');
-                                // Sembunyikan modal setelah 1 detik
-                                setTimeout(() => {
-                                    validationModal.hide();
-                                    // Redirect ke halaman form alumni sebenarnya atau submit form biasa:
-                                    window.location.href = '{{ route('form.alumni') }}';
-                                }, 1000);
-                            } else {
-                                showGeneralError(response.data.message || 'Validasi gagal.');
-                            }
-                        })
-                        .catch(error => {
-                            console.log(error.response);
-                            if (error.response && error.response.status === 422) {
-                                const responseErrors = error.response.data.errors;
-                                // Tandai input yang error sesuai respon Laravel
-                                for (const key in responseErrors) {
-                                    if (inputs[key]) {
-                                        inputs[key].classList.add('is-invalid');
-                                        errors[key].textContent = responseErrors[key][0];
-                                    }
-                                }
-                            } else {
-                                showGeneralError('Terjadi kesalahan pada server.');
-                            }
-                        })
-                        .finally(() => {
-                            submitBtn.disabled = false;
-                            submitBtn.innerText = 'Lanjut';
-                        });
+            function clearErrors() {
+                errors.general.classList.add('d-none');
+                errors.success.classList.add('d-none');
+                Object.keys(inputs).forEach(key => {
+                    inputs[key].classList.remove('is-invalid');
+                    errors[key].textContent = '';
                 });
-            });
-        </script>
-        {{-- captha --}}
-        <script>
-            document.getElementById('form-alumni').addEventListener('submit', function(e) {
-                var response = grecaptcha.getResponse();
-                var errorBox = document.getElementById('captcha-error');
+            }
 
-                if (response.length === 0) {
-                    e.preventDefault(); // hentikan form dikirim
-                    errorBox.textContent = 'Tolong selesaikan CAPTCHA terlebih dahulu.';
-                    errorBox.classList.remove('d-none');
-                } else {
-                    // Sembunyikan pesan error kalau sudah diisi
-                    errorBox.classList.add('d-none');
-                }
-            });
-        </script>
+            function showGeneralError(msg) {
+                errors.general.textContent = msg;
+                errors.general.classList.remove('d-none');
+            }
 
-    @endsection
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                clearErrors();
+
+                // Disable tombol dan ubah text
+                submitBtn.disabled = true;
+                submitBtn.innerText = 'Memeriksa...';
+
+                const formData = new FormData(form);
+
+                axios.post('{{ route('validate.alumni') }}', formData)
+                    .then(response => {
+                        if (response.data.success) {
+                            errors.success.classList.remove('d-none');
+                            // Sembunyikan modal setelah 1 detik
+                            setTimeout(() => {
+                                validationModal.hide();
+                                // Redirect ke halaman form alumni sebenarnya atau submit form biasa:
+                                window.location.href = '{{ route('form.alumni') }}';
+                            }, 1000);
+                        } else {
+                            showGeneralError(response.data.message || 'Validasi gagal.');
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error.response);
+                        if (error.response && error.response.status === 422) {
+                            const responseErrors = error.response.data.errors;
+                            // Tandai input yang error sesuai respon Laravel
+                            for (const key in responseErrors) {
+                                if (inputs[key]) {
+                                    inputs[key].classList.add('is-invalid');
+                                    errors[key].textContent = responseErrors[key][0];
+                                }
+                            }
+                        } else {
+                            showGeneralError('Terjadi kesalahan pada server.');
+                        }
+                    })
+                    .finally(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = 'Lanjut';
+                    });
+            });
+        });
+    </script>
+    {{-- captha --}}
+    <script>
+        document.getElementById('form-alumni').addEventListener('submit', function(e) {
+            var response = grecaptcha.getResponse();
+            var errorBox = document.getElementById('captcha-error');
+
+            if (response.length === 0) {
+                e.preventDefault(); // hentikan form dikirim
+                errorBox.textContent = 'Tolong selesaikan CAPTCHA terlebih dahulu.';
+                errorBox.classList.remove('d-none');
+            } else {
+                // Sembunyikan pesan error kalau sudah diisi
+                errorBox.classList.add('d-none');
+            }
+        });
+    </script>
+
+@endsection
