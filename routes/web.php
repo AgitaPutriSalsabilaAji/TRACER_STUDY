@@ -105,17 +105,6 @@ Route::delete('/kategori-profesi/delete/{id}', [ProfesiController::class, 'delet
     Route::get('/list-admin', [AdminController::class, 'index_admin'])->name('admin.index');
 
 
-    // ==========================
-    // Profesi
-    // ==========================
-    Route::prefix('profesi')->group(function () {
-        Route::get('/', [ProfesiController::class, 'index'])->name('profesi.index');
-        Route::get('/list', [ProfesiController::class, 'list'])->name('profesi.list');
-        Route::post('/profesi/store', [ProfesiController::class, 'store'])->name('profesi.store');
-        Route::put('/profesi/update/{id}', [ProfesiController::class, 'update'])->name('profesi.update');
-        Route::delete('/profesi/destroy/{id}', [ProfesiController::class, 'destroy'])->name('profesi.destroy');
-        Route::get('/tambah-profesi', [ProfesiController::class, 'index_profesi'])->name('profesi.index');
-    });
 
     // ==========================
     // Laporan / Rekap Data

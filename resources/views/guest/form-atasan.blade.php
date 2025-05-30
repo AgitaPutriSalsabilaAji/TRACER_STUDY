@@ -109,30 +109,38 @@
 
                                 <div class="row mb-3 mt-3">
                                     <div class="col-md-6">
-                                        <label for="nama_surveyor" class="form-label"><i
-                                                class="bi bi-person-lines-fill"></i> Nama Surveyor</label>
-                                        <input type="text" class="form-control" id="nama_surveyor" name="nama_surveyor"
-                                            required>
+                                        <label for="nama_surveyor" class="form-label">
+                                            <i class="bi bi-person-lines-fill"></i> Nama Surveyor
+                                        </label>
+                                        <input type="text" class="form-control readonly-style" id="nama_surveyor"
+                                            name="nama_surveyor" value="{{ $nama_surveyor ?? '' }}" readonly>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="instansi" class="form-label"><i
-                                                class="bi bi-building me-1"></i>Instansi</label>
-                                        <input type="text" class="form-control" id="instansi" name="instansi" required>
+                                        <label for="instansi" class="form-label">
+                                            <i class="bi bi-building me-1"></i> Instansi
+                                        </label>
+                                        <input type="text" class="form-control readonly-style" id="instansi"
+                                            name="instansi" value="{{ $instansi ?? '' }}" readonly>
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <div class="col-md-6">
-                                        <label for="jabatan" class="form-label"><i class="bi bi-person-vcard"></i>
-                                            Jabatan</label>
-                                        <input type="text" class="form-control" id="jabatan" name="jabatan" required>
+                                        <label for="jabatan" class="form-label">
+                                            <i class="bi bi-person-vcard"></i> Jabatan
+                                        </label>
+                                        <input type="text" class="form-control readonly-style" id="jabatan"
+                                            name="jabatan" value="{{ $jabatan ?? '' }}" readonly>
                                     </div>
                                     <div class="col-md-6">
-                                        <label for="email" class="form-label"><i class="bi bi-envelope"></i>
-                                            Email</label>
-                                        <input type="email" class="form-control" id="email" name="email" required>
+                                        <label for="email" class="form-label">
+                                            <i class="bi bi-envelope"></i> Email
+                                        </label>
+                                        <input type="email" class="form-control readonly-style" id="email"
+                                            name="email" value="{{ $email ?? '' }}" readonly>
                                     </div>
                                 </div>
+
 
                                 <div class="mb-3 position-relative">
                                     <label for="nama_alumni" class="form-label "><i class="bi bi-search me-1"></i>Data
@@ -140,7 +148,8 @@
                                     </label>
                                     <input type="text" class="form-control readonly-style" id="nama_alumni"
                                         name="nama_alumni" value="{{ $nama ?? '' }}" readonly>
-                                    <input type="hidden" name="alumni_id" id="alumni_id" value="{{ $alumni_id ?? '' }}">
+                                    <input type="hidden" name="alumni_id" id="alumni_id"
+                                        value="{{ $alumni_id ?? '' }}">
                                 </div>
 
                                 <hr>
@@ -202,7 +211,8 @@
 
                                 <div class="mb-3">
                                     <label class="form-label"><i
-                                            class="bi bi-exclamation-circle text-warning me-1"></i>Kompetensi yang Belum
+                                            class="bi bi-exclamation-circle text-warning me-1"></i>Kompetensi
+                                        yang Belum
                                         Terpenuhi</label>
                                     <textarea name="kompetensi_belum_terpenuhi" class="form-control" rows="3" placeholder="Opsional"></textarea>
                                 </div>
@@ -227,194 +237,196 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
-                {{-- Styles --}}
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
-                    rel="stylesheet" />
-                <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-                <style>
-                    .bg-siluet {
-                        background: radial-gradient(circle at top right, #bad0fc 0%, #ffffff 40%, #ffffff 100%);
-                        min-height: 100vh;
-                        background-repeat: no-repeat;
-                        background-size: cover;
-                        position: relative;
-                    }
+    {{-- Styles --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .bg-siluet {
+            background: radial-gradient(circle at top right, #bad0fc 0%, #ffffff 40%, #ffffff 100%);
+            min-height: 100vh;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+        }
 
-                    .card {
-                        background-color: white;
-                        border-radius: 1rem;
-                        animation: fadeInUp 0.6s ease-out;
-                    }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
 
-                    @keyframes fadeInUp {
-                        from {
-                            opacity: 0;
-                            transform: translateY(20px);
-                        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
 
-                        to {
-                            opacity: 1;
-                            transform: translateY(0);
-                        }
-                    }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-                    .emoji-label {
-                        font-size: 2rem;
-                        cursor: pointer;
-                        transition: all 0.2s ease;
-                        color: gray;
-                    }
+        .emoji-label {
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: gray;
+        }
 
-                    .emoji-label:hover {
-                        transform: scale(1.3);
-                        color: #007bff;
-                    }
+        .emoji-label:hover {
+            transform: scale(1.3);
+            color: #007bff;
+        }
 
-                    input[type="radio"].d-none:checked+.emoji-label {
-                        color: #28a745;
-                        transform: scale(1.5);
-                    }
+        input[type="radio"].d-none:checked+.emoji-label {
+            color: #28a745;
+            transform: scale(1.5);
+        }
 
-                    input.form-control:focus,
-                    textarea.form-control:focus {
-                        box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
-                        border-color: #80bdff;
-                    }
+        input.form-control:focus,
+        textarea.form-control:focus {
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+            border-color: #80bdff;
+        }
 
-                    .card:hover {
-                        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-                        transition: box-shadow 0.3s ease-in-out;
-                    }
+        .card:hover {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+        }
 
-                    .form-label i.bi {
-                        color: #0d6efd;
-                    }
+        .form-label i.bi {
+            color: #0d6efd;
+        }
 
-                    .form-label i.bi {
-                        color: #0d6efd;
-                        /* warna biru bootstrap */
-                    }
+        .form-label i.bi {
+            color: #0d6efd;
+            /* warna biru bootstrap */
+        }
 
-                    .readonly-style[readonly] {
-                        background: #d9dee1;
-                        /* Biru cerah */
-                        color: #070606;
-                        /* Teks putih */
-                        cursor: not-allowed;
-                        /* Tidak bisa diklik */
-                    }
-                </style>
+        .readonly-style[readonly] {
+            background: #d9dee1;
+            /* Biru cerah */
+            color: #070606;
+            /* Teks putih */
+            cursor: not-allowed;
+            /* Tidak bisa diklik */
+        }
+    </style>
 
-                {{-- Scripts --}}
-                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-                <script>
-                    AOS.init();
-                </script>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        @if (!$validated)
-                            const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
-                            validationModal.show();
-                        @endif
-                    });
-                </script>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        // Bootstrap modal instance
-                        const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
+    {{-- Scripts --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (!$validated)
+                const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
+                validationModal.show();
+            @endif
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Bootstrap modal instance
+            const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
 
-                        const form = document.getElementById('atasanForm');
-                        const submitBtn = document.getElementById('submitAtasan');
+            const form = document.getElementById('atasanForm');
+            const submitBtn = document.getElementById('submitAtasan');
 
-                        // Input dan error elemen
-                        const inputs = {
-                            key: document.getElementById('key'),
-                        };
+            // Input dan error elemen
+            const inputs = {
+                key: document.getElementById('key'),
+            };
 
-                        const errors = {
+            const errors = {
 
-                            key: document.getElementById('key-error'),
-                            general: document.getElementById('general-error'),
-                            success: document.getElementById('success-alert'),
-                        };
+                key: document.getElementById('key-error'),
+                general: document.getElementById('general-error'),
+                success: document.getElementById('success-alert'),
+            };
 
-                        function clearErrors() {
-                            errors.general.classList.add('d-none');
-                            errors.success.classList.add('d-none');
-                            Object.keys(inputs).forEach(key => {
-                                inputs[key].classList.remove('is-invalid');
-                                errors[key].textContent = '';
-                            });
-                        }
+            function clearErrors() {
+                errors.general.classList.add('d-none');
+                errors.success.classList.add('d-none');
+                Object.keys(inputs).forEach(key => {
+                    inputs[key].classList.remove('is-invalid');
+                    errors[key].textContent = '';
+                });
+            }
 
-                        function showGeneralError(msg) {
-                            errors.general.textContent = msg;
-                            errors.general.classList.remove('d-none');
-                        }
+            function showGeneralError(msg) {
+                errors.general.textContent = msg;
+                errors.general.classList.remove('d-none');
+            }
 
-                        form.addEventListener('submit', function(e) {
-                            e.preventDefault();
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
 
-                            clearErrors();
+                clearErrors();
 
-                            // Disable tombol dan ubah text
-                            submitBtn.disabled = true;
-                            submitBtn.innerText = 'Memeriksa...';
+                // Disable tombol dan ubah text
+                submitBtn.disabled = true;
+                submitBtn.innerText = 'Memeriksa...';
 
-                            const formData = new FormData(form);
+                const formData = new FormData(form);
 
-                            axios.post('{{ route('validate.atasan') }}', formData)
-                                .then(response => {
-                                    if (response.data.success) {
-                                        errors.success.classList.remove('d-none');
-                                        // Sembunyikan modal setelah 1 detik
-                                        setTimeout(() => {
-                                            validationModal.hide();
-                                            // Redirect ke halaman form alumni sebenarnya atau submit form biasa:
-                                            window.location.href = '{{ route('form.atasan') }}';
-                                        }, 1000);
-                                    } else {
-                                        showGeneralError(response.data.message || 'Validasi gagal.');
-                                    }
-                                })
-                                .catch(error => {
-                                    if (error.response && error.response.status === 422) {
-                                        const responseErrors = error.response.data.errors;
-                                        // Tandai input yang error sesuai respon Laravel
-                                        for (const key in responseErrors) {
-                                            if (inputs[key]) {
-                                                inputs[key].classList.add('is-invalid');
-                                                errors[key].textContent = responseErrors[key][0];
-                                            }
-                                        }
-                                    } else {
-                                        showGeneralError('Terjadi kesalahan pada server.');
-                                    }
-                                })
-                                .finally(() => {
-                                    submitBtn.disabled = false;
-                                    submitBtn.innerText = 'Lanjut';
-                                });
-                        });
-                    });
-                </script>
-                {{-- captha --}}
-                <script>
-                    document.getElementById('form-atasan').addEventListener('submit', function(e) {
-                        var response = grecaptcha.getResponse();
-                        var errorBox = document.getElementById('captcha-error');
-
-                        if (response.length === 0) {
-                            e.preventDefault(); // hentikan form dikirim
-                            errorBox.textContent = 'Tolong selesaikan CAPTCHA terlebih dahulu.';
-                            errorBox.classList.remove('d-none');
+                axios.post('{{ route('validate.atasan') }}', formData)
+                    .then(response => {
+                        if (response.data.success) {
+                            errors.success.classList.remove('d-none');
+                            // Sembunyikan modal setelah 1 detik
+                            setTimeout(() => {
+                                validationModal.hide();
+                                // Redirect ke halaman form alumni sebenarnya atau submit form biasa:
+                                window.location.href = '{{ route('form.atasan') }}';
+                            }, 1000);
                         } else {
-                            // Sembunyikan pesan error kalau sudah diisi
-                            errorBox.classList.add('d-none');
+                            showGeneralError(response.data.message || 'Validasi gagal.');
                         }
+                    })
+                    .catch(error => {
+                        if (error.response && error.response.status === 422) {
+                            const responseErrors = error.response.data.errors;
+                            // Tandai input yang error sesuai respon Laravel
+                            for (const key in responseErrors) {
+                                if (inputs[key]) {
+                                    inputs[key].classList.add('is-invalid');
+                                    errors[key].textContent = responseErrors[key][0];
+                                }
+                            }
+                        } else {
+                            showGeneralError('Terjadi kesalahan pada server.');
+                        }
+                    })
+                    .finally(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = 'Lanjut';
                     });
-                </script>
-            @endsection
+            });
+        });
+    </script>
+    {{-- captha --}}
+    <script>
+        document.getElementById('form-atasan').addEventListener('submit', function(e) {
+            var response = grecaptcha.getResponse();
+            var errorBox = document.getElementById('captcha-error');
+
+            if (response.length === 0) {
+                e.preventDefault(); // hentikan form dikirim
+                errorBox.textContent = 'Tolong selesaikan CAPTCHA terlebih dahulu.';
+                errorBox.classList.remove('d-none');
+            } else {
+                // Sembunyikan pesan error kalau sudah diisi
+                errorBox.classList.add('d-none');
+            }
+        });
+    </script>
+@endsection

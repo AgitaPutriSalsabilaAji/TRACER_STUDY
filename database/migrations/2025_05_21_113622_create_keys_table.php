@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('keys', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('alumni_id');
-            $table->string('key_value'); 
-            $table->boolean('is_active')->default(false);
+            $table->unsignedBigInteger('lulusan_id');
+            $table->string('key_value');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
 
             // foreign key constraint
             $table->foreign('alumni_id')->references('id')->on('alumni')->onDelete('cascade');
+            $table->foreign('lulusan_id')->references('id')->on('lulusan')->onDelete('cascade');
         });
     }
 

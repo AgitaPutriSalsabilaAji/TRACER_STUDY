@@ -33,12 +33,11 @@ class GuestController extends Controller
 
         if ($record) {
             $tanggal = $record->created_at->format('d-m-Y');
-            $jam = $record->created_at->format('H:i');
 
             return response()->json([
                 'success' => false,
 
-                'message' => "Dengan hormat, pengisian formulir ini hanya diperkenankan satu kali. Berdasarkan catatan kami, Anda telah melakukan pengisian pada tanggal {$tanggal} pukul {$jam}."
+                'message' => "Dengan hormat, pengisian formulir ini hanya diperkenankan satu kali. Berdasarkan catatan kami, Anda telah melakukan pengisian pada tanggal {$tanggal} "
 
             ]);
         }
@@ -71,18 +70,11 @@ class GuestController extends Controller
                 'message' => 'Program studi tidak cocok.'
             ]);
         }
-        $token = bin2hex(random_bytes(16));
-        Key::create([
-            'alumni_id' => $request->alumni_id_validate,
-            'key_value' =>  $token,
-        ]);
 
         session([
             'validated_alumni' => true,
             'alumni_id' => $alumni->id,
-            'nama' => $alumni->nama . ' (' . $alumni->nim . ')',
-            'prodi' => $alumni->program_studi_id,
-            'tahun_lulus' => $request->input('tahun_lulus'),
+
         ]);
 
         return response()->json([
@@ -102,11 +94,16 @@ class GuestController extends Controller
         $key = Key::where('alumni_id',)->first();
         $prodi = ProgramStudi::all();
 
-        $nama = session('nama', '');
         $alumni_id = session('alumni_id', '');
-        $prodi_terpilih = session('prodi', '');
-        $tahun_lulus_terpilih = session('tahun_lulus', '');
-
+        $alumni = Alumni::find($alumni_id);
+        $prodi_terpilih = '';
+        $tahun_lulus_terpilih = '';
+        $nama = '';
+        if ($alumni) {
+            $nama = $alumni->nama . ' (' . $alumni->nim . ')';
+            $prodi_terpilih = $alumni->program_studi_id;
+            $tahun_lulus_terpilih = $alumni->tanggal_lulus;
+        }
         $prodi_terpilih_nama = optional($prodi->firstWhere('id', $prodi_terpilih))->program_studi ?? '-';
         return view('guest/form-alumni', compact('kategoriProfesi', 'profesi', 'jenisInstansi', 'prodi',  'validated', 'nama', 'alumni_id', 'prodi_terpilih', 'prodi_terpilih_nama', 'tahun_lulus_terpilih'));
     }
@@ -158,12 +155,18 @@ class GuestController extends Controller
             $validated = $request->validate($rules, $messages);
 
             // Simpan data lulusan ke database
-            Lulusan::create($validated);
+            $lulusan = Lulusan::create($validated);
 
             // Jika kategori bukan 3, kirim email permohonan survei ke atasan langsung
             if ($request->kategori != 3 && !empty($request->email_atasan_langsung)) {
+                $token = bin2hex(random_bytes(16));
+                $keyRecord = Key::create([
+                    'alumni_id' => $request->alumni_id,
+                    'lulusan_id' => $lulusan->id,
+                    'key_value' =>  $token,
+                ]);
+
                 $email = $request->email_atasan_langsung;
-                $keyRecord = Key::where('alumni_id', $request->alumni_id)->first();
                 $token = $keyRecord->key_value;
                 Mail::send('emails.permohonan_survei', [
                     'alumni' => $alumni,
