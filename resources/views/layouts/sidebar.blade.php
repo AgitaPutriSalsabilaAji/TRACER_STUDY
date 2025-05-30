@@ -4,7 +4,6 @@
             style="height: 40px; width: auto; margin-right: 8px;">
         <span class="brand-text font-weight-bold" style="font-size: 22px; color: #2a70d4;">Tracer Study</span>
     </a>
-
     <hr class="sidebar-divider" style="border-color: rgb(0, 0, 0); margin: 0;">
 
     <div class="sidebar">
@@ -34,20 +33,20 @@
 
                 <!-- Manajemen Data -->
                 <li
-                    class="nav-item has-treeview {{ Request::is('import-lulusan') || Request::is('profesi') || Request::is('list-admin') ? 'menu-open' : '' }}">
+                    class="nav-item has-treeview {{ Request::is('data-alumni')|| Request::is('profesi') || Request::is('list-admin') ? 'menu-open' : '' }}">
                     <a style="cursor: pointer;"
-                        class="nav-link {{ Request::is('import-lulusan') || Request::is('profesi') || Request::is('list-admin') ? 'active' : '' }}">
+                        class="nav-link {{ Request::is('data-alumni')|| Request::is('profesi') || Request::is('list-admin') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
                             Manajemen Data
                             <i class="right fas fa-angle-right"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview ">
                         <li class="nav-item">
                             <a href="{{ url('/profesi') }}"
                                 class="nav-link {{ Request::is('profesi') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="fas fa-briefcase nav-icon"></i>
                                 <p>Pengelolaan Profesi</p>
                             </a>
                         </li>
@@ -55,16 +54,16 @@
                             <li class="nav-item">
                                 <a href="{{ url('/list-admin') }}"
                                     class="nav-link {{ Request::is('list-admin') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-user-shield nav-icon"></i>
                                     <p>List Admin</p>
                                 </a>
                             </li>
                         @endif
 
                         <li class="nav-item">
-                            <a href="{{ url('data-alumni') }}"
+                            <a href="{{ url('/data-alumni') }}"
                                 class="nav-link {{ Request::is('data-alumni') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
+                                <i class="fas fa-user-graduate nav-icon"></i>
                                 <p>Data Alumni</p>
                             </a>
                         </li>
