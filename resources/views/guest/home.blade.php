@@ -199,6 +199,38 @@
         </script>
     @endif
 <style>
+  
+  
+ @keyframes fadeInDown {
+        0% {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Animasi untuk gambar */
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-heading {
+        animation: fadeInDown 1s ease-in-out;
+    }
+
+    .animate-image {
+        animation: fadeInUp 1s ease-in-out;
+    }
   /* Hover efek sederhana untuk tombol */
   .btn-primary:hover {
     transform: scale(1.05);
@@ -265,20 +297,21 @@
         <img src="{{ asset('image/wisuda6.png') }}" class="img-fluid" style="max-width: 85%; z-index: 2; position: relative;" alt="Ilustrasi Tracer Study">
       </div>
 
-      <!-- Teks -->
-      <div class="col-lg-6 text-center text-lg-start" data-aos="fade-left" data-aos-duration="1500">
-        <h1 class="fw-bold mb-4" style="color: #1e2a4a;">
-          Selamat Datang di <br><span style="color: #2678ba;">Tracer Study</span><br>Politeknik Negeri Malang
-        </h1>
-        <p class="lead text-muted mb-4">
-         <strong>Langkah Kecil, Dampak Besar! </strong>.
-        </p>
-        <a href="/form-alumni" class="btn btn-lg btn-primary rounded-pill px-5 py-3 shadow-sm">
-          Isi Survei
-        </a>
-      </div>
+        <div class="col-lg-6 text-center text-lg-start" data-aos="fade-left" data-aos-duration="1500">
+      <h1 class="fw-bold mb-4 display-6" style="color: #1e2a4a;">
+        Selamat Datang di <br>
+        <span class="text-primary">Tracer Study</span><br>
+        Politeknik Negeri Malang
+      </h1>
+      <p class="lead text-muted mb-4">
+        <strong>Langkah Kecil, Dampak Besar!</strong>
+      </p>
+      <a href="/form-alumni" class="btn btn-lg btn-primary rounded-pill px-5 py-3 shadow-sm">
+        Isi Survei
+      </a>
     </div>
-  </div>
+        </div>
+      </div>
 </section>
 
 <!-- About Section -->
@@ -289,7 +322,7 @@
       <!-- Teks -->
       <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1500">
         <h3 class="display-5 mb-4 fw-bold text-primary">
-          Apa itu <span style="color: #2678ba;">Tracer Study?</span>
+          Apa itu Tracer Study?</span>
         </h3>
          <p class="px-lg-2" style="font-size: 1.3rem; line-height: 1.6;">
           <strong>Tracer Study</strong>  salah satu metode yang digunakan oleh perguruan tinggi untuk mengumpulkan data dan umpan balik dari alumni mengenai pengalaman mereka setelah lulus.Informasi yang diperoleh digunakan sebagai bahan evaluasi untuk meningkatkan kualitas pendidikan, kurikulum, serta relevansi program studi dengan dunia kerja. 
@@ -303,12 +336,12 @@
     </div>
   </section>
 
- <section class="py-5" style="background-color: #ffffff;">
-  <div class="container pt-5 pt-md-10">
-    <div class="row text-center" data-aos="zoom-in" data-aos-duration="1500">
-      <div class="col-md-10 offset-md-1 col-lg-8 offset-lg-2">
-        <h3 class="display-10 mb-4 fw-bold text-primary">
-        <span style="color: #2678ba;">Proses Tracer Study</span>
+
+<section class="py-5 bg-light" id="team">
+  <div class="container">
+    <div class="row text-center mb-5" data-aos="fade-down" data-aos-duration="1200">
+      <div class="col">
+        <h2 class="fw-bold text-primary">Proses Tracer Study</h2>
         </h3>
       </div>
     </div>
@@ -321,75 +354,34 @@
       </div>
     </div>
   </div>
+
+<section class="elementor-section elementor-top-section elementor-element elementor-element-0f3b447 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-id="0f3b447" data-element_type="section">
+    <div class="elementor-container elementor-column-gap-default">
+        <div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-6cdf037" data-id="6cdf037" data-element_type="column">
+            <div class="elementor-widget-wrap elementor-element-populated">
+                <div class="elementor-element elementor-element-550df19 elementor-widget elementor-widget-heading" data-id="550df19" data-element_type="widget" data-widget_type="heading.default">
+                </div>
+                <div class="elementor-element elementor-element-a316555 elementor-widget elementor-widget-image" data-id="a316555" data-element_type="widget" data-widget_type="image.default">
+                    <div class="elementor-widget-container">
+                        <img 
+                            src="{{ asset('image/alur.jpg') }}" 
+                            alt="Mekanisme Pengisian Tracer Study" 
+                            style="max-width: 100%; height: auto; display: block; margin: 0 auto;" 
+                            class="animate-image"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
-<section class="py-5 bg-white">
+
+<section class="py-5 bg-light" id="team">
   <div class="container">
-    <div class="text-center mb-5">
-      <h3 class="fw-bold text-primary">Mekanisme Pengisian Tracer Study</h3>
-      <p class="text-muted">Langkah-langkah pelaksanaan tracer study oleh alumni</p>
-    </div>
-
-    <div class="row text-center justify-content-center align-items-start">
-      <!-- Langkah 1 -->
-      <div class="col-md-2 mb-4">
-        <img src="img/langkah1.png" alt="Langkah 1" class="img-fluid mb-3" style="max-height: 130px;">
-        <p class="text-muted small">DSSDI mengirimkan pemberitahuan pengisian tracer study via email ke alumni.</p>
-      </div>
-
-      <!-- Panah -->
-      <div class="col-auto d-flex align-items-center">
-        <i class="bi bi-arrow-right-circle-fill fs-2 text-primary"></i>
-      </div>
-
-      <!-- Langkah 2 -->
-      <div class="col-md-2 mb-4">
-        <img src="img/langkah2.png" alt="Langkah 2" class="img-fluid mb-3" style="max-height: 130px;">
-        <p class="text-muted small">Alumni menerima email pemberitahuan untuk mengisi tracer study.</p>
-      </div>
-
-      <!-- Panah -->
-      <div class="col-auto d-flex align-items-center">
-        <i class="bi bi-arrow-right-circle-fill fs-2 text-primary"></i>
-      </div>
-
-      <!-- Langkah 3 -->
-      <div class="col-md-2 mb-4">
-        <img src="img/langkah3.png" alt="Langkah 3" class="img-fluid mb-3" style="max-height: 130px;">
-        <p class="text-muted small">Alumni mengisi data pribadi dan survei tracer study secara online.</p>
-      </div>
-
-      <!-- Panah -->
-      <div class="col-auto d-flex align-items-center">
-        <i class="bi bi-arrow-right-circle-fill fs-2 text-primary"></i>
-      </div>
-
-      <!-- Langkah 4 -->
-      <div class="col-md-2 mb-4">
-        <img src="img/langkah4.png" alt="Langkah 4" class="img-fluid mb-3" style="max-height: 130px;">
-        <p class="text-muted small">Atasan alumni (opsional) mengisi survei penilaian kinerja alumni.</p>
-      </div>
-
-      <!-- Panah -->
-      <div class="col-auto d-flex align-items-center">
-        <i class="bi bi-arrow-right-circle-fill fs-2 text-primary"></i>
-      </div>
-
-      <!-- Langkah 5 -->
-      <div class="col-md-2 mb-4">
-        <img src="img/langkah5.png" alt="Langkah 5" class="img-fluid mb-3" style="max-height: 130px;">
-        <p class="text-muted small">Data hasil tracer study digunakan untuk evaluasi dan peningkatan mutu pendidikan.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
- 
-<section class="py-5" style="background-color: #ffffff;">
-  <div class="container">
-    <div class="row text-center mb-4">
+    <div class="row text-center mb-5" data-aos="fade-down" data-aos-duration="1200">
       <div class="col">
-        <h3 class="fw-bold text-primary">Manfaat Tracer Study</h3>
+        <h2 class="fw-bold text-primary">Manfaat Tracer Study</h2>
         <p class="text-muted">Beberapa manfaat penting dari pelaksanaan tracer study bagi perguruan tinggi dan pemangku kepentingan</p>
       </div>
     </div>
@@ -447,9 +439,9 @@
       <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
         <div class="card shadow-sm border-0 rounded-4 text-center p-4">
           <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Member 1" class="rounded-circle mb-3 mx-auto" style="width:120px; height:120px; object-fit:cover;">
-          <h5 class="fw-bold mb-1">Siska Aprilia</h5>
-          <p class="text-primary mb-2">Project Manager</p>
-          <p class="text-muted small">Memimpin proyek dan memastikan semua berjalan sesuai jadwal dengan komunikasi yang efektif.</p>
+          <h5 class="fw-bold mb-1">Siska Nuri Aprilia</h5>
+          <p class="text-primary mb-2">2341760038</p>
+          <p class="text-muted small">qwjhwhjq.</p>
         </div>
       </div>
 
@@ -457,7 +449,7 @@
       <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
         <div class="card shadow-sm border-0 rounded-4 text-center p-4">
           <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Member 2" class="rounded-circle mb-3 mx-auto" style="width:120px; height:120px; object-fit:cover;">
-          <h5 class="fw-bold mb-1">Dedi Santoso</h5>
+          <h5 class="fw-bold mb-1">Purnama Rizky Nugraha</h5>
           <p class="text-primary mb-2">Lead Developer</p>
           <p class="text-muted small">Mengembangkan solusi teknis terbaik dengan fokus pada kualitas dan performa aplikasi.</p>
         </div>
@@ -467,7 +459,7 @@
       <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="500" data-aos-duration="1000">
         <div class="card shadow-sm border-0 rounded-4 text-center p-4">
           <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Member 3" class="rounded-circle mb-3 mx-auto" style="width:120px; height:120px; object-fit:cover;">
-          <h5 class="fw-bold mb-1">Rina Kusuma</h5>
+          <h5 class="fw-bold mb-1">Agita Putri</h5>
           <p class="text-primary mb-2">UI/UX Designer</p>
           <p class="text-muted small">Merancang antarmuka yang menarik dan mudah digunakan agar pengalaman pengguna maksimal.</p>
         </div>
@@ -477,7 +469,7 @@
       <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="700" data-aos-duration="1000">
         <div class="card shadow-sm border-0 rounded-4 text-center p-4">
           <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Member 4" class="rounded-circle mb-3 mx-auto" style="width:120px; height:120px; object-fit:cover;">
-          <h5 class="fw-bold mb-1">Arif Pratama</h5>
+          <h5 class="fw-bold mb-1">Desi Karmila</h5>
           <p class="text-primary mb-2">Marketing Specialist</p>
           <p class="text-muted small">Menghubungkan produk dengan pelanggan melalui strategi pemasaran yang inovatif.</p>
         </div>
