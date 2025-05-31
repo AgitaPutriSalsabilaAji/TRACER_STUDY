@@ -161,7 +161,7 @@
             tableProfesi = $('#tabel-profesi').DataTable({
                 processing: true,
                 serverSide: true,
-                pagingType: "simple_numbers",
+                pagingType: "simple",
                 ajax: {
                     url: "{{ url('/profesi/list') }}",
                     type: "GET",
@@ -194,12 +194,13 @@
                         searchable: false
                     }
                 ],
-                language: {
-                    paginate: {
-                        previous: "<i class='fas fa-angle-left'></i>",
-                        next: "<i class='fas fa-angle-right'></i>"
-                    }
-                }
+  language: {
+    paginate: {
+        next: "Selanjutnya >",
+        previous: "< Sebelumnya"
+    }
+}
+
             });
 
             // Submit handler untuk form Profesi

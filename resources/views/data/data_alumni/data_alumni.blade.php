@@ -216,8 +216,8 @@
                         lengthMenu: "Tampilkan _MENU_ data per halaman",
                         zeroRecords: "Tidak ditemukan data alumni sesuai pencarian",
                         paginate: {
-                            next: `<span class="btn btn-sm btn-outline-primary">Selanjutnya</span>`,
-                            previous: `<span class="btn btn-sm btn-outline-primary">Sebelumnya</span>`
+                            next: `<span class="btn btn-sm btn-outline-primary">Selanjutnya ></span>`,
+                            previous: `<span class="btn btn-sm btn-outline-primary">< Sebelumnya</span>`
                         },
                         info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
                         infoEmpty: "Menampilkan 0 data",
