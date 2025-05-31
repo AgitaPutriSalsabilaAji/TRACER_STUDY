@@ -18,6 +18,7 @@
     </section>
 
     <div class="card card-outline card-primary">
+
         <div class="card-header">
             <form action="{{ route('import.alumni') }}" method="POST" enctype="multipart/form-data"
                 class="d-flex align-items-center" style="gap: 10px;">
@@ -26,7 +27,16 @@
                 <button class="btn btn-primary btn-sm" type="submit">Import</button>
             </form>
         </div>
+<div class="card-header">
+<form action="{{ route('import.alumni') }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-stretch" style="gap: 10px;">
+    @csrf
+    <input class="form-control form-control-sm" type="file" name="file" required>
+    <button class="btn btn-primary btn-sm d-flex align-items-center px-3" type="submit">
+        <i class="fas fa-file-import me-1"></i> Import
+    </button>
+</form>
 
+</div>
         <div class="card-body">
             <h4>Daftar Alumni</h4>
 
@@ -214,8 +224,8 @@
                         lengthMenu: "Tampilkan _MENU_ data per halaman",
                         zeroRecords: "Tidak ditemukan data alumni sesuai pencarian",
                         paginate: {
-                            next: `<span class="btn btn-sm btn-outline-primary">Selanjutnya</span>`,
-                            previous: `<span class="btn btn-sm btn-outline-primary">Sebelumnya</span>`
+                            next: `<span class="btn btn-sm btn-outline-primary">Selanjutnya ></span>`,
+                            previous: `<span class="btn btn-sm btn-outline-primary">< Sebelumnya</span>`
                         },
                         info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
                         infoEmpty: "Menampilkan 0 data",
