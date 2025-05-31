@@ -14,14 +14,6 @@
                     </ol>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">Manajemen Data</li>
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -63,9 +55,15 @@
     <div class="card card-outline card-primary">
         <div class="card-header">
             <div class="card-tools">
-                <button onclick="tambahProfesi()" class="btn btn-sm btn-success mt-1">Tambah Profesi</button>
-                <button class="btn btn-sm btn-warning mt-1" data-bs-toggle="modal" data-bs-target="#kategoriModal">Kelola
-                    Kategori</button>
+              <!-- Tombol Tambah Profesi -->
+            <button onclick="tambahProfesi()" class="btn btn-sm btn-success mt-1">
+                <i class="fas fa-plus-circle me-1"></i> Tambah Profesi
+            </button>
+
+            <!-- Tombol Kelola Kategori -->
+            <button class="btn btn-sm btn-warning mt-1" data-bs-toggle="modal" data-bs-target="#kategoriModal">
+                <i class="fas fa-folder-open me-1"></i> Kelola Kategori
+            </button>
             </div>
         </div>
         <div class="card-body">
@@ -98,7 +96,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <button onclick="tambahKategori()" class="btn btn-success mb-3">Tambah Kategori</button>
+<button onclick="tambahKategori()" class="btn btn-success mb-3"><i class="fas fa-plus-circle me-1"></i> Tambah Kategori</button>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -111,10 +109,8 @@
                                 <tr data-id="{{ $kategori->id }}">
                                     <td class="kategori-nama">{{ $kategori->kategori_profesi }}</td>
                                     <td>
-                                        <button class="btn btn-warning btn-sm"
-                                            onclick="editKategori({{ $kategori->id }}, '{{ $kategori->kategori_profesi }}')">Edit</button>
-                                        <button class="btn btn-danger btn-sm"
-                                            onclick="hapusKategori({{ $kategori->id }})">Hapus</button>
+                                    <button class="btn btn-warning btn-sm"onclick="editKategori({{ $kategori->id }}, '{{ $kategori->kategori_profesi }}')"><i class="fas fa-edit me-1"></i> Edit</button>
+                                    <button class="btn btn-danger btn-sm" onclick="hapusKategori({{ $kategori->id }})"><i class="fas fa-trash-alt me-1"></i> Hapus</button>
                                     </td>
                                 </tr>
                             @endforeach

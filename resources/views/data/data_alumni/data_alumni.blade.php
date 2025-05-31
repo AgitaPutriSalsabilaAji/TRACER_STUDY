@@ -19,11 +19,14 @@
 
     <div class="card card-outline card-primary">
 <div class="card-header">
-  <form action="{{ route('import.alumni')}}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center" style="gap: 10px;">
+<form action="{{ route('import.alumni') }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-stretch" style="gap: 10px;">
     @csrf
     <input class="form-control form-control-sm" type="file" name="file" required>
-    <button class="btn btn-primary btn-sm" type="submit">Import</button>
-  </form>
+    <button class="btn btn-primary btn-sm d-flex align-items-center px-3" type="submit">
+        <i class="fas fa-file-import me-1"></i> Import
+    </button>
+</form>
+
 </div>
 
         <div class="card-body">

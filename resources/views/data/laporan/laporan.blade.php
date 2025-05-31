@@ -86,9 +86,10 @@
                                 <input type="hidden" name="end_year" value="{{ $endYear }}">
                                 <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
 
-                                <button type="submit" class="btn btn-success btn-sm">
-                                    Download Laporan
-                                </button>
+<button type="submit" class="btn btn-success btn-sm">
+    <i class="fas fa-download"></i> Download Laporan
+</button>
+
                             </form>
 
                         </div>
@@ -107,9 +108,10 @@
                                 <input type="hidden" name="start_year" value="{{ $startYear }}">
                                 <input type="hidden" name="end_year" value="{{ $endYear }}">
                                 <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
-                                <button type="submit" class="btn btn-success btn-sm">
-                                    Download Laporan
-                                </button>
+<button type="submit" class="btn btn-success btn-sm">
+    <i class="fas fa-download"></i> Download Laporan
+</button>
+
                             </form>
                         </div>
                     </div>
@@ -126,9 +128,10 @@
                                 <input type="hidden" name="start_year" value="{{ $startYear }}">
                                 <input type="hidden" name="end_year" value="{{ $endYear }}">
                                 <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
-                                <button type="submit" class="btn btn-success btn-sm">
-                                    Download Laporan
-                                </button>
+<button type="submit" class="btn btn-success btn-sm">
+    <i class="fas fa-download"></i> Download Laporan
+</button>
+
                             </form>
                         </div>
                     </div>
@@ -145,9 +148,10 @@
                                 <input type="hidden" name="start_year" value="{{ $startYear }}">
                                 <input type="hidden" name="end_year" value="{{ $endYear }}">
                                 <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
-                                <button type="submit" class="btn btn-success btn-sm">
-                                    Download Laporan
-                                </button>
+<button type="submit" class="btn btn-success btn-sm">
+    <i class="fas fa-download"></i> Download Laporan
+</button>
+
                             </form>
                         </div>
                     </div>
