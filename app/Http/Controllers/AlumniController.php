@@ -273,6 +273,16 @@ class AlumniController extends Controller
                 $csrf = csrf_field();
                 $methodDelete = method_field('DELETE');
 
+                $buttons = '';
+
+                if (is_null($row->deleted_at)) {
+                    $buttons .=  '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm">Edit</button> ' . <<<HTML
+<form action="{$deleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus alumni ini?')">
+    {$csrf}
+    {$methodDelete}
+    <button class="btn btn-danger btn-sm">Hapus</button>
+</form>
+HTML;
                 $buttons = '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit </button> ';
 
                 if (is_null($row->deleted_at)) {

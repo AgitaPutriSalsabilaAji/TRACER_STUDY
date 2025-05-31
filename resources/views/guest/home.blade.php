@@ -324,13 +324,13 @@
                     <!-- Foto -->
                     <div class="slideshow">
                         <img src="{{ asset('image/wisuda2.png') }}" class="slide active img-fluid" alt="Ilustrasi 1"
-                            style="width: 100%; position: absolute; top: 0; left: 0; opacity: 1; transition: opacity 1.5s;">
+                            style="width: 100%; position: absolute; top: 0; left: 0; opacity: 1; transition: opacity 1.5s; ">
                         <img src="{{ asset('image/wisuda3.png') }}" class="slide img-fluid" alt="Ilustrasi 2"
                             style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s;">
                         <img src="{{ asset('image/wisuda8.png') }}" class="slide img-fluid" alt="Ilustrasi 3"
                             style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s;">
                         <img src="{{ asset('image/wisuda9.png') }}" class="slide img-fluid" alt="Ilustrasi 3"
-                            style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s;">
+                            style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s; ">
                         <img src="{{ asset('image/wisuda4.png') }}" class="slide img-fluid" alt="Ilustrasi 3"
                             style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s;">
                         <img src="{{ asset('image/wisuda5.png') }}" class="slide img-fluid" alt="Ilustrasi 3"
@@ -576,12 +576,24 @@
         <style>
             .slideshow {
                 position: relative;
-                max-width: 85%;
+                max-width: 71%;
                 margin: auto;
                 aspect-ratio: 1024 / 1293;
                 /* Supaya tinggi div sesuai lebar dan proporsional */
                 overflow: hidden;
                 z-index: 2;
+
+            }
+
+            .slideshow-wrapper::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 80px;
+                background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff);
+                pointer-events: none;
             }
         </style>
         <script>
