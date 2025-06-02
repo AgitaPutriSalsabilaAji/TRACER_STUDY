@@ -9,6 +9,47 @@
 
     <!-- Cursor Blink CSS for Typing Effect -->
     <style>
+        .team-card {
+          background: linear-gradient(135deg, #ffffff, #f8fafc);
+          border: none;
+          border-radius: 1.5rem;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .team-card img {
+          border: 5px solid #fff;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease;
+        }
+
+        .team-card:hover img {
+          transform: scale(1.05);
+        }
+
+        .team-card h5 {
+          font-weight: 700;
+          color: #2c3e50;
+          margin-bottom: 4px;
+        }
+
+        .team-card p {
+          font-size: 0.95rem;
+          color: #6c757d;
+        }
+
+        .team-link {
+          text-decoration: none;
+          color: inherit;
+        }
+
+        .team-link:hover h5 {
+          color: #0d6efd;
+        }
         .cursor {
             display: inline-block;
             animation: blink 0.7s infinite;
@@ -294,7 +335,7 @@
         </div>
 
         <!-- Foto -->
-        <img src="{{ asset('image/wisuda6.png') }}" class="img-fluid" style="max-width: 85%; z-index: 2; position: relative;" alt="Ilustrasi Tracer Study">
+        <img src="{{ asset('image/wisuda8.png') }}" class="img-fluid" style="max-width: 85%; z-index: 2; position: relative;" alt="Ilustrasi Tracer Study">
       </div>
 
         <div class="col-lg-6 text-center text-lg-start" data-aos="fade-left" data-aos-duration="1500">
@@ -337,7 +378,8 @@
   </section>
 
 
-<section class="py-5 bg-light" id="team">
+<section class="py-5 bg-white" id="team">
+
   <div class="container">
     <div class="row text-center mb-5" data-aos="fade-down" data-aos-duration="1200">
       <div class="col">
@@ -420,66 +462,69 @@
           </p>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
+
+<!-- Section Tim -->
 <section class="py-5 bg-light" id="team">
   <div class="container">
-    <div class="row text-center mb-5" data-aos="fade-down" data-aos-duration="1200">
-      <div class="col">
-        <h2 class="fw-bold text-primary">Meet Our Team</h2>
-        <p class="text-muted">Tim profesional yang berdedikasi untuk memberikan yang terbaik</p>
-      </div>
+    <div class="text-center mb-5" data-aos="fade-down" data-aos-duration="1200">
+      <h2 class="fw-bold text-primary">Tim Kami</h2>
+      <p class="text-muted">Kenalan dengan tim luar biasa kami!</p>
     </div>
-    <div class="row g-4">
-      
-      <!-- Member 1 -->
-      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
-        <div class="card shadow-sm border-0 rounded-4 text-center p-4">
-          <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Member 1" class="rounded-circle mb-3 mx-auto" style="width:120px; height:120px; object-fit:cover;">
-          <h5 class="fw-bold mb-1">Siska Nuri Aprilia</h5>
-          <p class="text-primary mb-2">2341760038</p>
-          <p class="text-muted small">qwjhwhjq.</p>
+    <div class="row g-4 justify-content-center">
+
+      <!-- Anggota 1 -->
+     <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+  <div class="card team-card p-4 text-center h-100">
+    <a href="https://www.instagram.com/siskaaprlya.a/" target="_blank" class="team-link">
+      <img src="image/siska.png" alt="Siska" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+      <h5>Siska Nuri Aprilia</h5>
+    </a>
+    <p class="text-primary mb-1">2341760038</p>
+    <p class="text-muted small">"Teknologi memberi alat, manusia memberi arah." 
+    </p>
+  </div>
+</div>
+
+
+      <!-- Anggota 2 -->
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+        <div class="card team-card p-4 text-center h-100">
+          <a href="https://www.instagram.com/purnama_ridzkyn/" target="_blank" class="team-link">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Purnama" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+            <h5>Purnama Rizky Nugraha</h5>
+          </a>
+          <p class="text-primary">2341760037</p>
         </div>
       </div>
 
-      <!-- Member 2 -->
+      <!-- Anggota 3 -->
       <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
-        <div class="card shadow-sm border-0 rounded-4 text-center p-4">
-          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Member 2" class="rounded-circle mb-3 mx-auto" style="width:120px; height:120px; object-fit:cover;">
-          <h5 class="fw-bold mb-1">Purnama Rizky Nugraha</h5>
-          <p class="text-primary mb-2">Lead Developer</p>
-          <p class="text-muted small">Mengembangkan solusi teknis terbaik dengan fokus pada kualitas dan performa aplikasi.</p>
+        <div class="card team-card p-4 text-center h-100">
+          <a href="https://www.instagram.com/gitabillaa_/" target="_blank" class="team-link">
+            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Agita" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+            <h5>Agita Putri Salsabila Aji</h5>
+          </a>
+          <p class="text-primary">2341760092</p>
         </div>
       </div>
 
-      <!-- Member 3 -->
-      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="500" data-aos-duration="1000">
-        <div class="card shadow-sm border-0 rounded-4 text-center p-4">
-          <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Member 3" class="rounded-circle mb-3 mx-auto" style="width:120px; height:120px; object-fit:cover;">
-          <h5 class="fw-bold mb-1">Agita Putri</h5>
-          <p class="text-primary mb-2">UI/UX Designer</p>
-          <p class="text-muted small">Merancang antarmuka yang menarik dan mudah digunakan agar pengalaman pengguna maksimal.</p>
+      <!-- Anggota 4 -->
+      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+        <div class="card team-card p-4 text-center h-100">
+          <a href="https://www.instagram.com/desikaaaml_/" target="_blank" class="team-link">
+            <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Desi" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+            <h5>Desi Karmila</h5>
+          </a>
+          <p class="text-primary">2341760177</p>
         </div>
       </div>
 
-      <!-- Member 4 -->
-      <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="700" data-aos-duration="1000">
-        <div class="card shadow-sm border-0 rounded-4 text-center p-4">
-          <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Member 4" class="rounded-circle mb-3 mx-auto" style="width:120px; height:120px; object-fit:cover;">
-          <h5 class="fw-bold mb-1">Desi Karmila</h5>
-          <p class="text-primary mb-2">Marketing Specialist</p>
-          <p class="text-muted small">Menghubungkan produk dengan pelanggan melalui strategi pemasaran yang inovatif.</p>
-        </div>
-      </div>
-
-</section>
-
-
-
-
+    </div>
+  </div>
 
     <!-- JS Assets -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
@@ -506,4 +551,5 @@
             typeText();
         });
     </script>
+    
 @endsection
