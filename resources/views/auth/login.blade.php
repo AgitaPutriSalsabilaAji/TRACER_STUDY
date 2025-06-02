@@ -75,6 +75,14 @@
                                 </div>
                             @endif
 
+                            @if(session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {!! nl2br(e(session('success'))) !!}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+
+
                             <form action="{{ route('login') }}" method="POST">
                                 @csrf
                                 <div class="mb-3">
@@ -117,8 +125,8 @@
     </main>
     <!-- Footer -->
     <footer class="bg-primary text-white text-center py-3 mt-5">
-        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-            <div>Copyright © 2020. All rights reserved.</div>
+        <div class="container d-flex justify-content-center align-items-center">
+            <div>Copyright © 2025 Tracer Study Politeknik Negeri Malang</div>
         </div>
     </footer>
 

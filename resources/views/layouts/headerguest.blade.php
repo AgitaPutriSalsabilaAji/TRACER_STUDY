@@ -65,6 +65,7 @@
 
 
     @yield('content')
+    
     @include('layouts.footerguest')
 
 
