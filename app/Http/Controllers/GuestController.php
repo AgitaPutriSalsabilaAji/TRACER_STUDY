@@ -102,7 +102,7 @@ class GuestController extends Controller
         if ($alumni) {
             $nama = $alumni->nama . ' (' . $alumni->nim . ')';
             $prodi_terpilih = $alumni->program_studi_id;
-            $tahun_lulus_terpilih = $alumni->tanggal_lulus;
+            $tahun_lulus_terpilih = date('Y', strtotime($alumni->tanggal_lulus));
         }
         $prodi_terpilih_nama = optional($prodi->firstWhere('id', $prodi_terpilih))->program_studi ?? '-';
         return view('guest/form-alumni', compact('kategoriProfesi', 'profesi', 'jenisInstansi', 'prodi',  'validated', 'nama', 'alumni_id', 'prodi_terpilih', 'prodi_terpilih_nama', 'tahun_lulus_terpilih'));

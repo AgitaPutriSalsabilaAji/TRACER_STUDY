@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Alumni;
@@ -13,7 +14,7 @@ use Spatie\LaravelIgnition\Recorders\DumpRecorder\Dump;
 
 class DataImportController extends Controller
 {
-public function upload(Request $request)
+    public function upload(Request $request)
     {
         // Validasi file
         $request->validate([
@@ -43,31 +44,33 @@ public function upload(Request $request)
                     ? Date::excelToDateTimeObject($row[3])->format('Y-m-d')
                     : date('Y-m-d', strtotime($row[3]));
 
-    // ✅ Cek apakah program studi sudah ada, kalau tidak maka buat
-    $prodiId = ProgramStudi::firstOrCreate(
-        ['program_studi' => $programStudi]    );
+                // ✅ Cek apakah program studi sudah ada, kalau tidak maka buat
+                $prodiId = ProgramStudi::firstOrCreate(
+                    ['program_studi' => $programStudi]
+                );
 
 
                 // Simpan ke array (atau database)
                 // Jika ingin simpan ke database:
-               Alumni::firstOrCreate(
-    [
-        'nim' => $nim,
-        'program_studi_id' => $prodiId->id,
-    ],
-    [
-        'nama' => $nama,
-        'tanggal_lulus' => $tanggalLulus,
-    ]
-);
-
-
+                Alumni::firstOrCreate(
+                    [
+                        'nim' => $nim,
+                        'program_studi_id' => $prodiId->id,
+                    ],
+                    [
+                        'nama' => $nama,
+                        'tanggal_lulus' => $tanggalLulus,
+                    ]
+                );
             } catch (\Exception $e) {
                 Log::error("Baris $index gagal: " . $e->getMessage());
             }
         }
-
+        // ✅ Hapus file setelah diproses
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
         return back()->with('success', 'Data berhasil diunggah dan dibaca.')
-                     ->with('data_excel', $data); // bisa ditampilkan di view
+            ->with('data_excel', $data); // bisa ditampilkan di view
     }
 }

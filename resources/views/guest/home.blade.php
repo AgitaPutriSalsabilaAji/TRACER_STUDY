@@ -370,10 +370,10 @@
                             style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s;">
                         <img src="{{ asset('image/wisuda8.png') }}" class="slide img-fluid" alt="Ilustrasi 3"
                             style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s;">
-                        <img src="{{ asset('image/wisuda3.png') }}" class="slide img-fluid" alt="Ilustrasi 3"
+                        <img src="{{ asset('image/wisuda3.png') }}" class="slide img-fluid" alt="Ilustrasi 4"
 
                             style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s; ">
-                        <img src="{{ asset('image/wisuda5.png') }}" class="slide img-fluid" alt="Ilustrasi 3"
+                        <img src="{{ asset('image/wisuda5.png') }}" class="slide img-fluid" alt="Ilustrasi 5"
                             style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s;">
                     </div>
 
