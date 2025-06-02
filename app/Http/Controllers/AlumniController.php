@@ -280,7 +280,7 @@ class AlumniController extends Controller
 <form action="{$deleteUrl}" method="POST" class="d-inline m-1" onsubmit="return confirm('Yakin ingin menghapus alumni ini?')">
     {$csrf}
     {$methodDelete}
-    <button class="btn btn-danger btn-sm">Hapus</button>
+    <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt me-1"></i>Hapus</button>
 </form>
 HTML;
     } else {
