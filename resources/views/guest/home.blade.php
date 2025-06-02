@@ -588,8 +588,7 @@
             "Siska membuat tampilan front-end halaman user seperti halaman login, registrasi, beranda, dan halaman profesi. Ia juga bertugas dalam merancang struktur database awal dan membantu dokumentasi teknis proyek."
           </p>
         </div>
-      </div>
-
+    </div>
     </div>
   </div>
 </section>
