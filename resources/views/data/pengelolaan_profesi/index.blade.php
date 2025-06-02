@@ -240,7 +240,7 @@
                 e.preventDefault();
 
                 const id = $('#kategoriId').val();
-                const url = id ? `/kategori-profesi/update/${id}` : "{{ route('kategori.store') }}";
+                const url = id ? `profesi/kategori-profesi/update/${id}` : "{{ route('kategori.store') }}";
                 const method = id ? 'PUT' : 'POST';
 
                 $.ajax({
@@ -391,15 +391,6 @@
             cursor: pointer;
         }
 
-        thead th {
-            background-color: #5a8dee !important;
-            color: #fafafa !important;
-        }
-
-        th,
-        td {
-            text-align: center;
-            vertical-align: middle;
-        }
+     
     </style>
 @endsection

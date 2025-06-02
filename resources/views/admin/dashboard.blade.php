@@ -435,22 +435,7 @@
         });
     </script>
     <style>
-        tfoot th {
-            background-color: #5a8dee !important;
-            color: #fafafa !important;
-        }
-
-        thead th {
-            background-color: #5a8dee !important;
-            color: #fafafa !important;
-        }
-
-        th,
-        td {
-            text-align: center;
-            vertical-align: middle;
-        }
-
+        
         .year-option {
             padding: 8px;
             background: #f1f1f1;
