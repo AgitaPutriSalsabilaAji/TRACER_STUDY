@@ -16,23 +16,50 @@
             </div>
         </div>
     </section>
+     <!-- Modal Import Excel -->
+<div class="modal fade" id="importExcelModal" tabindex="-1" aria-labelledby="importExcelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="importExcelModalLabel">Import Data Alumni</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <div class="modal-body">
+                <p>Silakan unggah file Excel dengan format yang sesuai. Unduh template jika diperlukan.</p>
 
-    <div class="card card-outline card-primary">
+                <!-- Link ke Template Excel -->
+                <a href="{{ asset('file/Import Data.xlsx') }}" class="btn btn-outline-success btn-sm mb-3" download>
+                    <i class="fas fa-download me-1"></i> Unduh Template
+                </a>
 
-        <div class="card-header">
-            <form action="{{ route('import.alumni') }}" method="POST" enctype="multipart/form-data"
-                class="d-flex align-items-stretch" style="gap: 10px;">
-                @csrf
-                <input class="form-control form-control-sm" type="file" name="file" required>
-                <button class="btn btn-primary btn-sm d-flex align-items-center px-3" type="submit">
-                    <i class="fas fa-file-import me-1"></i> Import
-                </button>
-            </form>
 
+
+                <!-- Form Import -->
+                <form action="{{ route('import.alumni') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-3">
+                        <input type="file" name="file" class="form-control" accept=".xlsx,.csv" required>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-upload me-1"></i> Upload
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="card-body">
-            <h4>Daftar Alumni</h4>
+    </div>
+</div>
+    <div class="card card-outline card-primary">
+        <div class="card-header d-flex justify-content-end">
+            <!-- Tombol Import Excel -->
+            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#importExcelModal">
+                <i class="fas fa-file-excel me-1"></i> Import Alumni
+            </button>
+        </div>
 
+
+        <div class="card-body">
             @if (session('success'))
                 <div class="alert alert-success mt-2">{{ session('success') }}</div>
             @endif
@@ -60,6 +87,9 @@
                 </table>
             </div>
         </div>
+        </div>
+        </div>
+    </div>
 
         {{-- Modal Tambah/Edit Alumni --}}
         <div id="alumniModal" class="modal fade" tabindex="-1" aria-hidden="true">

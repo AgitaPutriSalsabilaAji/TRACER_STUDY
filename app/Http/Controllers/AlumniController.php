@@ -302,6 +302,8 @@ HTML;
                 $buttons .= '</div>';
 
                 return $buttons;
+            }
+            
             });
 
             return $table->rawColumns(['aksi'])->make(true);
