@@ -6,15 +6,15 @@
       <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-      <a href="/" class="nav-link">Home</a>
+      <a href="/" class="nav-link">Beranda</a>
     </li>
   
   </ul>
 
-  <!-- Right navbar links -->
-  <ul class="navbar-nav ml-auto">
-    <!-- Navbar Search -->
-    {{-- <li class="nav-item">
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+        <!-- Navbar Search -->
+        {{-- <li class="nav-item">
       <a class="nav-link" data-widget="navbar-search" href="#" role="button">
         <i class="fas fa-search"></i>
       </a>
@@ -35,8 +35,8 @@
       </div>
     </li> --}}
 
-    <!-- Language Dropdown -->
-    {{-- <li class="nav-item dropdown">
+        <!-- Language Dropdown -->
+        {{-- <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-language"></i> Language
       </a>
@@ -52,16 +52,16 @@
         <i class="fas fa-user"></i> User
       </a>
       <div class="dropdown-menu" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Change Password</a>
+        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Ganti Password</a>
         <a class="dropdown-item" href="{{ route('logout') }}" id="logout">Logout</a>
       </div>
     </li>
 
-    <!-- Fullscreen -->
-    <li class="nav-item">
-      <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-        <i class="fas fa-expand-arrows-alt"></i>
-      </a>
-    </li>
-  </ul>
+        <!-- Fullscreen -->
+        <li class="nav-item">
+            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                <i class="fas fa-expand-arrows-alt"></i>
+            </a>
+        </li>
+    </ul>
 </nav>
