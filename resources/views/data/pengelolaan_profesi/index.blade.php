@@ -194,12 +194,20 @@
                         searchable: false
                     }
                 ],
-  language: {
-    paginate: {
-        next: "Selanjutnya >",
-        previous: "< Sebelumnya"
-    }
-}
+                    language: {
+                        emptyTable: "Tidak ada Profesi yang tersedia.",
+                        processing: "Memuat...",
+                        search: "",
+                        searchPlaceholder: "🔍 Cari Profesi...",
+                        lengthMenu: "Tampilkan _MENU_ data per halaman",
+                        zeroRecords: "Tidak ditemukan data profesi yang sesuai pencarian",
+                        paginate: {
+                            next: "Selanjutnya >",
+                            previous:"< Sebelumnya"
+                        },
+                        info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                        infoEmpty: "Menampilkan 0 data",
+                    },
 
             });
 
@@ -240,7 +248,7 @@
                 e.preventDefault();
 
                 const id = $('#kategoriId').val();
-                const url = id ? `/kategori-profesi/update/${id}` : "{{ route('kategori.store') }}";
+                const url = id ? `profesi/kategori-profesi/update/${id}` : "{{ route('kategori.store') }}";
                 const method = id ? 'PUT' : 'POST';
 
                 $.ajax({
@@ -250,6 +258,13 @@
                     success: function() {
                         $('#modalFormKategori').modal('hide');
                         location.reload();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: 'Kategori berhasil diperbarui.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
                     },
                     error: function(xhr) {
                         let errorMessage = "Terjadi kesalahan.";
@@ -349,6 +364,7 @@
                         },
                         success: function() {
                             location.reload();
+                            Swal.fire('Terhapus!', 'Kategori berhasil dihapus.', 'success');
                         },
                         error: function() {
                             Swal.fire('Gagal', 'Tidak dapat menghapus kategori.', 'error');
@@ -391,15 +407,6 @@
             cursor: pointer;
         }
 
-        thead th {
-            background-color: #5a8dee !important;
-            color: #fafafa !important;
-        }
-
-        th,
-        td {
-            text-align: center;
-            vertical-align: middle;
-        }
+     
     </style>
 @endsection
