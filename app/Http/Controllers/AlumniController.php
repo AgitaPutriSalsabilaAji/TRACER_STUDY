@@ -264,50 +264,42 @@ class AlumniController extends Controller
             }
 
             $table->addColumn('aksi', function ($row) {
-
                 $deleteUrl = route('data-alumni.destroy', $row->id);
                 $restoreUrl = route('data-alumni.restore', $row->id);
                 $forceDeleteUrl = route('data-alumni.forceDelete', $row->id);
 
-
                 $csrf = csrf_field();
                 $methodDelete = method_field('DELETE');
 
-                $buttons = '';
+                // Mulai wrapper responsif
+                $buttons = '<div class="d-flex flex-wrap justify-content-center gap-1">';
 
                 if (is_null($row->deleted_at)) {
-                    $buttons .=  '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm">Edit</button> ' . <<<HTML
-<form action="{$deleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus alumni ini?')">
+                    $buttons .= '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm m-1"><i class="fas fa-edit"></i> Edit</button>';
+                    $buttons .= <<<HTML
+<form action="{$deleteUrl}" method="POST" class="d-inline m-1" onsubmit="return confirm('Yakin ingin menghapus alumni ini?')">
     {$csrf}
     {$methodDelete}
     <button class="btn btn-danger btn-sm">Hapus</button>
 </form>
 HTML;
-                $buttons = '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit </button> ';
-
-                if (is_null($row->deleted_at)) {
-                    $buttons .= <<<HTML
-                <form action="{$deleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus alumni ini?')">
-                    {$csrf}
-                    {$methodDelete}
-                <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Hapus</button>
-                </form>
-                HTML;
                 } else {
                     if (auth()->user()->is_superadmin) {
                         $buttons .= <<<HTML
-                <form action="{$restoreUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin mengembalikan data {$row->nama} ?')"> 
-                    {$csrf}
-                    <button class="btn btn-success btn-sm">Restore</button>
-                </form>
-                <form action="{$forceDeleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus permanen alumni ini?')">
-                    {$csrf}
-                    {$methodDelete}
-                    <button class="btn btn-danger btn-sm">Hapus Permanen</button>
-                </form>
-                HTML;
+<form action="{$restoreUrl}" method="POST" class="d-inline m-1" onsubmit="return confirm('Yakin ingin mengembalikan data {$row->nama} ?')"> 
+    {$csrf}
+    <button class="btn btn-success btn-sm"><i class="fas fa-undo"></i> Pulihkan</button>
+</form>
+<form action="{$forceDeleteUrl}" method="POST" class="d-inline m-1" onsubmit="return confirm('Yakin ingin menghapus permanen alumni ini?')">
+    {$csrf}
+    {$methodDelete}
+    <button class="btn btn-danger btn-sm"><i class="fas fa-trash-restore-alt"></i> Buang</button>
+</form>
+HTML;
                     }
                 }
+
+                $buttons .= '</div>';
 
                 return $buttons;
             }

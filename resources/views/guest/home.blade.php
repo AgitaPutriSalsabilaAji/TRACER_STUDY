@@ -366,12 +366,13 @@
                     <div class="slideshow">
                         <img src="{{ asset('image/wisuda2.png') }}" class="slide active img-fluid" alt="Ilustrasi 1"
                             style="width: 100%; position: absolute; top: 0; left: 0; opacity: 1; transition: opacity 1.5s; ">
-                        <img src="{{ asset('image/wisuda3.png') }}" class="slide img-fluid" alt="Ilustrasi 2"
+                        <img src="{{ asset('image/wisuda9.png') }}" class="slide img-fluid" alt="Ilustrasi 2"
                             style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s;">
-                        <img src="{{ asset('image/wisuda9.png') }}" class="slide img-fluid" alt="Ilustrasi 3"
+                        <img src="{{ asset('image/wisuda8.png') }}" class="slide img-fluid" alt="Ilustrasi 3"
+                            style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s;">
+                        <img src="{{ asset('image/wisuda3.png') }}" class="slide img-fluid" alt="Ilustrasi 3"
+
                             style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s; ">
-                        <img src="{{ asset('image/wisuda4.png') }}" class="slide img-fluid" alt="Ilustrasi 3"
-                            style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s;">
                         <img src="{{ asset('image/wisuda5.png') }}" class="slide img-fluid" alt="Ilustrasi 3"
                             style="width: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1.5s;">
                     </div>

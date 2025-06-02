@@ -1,0 +1,15 @@
+tfoot th {
+            background-color: #5a8dee !important;
+            color: #fafafa !important;
+        }
+
+        thead th {
+            background-color: #5a8dee !important;
+            color: #fafafa !important;
+        }
+
+        th,
+        td {
+            text-align: center;
+            vertical-align: middle;
+        }
