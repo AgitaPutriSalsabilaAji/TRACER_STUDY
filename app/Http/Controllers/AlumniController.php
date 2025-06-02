@@ -263,29 +263,29 @@ class AlumniController extends Controller
                     });
             }
 
-            $table->addColumn('aksi', function ($row) {
-                $deleteUrl = route('data-alumni.destroy', $row->id);
-                $restoreUrl = route('data-alumni.restore', $row->id);
-                $forceDeleteUrl = route('data-alumni.forceDelete', $row->id);
+         $table->addColumn('aksi', function ($row) {
+    $deleteUrl = route('data-alumni.destroy', $row->id);
+    $restoreUrl = route('data-alumni.restore', $row->id);
+    $forceDeleteUrl = route('data-alumni.forceDelete', $row->id);
 
-                $csrf = csrf_field();
-                $methodDelete = method_field('DELETE');
+    $csrf = csrf_field();
+    $methodDelete = method_field('DELETE');
 
-                // Mulai wrapper responsif
-                $buttons = '<div class="d-flex flex-wrap justify-content-center gap-1">';
+    // Mulai wrapper responsif
+    $buttons = '<div class="d-flex flex-wrap justify-content-center gap-1">';
 
-                if (is_null($row->deleted_at)) {
-                    $buttons .= '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm m-1"><i class="fas fa-edit"></i> Edit</button>';
-                    $buttons .= <<<HTML
+    if (is_null($row->deleted_at)) {
+        $buttons .= '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm m-1"><i class="fas fa-edit"></i> Edit</button>';
+        $buttons .= <<<HTML
 <form action="{$deleteUrl}" method="POST" class="d-inline m-1" onsubmit="return confirm('Yakin ingin menghapus alumni ini?')">
     {$csrf}
     {$methodDelete}
     <button class="btn btn-danger btn-sm">Hapus</button>
 </form>
 HTML;
-                } else {
-                    if (auth()->user()->is_superadmin) {
-                        $buttons .= <<<HTML
+    } else {
+        if (auth()->user()->is_superadmin) {
+            $buttons .= <<<HTML
 <form action="{$restoreUrl}" method="POST" class="d-inline m-1" onsubmit="return confirm('Yakin ingin mengembalikan data {$row->nama} ?')"> 
     {$csrf}
     <button class="btn btn-success btn-sm"><i class="fas fa-undo"></i> Pulihkan</button>
@@ -296,15 +296,14 @@ HTML;
     <button class="btn btn-danger btn-sm"><i class="fas fa-trash-restore-alt"></i> Buang</button>
 </form>
 HTML;
-                    }
-                }
+        }
+    }
 
-                $buttons .= '</div>';
+    $buttons .= '</div>';
 
-                return $buttons;
-            }
-            
-            });
+    return $buttons;
+});
+
 
             return $table->rawColumns(['aksi'])->make(true);
         }

@@ -258,6 +258,13 @@
                     success: function() {
                         $('#modalFormKategori').modal('hide');
                         location.reload();
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil!',
+                            text: 'Kategori berhasil diperbarui.',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
                     },
                     error: function(xhr) {
                         let errorMessage = "Terjadi kesalahan.";
@@ -357,6 +364,7 @@
                         },
                         success: function() {
                             location.reload();
+                            Swal.fire('Terhapus!', 'Kategori berhasil dihapus.', 'success');
                         },
                         error: function() {
                             Swal.fire('Gagal', 'Tidak dapat menghapus kategori.', 'error');
