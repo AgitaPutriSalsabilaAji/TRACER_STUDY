@@ -54,3 +54,8 @@
     color: white;
 }
 
+.nav-treeview {
+  border-left: 2px solid #dee2e6;
+  margin-left: 10px;
+  padding-left: 10px;
+}

@@ -1,21 +1,21 @@
 @extends('layouts.template')
 
 @section('content')
- <section class="content-header">
-  <div class="container-fluid">
-    <div class="row mb-2">
-      <div class="col-sm-6 white">
-        <h1>Pengelolaan Profesi</h1>
-      </div>
-      <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item active">Manajemen Data</li>
-          <li class="breadcrumb-item active">Pengelolaan Profesi</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-</section>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6 white">
+                    <h1>Pengelolaan Profesi</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item active">Manajemen Data</li>
+                        <li class="breadcrumb-item active">Pengelolaan Profesi</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
 
 
     {{-- Modal Profesi --}}
@@ -55,9 +55,15 @@
     <div class="card card-outline card-primary">
         <div class="card-header">
             <div class="card-tools">
-                <button onclick="tambahProfesi()" class="btn btn-sm btn-success mt-1">Tambah Profesi</button>
-                <button class="btn btn-sm btn-warning mt-1" data-bs-toggle="modal" data-bs-target="#kategoriModal">Kelola
-                    Kategori</button>
+              <!-- Tombol Tambah Profesi -->
+            <button onclick="tambahProfesi()" class="btn btn-sm btn-success mt-1">
+                <i class="fas fa-plus-circle me-1"></i> Tambah Profesi
+            </button>
+
+            <!-- Tombol Kelola Kategori -->
+            <button class="btn btn-sm btn-warning mt-1" data-bs-toggle="modal" data-bs-target="#kategoriModal">
+                <i class="fas fa-folder-open me-1"></i> Kelola Kategori
+            </button>
             </div>
         </div>
         <div class="card-body">
@@ -90,7 +96,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <button onclick="tambahKategori()" class="btn btn-success mb-3">Tambah Kategori</button>
+<button onclick="tambahKategori()" class="btn btn-success mb-3"><i class="fas fa-plus-circle me-1"></i> Tambah Kategori</button>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -103,10 +109,8 @@
                                 <tr data-id="{{ $kategori->id }}">
                                     <td class="kategori-nama">{{ $kategori->kategori_profesi }}</td>
                                     <td>
-                                        <button class="btn btn-warning btn-sm"
-                                            onclick="editKategori({{ $kategori->id }}, '{{ $kategori->kategori_profesi }}')">Edit</button>
-                                        <button class="btn btn-danger btn-sm"
-                                            onclick="hapusKategori({{ $kategori->id }})">Hapus</button>
+                                    <button class="btn btn-warning btn-sm"onclick="editKategori({{ $kategori->id }}, '{{ $kategori->kategori_profesi }}')"><i class="fas fa-edit me-1"></i> Edit</button>
+                                    <button class="btn btn-danger btn-sm" onclick="hapusKategori({{ $kategori->id }})"><i class="fas fa-trash-alt me-1"></i> Hapus</button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -157,7 +161,7 @@
             tableProfesi = $('#tabel-profesi').DataTable({
                 processing: true,
                 serverSide: true,
-                pagingType: "simple_numbers",
+                pagingType: "simple",
                 ajax: {
                     url: "{{ url('/profesi/list') }}",
                     type: "GET",
@@ -190,12 +194,13 @@
                         searchable: false
                     }
                 ],
-                language: {
-                    paginate: {
-                        previous: "<i class='fas fa-angle-left'></i>",
-                        next: "<i class='fas fa-angle-right'></i>"
-                    }
-                }
+  language: {
+    paginate: {
+        next: "Selanjutnya >",
+        previous: "< Sebelumnya"
+    }
+}
+
             });
 
             // Submit handler untuk form Profesi
@@ -290,7 +295,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: '/destroy/' + id,
+                        url: 'profesi/destroy/' + id,
                         type: 'DELETE',
                         data: {
                             _token: "{{ csrf_token() }}"
@@ -336,13 +341,18 @@
                 confirmButtonText: 'Hapus'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.post(`/kategori-profesi/delete/${id}`, {
-                        _token: "{{ csrf_token() }}",
-                        _method: 'DELETE'
-                    }, function() {
-                        location.reload();
-                    }).fail(function() {
-                        Swal.fire('Gagal', 'Tidak dapat menghapus kategori.', 'error');
+                    $.ajax({
+                        url: `profesi/kategori-profesi/delete/${id}`,
+                        type: 'DELETE',
+                        data: {
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function() {
+                            location.reload();
+                        },
+                        error: function() {
+                            Swal.fire('Gagal', 'Tidak dapat menghapus kategori.', 'error');
+                        }
                     });
                 }
             });

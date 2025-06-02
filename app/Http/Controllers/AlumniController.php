@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Key;
 use App\Models\Alumni;
-
+use App\Models\Lulusan;
 use Illuminate\Http\Request;
 use App\Models\ProgramStudi;
 use App\Models\SurveiKepuasan;
@@ -19,12 +19,15 @@ class AlumniController extends Controller
 
         $request->validate([
             'key' => 'required|exists:keys,key_value',
+        ], [
+            'key.exists' => 'Token tidak ditemukan atau tidak valid.',
         ]);
+
         $key = Key::where('key_value', $request->key)->first();
-        if (!$key) {
+        if (!$key->is_active) {
             return response()->json([
                 'success' => false,
-                'message' => 'Key tidak valid atau survei sudah diisi'
+                'message' => 'Mohon maaf, pengisian survei hanya dapat dilakukan satu kali. Berdasarkan catatan kami, Anda telah mengisi survei pada tanggal ' . $key->updated_at->format('d F Y') . '.',
             ]);
         }
 
@@ -34,6 +37,7 @@ class AlumniController extends Controller
             'validated_atasan' => true,
             'alumni_id' => $alumni->id,
             'nama' => $alumni->nama . ' (' . $alumni->nim . ')',
+            'lulusan_id' => $key->lulusan_id,
         ]);
 
         return response()->json([
@@ -45,11 +49,37 @@ class AlumniController extends Controller
     public function create()
     {
         session()->forget('validated_alumni');
+
         $validated = session('validated_atasan', false);
         $nama = session('nama', '');
         $alumni_id = session('alumni_id', '');
-        return view('guest.form-atasan', compact('validated', 'nama', 'alumni_id'));
+        $lulusan_id = session('lulusan_id', '');
+
+        $lulusan = Lulusan::find($lulusan_id);
+
+        $nama_surveyor = '';
+        $instansi = '';
+        $jabatan = '';
+        $email = '';
+
+        if ($lulusan) {
+            $nama_surveyor = $lulusan->nama_atasan_langsung;
+            $instansi = $lulusan->nama_instansi;
+            $jabatan = $lulusan->jabatan_atasan_langsung;
+            $email = $lulusan->email_atasan_langsung;
+        }
+
+        return view('guest.form-atasan', compact(
+            'validated',
+            'nama',
+            'alumni_id',
+            'nama_surveyor',
+            'instansi',
+            'jabatan',
+            'email'
+        ));
     }
+
 
     // Simpan hasil survei atasan
     public function store(Request $request)
@@ -88,7 +118,12 @@ class AlumniController extends Controller
             'kompetensi_belum_terpenuhi' => $request->kompetensi_belum_terpenuhi,
             'saran_kurikulum' => $request->saran_kurikulum,
         ]);
-        Key::where('alumni_id', $request->alumni_id)->delete();
+        $key = Key::where('alumni_id', $request->alumni_id)->first();
+
+        $key->is_active = false;
+        $key->save();
+
+
 
         return redirect()->route('guest.home')->with('success', 'Terima kasih telah mengisi survei!');
     }
@@ -167,13 +202,13 @@ class AlumniController extends Controller
 
         $alumni = Alumni::findOrFail($id);
         $programStudi = ProgramStudi::all();
-    
+
         return response()->json([
             'alumni' => $alumni,
             'programStudi' => $programStudi
         ]);
     }
-    
+
     public function updateAlumni(Request $request, $id)
     {
         $request->validate([
@@ -184,13 +219,13 @@ class AlumniController extends Controller
         ]);
 
 
-    $alumni = Alumni::findOrFail($id);
-    $alumni->update([
-        'nama' => $request->nama,
-        'nim' => $request->nim,
-        'program_studi_id' => $request->program_studi_id,
-        'tanggal_lulus' => $request->tanggal_lulus,
-    ]);
+        $alumni = Alumni::findOrFail($id);
+        $alumni->update([
+            'nama' => $request->nama,
+            'nim' => $request->nim,
+            'program_studi_id' => $request->program_studi_id,
+            'tanggal_lulus' => $request->tanggal_lulus,
+        ]);
 
         return redirect()->route('data-alumni.index')->with('success', 'Data alumni berhasil diperbarui!');
     }
@@ -238,29 +273,39 @@ class AlumniController extends Controller
                 $csrf = csrf_field();
                 $methodDelete = method_field('DELETE');
 
-                $buttons = '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm">Edit</button> ';
+                $buttons = '';
 
                 if (is_null($row->deleted_at)) {
-                    $buttons .= <<<HTML
+                    $buttons .=  '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm">Edit</button> ' . <<<HTML
 <form action="{$deleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus alumni ini?')">
     {$csrf}
     {$methodDelete}
     <button class="btn btn-danger btn-sm">Hapus</button>
 </form>
 HTML;
+                $buttons = '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit </button> ';
+
+                if (is_null($row->deleted_at)) {
+                    $buttons .= <<<HTML
+                <form action="{$deleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus alumni ini?')">
+                    {$csrf}
+                    {$methodDelete}
+                <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Hapus</button>
+                </form>
+                HTML;
                 } else {
                     if (auth()->user()->is_superadmin) {
                         $buttons .= <<<HTML
-<form action="{$restoreUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin mengembalikan data {$row->nama} ?')"> 
-    {$csrf}
-    <button class="btn btn-success btn-sm">Restore</button>
-</form>
-<form action="{$forceDeleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus permanen alumni ini?')">
-    {$csrf}
-    {$methodDelete}
-    <button class="btn btn-danger btn-sm">Hapus Permanen</button>
-</form>
-HTML;
+                <form action="{$restoreUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin mengembalikan data {$row->nama} ?')"> 
+                    {$csrf}
+                    <button class="btn btn-success btn-sm">Restore</button>
+                </form>
+                <form action="{$forceDeleteUrl}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus permanen alumni ini?')">
+                    {$csrf}
+                    {$methodDelete}
+                    <button class="btn btn-danger btn-sm">Hapus Permanen</button>
+                </form>
+                HTML;
                     }
                 }
 
@@ -296,9 +341,4 @@ HTML;
         $alumni->forceDelete();
         return back()->with('success', "Alumni {$alumni->nama} berhasil dihapus permanen.");
     }
-
 }
-
-
-
-
