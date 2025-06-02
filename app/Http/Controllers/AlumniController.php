@@ -263,38 +263,36 @@ class AlumniController extends Controller
                     });
             }
 
-         $table->addColumn('aksi', function ($row) {
-    $deleteUrl = route('data-alumni.destroy', $row->id);
-    $restoreUrl = route('data-alumni.restore', $row->id);
-    $forceDeleteUrl = route('data-alumni.forceDelete', $row->id);
-
-    $csrf = csrf_field();
-    $methodDelete = method_field('DELETE');
-
-    // Mulai wrapper responsif
-    $buttons = '<div class="d-flex flex-wrap justify-content-center gap-1">';
+            $table->addColumn('aksi', function ($row) {
 
 
-                $csrf = csrf_field();
-                $methodDelete = method_field('DELETE');
 
-                $buttons = '';
+                // Mulai wrapper responsif
+                $buttons = '<div class="d-flex flex-wrap justify-content-center gap-1">';
 
-                $buttons = '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit </button> ';
+
+
+
+
 
                 if (is_null($row->deleted_at)) {
-                    $buttons .= <<<HTML
-                    <button onclick="hapusAlumni({$row->id})" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Hapus</button>
-                    HTML;
-                    
+                    $buttons = <<<HTML
+    <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
+        <button onclick="editAlumni({$row->id})" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
+        <button onclick="hapusAlumni({$row->id})" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Hapus</button>
+    </div>
+    HTML;
                 } else {
                     if (auth()->user()->is_superadmin) {
-                        $buttons .= <<<HTML
-                    <button onclick="restoreAlumni({$row->id})" class="btn btn-success btn-sm"><i class="fas fa-undo"></i> Restore</button>
-                    <button onclick="hapusPermanenAlumni({$row->id})" class="btn btn-danger btn-sm">Hapus Permanen</button>
-                HTML;
+                        $buttons = <<<HTML
+        <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
+            <button onclick="restoreAlumni({$row->id})" class="btn btn-success btn-sm"><i class="fas fa-undo"></i> Restore</button>
+            <button onclick="hapusPermanenAlumni({$row->id})" class="btn btn-danger btn-sm">Hapus Permanen</button>
+        </div>
+        HTML;
                     }
                 }
+
 
                 return $buttons;
             });
@@ -309,7 +307,6 @@ class AlumniController extends Controller
         $alumni = Alumni::findOrFail($id);
         $alumni->delete();
         return redirect()->back()->with('success', 'Data alumni berhasil dihapus sementara.');
-
     }
 
     // Restore (kembalikan data yang sudah di soft delete)

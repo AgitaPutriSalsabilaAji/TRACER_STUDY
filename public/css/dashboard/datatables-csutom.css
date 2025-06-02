@@ -12,6 +12,11 @@ tfoot th {
         td {
             text-align: center !important;
             vertical-align: middle !important;
+            
         }
+
+       .dataTables_paginate a {
+    text-decoration: none !important;
+}
      
 

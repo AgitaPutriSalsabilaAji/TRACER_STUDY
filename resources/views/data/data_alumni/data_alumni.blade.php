@@ -1,6 +1,5 @@
 @extends('layouts.template')
 @section('content')
-  
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -16,40 +15,40 @@
             </div>
         </div>
     </section>
-     <!-- Modal Import Excel -->
-<div class="modal fade" id="importExcelModal" tabindex="-1" aria-labelledby="importExcelModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="importExcelModalLabel">Import Data Alumni</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-            </div>
-            <div class="modal-body">
-                <p>Silakan unggah file Excel dengan format yang sesuai. Unduh template jika diperlukan.</p>
+    <!-- Modal Import Excel -->
+    <div class="modal fade" id="importExcelModal" tabindex="-1" aria-labelledby="importExcelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="importExcelModalLabel">Import Data Alumni</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Silakan unggah file Excel dengan format yang sesuai. Unduh template jika diperlukan.</p>
 
-                <!-- Link ke Template Excel -->
-                <a href="{{ asset('file/Import Data.xlsx') }}" class="btn btn-outline-success btn-sm mb-3" download>
-                    <i class="fas fa-download me-1"></i> Unduh Template
-                </a>
+                    <!-- Link ke Template Excel -->
+                    <a href="{{ asset('file/Import Data.xlsx') }}" class="btn btn-outline-success btn-sm mb-3" download>
+                        <i class="fas fa-download me-1"></i> Unduh Template
+                    </a>
 
 
 
-                <!-- Form Import -->
-                <form action="{{ route('import.alumni') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="mb-3">
-                        <input type="file" name="file" class="form-control" accept=".xlsx,.csv" required>
-                    </div>
-                    <div class="text-end">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-upload me-1"></i> Upload
-                        </button>
-                    </div>
-                </form>
+                    <!-- Form Import -->
+                    <form action="{{ route('import.alumni') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <input type="file" name="file" class="form-control" accept=".xlsx,.csv" required>
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-upload me-1"></i> Upload
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
     <div class="card card-outline card-primary">
         <div class="card-header d-flex justify-content-end">
             <!-- Tombol Import Excel -->
@@ -87,52 +86,51 @@
                 </table>
             </div>
         </div>
-        </div>
-        </div>
     </div>
+  
 
-        {{-- Modal Tambah/Edit Alumni --}}
-        <div id="alumniModal" class="modal fade" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <form id="formAlumni" method="POST" action="">
-                    @csrf
-                    <input type="hidden" name="_method" value="POST" id="formMethod">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="alumniModalTitle">Tambah Alumni</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    {{-- Modal Tambah/Edit Alumni --}}
+    <div id="alumniModal" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="formAlumni" method="POST" action="">
+                @csrf
+                <input type="hidden" name="_method" value="POST" id="formMethod">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="alumniModalTitle">Tambah Alumni</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label>Nama</label>
+                            <input type="text" name="nama" class="form-control" id="alumniNama" required>
                         </div>
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label>Nama</label>
-                                <input type="text" name="nama" class="form-control" id="alumniNama" required>
-                            </div>
-                            <div class="mb-3">
-                                <label>Program Studi</label>
-                                <select name="program_studi_id" class="form-control" id="alumniProdi" required>
-                                    <option value="">-- Pilih Program Studi --</option>
-                                    @foreach ($programStudi as $prodi)
-                                        <option value="{{ $prodi->id }}">{{ $prodi->program_studi }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label>NIM</label>
-                                <input type="text" name="nim" class="form-control" id="alumniNim" required>
-                            </div>
-                            <div class="mb-3">
-                                <label>Tanggal Lulus</label>
-                                <input type="date" name="tanggal_lulus" class="form-control" id="alumniLulus" required>
-                            </div>
+                        <div class="mb-3">
+                            <label>Program Studi</label>
+                            <select name="program_studi_id" class="form-control" id="alumniProdi" required>
+                                <option value="">-- Pilih Program Studi --</option>
+                                @foreach ($programStudi as $prodi)
+                                    <option value="{{ $prodi->id }}">{{ $prodi->program_studi }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        <div class="mb-3">
+                            <label>NIM</label>
+                            <input type="text" name="nim" class="form-control" id="alumniNim" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Tanggal Lulus</label>
+                            <input type="date" name="tanggal_lulus" class="form-control" id="alumniLulus" required>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+  
 
     {{-- CSS Tambahan --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -336,62 +334,63 @@
                     });
                 }
             });
+        }
 
 
-            function tambahAlumni() {
-                $('#alumniModalTitle').text('Tambah Alumni');
-                $('#formAlumni').attr('action', "{{ route('data-alumni.store') }}");
-                $('#formMethod').val('POST');
-                $('#formAlumni')[0].reset();
-                $('#alumniModal').modal('show');
-            }
+        function tambahAlumni() {
+            $('#alumniModalTitle').text('Tambah Alumni');
+            $('#formAlumni').attr('action', "{{ route('data-alumni.store') }}");
+            $('#formMethod').val('POST');
+            $('#formAlumni')[0].reset();
+            $('#alumniModal').modal('show');
+        }
 
-            function editAlumni(id) {
-                $.get('/data-alumni/' + id + '/edit', function(data) {
-                    const alumni = data.alumni;
-                    const programStudiList = data.programStudi;
+        function editAlumni(id) {
+            $.get('/data-alumni/' + id + '/edit', function(data) {
+                const alumni = data.alumni;
+                const programStudiList = data.programStudi;
 
-                    $('#alumniNama').val(alumni.nama);
-                    $('#alumniNim').val(alumni.nim);
-                    $('#alumniLulus').val(alumni.tanggal_lulus);
-                    $('#formAlumni').attr('action', '/data-alumni/' + id);
-                    $('#formMethod').val('PUT');
-                    $('#alumniModalTitle').text('Edit Alumni');
+                $('#alumniNama').val(alumni.nama);
+                $('#alumniNim').val(alumni.nim);
+                $('#alumniLulus').val(alumni.tanggal_lulus);
+                $('#formAlumni').attr('action', '/data-alumni/' + id);
+                $('#formMethod').val('PUT');
+                $('#alumniModalTitle').text('Edit Alumni');
 
-                    // Isi ulang dropdown program studi
-                    const $dropdown = $('#alumniProdi');
-                    $dropdown.empty().append('<option value="">-- Pilih Program Studi --</option>');
-                    programStudiList.forEach(prodi => {
-                        const selected = prodi.id == alumni.program_studi_id ? 'selected' : '';
-                        $dropdown.append(
-                            `<option value="${prodi.id}" ${selected}>${prodi.program_studi}</option>`
-                        );
-                    });
-
-                    $('#alumniModal').modal('show');
+                // Isi ulang dropdown program studi
+                const $dropdown = $('#alumniProdi');
+                $dropdown.empty().append('<option value="">-- Pilih Program Studi --</option>');
+                programStudiList.forEach(prodi => {
+                    const selected = prodi.id == alumni.program_studi_id ? 'selected' : '';
+                    $dropdown.append(
+                        `<option value="${prodi.id}" ${selected}>${prodi.program_studi}</option>`
+                    );
                 });
-            }
 
-            function hapusAlumni(id) {
-                Swal.fire({
-                    title: 'Yakin ingin menghapus data alumni?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Hapus'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '/data-alumni/' + id,
-                            method: 'POST',
-                            data: {
-                                _token: "{{ csrf_token() }}",
-                                _method: 'DELETE'
-                            },
-                            success: function(response) {
-                                table.ajax.reload();
-                                Swal.fire({
+                $('#alumniModal').modal('show');
+            });
+        }
+
+        function hapusAlumni(id) {
+            Swal.fire({
+                title: 'Yakin ingin menghapus data alumni?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Hapus'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/data-alumni/' + id,
+                        method: 'POST',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            _method: 'DELETE'
+                        },
+                        success: function(response) {
+                            table.ajax.reload();
+                            Swal.fire({
                                 icon: 'success',
                                 title: 'Terhapus!',
                                 text: 'Alumni berhasil dihapus.',
@@ -406,12 +405,12 @@
                                 text: 'Terjadi kesalahan saat menghapus.'
                             });
                         }
-                        });
-                    }
-                });
-            }
+                    });
+                }
+            });
+        }
 
-            function restoreAlumni(id) {
+        function restoreAlumni(id) {
             Swal.fire({
                 title: 'Pulihkan alumni ini?',
                 icon: 'question',
@@ -421,16 +420,16 @@
                 confirmButtonText: 'Pulihkan'
             }).then((result) => {
                 if (result.isConfirmed) {
-                        $.ajax({
-                            url: '/data-alumni/'+id+'/restore',
-                            method: 'POST',
-                            data: {
-                                _token: "{{ csrf_token() }}",
-                                _method: 'POST'
-                            },
-                            success: function(response) {
-                                table.ajax.reload();
-                                Swal.fire({
+                    $.ajax({
+                        url: '/data-alumni/' + id + '/restore',
+                        method: 'POST',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            _method: 'POST'
+                        },
+                        success: function(response) {
+                            table.ajax.reload();
+                            Swal.fire({
                                 icon: 'success',
                                 title: 'Terhapus!',
                                 text: 'Alumni berhasil dipulihkan.',
@@ -445,34 +444,34 @@
                                 text: 'Terjadi kesalahan saat memulihkan.'
                             });
                         }
-                        });
-                    }
-                });
-            }
+                    });
+                }
+            });
+        }
 
-    
 
-            function hapusPermanenAlumni(id) {
-                Swal.fire({
-                    title: 'Hapus permanen alumni ini?',
-                    text: 'Data yang dihapus tidak dapat dikembalikan!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Hapus Permanen'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: '/data-alumni/'+id+'/force-delete',
-                            method: 'POST',
-                            data: {
-                                _token: "{{ csrf_token() }}",
-                                _method: 'DELETE'
-                            },
-                            success: function(response) {
-                                table.ajax.reload();
-                                Swal.fire({
+
+        function hapusPermanenAlumni(id) {
+            Swal.fire({
+                title: 'Hapus permanen alumni ini?',
+                text: 'Data yang dihapus tidak dapat dikembalikan!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Hapus Permanen'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/data-alumni/' + id + '/force-delete',
+                        method: 'POST',
+                        data: {
+                            _token: "{{ csrf_token() }}",
+                            _method: 'DELETE'
+                        },
+                        success: function(response) {
+                            table.ajax.reload();
+                            Swal.fire({
                                 icon: 'success',
                                 title: 'Terhapus!',
                                 text: 'Alumni berhasil dihapus permanen.',
@@ -487,11 +486,9 @@
                                 text: 'Terjadi kesalahan saat menghapus permanen.'
                             });
                         }
-                        });
-                    }
-                });
-            }
-
-        </script>
-    @endsection
-
+                    });
+                }
+            });
+        }
+    </script>
+@endsection
