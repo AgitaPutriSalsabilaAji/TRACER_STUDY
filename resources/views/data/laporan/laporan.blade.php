@@ -86,9 +86,9 @@
                                 <input type="hidden" name="end_year" value="{{ $endYear }}">
                                 <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
 
-<button type="submit" class="btn btn-success btn-sm">
-    <i class="fas fa-download"></i> Download Laporan
-</button>
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-download"></i> Download Laporan
+                                </button>
 
                             </form>
 
@@ -108,9 +108,9 @@
                                 <input type="hidden" name="start_year" value="{{ $startYear }}">
                                 <input type="hidden" name="end_year" value="{{ $endYear }}">
                                 <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
-<button type="submit" class="btn btn-success btn-sm">
-    <i class="fas fa-download"></i> Download Laporan
-</button>
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-download"></i> Download Laporan
+                                </button>
 
                             </form>
                         </div>
@@ -128,9 +128,9 @@
                                 <input type="hidden" name="start_year" value="{{ $startYear }}">
                                 <input type="hidden" name="end_year" value="{{ $endYear }}">
                                 <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
-<button type="submit" class="btn btn-success btn-sm">
-    <i class="fas fa-download"></i> Download Laporan
-</button>
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-download"></i> Download Laporan
+                                </button>
 
                             </form>
                         </div>
@@ -148,9 +148,9 @@
                                 <input type="hidden" name="start_year" value="{{ $startYear }}">
                                 <input type="hidden" name="end_year" value="{{ $endYear }}">
                                 <input type="hidden" name="prodi_id" value="{{ $prodi_id }}">
-<button type="submit" class="btn btn-success btn-sm">
-    <i class="fas fa-download"></i> Download Laporan
-</button>
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-download"></i> Download Laporan
+                                </button>
 
                             </form>
                         </div>
@@ -159,11 +159,6 @@
             </div> {{-- /.row --}}
         </div>
     </div>
-    {{-- /.card-body --}}
-
-
-    </div><!-- /.container-fluid -->
-    </section>
 
     <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
     <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
@@ -389,7 +384,7 @@
             chart.appear(1000, 100);
         });
     </script>
-    // chart belum tracer
+  
     <!-- Styles -->
     <style>
         #belum_tracer {

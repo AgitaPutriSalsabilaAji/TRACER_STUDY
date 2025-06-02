@@ -6,7 +6,7 @@
       <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
     </li>
     <li class="nav-item d-none d-sm-inline-block">
-      <a href="/" class="nav-link">Home</a>
+      <a href="/" class="nav-link">Beranda</a>
     </li>
   
   </ul>
@@ -52,7 +52,7 @@
         <i class="fas fa-user"></i> User
       </a>
       <div class="dropdown-menu" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="{{ route('password.form') }}" id="changePassword">Change Password</a>
+        <a class="dropdown-item" href="{{ route('password.form') }}" id="changePassword">Rubah Password</a>
         <a class="dropdown-item" href="{{ route('logout') }}" id="logout">Logout</a>
       </div>
     </li>

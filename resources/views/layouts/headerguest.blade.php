@@ -45,7 +45,12 @@
             <li><a href="/form-atasan" class="text-dark {{ Request::is('form-atasan') ? 'active' : '' }}">Isi Survei</a>
             </li>
         </nav>
-        <a href="/login" class="btn login-btn d-none d-md-inline">Login Admin</a>
+        @guest
+            <a href="{{ route('login') }}" class="btn login-btn d-none d-md-inline">Login Admin</a>
+        @else
+            <a href="{{ route('dashboard') }}" class="btn login-btn d-none d-md-inline">Dashboard</a>
+        @endguest
+
 
         <!-- Mobile Menu -->
         <div class="mobile-menu d-md-none" id="mobile-menu">
