@@ -75,6 +75,14 @@
                                 </div>
                             @endif
 
+                            @if(session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {!! nl2br(e(session('success'))) !!}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+
+
                             <form action="{{ route('login') }}" method="POST">
                                 @csrf
                                 <div class="mb-3">

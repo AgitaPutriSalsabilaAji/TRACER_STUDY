@@ -29,6 +29,9 @@
     <link rel="stylesheet" type="text/css"
         href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+    <!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 
 
@@ -38,6 +41,70 @@
         <img class="animation__wobble" src="{{ asset('image/logo_polinema.png') }}" alt="AdminLTELogo" height="60"
             width="60">
     </div>
+
+<!-- Modal -->
+<!-- Change Password Modal -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        
+        <!-- Modal Header -->
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="changePasswordModalLabel">Ubah Password</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <!-- Modal Body -->
+        <div class="modal-body bg-white">
+          <form method="POST" action="{{ route('password.update') }}">
+            @csrf
+  
+            <!-- Old Password -->
+            <div class="mb-3">
+              <label for="old_password" class="form-label">Password Lama</label>
+              <div class="input-group">
+                <input type="password" name="old_password" class="form-control" id="old_password" placeholder="Masukkan password lama Anda" required>
+                <span class="input-group-text">
+                  <i class="fa-solid fa-eye toggle-password" data-target="old_password" style="cursor: pointer;"></i>
+                </span>
+              </div>
+            </div>
+  
+            <!-- New Password -->
+            <div class="mb-3">
+              <label for="new_password" class="form-label">Password Baru</label>
+              <div class="input-group">
+                <input type="password" name="new_password" class="form-control @error('new_password') is-invalid @enderror" id="new_password" placeholder="Masukkan password baru Anda" required>
+                <span class="input-group-text">
+                  <i class="fa-solid fa-eye toggle-password" data-target="new_password" style="cursor: pointer;"></i>
+                </span>
+              </div>
+              <small class="text-muted">Password harus minimal 8 karakter.</small>
+              @error('new_password')
+                <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
+            </div>
+  
+            <!-- Confirm New Password -->
+            <div class="mb-3">
+              <label for="new_password_confirmation" class="form-label">Konfirmasi Password Baru Anda</label>
+              <div class="input-group">
+                <input type="password" name="new_password_confirmation" class="form-control" id="new_password_confirmation" placeholder="Konfirmasi password baru Anda" required>
+                <span class="input-group-text">
+                  <i class="fa-solid fa-eye toggle-password" data-target="new_password_confirmation" style="cursor: pointer;"></i>
+                </span>
+              </div>
+            </div>
+  
+            <button type="submit" class="btn btn-primary w-100">Update Password</button>
+          </form>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+
     <div class="wrapper">
 
         @include('layouts.header')
@@ -80,7 +147,21 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE -->
     <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
-
+    {{-- Modal --}}
+    <script>
+        document.querySelectorAll('.toggle-password').forEach(function(icon) {
+          icon.addEventListener('click', function () {
+            const targetId = this.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+          });
+        });
+      </script>
+      
 
 </body>
 

@@ -124,6 +124,6 @@ class AuthController extends Controller
         });
 
 
-        return redirect()->route('login')->with('success', 'Password baru berhasil dikirim!');
+        return redirect()->route('login')->with('success', 'Password baru berhasil dikirim!' . "\n" . 'Demi keamanan, kami sangat menyarankan agar Anda segera mengganti kata sandi tersebut melalui menu Profil setelah berhasil masuk. ');
     }
 }
