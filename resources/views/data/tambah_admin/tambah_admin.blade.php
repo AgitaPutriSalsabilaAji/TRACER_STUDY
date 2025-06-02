@@ -51,7 +51,7 @@
     <div class="card card-outline card-primary">
         <div class="card-header">
             <div class="card-tools">
-                <button onclick="tambahAdmin()" class="btn btn-sm btn-success mt-1">Tambah Admin</button>
+                <button onclick="tambahAdmin()" class="btn btn-sm btn-success mt-1"><i class= "fas fa-plus-circle me-1"></i>Tambah Admin</button>
             </div>
         </div>
 

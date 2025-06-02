@@ -123,12 +123,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/data-alumni/create', [AlumniController::class, 'createAlumni'])->name('data-alumni.create');
         Route::get('/data-alumni/{id}/edit', [AlumniController::class, 'editAlumni'])->name('data-alumni.edit');
         Route::put('/data-alumni/{id}', [AlumniController::class, 'updateAlumni'])->name('data-alumni.update');
-        Route::delete('/data-alumni/{id}', [AlumniController::class, 'destroyAlumni'])->name('data-alumni.destroy');
         Route::get('/data-alumni/list', [AlumniController::class, 'list'])->name('data-alumni.list');
-        Route::delete('/alumni/{id}', [AlumniController::class, 'destroy'])->name('data-alumni.destroy');
+        Route::delete('/data-alumni/{id}', [AlumniController::class, 'destroy'])->name('data-alumni.destroy');
         Route::middleware(['superadmin'])->group(function () {
-            Route::post('/data-alumni/{id}/restore', [AlumniController::class, 'restore'])->name('data-alumni.restore');
-            Route::delete('/data-alumni/{id}/force-delete', [AlumniController::class, 'forceDelete'])->name('data-alumni.forceDelete');
+        Route::post('/data-alumni/{id}/restore', [AlumniController::class, 'restore'])->name('data-alumni.restore');
+        Route::delete('/data-alumni/{id}/force-delete', [AlumniController::class, 'forceDelete'])->name('data-alumni.forceDelete');
         });
         Route::post('/import-alumni', [DataImportController::class, 'upload'])->name('import.alumni');
     });

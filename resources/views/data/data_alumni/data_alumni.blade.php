@@ -336,6 +336,162 @@
                     });
                 }
             });
-        }
-    </script>
-@endsection
+
+
+            function tambahAlumni() {
+                $('#alumniModalTitle').text('Tambah Alumni');
+                $('#formAlumni').attr('action', "{{ route('data-alumni.store') }}");
+                $('#formMethod').val('POST');
+                $('#formAlumni')[0].reset();
+                $('#alumniModal').modal('show');
+            }
+
+            function editAlumni(id) {
+                $.get('/data-alumni/' + id + '/edit', function(data) {
+                    const alumni = data.alumni;
+                    const programStudiList = data.programStudi;
+
+                    $('#alumniNama').val(alumni.nama);
+                    $('#alumniNim').val(alumni.nim);
+                    $('#alumniLulus').val(alumni.tanggal_lulus);
+                    $('#formAlumni').attr('action', '/data-alumni/' + id);
+                    $('#formMethod').val('PUT');
+                    $('#alumniModalTitle').text('Edit Alumni');
+
+                    // Isi ulang dropdown program studi
+                    const $dropdown = $('#alumniProdi');
+                    $dropdown.empty().append('<option value="">-- Pilih Program Studi --</option>');
+                    programStudiList.forEach(prodi => {
+                        const selected = prodi.id == alumni.program_studi_id ? 'selected' : '';
+                        $dropdown.append(
+                            `<option value="${prodi.id}" ${selected}>${prodi.program_studi}</option>`
+                        );
+                    });
+
+                    $('#alumniModal').modal('show');
+                });
+            }
+
+            function hapusAlumni(id) {
+                Swal.fire({
+                    title: 'Yakin ingin menghapus data alumni?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Hapus'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/data-alumni/' + id,
+                            method: 'POST',
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                _method: 'DELETE'
+                            },
+                            success: function(response) {
+                                table.ajax.reload();
+                                Swal.fire({
+                                icon: 'success',
+                                title: 'Terhapus!',
+                                text: 'Alumni berhasil dihapus.',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: 'Terjadi kesalahan saat menghapus.'
+                            });
+                        }
+                        });
+                    }
+                });
+            }
+
+            function restoreAlumni(id) {
+            Swal.fire({
+                title: 'Pulihkan alumni ini?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Pulihkan'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/data-alumni/'+id+'/restore',
+                            method: 'POST',
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                _method: 'POST'
+                            },
+                            success: function(response) {
+                                table.ajax.reload();
+                                Swal.fire({
+                                icon: 'success',
+                                title: 'Terhapus!',
+                                text: 'Alumni berhasil dipulihkan.',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: 'Terjadi kesalahan saat memulihkan.'
+                            });
+                        }
+                        });
+                    }
+                });
+            }
+
+    
+
+            function hapusPermanenAlumni(id) {
+                Swal.fire({
+                    title: 'Hapus permanen alumni ini?',
+                    text: 'Data yang dihapus tidak dapat dikembalikan!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Hapus Permanen'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '/data-alumni/'+id+'/force-delete',
+                            method: 'POST',
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                _method: 'DELETE'
+                            },
+                            success: function(response) {
+                                table.ajax.reload();
+                                Swal.fire({
+                                icon: 'success',
+                                title: 'Terhapus!',
+                                text: 'Alumni berhasil dihapus permanen.',
+                                timer: 2000,
+                                showConfirmButton: false
+                            });
+                        },
+                        error: function(xhr) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Gagal',
+                                text: 'Terjadi kesalahan saat menghapus permanen.'
+                            });
+                        }
+                        });
+                    }
+                });
+            }
+
+        </script>
+    @endsection
+

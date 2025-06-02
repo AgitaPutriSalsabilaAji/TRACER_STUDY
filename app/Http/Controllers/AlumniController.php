@@ -274,36 +274,30 @@ class AlumniController extends Controller
     // Mulai wrapper responsif
     $buttons = '<div class="d-flex flex-wrap justify-content-center gap-1">';
 
-    if (is_null($row->deleted_at)) {
-        $buttons .= '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm m-1"><i class="fas fa-edit"></i> Edit</button>';
-        $buttons .= <<<HTML
-<form action="{$deleteUrl}" method="POST" class="d-inline m-1" onsubmit="return confirm('Yakin ingin menghapus alumni ini?')">
-    {$csrf}
-    {$methodDelete}
-    <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt me-1"></i>Hapus</button>
-</form>
-HTML;
-    } else {
-        if (auth()->user()->is_superadmin) {
-            $buttons .= <<<HTML
-<form action="{$restoreUrl}" method="POST" class="d-inline m-1" onsubmit="return confirm('Yakin ingin mengembalikan data {$row->nama} ?')"> 
-    {$csrf}
-    <button class="btn btn-success btn-sm"><i class="fas fa-undo"></i> Pulihkan</button>
-</form>
-<form action="{$forceDeleteUrl}" method="POST" class="d-inline m-1" onsubmit="return confirm('Yakin ingin menghapus permanen alumni ini?')">
-    {$csrf}
-    {$methodDelete}
-    <button class="btn btn-danger btn-sm"><i class="fas fa-trash-restore-alt"></i> Buang</button>
-</form>
-HTML;
-        }
-    }
 
-    $buttons .= '</div>';
+                $csrf = csrf_field();
+                $methodDelete = method_field('DELETE');
 
-    return $buttons;
-});
+                $buttons = '';
 
+                $buttons = '<button onclick="editAlumni(' . $row->id . ')" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit </button> ';
+
+                if (is_null($row->deleted_at)) {
+                    $buttons .= <<<HTML
+                    <button onclick="hapusAlumni({$row->id})" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Hapus</button>
+                    HTML;
+                    
+                } else {
+                    if (auth()->user()->is_superadmin) {
+                        $buttons .= <<<HTML
+                    <button onclick="restoreAlumni({$row->id})" class="btn btn-success btn-sm"><i class="fas fa-undo"></i> Restore</button>
+                    <button onclick="hapusPermanenAlumni({$row->id})" class="btn btn-danger btn-sm">Hapus Permanen</button>
+                HTML;
+                    }
+                }
+
+                return $buttons;
+            });
 
             return $table->rawColumns(['aksi'])->make(true);
         }
@@ -314,7 +308,8 @@ HTML;
     {
         $alumni = Alumni::findOrFail($id);
         $alumni->delete();
-        return back()->with('success', 'Alumni berhasil dihapus .');
+        return redirect()->back()->with('success', 'Data alumni berhasil dihapus sementara.');
+
     }
 
     // Restore (kembalikan data yang sudah di soft delete)
