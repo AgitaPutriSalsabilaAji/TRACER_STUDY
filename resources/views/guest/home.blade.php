@@ -9,6 +9,47 @@
 
     <!-- Cursor Blink CSS for Typing Effect -->
     <style>
+        .team-card {
+          background: linear-gradient(135deg, #ffffff, #f8fafc);
+          border: none;
+          border-radius: 1.5rem;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .team-card img {
+          border: 5px solid #fff;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease;
+        }
+
+        .team-card:hover img {
+          transform: scale(1.05);
+        }
+
+        .team-card h5 {
+          font-weight: 700;
+          color: #2c3e50;
+          margin-bottom: 4px;
+        }
+
+        .team-card p {
+          font-size: 0.95rem;
+          color: #6c757d;
+        }
+
+        .team-link {
+          text-decoration: none;
+          color: inherit;
+        }
+
+        .team-link:hover h5 {
+          color: #0d6efd;
+        }
         .cursor {
             display: inline-block;
             animation: blink 0.7s infinite;
