@@ -194,12 +194,20 @@
                         searchable: false
                     }
                 ],
-  language: {
-    paginate: {
-        next: "Selanjutnya >",
-        previous: "< Sebelumnya"
-    }
-}
+                    language: {
+                        emptyTable: "Tidak ada Profesi yang tersedia.",
+                        processing: "Memuat...",
+                        search: "",
+                        searchPlaceholder: "🔍 Cari Profesi...",
+                        lengthMenu: "Tampilkan _MENU_ data per halaman",
+                        zeroRecords: "Tidak ditemukan data profesi yang sesuai pencarian",
+                        paginate: {
+                            next: "Selanjutnya",
+                            previous:"< Sebelumnya"
+                        },
+                        info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                        infoEmpty: "Menampilkan 0 data",
+                    },
 
             });
 

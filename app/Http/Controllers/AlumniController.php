@@ -310,6 +310,8 @@ HTML;
                 }
 
                 return $buttons;
+            }
+            
             });
 
             return $table->rawColumns(['aksi'])->make(true);
