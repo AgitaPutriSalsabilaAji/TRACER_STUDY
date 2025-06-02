@@ -202,7 +202,7 @@
                         lengthMenu: "Tampilkan _MENU_ data per halaman",
                         zeroRecords: "Tidak ditemukan data profesi yang sesuai pencarian",
                         paginate: {
-                            next: "Selanjutnya",
+                            next: "Selanjutnya >",
                             previous:"< Sebelumnya"
                         },
                         info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
