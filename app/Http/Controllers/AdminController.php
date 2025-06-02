@@ -177,26 +177,32 @@ class AdminController extends Controller
 
     public function list()
     {
-        $data = Admin::select(['id', 'username', 'email']);
+        $data = Admin::select(['id', 'username', 'email', 'is_superadmin']);
 
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('aksi', function ($row) {
+                // Cek jika ID = 1 atau superadmin
+                if ( $row->is_superadmin) {
+                    return '<span class="text-muted">Tidak dapat diubah</span>';
+                }
+
                 $editUrl = route('admin.update', $row->id);
                 $deleteUrl = route('admin.destroy', $row->id);
 
                 return '
-                    <button onclick="editAdmin(\'' . $editUrl . '\', \'' . e($row->username) . '\', \'' . e($row->email) . '\')" class="btn btn-warning btn-sm">
-                        <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button onclick="deleteAdmin(\'' . $deleteUrl . '\')" class="btn btn-danger btn-sm">
-                        <i class="fas fa-trash-alt"></i> Hapus
-                    </button>
-                ';
+                <button onclick="editAdmin(\'' . $editUrl . '\', \'' . e($row->username) . '\', \'' . e($row->email) . '\')" class="btn btn-warning btn-sm">
+                    <i class="fas fa-edit"></i> Edit
+                </button>
+                <button onclick="deleteAdmin(\'' . $deleteUrl . '\')" class="btn btn-danger btn-sm">
+                    <i class="fas fa-trash-alt"></i> Hapus
+                </button>
+            ';
             })
             ->rawColumns(['aksi'])
             ->make(true);
     }
+
 
 
     public function store(Request $request)

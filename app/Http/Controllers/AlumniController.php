@@ -263,11 +263,16 @@ class AlumniController extends Controller
                     });
             }
 
-            $table->addColumn('aksi', function ($row) {
+         $table->addColumn('aksi', function ($row) {
+    $deleteUrl = route('data-alumni.destroy', $row->id);
+    $restoreUrl = route('data-alumni.restore', $row->id);
+    $forceDeleteUrl = route('data-alumni.forceDelete', $row->id);
 
-                $deleteUrl = route('data-alumni.destroy', $row->id);
-                $restoreUrl = route('data-alumni.restore', $row->id);
-                $forceDeleteUrl = route('data-alumni.forceDelete', $row->id);
+    $csrf = csrf_field();
+    $methodDelete = method_field('DELETE');
+
+    // Mulai wrapper responsif
+    $buttons = '<div class="d-flex flex-wrap justify-content-center gap-1">';
 
 
                 $csrf = csrf_field();
