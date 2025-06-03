@@ -55,18 +55,18 @@
     <div class="card card-outline card-primary">
         <div class="card-header">
             <div class="card-tools">
-              <!-- Tombol Tambah Profesi -->
-            <button onclick="tambahProfesi()" class="btn btn-sm btn-success mt-1">
-                <i class="fas fa-plus-circle me-1"></i> Tambah Profesi
-            </button>
+                <!-- Tombol Tambah Profesi -->
+                <button onclick="tambahProfesi()" class="btn btn-sm btn-success mt-1">
+                    <i class="fas fa-plus-circle me-1"></i> Tambah Profesi
+                </button>
 
-            <!-- Tombol Kelola Kategori -->
-            <button class="btn btn-sm btn-warning mt-1" data-bs-toggle="modal" data-bs-target="#kategoriModal">
-                <i class="fas fa-folder-open me-1"></i> Kelola Kategori
-            </button>
+                <!-- Tombol Kelola Kategori -->
+                <button class="btn btn-sm btn-warning mt-1" data-bs-toggle="modal" data-bs-target="#kategoriModal">
+                    <i class="fas fa-folder-open me-1"></i> Kelola Kategori
+                </button>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive mt-3">
             @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
@@ -74,7 +74,7 @@
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
 
-            <table id="tabel-profesi" class="table table-bordered table-striped w-100">
+            <table id="tabel-profesi" class="table table-bordered table-striped w-100 ">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -96,7 +96,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-<button onclick="tambahKategori()" class="btn btn-success mb-3"><i class="fas fa-plus-circle me-1"></i> Tambah Kategori</button>
+                    <button onclick="tambahKategori()" class="btn btn-success mb-3"><i class="fas fa-plus-circle me-1"></i>
+                        Tambah Kategori</button>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -109,11 +110,22 @@
                                 <tr data-id="{{ $kategori->id }}">
                                     <td class="kategori-nama">{{ $kategori->kategori_profesi }}</td>
                                     <td>
-                                    <button class="btn btn-warning btn-sm"onclick="editKategori({{ $kategori->id }}, '{{ $kategori->kategori_profesi }}')"><i class="fas fa-edit me-1"></i> Edit</button>
-                                    <button class="btn btn-danger btn-sm" onclick="hapusKategori({{ $kategori->id }})"><i class="fas fa-trash-alt me-1"></i> Hapus</button>
+                                        @if ($kategori->id != 3)
+                                            <button class="btn btn-warning btn-sm"
+                                                onclick="editKategori({{ $kategori->id }}, '{{ $kategori->kategori_profesi }}')">
+                                                <i class="fas fa-edit me-1"></i> Edit
+                                            </button>
+                                            <button class="btn btn-danger btn-sm"
+                                                onclick="hapusKategori({{ $kategori->id }})">
+                                                <i class="fas fa-trash-alt me-1"></i> Hapus
+                                            </button>
+                                        @else
+                                            <span class="text-muted">Data ini tidak boleh diubah atau dihapus.</span>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
+
                         </tbody>
                     </table>
                 </div>
@@ -194,20 +206,20 @@
                         searchable: false
                     }
                 ],
-                    language: {
-                        emptyTable: "Tidak ada Profesi yang tersedia.",
-                        processing: "Memuat...",
-                        search: "",
-                        searchPlaceholder: "🔍 Cari Profesi...",
-                        lengthMenu: "Tampilkan _MENU_ data per halaman",
-                        zeroRecords: "Tidak ditemukan data profesi yang sesuai pencarian",
-                        paginate: {
-                            next: "Selanjutnya >",
-                            previous:"< Sebelumnya"
-                        },
-                        info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
-                        infoEmpty: "Menampilkan 0 data",
+                language: {
+                    emptyTable: "Tidak ada Profesi yang tersedia.",
+                    processing: "Memuat...",
+                    search: "",
+                    searchPlaceholder: "🔍 Cari Profesi...",
+                    lengthMenu: "Tampilkan _MENU_ data per halaman",
+                    zeroRecords: "Tidak ditemukan data profesi yang sesuai pencarian",
+                    paginate: {
+                        next: "Selanjutnya >",
+                        previous: "< Sebelumnya"
                     },
+                    info: "Menampilkan _START_ - _END_ dari _TOTAL_ data",
+                    infoEmpty: "Menampilkan 0 data",
+                },
 
             });
 
@@ -406,7 +418,5 @@
             color: white !important;
             cursor: pointer;
         }
-
-     
     </style>
 @endsection
