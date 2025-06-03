@@ -66,7 +66,7 @@
                 </button>
             </div>
         </div>
-        <div class="card-body">
+        <div class="card-body table-responsive mt-3">
             @if (session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
             @endif
@@ -74,7 +74,7 @@
                 <div class="alert alert-danger">{{ session('error') }}</div>
             @endif
 
-            <table id="tabel-profesi" class="table table-bordered table-striped w-100">
+            <table id="tabel-profesi" class="table table-bordered table-striped w-100 ">
                 <thead>
                     <tr>
                         <th>No</th>

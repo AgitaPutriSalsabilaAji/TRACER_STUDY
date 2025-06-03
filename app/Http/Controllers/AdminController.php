@@ -183,20 +183,21 @@ class AdminController extends Controller
             ->addIndexColumn()
             ->addColumn('aksi', function ($row) {
                 // Cek jika ID = 1 atau superadmin
-                if ( $row->is_superadmin) {
+                if ($row->is_superadmin) {
                     return '<span class="text-muted">Tidak dapat diubah</span>';
                 }
 
                 $editUrl = route('admin.update', $row->id);
                 $deleteUrl = route('admin.destroy', $row->id);
 
-                return '
+                return ' <div class="d-flex flex-column flex-md-row justify-content-center align-items-center px-2 gap-2">
                 <button onclick="editAdmin(\'' . $editUrl . '\', \'' . e($row->username) . '\', \'' . e($row->email) . '\')" class="btn btn-warning btn-sm">
                     <i class="fas fa-edit"></i> Edit
                 </button>
                 <button onclick="deleteAdmin(\'' . $deleteUrl . '\')" class="btn btn-danger btn-sm">
                     <i class="fas fa-trash-alt"></i> Hapus
                 </button>
+                </div>
             ';
             })
             ->rawColumns(['aksi'])

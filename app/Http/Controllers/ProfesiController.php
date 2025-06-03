@@ -43,12 +43,12 @@ class ProfesiController extends Controller
         return DataTables::of($query)
             ->addIndexColumn()
             ->addColumn('aksi', function ($row) {
-                 if (strtolower($row->kategori_profesi) == 'belum bekerja') {
+                if (strtolower($row->kategori_profesi) == 'belum bekerja') {
                     return '<span class="text-muted">Data ini tidak boleh diubah atau dihapus.</span>';
                 }
                 $editBtn = '<button onclick="editProfesi(\'/profesi/update/' . $row->id . '\', \'' . e($row->kategori_profesi) . '\', \'' . e($row->nama_profesi) . '\')" class="btn btn-sm btn-warning me-1"><i class="fa fa-edit"></i> Edit</button>';
                 $deleteBtn = '<button onclick="deleteProfesi(' . $row->id . ')" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i> Hapus</button>';
-                return $editBtn . $deleteBtn;
+                return  '<div class="d-flex flex-column flex-md-row justify-content-center align-items-center px-2 gap-2">' . $editBtn . $deleteBtn . '</div>';
             })
             ->filter(function ($query) use ($request) {
                 if ($request->has('search') && $request->search['value'] != '') {
