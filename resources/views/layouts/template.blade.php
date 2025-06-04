@@ -163,6 +163,33 @@
         });
       </script>
       
+      <!-- SweetAlert on password update -->
+    <script>
+        @if (session('password_updated') && session('from_password_change'))
+            // Tutup modal jika masih terbuka
+            const passwordModal = bootstrap.Modal.getInstance(document.getElementById('changePasswordModal'));
+            if (passwordModal) {
+                passwordModal.hide();
+            }
+
+            // Tampilkan notifikasi berhasil
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('password_updated') }}',
+                showConfirmButton: false,
+                timer: 3000
+            });
+        @endif
+        @if (session('error') && session('from_password_change'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: '{{ session('error') }}',
+                showConfirmButton: true
+            });
+        @endif
+    </script>
 
 </body>
 
