@@ -49,57 +49,59 @@
 </head>
 
 <body class="bg-light">
-<main>
-    <div class="container py-5">
-        <div class="card login-card">
-            <div class="row g-0">
-                <!-- Gambar -->
-                <div class="col-md-6 order-0 order-md-0">
-                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-                         alt="forgot password image" class="login-image">
-                </div>
+    <main>
+        <div class="container py-5">
+            <div class="card login-card">
+                <div class="row g-0">
+                    <!-- Gambar -->
+                    <div class="col-md-6 order-0 order-md-0">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                            alt="forgot password image" class="login-image">
+                    </div>
 
-                <!-- Form -->
-                <div class="col-md-6 order-1 order-md-1">
-                    <div class="card-body p-4">
-                        <h4 class="card-title text-center mb-4">Lupa Password</h4>
+                    <!-- Form -->
+                    <div class="col-md-6 order-1 order-md-1">
+                        <div class="card-body p-4">
+                            <h4 class="card-title text-center mb-4">Lupa Password</h4>
 
-                        @if (session('success'))
-                            <div class="alert alert-success">{{ session('success') }}</div>
-                        @endif
-                        @if ($errors->any())
-                            <div class="alert alert-danger">{{ $errors->first() }}</div>
-                        @endif
+                            @if (session('success'))
+                                <div class="alert alert-success">{{ session('success') }}</div>
+                            @endif
+                            @if ($errors->any())
+                                <div class="alert alert-danger">{{ $errors->first() }}</div>
+                            @endif
 
-                        <form action="{{ route('password.email') }}" method="POST">
-                            @csrf
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email </label>
-                                <input type="email" name="email" class="form-control" placeholder="Masukan email" required autofocus>
-                            </div>
+                            <form action="{{ route('password.email') }}" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email </label>
+                                    <input type="email" name="email" class="form-control"
+                                        placeholder="Masukan email" required autofocus>
+                                </div>
 
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Kirim Password Baru</button>
-                            </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Kirim Password Baru</button>
+                                </div>
 
-                            <div class="text-center mt-3">
-                                <a href="{{ route('login') }}">Kemabali ke Halaman Login</a>
-                            </div>
-                        </form>
+                                <div class="text-center mt-3">
+                                    <a href="{{ route('login') }}">Kemabali ke Halaman Login</a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 
-<!-- Footer -->
-<footer class="bg-primary text-white text-center py-3 mt-5">
-    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
-        <div>Copyright © 2020. All rights reserved.</div>
-    </div>
-</footer>
+    <!-- Footer -->
+    <footer class="bg-primary text-white text-center py-3 mt-5">
+        <div class="container d-flex justify-content-center align-items-center">
+            <div>Copyright © 2025 Tracer Study Politeknik Negeri Malang</div>
+        </div>
+    </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
