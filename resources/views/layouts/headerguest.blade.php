@@ -55,17 +55,28 @@
         <!-- Mobile Menu -->
         <div class="mobile-menu d-md-none" id="mobile-menu">
             <ul>
-                <li><a href="{{ url('/') }}">Beranda</a></li>
-                <li><a href="{{ url('/form-alumni') }}">Data Alumni</a></li>
-                <li><a href="#isi-survei">Isi Survei</a></li>
-                <li><a href="/login" class="btn login-btn">Login Admin</a></li>
+                <li><a href="{{ url('/') }}" class="text-dark {{ Request::is('/') ? 'active' : '' }}">Beranda</a>
+                </li>
+                <li><a href="{{ url('/form-alumni') }}"
+                        class="text-dark {{ Request::is('form-alumni') ? 'active' : '' }}">Data
+                        Alumni</a></li>
+                <li><a href="/form-atasan" class="text-dark {{ Request::is('form-atasan') ? 'active' : '' }}">Isi
+                        Survei</a>
+                </li>
+
+                <li>@guest
+                        <a href="{{ route('login') }}" class="btn login-btn ">Login Admin</a>
+                    @else
+                        <a href="{{ route('dashboard') }}" class="btn login-btn ">Dashboard</a>
+                    @endguest
+                </li>
             </ul>
         </div>
     </header>
 
 
     @yield('content')
-    
+
     @include('layouts.footerguest')
 
 

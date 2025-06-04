@@ -604,7 +604,7 @@
         </script>
 
         <!-- Typing Effect Script -->
-        <script>
+        {{-- <script>
             document.addEventListener("DOMContentLoaded", function() {
                 const text = "Apa itu Tracer Study?";
                 const el = document.getElementById("typed-tracer");
@@ -620,7 +620,7 @@
 
                 typeText();
             });
-        </script>
+        </script> --}}
 
 
         <style>

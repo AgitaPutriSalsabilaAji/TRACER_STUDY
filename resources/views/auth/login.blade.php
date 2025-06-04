@@ -115,11 +115,11 @@
                                 </div>
 
                                 <div class="d-flex justify-content-between align-items-center mb-4">
-                                    <div class="form-check">
+                                    {{-- <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="remember"
                                             name="remember" />
                                         <label class="form-check-label" for="remember">Ingat saya</label>
-                                    </div>
+                                    </div> --}}
                                     <a href="{{ route('password.request') }}">Lupa password?</a>
                                 </div>
 
