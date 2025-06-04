@@ -80,13 +80,17 @@ class AuthController extends Controller
         $admin = Auth::user();
 
         if (!Hash::check($request->old_password, $admin->password)) {
-            return back()->with('error', 'Old password is incorrect.');
+            return back()
+                ->with('error', 'Password lama yang Anda masukkan salah.')
+                ->with('from_password_change', true);
         }
 
         $admin->password = Hash::make($request->new_password);
         $admin->save();
 
-        return back()->with('success', 'Password successfully updated.');
+        return back()
+        ->with('password_updated', 'Password berhasil diubah!')
+        ->with('from_password_change', true);
     }
 
     public function sendResetLinkEmail(Request $request)
@@ -123,7 +127,13 @@ class AuthController extends Controller
                 ->subject($data['subject']);
         });
 
-
-        return redirect()->route('login')->with('success', 'Password baru berhasil dikirim!' . "\n" . 'Demi keamanan, kami sangat menyarankan agar Anda segera mengganti kata sandi tersebut melalui menu Profil setelah berhasil masuk. ');
+        session([
+            'forgot_success' => 'Password baru berhasil dikirim ke email Anda.',
+            'login_message' => 'Silakan login menggunakan password baru Anda. Demi keamanan, kami sangat menyarankan agar Anda segera mengganti kata sandi tersebut melalui menu Profil setelah berhasil masuk.',
+            'from_forgot' => true
+        ]);
+        
+        return redirect()->route('password.email');
+        
     }
 }
