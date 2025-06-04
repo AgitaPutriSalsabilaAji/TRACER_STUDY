@@ -82,6 +82,18 @@
                             </div>
                         @endif
 
+                        @if (request()->get('login_msg') == 1 && session('login_message'))
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        {{ session('login_message') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    @php
+        session()->forget('login_message');
+    @endphp
+@endif
+
+
 
                             <form action="{{ route('login') }}" method="POST">
                                 @csrf
