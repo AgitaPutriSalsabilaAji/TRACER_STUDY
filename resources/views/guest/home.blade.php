@@ -538,7 +538,7 @@
       <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
         <div class="card team-card p-4 text-center h-100">
           <a href="https://www.instagram.com/purnama_ridzkyn/" target="_blank" class="team-link">
-            <img src="image/siska.png" alt="Purnama Rizky Nugraha" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+            <img src="image/pur2.jpg" alt="Purnama Rizky Nugraha" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
             <h5>Purnama Rizky Nugraha</h5>
           </a>
           <p class="text-primary mb-1">2341760037</p>
