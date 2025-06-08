@@ -431,7 +431,7 @@
                             table.ajax.reload();
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Terhapus!',
+                                title: 'Berhasil!',
                                 text: 'Alumni berhasil dipulihkan.',
                                 timer: 2000,
                                 showConfirmButton: false
