@@ -53,7 +53,7 @@
 
                 <!-- Modal Header -->
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="changePasswordModalLabel">Ubah Password</h5>
+                    <h5 class="modal-title" id="changePasswordModalLabel">Ganti Password</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -176,6 +176,19 @@
 
     <!-- SweetAlert on password update -->
     <script>
+        @if ($errors->any())
+        let errorMessages = '';
+        @foreach ($errors->all() as $error)
+            errorMessages += '{{ $error }}\n';
+        @endforeach
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: errorMessages.trim(),
+            confirmButtonText: 'OK'
+        });
+        @endif
         @if (session('password_updated') && session('from_password_change'))
             // Tutup modal jika masih terbuka
             const passwordModal = bootstrap.Modal.getInstance(document.getElementById('changePasswordModal'));
