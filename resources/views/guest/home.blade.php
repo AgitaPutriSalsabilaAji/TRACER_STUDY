@@ -552,7 +552,7 @@
       <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
         <div class="card team-card p-4 text-center h-100">
           <a href="https://www.instagram.com/gitabillaa_/" target="_blank" class="team-link">
-            <img src="image/siska.png" alt="Agita Putri Salsabila Aji" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+            <img src="image/2.jpg" alt="Agita Putri Salsabila Aji" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
             <h5>Agita Putri Salsabila Aji</h5>
           </a>
           <p class="text-primary mb-1">2341760092</p>
@@ -566,7 +566,7 @@
       <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
         <div class="card team-card p-4 text-center h-100">
           <a href="https://www.instagram.com/desikaaaml_/" target="_blank" class="team-link">
-            <img src="image/siska.png" alt="Desi Karmila" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+            <img src="image/1.png" alt="Desi Karmila" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
             <h5>Desi Karmila</h5>
           </a>
           <p class="text-primary mb-1">2341760177</p>
@@ -580,10 +580,10 @@
       <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
         <div class="card team-card p-4 text-center h-100">
           <a href="https://www.instagram.com/siskanurii_/" target="_blank" class="team-link">
-            <img src="image/siska.png" alt="Siska Nuri Aprilia" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+            <img src="image/3.png" alt="Siska Nuri Aprilia" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
             <h5>Siska Nuri Aprilia</h5>
           </a>
-          <p class="text-primary mb-1">2341760123</p>
+          <p class="text-primary mb-1">2341760038</p>
           <p class="fst-italic text-muted small">
             "Siska membuat tampilan front-end halaman user seperti halaman login, registrasi, beranda, dan halaman profesi. Ia juga bertugas dalam merancang struktur database awal dan membantu dokumentasi teknis proyek."
           </p>
@@ -592,6 +592,54 @@
     </div>
   </div>
 </section>
+<section class="py-5 bg-light" id="dosen">
+  <div class="container">
+    <!-- Judul Section -->
+    <div class="row text-center mb-5" data-aos="fade-down" data-aos-duration="1200">
+      <div class="col">
+        <h2 class="fw-bold text-primary">Dosen Pengampu</h2>
+        <p class="text-muted">Para dosen yang membimbing dan memberikan arahan selama proyek ini</p>
+      </div>
+    </div>
+
+    <!-- Baris Dosen Pengampu -->
+    <div class="row g-4">
+
+      <!-- Dosen 1 -->
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+        <div class="card team-card p-4 text-center h-100">
+          <img src="image/dosen2.png" alt="Hj. Lilis Nurhayati" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+          <h5>Dr. Indra Dharma Wijaya, ST., MMT.</h5>
+          <p class="text-primary mb-1">NIP: 197305102008011010</p>
+          <p class="fst-italic text-muted small">"Memberikan arahan teknis dan mendampingi pengujian sistem."</p>
+        </div>
+
+      <!-- Dosen 2 -->
+      </div>
+        <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1000">
+        <div class="card team-card p-4 text-center h-100">
+          <img src="image/dosen1.png" alt="Dr. Ir. Ahmad Santoso" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+          <h5>Muhammad Unggul Pamenang, S.ST., M.T.</h5>
+          <p class="text-primary mb-1">NIP: 196512101991031002</p>
+          <p class="fst-italic text-muted small">"Membimbing struktur proyek dan memastikan standar akademik."</p>
+        </div>
+      </div>
+
+      <!-- Dosen 3 -->
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1000">
+        <div class="card team-card p-4 text-center h-100">
+          <img src="image/dosen3.png" alt="Rama Dwi Saputra" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
+          <h5>Farida Ulfa S.Pd., M.Pd.</h5>
+          <p class="text-primary mb-1">NIP: 198201052010121001</p>
+          <p class="fst-italic text-muted small">"Mengawasi kemajuan tim dan memberikan masukan dokumentasi."</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
 
 
         <!-- JS Assets -->
