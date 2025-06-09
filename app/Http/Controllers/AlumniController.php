@@ -264,24 +264,15 @@ class AlumniController extends Controller
             }
 
             $table->addColumn('aksi', function ($row) {
-
-
-
                 // Mulai wrapper responsif
                 $buttons = '<div class="d-flex flex-wrap justify-content-center gap-1">';
-
-
-
-
-
-
                 if (is_null($row->deleted_at)) {
                     $buttons = <<<HTML
-    <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
-        <button onclick="editAlumni({$row->id})" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
-        <button onclick="hapusAlumni({$row->id})" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Hapus</button>
-    </div>
-    HTML;
+                    <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
+                        <button onclick="editAlumni({$row->id})" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Edit</button>
+                        <button onclick="hapusAlumni({$row->id})" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i> Hapus</button>
+                    </div>
+                    HTML;
                 } else {
                     if (auth()->user()->is_superadmin) {
                         $buttons = <<<HTML
