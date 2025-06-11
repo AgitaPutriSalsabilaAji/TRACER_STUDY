@@ -18,8 +18,13 @@ class DataImportController extends Controller
     {
         // Validasi file
         $request->validate([
-            'file' => 'required|mimes:xlsx,csv|max:2048',
+            'file' => 'required|mimes:xlsx|max:2048',
+        ], [
+            'file.required' => 'File wajib diunggah.',
+            'file.mimes' => 'Format file harus berupa .xlsx.',
+            'file.max' => 'Ukuran file tidak boleh lebih dari 2MB.',
         ]);
+
 
         // Simpan file ke folder public/uploads
         $file = $request->file('file');
