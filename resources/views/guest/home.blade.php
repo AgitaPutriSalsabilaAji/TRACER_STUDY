@@ -334,7 +334,9 @@
             transform: rotate(360deg) scale(1.1);
             background-color: #1d5d99 !important;
         }
+
     </style>
+    
 
     <!-- Home Section -->
     <section class="home py-5" id="home"
@@ -362,7 +364,7 @@
                                 transform="translate(100 100)" />
                         </svg>
                     </div>
-
+                    
                     <!-- Foto -->
                     <div class="slideshow">
                         <img src="{{ asset('image/wisuda2.png') }}" class="slide active img-fluid" alt="Ilustrasi 1"
@@ -391,7 +393,7 @@
                         <strong>Langkah Kecil, Dampak Besar!</strong>
                     </p>
                     <a href="/form-alumni" class="btn btn-lg btn-primary rounded-pill px-5 py-3 shadow-sm">
-                        Isi Survei
+                        Mengisi Data Alumni
                     </a>
                 </div>
             </div>
@@ -616,7 +618,7 @@
         <div class="card team-card p-4 text-center h-100">
           <img src="image/dosen2.png" alt="Hj. Lilis Nurhayati" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
           <h5>Dr. Indra Dharma Wijaya, ST., MMT.</h5>
-          <p class="text-primary mb-1">NIP: 197305102008011010</p>
+          <p class="text-primary mb-1">NIP.197305102008011010</p>
           <p class="fst-italic text-muted small">"Berperan dalam memberikan arahan dan supervisi dalam perancangan proses bisnis pada sistem berbasis web yang dikembangkan oleh mahasiswa. Peran ini mencakup pendampingan dalam menganalisis kebutuhan pengguna, menyusun alur proses bisnis, serta memastikan kesesuaian antara fitur yang dirancang dan tujuan sistem secara keseluruhan."</p>
         </div>
 
@@ -626,7 +628,7 @@
         <div class="card team-card p-4 text-center h-100">
           <img src="image/dosen1.png" alt="Dr. Ir. Ahmad Santoso" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
           <h5>Muhammad Unggul Pamenang, S.ST., M.T.</h5>
-          <p class="text-primary mb-1">NIDN: 0023089102</p>
+          <p class="text-primary mb-1">NIDN.0023089102</p>
           <p class="fst-italic text-muted small">"Berperan dalam menilai kelayakan dan efektivitas fitur-fitur dalam website, serta memberikan rekomendasi perbaikan maupun pengembangan fitur tambahan untuk meningkatkan kualitas dan fungsionalitas sistem."</p>
         </div>
       </div>
@@ -636,7 +638,7 @@
         <div class="card team-card p-4 text-center h-100">
           <img src="image/dosen3.png" alt="Rama Dwi Saputra" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
           <h5>Farida Ulfa S.Pd., M.Pd.</h5>
-          <p class="text-primary mb-1">NIP: 19810105200501</p>
+          <p class="text-primary mb-1">NIP.19810105200501</p>
           <p class="fst-italic text-muted small">"Berperan dalam mengawasi dinamika kerja tim mahasiswa, memastikan bahwa kolaborasi berlangsung secara seimbang dan bahwa setiap anggota memiliki kontribusi yang adil sesuai peran masing-masing."</p>
         </div>
       </div>
