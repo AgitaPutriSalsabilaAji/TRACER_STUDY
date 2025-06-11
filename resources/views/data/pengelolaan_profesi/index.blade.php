@@ -40,7 +40,7 @@
                         </div>
                         <div class="mb-3">
                             <label>Profesi</label>
-                            <input type="text" name="profesi" class="form-control" id="profesiProfesi">
+                            <input type="text" name="profesi" class="form-control mb-3" id="profesiNama" required>
                         </div>
                     </div>
                     <div class="modal-footer">

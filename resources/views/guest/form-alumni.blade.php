@@ -508,6 +508,10 @@
                 profesiOutput.style.display = 'none';
                 fieldKerjaLanjutan1.style.display = 'block';
                 fieldKerjaLanjutan2.style.display = 'block';
+                const existingHiddenInput = profesiOutput.querySelector('input[name="profesi_id"]');
+                if (existingHiddenInput) {
+                    existingHiddenInput.remove();
+                }
                 // Tambahkan opsi
                 filteredProfesi.forEach(p => {
                     const option = document.createElement('option');

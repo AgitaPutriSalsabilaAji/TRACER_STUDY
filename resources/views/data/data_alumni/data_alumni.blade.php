@@ -27,7 +27,7 @@
                     <p>Silakan unggah file Excel dengan format yang sesuai. Unduh template jika diperlukan.</p>
 
                     <!-- Link ke Template Excel -->
-                    <a href="{{ asset('file/Import Data.xlsx') }}" class="btn btn-outline-success btn-sm mb-3" download>
+                    <a href="{{ asset('file/Import Data Alumni.xlsx') }}" class="btn btn-outline-success btn-sm mb-3" download>
                         <i class="fas fa-download me-1"></i> Unduh Template
                     </a>
 

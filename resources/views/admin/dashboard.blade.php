@@ -95,20 +95,25 @@
         </div>
 
         <!-- Row 2: Full Width Table Data Lulusan -->
+        @php use Illuminate\Support\Str; @endphp
+
         <div class="row mb-3">
             <div class="col-12">
                 <div class="p-4 bg-white shadow rounded" data-aos="zoom-in-up">
                     <h2 class="mb-4 fs-4 text-center">Data Lulusan ({{ $startYear }} - {{ $endYear }})</h2>
                     <div class="table-responsive">
                         <table id="tabel-lulusan" class="table table-bordered table-striped table-hover w-100">
-
                             <thead>
                                 <tr>
                                     <th rowspan="2" class="align-middle text-center">Tahun Lulus</th>
                                     <th rowspan="2" class="align-middle text-center">Total Lulusan</th>
                                     <th rowspan="2" class="align-middle text-center">Lulusan Terlacak</th>
-                                    <th rowspan="2" class="align-middle text-center">Kerja di Bidang Infokom</th>
-                                    <th rowspan="2" class="align-middle text-center">Kerja di Bidang Non-Infokom</th>
+                                    @foreach ($kategori_profesi_list as $kategori)
+                                        @if ($kategori != 'Belum Bekerja')
+                                            <th rowspan="2" class="align-middle text-center">Kerja di Bidang
+                                                {{ $kategori }}</th>
+                                        @endif
+                                    @endforeach
                                     <th colspan="3" class="text-center">Tempat Kerja</th>
                                 </tr>
                                 <tr>
@@ -122,8 +127,12 @@
                                     <th><b>Jumlah</b></th>
                                     <th>{{ $tabel_lulusan->sum('total_lulusan') }}</th>
                                     <th>{{ $tabel_lulusan->sum('lulusan_terlacak') }}</th>
-                                    <th>{{ $tabel_lulusan->sum('kerja_bidang_infokom') }}</th>
-                                    <th>{{ $tabel_lulusan->sum('kerja_bidang_non_infokom') }}</th>
+                                    @foreach ($kategori_profesi_list as $kategori)
+                                        @if ($kategori != 'Belum Bekerja')
+                                            @php $alias = Str::slug($kategori, '_'); @endphp
+                                            <th>{{ $tabel_lulusan->sum("kerja_bidang_$alias") }}</th>
+                                        @endif
+                                    @endforeach
                                     <th>{{ $tabel_lulusan->sum('internasional') }}</th>
                                     <th>{{ $tabel_lulusan->sum('nasional') }}</th>
                                     <th>{{ $tabel_lulusan->sum('wirausaha') }}</th>
@@ -135,8 +144,12 @@
                                         <td class="text-center">{{ $row->tahun_lulus }}</td>
                                         <td class="text-center">{{ $row->total_lulusan }}</td>
                                         <td class="text-center">{{ $row->lulusan_terlacak }}</td>
-                                        <td class="text-center">{{ $row->kerja_bidang_infokom }}</td>
-                                        <td class="text-center">{{ $row->kerja_bidang_non_infokom }}</td>
+                                        @foreach ($kategori_profesi_list as $kategori)
+                                            @if ($kategori != 'Belum Bekerja')
+                                                @php $alias = Str::slug($kategori, '_'); @endphp
+                                                <td class="text-center">{{ $row->{"kerja_bidang_$alias"} }}</td>
+                                            @endif
+                                        @endforeach
                                         <td class="text-center">{{ $row->internasional }}</td>
                                         <td class="text-center">{{ $row->nasional }}</td>
                                         <td class="text-center">{{ $row->wirausaha }}</td>
@@ -148,6 +161,7 @@
                 </div>
             </div>
         </div>
+
 
 
         <!-- Row 3: Dua Tabel Rata-rata Masa Tunggu & Performa Lulusan -->
@@ -322,7 +336,7 @@
         let selectedStart = null;
         let selectedEnd = null;
 
-        for (let y = 2004; y <= new Date().getFullYear(); y++) {
+        for (let y = 2015; y <= new Date().getFullYear(); y++) {
             const btn = document.createElement("div");
             btn.textContent = y;
             btn.className = "year-option";
@@ -435,7 +449,6 @@
         });
     </script>
     <style>
-        
         .year-option {
             padding: 8px;
             background: #f1f1f1;
