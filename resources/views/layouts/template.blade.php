@@ -52,7 +52,7 @@
             <div class="modal-content">
 
                 <!-- Modal Header -->
-                <div class="modal-header bg-primary text-white">
+                <div class="modal-header  text-white" style="background-color: #5a8dee;">
                     <h5 class="modal-title" id="changePasswordModalLabel">Ganti Password</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
@@ -108,7 +108,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100">Update Password</button>
+                        <button type="submit" class="btn btn-primary w-100" style="background-color: #5a8dee;">Update Password</button>
                     </form>
                 </div>
 

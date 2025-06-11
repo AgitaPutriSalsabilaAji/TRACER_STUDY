@@ -330,6 +330,29 @@
                 cukup: parseFloat(d.cukup),
                 kurang: parseFloat(d.kurang)
             }));
+            // Gabungkan data berdasarkan jenis_kemampuan
+            let groupedData = {};
+
+            data.forEach(item => {
+                const key = item.jenis_kemampuan;
+                if (!groupedData[key]) {
+                    groupedData[key] = {
+                        jenis_kemampuan: key,
+                        sangat_baik: 0,
+                        baik: 0,
+                        cukup: 0,
+                        kurang: 0
+                    };
+                }
+
+                groupedData[key].sangat_baik += item.sangat_baik;
+                groupedData[key].baik += item.baik;
+                groupedData[key].cukup += item.cukup;
+                groupedData[key].kurang += item.kurang;
+            });
+
+            // Ubah ke bentuk array lagi
+            data = Object.values(groupedData);
 
             // Buat axis
             var xRenderer = am5xy.AxisRendererX.new(root, {
@@ -384,7 +407,7 @@
             chart.appear(1000, 100);
         });
     </script>
-  
+
     <!-- Styles -->
     <style>
         #belum_tracer {
@@ -423,10 +446,7 @@
             });
 
             xRenderer.labels.template.setAll({
-                rotation: -90,
-                centerY: am5.p50,
-                centerX: am5.p100,
-                paddingRight: 15
+                rotation: 0,
             });
 
             xRenderer.grid.template.setAll({
@@ -475,7 +495,7 @@
 
             // Format data dari Laravel
             const chartData = belumTracerData.map(item => ({
-                country: `Prodi ${item.program_studi_id} (${item.tahun_lulus})`,
+                country: ` ${item.tahun_lulus}`,
                 value: item.jumlah_belum_mengisi
             }));
 

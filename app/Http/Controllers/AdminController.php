@@ -61,7 +61,7 @@ class AdminController extends Controller
         if ($sisaJumlah > 0) {
             $topProfesi->push(
                 (object) [
-                    'nama_profesi' => 'Lainnya',
+                    'nama_profesi' => 'Sisanya Profesi Lainnya',
                     'jumlah' => $sisaJumlah,
                 ],
             );

@@ -15,7 +15,6 @@ class RekapDataController extends Controller
 {
     public function index(Request $request)
     {
-
         $prodi_id = null;
         $startYear = null;
         $endYear = null;
@@ -30,12 +29,11 @@ class RekapDataController extends Controller
             $prodi_id = request()->prodi_id;
         }
 
-
         $topProfesi = DB::table('lulusan as l')
             ->join('profesi as p', 'l.profesi_id', '=', 'p.id')
             ->join('alumni as a', 'l.alumni_id', '=', 'a.id')
             ->select('p.nama_profesi', DB::raw('COUNT(*) as jumlah'))
-            ->whereBetween('l.tahun_lulus', [$startYear, $endYear])  // Filter berdasarkan tahun
+            ->whereBetween('l.tahun_lulus', [$startYear, $endYear]) // Filter berdasarkan tahun
             ->where('a.program_studi_id', $prodi_id)
             ->groupBy('p.nama_profesi')
             ->orderByDesc('jumlah')
@@ -47,17 +45,19 @@ class RekapDataController extends Controller
             ->join('profesi as p', 'l.profesi_id', '=', 'p.id')
             ->join('alumni as a', 'l.alumni_id', '=', 'a.id')
             ->select(DB::raw('COUNT(*) as jumlah'))
-            ->whereBetween('l.tahun_lulus', [$startYear, $endYear])  // Filter berdasarkan tahun
+            ->whereBetween('l.tahun_lulus', [$startYear, $endYear]) // Filter berdasarkan tahun
             ->where('a.program_studi_id', $prodi_id)
             ->whereNotIn('p.nama_profesi', $topProfesi->pluck('nama_profesi'))
             ->value('jumlah');
 
         // Gabungkan "Lainnya" jika ada
         if ($sisaJumlah > 0) {
-            $topProfesi->push((object)[
-                'nama_profesi' => 'Lainnya',
-                'jumlah' => $sisaJumlah
-            ]);
+            $topProfesi->push(
+                (object) [
+                    'nama_profesi' => 'Lainnya',
+                    'jumlah' => $sisaJumlah,
+                ],
+            );
         }
 
         $fields = [
@@ -67,74 +67,75 @@ class RekapDataController extends Controller
             'kemampuan_komunikasi' => 'Kemampuan Komunikasi',
             'pengembangan_diri' => 'Pengembangan Diri',
             'kepemimpinan' => 'Kepemimpinan',
-            'etos_kerja' => 'Etos Kerja'
+            'etos_kerja' => 'Etos Kerja',
         ];
 
         foreach ($fields as $field => $label) {
             $data = DB::table('survei_kepuasan')
-                ->select(
-                    DB::raw("COUNT(CASE WHEN $field = 4 THEN 1 END) AS sangat_baik"),
-                    DB::raw("COUNT(CASE WHEN $field = 3 THEN 1 END) AS baik"),
-                    DB::raw("COUNT(CASE WHEN $field = 2 THEN 1 END) AS cukup"),
-                    DB::raw("COUNT(CASE WHEN $field = 1 THEN 1 END) AS kurang")
-                )
+                ->select(DB::raw("COUNT(CASE WHEN $field = 4 THEN 1 END) AS sangat_baik"), DB::raw("COUNT(CASE WHEN $field = 3 THEN 1 END) AS baik"), DB::raw("COUNT(CASE WHEN $field = 2 THEN 1 END) AS cukup"), DB::raw("COUNT(CASE WHEN $field = 1 THEN 1 END) AS kurang"))
                 ->join('alumni as a', 'survei_kepuasan.alumni_id', '=', 'a.id')
                 ->join('lulusan as l', 'l.alumni_id', '=', 'a.id')
                 ->whereBetween('l.tahun_lulus', [$startYear, $endYear])
                 ->where('a.program_studi_id', $prodi_id)
                 ->first();
 
-            $chartData[$label] = [
-                ['country' => 'Sangat Baik', 'litres' => $data->sangat_baik],
-                ['country' => 'Baik',        'litres' => $data->baik],
-                ['country' => 'Cukup',       'litres' => $data->cukup],
-                ['country' => 'Kurang',      'litres' => $data->kurang]
-            ];
+            $chartData[$label] = [['country' => 'Sangat Baik', 'litres' => $data->sangat_baik], ['country' => 'Baik', 'litres' => $data->baik], ['country' => 'Cukup', 'litres' => $data->cukup], ['country' => 'Kurang', 'litres' => $data->kurang]];
         }
 
         $belum_tracer = DB::table('alumni as a')
             ->leftJoin('lulusan as l', 'a.nim', '=', 'l.alumni_id')
-            ->select(
-                'a.program_studi_id',
-                DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus) as tahun_lulus'),
-                DB::raw('COUNT(CASE WHEN l.alumni_id IS NULL THEN 1 END) as jumlah_belum_mengisi')
-            )
+            ->select('a.program_studi_id', DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus) as tahun_lulus'), DB::raw('COUNT(CASE WHEN l.alumni_id IS NULL THEN 1 END) as jumlah_belum_mengisi'))
             ->whereBetween(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'), [$startYear, $endYear])
             ->where('a.program_studi_id', $prodi_id)
             ->groupBy('a.program_studi_id', DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'))
             ->orderBy(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'))
             ->get();
 
-
         $belum_survey = DB::table('alumni as a')
             ->join('lulusan as l', 'a.id', '=', 'l.alumni_id')
             ->leftJoin('survei_kepuasan as sk', 'l.alumni_id', '=', 'sk.alumni_id')
-            ->selectRaw("
+            ->selectRaw(
+                "
         COUNT(CASE WHEN sk.alumni_id IS NOT NULL THEN 1 END) AS jumlah_mengisi_survei,
         COUNT(CASE WHEN sk.alumni_id IS NULL THEN 1 END) AS jumlah_belum_mengisi_survei
-    ")
+    ",
+            )
             ->whereBetween(DB::raw('EXTRACT(YEAR FROM a.tanggal_lulus)'), [$startYear, $endYear])
             ->where('a.program_studi_id', $prodi_id)
             ->get();
 
+        $kolomKemampuan = [
+            'kerjasama_tim' => 'Kerjasama Tim',
+            'keahlian_di_bidang_ti' => 'Keahlian di Bidang TI',
+            'kemampuan_bahasa_asing' => 'Kemampuan Bahasa Asing',
+            'kemampuan_komunikasi' => 'Kemampuan Komunikasi',
+            'pengembangan_diri' => 'Pengembangan Diri',
+            'kepemimpinan' => 'Kepemimpinan',
+            'etos_kerja' => 'Etos Kerja',
+        ];
 
-        $chart_survei = DB::table('view_rekap_kemampuan')
-            ->select(
-                'program_studi_id',
-                'jenis_kemampuan',
-                DB::raw('ROUND(AVG(sangat_baik), 2) as sangat_baik'),
-                DB::raw('ROUND(AVG(baik), 2) as baik'),
-                DB::raw('ROUND(AVG(cukup), 2) as cukup'),
-                DB::raw('ROUND(AVG(kurang), 2) as kurang')
-            )
-            ->where('program_studi_id', $prodi_id)
-            ->whereBetween('tahun_lulus', [$startYear, $endYear])
-            ->groupBy('program_studi_id', 'jenis_kemampuan')
-            ->get();
+        $chart_survei = [];
 
+        foreach ($kolomKemampuan as $kolom => $label) {
+            $data = DB::table('survei_kepuasan as sk')
+                ->join('alumni as a', 'sk.alumni_id', '=', 'a.id')
+                ->selectRaw(
+                    "
+            a.program_studi_id,
+            '{$label}' as jenis_kemampuan,
+            SUM(CASE WHEN sk.{$kolom} = 4 THEN 1 ELSE 0 END) as sangat_baik,
+            SUM(CASE WHEN sk.{$kolom} = 3 THEN 1 ELSE 0 END) as baik,
+            SUM(CASE WHEN sk.{$kolom} = 2 THEN 1 ELSE 0 END) as cukup,
+            SUM(CASE WHEN sk.{$kolom} = 1 THEN 1 ELSE 0 END) as kurang
+        ",
+                )
+                ->groupBy('a.program_studi_id')
+                ->get();
 
-
-
+            foreach ($data as $row) {
+                $chart_survei[] = $row;
+            }
+        }
         $prodi = ProgramStudi::all();
         return view('data.laporan.laporan', [
             'chart_survei' => $chart_survei,
@@ -156,8 +157,6 @@ class RekapDataController extends Controller
         return redirect()->route('laporan', compact('startYear', 'endYear', 'prodi'));
     }
 
-
-
     public function exportExcel(Request $request)
     {
         return Excel::download(new LaporanSurveiExport($request->start_year, $request->end_year, $request->prodi_id), 'Laporan Rekap Hasil Tracer Study Lulusan.xlsx');
@@ -175,7 +174,6 @@ class RekapDataController extends Controller
 
     public function exportBelumSurvei(Request $request)
     {
-
         return Excel::download(new LaporanBelumSurvei($request->start_year, $request->end_year, $request->prodi_id), 'Laporan Rekap Atasan Yang Belum Mengisi Survei Kepuasan.xlsx');
     }
 }
