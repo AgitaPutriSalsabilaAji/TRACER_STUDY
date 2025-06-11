@@ -637,7 +637,7 @@
           <img src="image/dosen3.png" alt="Rama Dwi Saputra" class="rounded-circle mx-auto mb-3" style="width: 110px; height: 110px; object-fit: cover;">
           <h5>Farida Ulfa S.Pd., M.Pd.</h5>
           <p class="text-primary mb-1">NIP: 19810105200501</p>
-          <p class="fst-italic text-muted small">"Berperan dalam mengawasi dinamika kerja tim mahasiswa, memastikan bahwa kolaborasi berlangsung secara seimbang dan bahwa setiap anggota memiliki kontribusi yang adil sesuai peran masing-masing. Dosen juga memberikan penilaian terhadap laporan dan presentasi (PPT) dalam Bahasa Inggris yang disusun sebagai bentuk pelaporan hasil proyek, guna melatih keterampilan komunikasi akademik dan kerja sama dalam tim."</p>
+          <p class="fst-italic text-muted small">"Berperan dalam mengawasi dinamika kerja tim mahasiswa, memastikan bahwa kolaborasi berlangsung secara seimbang dan bahwa setiap anggota memiliki kontribusi yang adil sesuai peran masing-masing."</p>
         </div>
       </div>
 
