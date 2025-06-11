@@ -336,7 +336,7 @@
         let selectedStart = null;
         let selectedEnd = null;
 
-        for (let y = 2004; y <= new Date().getFullYear(); y++) {
+        for (let y = 2015; y <= new Date().getFullYear(); y++) {
             const btn = document.createElement("div");
             btn.textContent = y;
             btn.className = "year-option";
