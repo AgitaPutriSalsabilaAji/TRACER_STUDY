@@ -16,13 +16,10 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Alumni; // Pastikan model Alumni sudah ada
 
-
 class GuestController extends Controller
 {
-
     public function validateKode(Request $request)
     {
-
         $request->validate([
             'alumni_id_validate' => 'required|exists:alumni,id',
             'nim' => 'required|string',
@@ -37,8 +34,7 @@ class GuestController extends Controller
             return response()->json([
                 'success' => false,
 
-                'message' => "Dengan hormat, pengisian formulir ini hanya diperkenankan satu kali. Berdasarkan catatan kami, Anda telah melakukan pengisian pada tanggal {$tanggal} "
-
+                'message' => "Dengan hormat, pengisian formulir ini hanya diperkenankan satu kali. Berdasarkan catatan kami, Anda telah melakukan pengisian pada tanggal {$tanggal} ",
             ]);
         }
         $alumni = Alumni::find($request->alumni_id_validate);
@@ -46,52 +42,50 @@ class GuestController extends Controller
         if (!$alumni) {
             return response()->json([
                 'success' => false,
-                'message' => 'Alumni tidak ditemukan.'
+                'message' => 'Alumni tidak ditemukan.',
             ]);
         }
 
         if ($alumni->nim !== $request->nim) {
             return response()->json([
                 'success' => false,
-                'message' => 'NIM tidak cocok.'
+                'message' => 'NIM tidak cocok.',
             ]);
         }
 
-        if ((int)$request->tahun_lulus !== (int)Carbon::parse($alumni->tanggal_lulus)->year) {
+        if ((int) $request->tahun_lulus !== (int) Carbon::parse($alumni->tanggal_lulus)->year) {
             return response()->json([
                 'success' => false,
-                'message' => 'Tahun lulus tidak cocok.'
+                'message' => 'Tahun lulus tidak cocok.',
             ]);
         }
 
-        if ((int)$request->prodi !== (int)$alumni->program_studi_id) {
+        if ((int) $request->prodi !== (int) $alumni->program_studi_id) {
             return response()->json([
                 'success' => false,
-                'message' => 'Program studi tidak cocok.'
+                'message' => 'Program studi tidak cocok.',
             ]);
         }
 
         session([
             'validated_alumni' => true,
             'alumni_id' => $alumni->id,
-
         ]);
 
         return response()->json([
             'success' => true,
-            'message' => 'Validasi berhasil'
+            'message' => 'Validasi berhasil',
         ]);
     }
-    // Menampilkan form
+    // Menampilkan formh
     // GuestController.php
     public function create()
     {
-
         $validated = session('validated_alumni', false);
         $kategoriProfesi = KategoriProfesi::all();
-        $profesi =  Profesi::all();
+        $profesi = Profesi::all();
         $jenisInstansi = JenisInstansi::all();
-        $key = Key::where('alumni_id',)->first();
+        $key = Key::where('alumni_id')->first();
         $prodi = ProgramStudi::all();
 
         $alumni_id = session('alumni_id', '');
@@ -105,7 +99,7 @@ class GuestController extends Controller
             $tahun_lulus_terpilih = date('Y', strtotime($alumni->tanggal_lulus));
         }
         $prodi_terpilih_nama = optional($prodi->firstWhere('id', $prodi_terpilih))->program_studi ?? '-';
-        return view('guest/form-alumni', compact('kategoriProfesi', 'profesi', 'jenisInstansi', 'prodi',  'validated', 'nama', 'alumni_id', 'prodi_terpilih', 'prodi_terpilih_nama', 'tahun_lulus_terpilih'));
+        return view('guest/form-alumni', compact('kategoriProfesi', 'profesi', 'jenisInstansi', 'prodi', 'validated', 'nama', 'alumni_id', 'prodi_terpilih', 'prodi_terpilih_nama', 'tahun_lulus_terpilih'));
     }
 
     public function store(Request $request)
@@ -114,11 +108,8 @@ class GuestController extends Controller
             // Cari alumni berdasarkan alumni_id
             $alumni = Alumni::find($request->alumni_id);
             if (!$alumni) {
-                return redirect()->back()
-                    ->withInput()
-                    ->with('alert', 'Mohon maaf, Alumni tidak ditemukan.');
+                return redirect()->back()->withInput()->with('alert', 'Mohon maaf, Alumni tidak ditemukan.');
             }
-
 
             // Atur aturan validasi dasar
             $rules = [
@@ -133,16 +124,16 @@ class GuestController extends Controller
             // Jika kategori bukan 3, tambahkan validasi detail instansi dan atasan
             if ($request->kategori != 3) {
                 $rules = array_merge($rules, [
-                    'jenis_instansi_id' => 'nullable|exists:jenis_instansi,id',
-                    'tgl_pertama_kerja' => 'nullable|date',
-                    'tgl_mulai_kerja_instansi' => 'nullable|date',
-                    'nama_instansi' => 'nullable|string|max:255',
-                    'skala' => 'nullable|string|max:100',
-                    'lokasi_instansi' => 'nullable|string|max:255',
-                    'nama_atasan_langsung' => 'nullable|string|max:255',
-                    'jabatan_atasan_langsung' => 'nullable|string|max:255',
-                    'no_hp_atasan_langsung' => 'nullable|string|max:15',
-                    'email_atasan_langsung' => 'nullable|email',
+                    'jenis_instansi_id' => 'required|exists:jenis_instansi,id',
+                    'tgl_pertama_kerja' => 'required|date',
+                    'tgl_mulai_kerja_instansi' => 'required|date',
+                    'nama_instansi' => 'required|string|max:255',
+                    'skala' => 'required|string|max:100',
+                    'lokasi_instansi' => 'required|string|max:255',
+                    'nama_atasan_langsung' => 'required|string|max:255',
+                    'jabatan_atasan_langsung' => 'required|string|max:255',
+                    'no_hp_atasan_langsung' => 'required|string|max:15',
+                    'email_atasan_langsung' => 'required|email',
                 ]);
             }
             // Pesan error khusus captcha
@@ -163,42 +154,40 @@ class GuestController extends Controller
                 $keyRecord = Key::create([
                     'alumni_id' => $request->alumni_id,
                     'lulusan_id' => $lulusan->id,
-                    'key_value' =>  $token,
+                    'key_value' => $token,
                 ]);
 
                 $email = $request->email_atasan_langsung;
                 $token = $keyRecord->key_value;
-                Mail::send('emails.permohonan_survei', [
-                    'alumni' => $alumni,
-                    'token' => $token,
-                    'survey_link' => route('form.atasan'),
-                ], function ($message) use ($email) {
-                    $message->to($email)
-                        ->subject('Permohonan Pengisian Survei Kinerja Alumni');
-                });
+                Mail::send(
+                    'emails.permohonan_survei',
+                    [
+                        'alumni' => $alumni,
+                        'token' => $token,
+                        'survey_link' => route('form.atasan'),
+                    ],
+                    function ($message) use ($email) {
+                        $message->to($email)->subject('Permohonan Pengisian Survei Kinerja Alumni');
+                    },
+                );
             }
-            return redirect('/')
-                ->with('success', 'Data alumni berhasil disimpan. Terima kasih atas partisipasi Anda!')
-                ->with('success_atasan', 'Data alumni berhasil disimpan. Terima kasih atas partisipasi Anda!');
+            if ($request->kategori == 3) {
+                return redirect('/')->with('success', 'Data alumni berhasil disimpan. Terima kasih atas partisipasi Anda!')->with('success_atasan', 'Data alumni berhasil disimpan. Terima kasih atas partisipasi Anda!');
+            } else {
+                return redirect('/')->with('success', 'Data alumni berhasil disimpan. Terima kasih atas partisipasi Anda. Mohon informasikan kepada atasan Anda untuk mengisi survei yang telah dikirimkan ke email.')->with('success_atasan', 'Data alumni berhasil disimpan. Terima kasih atas partisipasi Anda!');
+            }
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Log error validasi
             Log::error('Validation error: ' . $e->getMessage());
 
-            return redirect()->back()
-                ->withErrors($e->validator)
-                ->withInput()
-                ->with('alert', 'Terjadi kesalahan validasi. Mohon periksa kembali data yang Anda masukkan.');
+            return redirect()->back()->withErrors($e->validator)->withInput()->with('alert', 'Terjadi kesalahan validasi. Mohon periksa kembali data yang Anda masukkan.');
         } catch (\Exception $e) {
             // Log error umum
             Log::error('Error menyimpan data alumni: ' . $e->getMessage());
 
-            return redirect()->back()
-                ->with('alert', 'Terjadi kesalahan saat menyimpan data alumni. Silakan coba lagi.')
-                ->withInput();
+            return redirect()->back()->with('alert', 'Terjadi kesalahan saat menyimpan data alumni. Silakan coba lagi.')->withInput();
         }
     }
-
-
 
     public function getNama(Request $request)
     {
