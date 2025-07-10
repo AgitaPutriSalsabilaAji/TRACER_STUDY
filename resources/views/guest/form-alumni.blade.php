@@ -111,6 +111,7 @@
                         Form Tracer Study Alumni
                     </div>
                     <br>
+                    
                     <div class="card shadow" data-aos="fade-up">
                         <div class="card-body">
                             @if (session('alert'))
@@ -523,48 +524,58 @@
             }
         }
     </script>
+<script>
+    function toggleAtasanFields(required) {
+        const fields = [
+            'tgl_pertama_kerja',
+            'tgl_mulai_kerja_instansi',
+            'jenis_instansi_id',
+            'skala',
+            'nama_instansi',
+            'lokasi_instansi',
+            'nama_atasan_langsung',
+            'jabatan_atasan_langsung',
+            'no_hp_atasan_langsung',
+            'email_atasan_langsung'
+        ];
 
-    <script>
-        function toggleAtasanFields(required) {
-            const fields = [
-                'tgl_pertama_kerja',
-                'tgl_mulai_kerja_instansi',
-                'jenis_instansi_id',
-                'skala',
-                'nama_instansi',
-                'lokasi_instansi',
-                'nama_atasan_langsung',
-                'jabatan_atasan_langsung',
-                'no_hp_atasan_langsung',
-                'email_atasan_langsung'
-            ];
-            const shouldHide = true;
-            fields.forEach(id => {
-                const el = document.querySelector(`[name="${id}"]`);
-                if (el) {
-                    el.closest('.mb-3').style.display = shouldHide ? 'none' : '';
-                }
-            });
+        const shouldHide = !required; // logika: kalau required false, maka sembunyikan
+        fields.forEach(id => {
+            const el = document.querySelector(`[name="${id}"]`);
+            if (el) {
+                // Tampilkan/sembunyikan field
+                el.closest('.mb-3').style.display = shouldHide ? 'none' : '';
 
-            document.getElementById('kategori').addEventListener('change', function() {
-                const selectedValue = this.value;
-
-                if (selectedValue === '3') {
-                    toggleAtasanFields(false);
+                // Tambah/hapus atribut required
+                if (required) {
+                    el.setAttribute('required', 'required');
                 } else {
-                    toggleAtasanFields(true);
+                    el.removeAttribute('required');
                 }
-            });
-            window.addEventListener('DOMContentLoaded', function() {
-                const selectedValue = document.getElementById('kategori').value;
-                if (selectedValue === '3') {
-                    toggleAtasanFields(false);
-                } else {
-                    toggleAtasanFields(true);
-                }
-            });
+            }
+        });
+    }
+
+    // Pindahkan event listener ke luar function agar bisa dipanggil saat halaman load
+    document.getElementById('kategori').addEventListener('change', function () {
+        const selectedValue = this.value;
+        if (selectedValue === '3') {
+            toggleAtasanFields(false);
+        } else {
+            toggleAtasanFields(true);
         }
-    </script>
+    });
+
+    window.addEventListener('DOMContentLoaded', function () {
+        const selectedValue = document.getElementById('kategori').value;
+        if (selectedValue === '3') {
+            toggleAtasanFields(false);
+        } else {
+            toggleAtasanFields(true);
+        }
+    });
+</script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             @if (!$validated)

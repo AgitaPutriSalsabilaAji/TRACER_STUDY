@@ -249,15 +249,7 @@
                 }
             }
         </style>
-        <script>
-            setTimeout(() => {
-                const alert = document.getElementById('alertSuccess');
-                if (alert) {
-                    alert.classList.remove('show');
-                    setTimeout(() => alert.remove(), 500);
-                }
-            }, 3500);
-        </script>
+
     @endif
     <style>
         @keyframes fadeInDown {
